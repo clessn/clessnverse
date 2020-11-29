@@ -1,11 +1,17 @@
 Package: clessnverse
 Type: Package
-Title: What the Package Does (Title Case)
+Title: clessnverse
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Patrick Poncet
+Maintainer: The package maintainer <patrick@infoscope.ca>
+Description: This package contains the functions allowing research or analytics related calculations and automations
+    For now it also contains functions related to ETL in the data pipeline but we will have eventually to split it.
+License: 
 Encoding: UTF-8
 LazyData: true
+Imports: 
+  tm,
+  stringr,
+  quanteda,
+  tibble
+Suggests:
