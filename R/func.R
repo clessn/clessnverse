@@ -9,7 +9,7 @@
 #'
 #' @export
 #'
-getDictionary <- function(topic = "COVID", method = "wordmatch", language = "") {
+getDictionary <- function(topic = "covid", method = "wordmatch", language = "") {
   #topic = "covid" | "posneg" | "sentiment"
   #method = "wordmatch" | "regex" | "dfm"
   #language = "en" | "fr" | ""
