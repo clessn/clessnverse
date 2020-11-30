@@ -14,7 +14,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
   #method = "wordmatch" | "regex" | "dfm"
   #language = "en" | "fr" | ""
 
-  if (topic == "covid" && type == "wordmatch" && language == "")
+  if (topic == "covid" && method == "wordmatch" && language == "")
     return( c("covid(.*) ", "coronavirus", "épidémie", "épidémies", "pandémie", "pandémies", "confinement",
               "confinements", "quarantaine", "masque", "masques", "distanciation", "distanciations", "sars-cov2",
               "epidemic", "pandemic", "epidemics", "pandemics", "virus", "quarantine", "quarantines", "distancing",
@@ -28,7 +28,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
               "red zone", "couvre visage", "applatir la courbe", "couvre-visage", "couvre-visages","couvre visages",
               "goutelettes", "deux mètres", "two meters", "2 mètres", "2 meters") )
 
-  if (topic == "covid" && type == "regex" && language == "")
+  if (topic == "covid" && method == "regex" && language == "")
     return( c("accumulation de tests", "testing backlog",
               "antimas(ks?|ques?)",
               "(app(.*))?((covid(-|\\s)alerte?s?)|(alerte?s?(-|\\s)covid))(\\sapp(.*))?",
@@ -114,15 +114,22 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
               "vague\\s+1|2", "wave\\s+1|2",
               "vulnérable\\s+à\\s+la\\s+maladie", "vulnerable\\s+to\\s+the\\s+disease") )
 
-  if (topic == "covid" && type == "dfm" && language == "")
+  if (topic == "covid" && method == "dfm" && language == "")
     return( dictionary(file = "../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/covidlsd.cat") )
 
-  if (topic == "sentiment" && type == "regex" && language == "fr")
+  if (topic == "sentiment" && method == "regex" && language == "fr")
     return( dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
 
-  if (topic == "sentiment" && type == "regex" && language == "en")
+  if (topic == "sentiment" && method == "regex" && language == "en")
     return( data_dictionary_LSD2015 )
 
+  print("clessnverse::getDictionary() : invalid parameters combination of topic/method/language")
+  print("Valid combinations currently are :")
+  print(". topic=\'covid\', method=\'wordmatch\', language=\'\'")
+  print(". topic=\'covid\', method=\'regex\', language=\'\'")
+  print(". topic=\'covid\', method=\'dfm\', language=\'\'")
+  print(". topic=\'sentiment\', method=\'dfm\', language=\'fr\'")
+  print(". topic=\'sentiment\', method=\'dfm\', language=\'en\'")
 }
 
 
