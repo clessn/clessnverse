@@ -117,7 +117,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
   if (topic == "covid" && method == "dfm" && language == "")
     return( quanteda::dictionary(file = "../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/covidlsd.cat") )
 
-  if (topic == "sentiment" && method == "regex" && language == "fr")
+  if (topic == "sentiment" && method == "dfm" && language == "fr")
     return( quanteda::dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
 
   if (topic == "sentiment" && method == "dfm" && language == "en")
