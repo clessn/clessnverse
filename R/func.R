@@ -120,16 +120,16 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
   if (topic == "sentiment" && method == "regex" && language == "fr")
     return( quanteda::dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
 
-  if (topic == "sentiment" && method == "regex" && language == "en")
+  if (topic == "sentiment" && method == "dfm" && language == "en")
     return( data_dictionary_LSD2015 )
 
-  print("clessnverse::getDictionary() : invalid parameters combination of topic/method/language")
-  print("Valid combinations currently are :")
-  print(". topic=\'covid\', method=\'wordmatch\', language=\'\'")
-  print(". topic=\'covid\', method=\'regex\', language=\'\'")
-  print(". topic=\'covid\', method=\'dfm\', language=\'\'")
-  print(". topic=\'sentiment\', method=\'dfm\', language=\'fr\'")
-  print(". topic=\'sentiment\', method=\'dfm\', language=\'en\'")
+  stop("clessnverse::getDictionary() invalid parameters combination of topic/method/language
+       Valid combinations currently are :
+       . topic=\'covid\', method=\'wordmatch\', language=\'\'
+       . topic=\'covid\', method=\'regex\', language=\'\'
+       . topic=\'covid\', method=\'dfm\', language=\'\'
+       . topic=\'sentiment\', method=\'dfm\', language=\'fr\'
+       . topic=\'sentiment\', method=\'dfm\', language=\'en\'")
 }
 
 
@@ -146,9 +146,9 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 #'
 #' @export
 #'
-runDictionaryFunction <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
+runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
   corpusA <- corpus(dataA$word)
-  dfmA    <- dfm(corpusA, dictionary = dictionaryA)
+  dfmA    <- quanteda::dfm(corpusA, dictionary = dictionaryA)
   dataB   <- convert(dfmA, to = "data.frame")
   return(dataB)
 }
