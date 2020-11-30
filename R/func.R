@@ -115,10 +115,10 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
               "vulnérable\\s+à\\s+la\\s+maladie", "vulnerable\\s+to\\s+the\\s+disease") )
 
   if (topic == "covid" && method == "dfm" && language == "")
-    return( dictionary(file = "../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/covidlsd.cat") )
+    return( quanteda::dictionary(file = "../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/covidlsd.cat") )
 
   if (topic == "sentiment" && method == "regex" && language == "fr")
-    return( dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
+    return( quanteda::dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
 
   if (topic == "sentiment" && method == "regex" && language == "en")
     return( data_dictionary_LSD2015 )
