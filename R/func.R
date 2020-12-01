@@ -187,7 +187,7 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
         if (!is.na(string.to.check)) {
           # repérer le nombre de mots du dictionnaire
           # sur le sujet d'intérêt présents dans le paragraphe
-          dfmA <- quanteda::dfm(string.to.check, dictionary = dictionary)
+          dfmA <- quanteda::dfm(quanteda::corpus(string.to.check), dictionary = dictionary)
           # compter les phrases mentionnant le
           # sujet d'intérêt en excluant les NA
           if (length(dfmA@x) != 0 && dfmA@x > 0) count <- count + 1
@@ -221,14 +221,14 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
         if (!is.na(dfSentences[i,])) {
           # repérer le nombre de mots du dictionnaire
           # sur le sujet d'intérêt présents dans la phrase
-          dfmA <- quanteda::dfm(dfSentences$sentence[i], dictionary = dictionary)
+          dfmA <- quanteda::dfm(quanteda::corpus(dfSentences$sentence[i]), dictionary = dictionary)
           # compter les phrases mentionnant le
           # sujet d'intérêt en excluant les NA
           if (length(dfmA@x) != 0 && dfmA@x > 0) count <- count + 1
         }
       } else {
         ### REGEX OU WORDS MATCHING
-        if ( TRUE %in% str_detect(str_replace_all(dfSentences[i,], "[[:punct:]]", ""), dictionary) )
+        if ( TRUE %in% stringr::str_detect(stringr::str_replace_all(dfSentences[i,], "[[:punct:]]", ""), dictionary) )
           count <- count + 1
       }
     }
