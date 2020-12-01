@@ -240,3 +240,53 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
 
   return(relevanceIndex)
 }
+
+
+######################################################
+#' @title clessnverse::countSentences
+#' @description
+#' @param
+#' @return
+#' @examples
+#'
+#'
+#'
+#' @export
+#'
+countSentences <- function(textblock) {
+  cleanCorpus <- str_replace_all(string = textblock, pattern = "M\\.", replacement = "")
+  cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Mr\\.", replacement = "")
+  cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Dr\\.", replacement = "")
+  dfSentences <- tibble(text = cleanCorpus) %>% unnest_tokens(sentence, text, token="sentences",
+                                                              format="text")
+  sentence.count <- nrow(dfSentences)
+  return(sentence.count)
+}
+
+
+######################################################
+#' @title clessnverse::countVecSentences
+#' @description
+#' @param
+#' @return
+#' @examples
+#'
+#'
+#'
+#' @export
+#'
+countVecSentences <- function(vecCorpus) {
+  sentence.count <- 0
+
+  for (i in 1:length(vecCorpus)) {
+    cleanCorpus <- str_replace_all(string = vecCorpus[i], pattern = "M\\.", replacement = "")
+    cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Mr\\.", replacement = "")
+    cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Dr\\.", replacement = "")
+    dfSentences <- tibble(text = cleanCorpus) %>% unnest_tokens(sentence, text, token="sentences",
+                                                                format="text")
+    sentence.count <- sentence.count + nrow(dfSentences)# - sum(words(vecCorpus[i]) %in% patterns.titres == TRUE)
+  }
+  return(sentence.count)
+}
+
+
