@@ -10,23 +10,12 @@
 #' @export
 #'
 getDictionary <- function(topic = "covid", method = "wordmatch", language = "") {
-  #topic = "covid" | "posneg" | "sentiment"
+  #topic = "covid" | "sentiment"
   #method = "wordmatch" | "regex" | "dfm"
   #language = "en" | "fr" | ""
 
   if (topic == "covid" && method == "wordmatch" && language == "")
-    return( c("covid(.*) ", "coronavirus", "épidémie", "épidémies", "pandémie", "pandémies", "confinement",
-              "confinements", "quarantaine", "masque", "masques", "distanciation", "distanciations", "sars-cov2",
-              "epidemic", "pandemic", "epidemics", "pandemics", "virus", "quarantine", "quarantines", "distancing",
-              "lockdown", "vague", "vagues", "wave","waves", "hospitalisation", "hospitalisations",
-              "hospitalization", "hospitalizations", "contagion", "contagions", "éclosion", "éclosions",
-              "contamination", "contaminations", "dépistage", "dépistages", "tracing", "tracings", "tracage",
-              "tracages", "test", "tests", "dépistage", "infection", "infections", "infecté", "infectés",
-              "cas confirmé", "cas confirmés", "confirmed case", "confirmed cases", "cas suspecté", "cas suspectés",
-              "suspected case", "suspected cases", "many cases", "plusieurs cas", "contamination", "contaminations",
-              "zone verte", "zone orange", "zone rouge", "au vert", "à lorange", "au rouge","green zone","orange zone",
-              "red zone", "couvre visage", "applatir la courbe", "couvre-visage", "couvre-visages","couvre visages",
-              "goutelettes", "deux mètres", "two meters", "2 mètres", "2 meters") )
+    return( c("covid", "covid-19", "coronavirus", "cas suspecté", "cas suspectés") )
 
   if (topic == "covid" && method == "regex" && language == "")
     return( c("accumulation de tests", "testing backlog",
@@ -114,14 +103,16 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
               "vague\\s+1|2", "wave\\s+1|2",
               "vulnérable\\s+à\\s+la\\s+maladie", "vulnerable\\s+to\\s+the\\s+disease") )
 
-  if (topic == "covid" && method == "dfm" && language == "")
-    return( quanteda::dictionary(file = "../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/covidlsd.cat") )
+  if (topic == "covid" && method == "dfm" && language == "") {
+    dict.xlsx <- openxlsx::read.xlsx("../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/DictionnaireDetaille.xlsx")
+    return(quanteda::dictionary(list(covid=na.omit(c(dict.xlsx$`DICT-FR`,dict.xlsx$`DICT-EN`)))))
+  }
 
   if (topic == "sentiment" && method == "dfm" && language == "fr")
     return( quanteda::dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
 
   if (topic == "sentiment" && method == "dfm" && language == "en")
-    return( data_dictionary_LSD2015 )
+    return( quanteda::data_dictionary_LSD2015 )
 
   stop("clessnverse::getDictionary() invalid parameters combination of topic/method/language
        Valid combinations currently are :
@@ -147,7 +138,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 #' @export
 #'
 runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
-  corpusA <- corpus(dataA$word)
+  corpusA <- quanteda::corpus(dataA$word)
   dfmA    <- quanteda::dfm(corpusA, dictionary = dictionaryA)
   dataB   <- convert(dfmA, to = "data.frame")
   return(dataB)
@@ -190,22 +181,37 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
     vec.textToCheck <- strsplit(textToCheck, "\n\n")[[1]]
 
     for (i in 1:length(vec.textToCheck)) {
-      string.to.check <- str_replace_all(vec.textToCheck[i], "[[:punct:]]", "")
-
-      if ( TRUE %in% str_detect(string.to.check, dictionary) ) relevanceIndex <- relevanceIndex + 1
+      if (method == "dfm") {
+        ###  DFM METHOD
+        string.to.check <- stringr::str_replace_all(vec.textToCheck[i], "[[:punct:]]", "")
+        if (!is.na(string.to.check)) {
+          # repérer le nombre de mots du dictionnaire
+          # sur le sujet d'intérêt présents dans le paragraphe
+          dfmA <- quanteda::dfm(string.to.check, dictionary = dictionary)
+          # compter les phrases mentionnant le
+          # sujet d'intérêt en excluant les NA
+          if (length(dfmA@x) != 0 && dfmA@x > 0) count <- count + 1
+        }
+      }
+      else {
+        ### REGEX OU WORDS MATCHING
+        string.to.check <- stringr::str_replace_all(vec.textToCheck[i], "[[:punct:]]", "")
+        if ( TRUE %in% stringr::str_detect(string.to.check, dictionary) ) relevanceIndex <- relevanceIndex + 1
+      }
     }
 
     relevanceIndex <- relevanceIndex / length(vec.textToCheck)
   } #if base == paragraph
 
   if (base == "sentence") {
+    # M., Mr. et Dr. ne signifient pas une fin de phrase, donc supprimer ces mots
+    textToCheck <- stringr::str_replace_all(string = textToCheck, pattern = "M\\.", replacement = "")
+    textToCheck <- stringr::str_replace_all(string = textToCheck, pattern = "Mr\\.", replacement = "")
+    textToCheck <- stringr::str_replace_all(string = textToCheck, pattern = "Dr\\.", replacement = "")
 
-    textToCheck <- str_replace_all(string = textToCheck, pattern = "M\\.", replacement = "")
-    textToCheck <- str_replace_all(string = textToCheck, pattern = "Mr\\.", replacement = "")
-    textToCheck <- str_replace_all(string = textToCheck, pattern = "Dr\\.", replacement = "")
-
-    dfSentences <- tibble(text = textToCheck) %>%
-      unnest_tokens(sentence, text, token="sentences",format="text")
+    # séparer le texte en phrases, tout en minuscules
+    dfSentences <- tibble::tibble(text = textToCheck) %>%
+      tidytext::unnest_tokens(sentence, text, token="sentences",format="text", to_lower = T)
 
     count <- 0
 
@@ -213,15 +219,21 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
       if (method == "dfm") {
         ###  DFM METHOD
         if (!is.na(dfSentences[i,])) {
-          dfmA <- dfm(dfSentences[i,], dictionary)
+          # repérer le nombre de mots du dictionnaire
+          # sur le sujet d'intérêt présents dans la phrase
+          dfmA <- quanteda::dfm(dfSentences$sentence[i], dictionary = dictionary)
+          # compter les phrases mentionnant le
+          # sujet d'intérêt en excluant les NA
           if (length(dfmA@x) != 0 && dfmA@x > 0) count <- count + 1
         }
       } else {
         ### REGEX OU WORDS MATCHING
-        if ( TRUE %in% str_detect(str_replace_all(dfSentences[i,], "[[:punct:]]", ""), dictionary = ) )
+        if ( TRUE %in% str_detect(str_replace_all(dfSentences[i,], "[[:punct:]]", ""), dictionary) )
           count <- count + 1
       }
     }
+    # pondérer les phrases concernant la COVID-19 en fonction
+    # du nombre total de phrases dans l'intervention
     relevanceIndex <- count / nrow(dfSentences)
     if (is.nan(relevanceIndex)) relevanceIndex <- 0
   } #if base == sentence

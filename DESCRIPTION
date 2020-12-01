@@ -9,9 +9,12 @@ Description: This package contains the functions allowing research or analytics 
 License: 
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.1.1
 Imports: 
   tm,
   stringr,
   quanteda,
-  tibble
+  tibble,
+  tidytext,
+  openxlsx
 Suggests:
