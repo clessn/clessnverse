@@ -183,14 +183,14 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
     for (i in 1:length(vec.textToCheck)) {
       if (method == "dfm") {
         ###  DFM METHOD
-        string.to.check <- stringr::str_replace_all(vec.textToCheck[i], "[[:punct:]]", "")
+        string.to.check <- vec.textToCheck[i]
         if (!is.na(string.to.check)) {
           # repérer le nombre de mots du dictionnaire
           # sur le sujet d'intérêt présents dans le paragraphe
-          dfmA <- quanteda::dfm(quanteda::corpus(string.to.check), dictionary = dictionary)
+          dfmA <- quanteda::dfm(string.to.check, dictionary = dictionary)
           # compter les phrases mentionnant le
           # sujet d'intérêt en excluant les NA
-          if (length(dfmA@x) != 0 && dfmA@x > 0) count <- count + 1
+          if (length(dfmA@x) != 0 && dfmA@x > 0) relevanceIndex <- relevanceIndex + 1
         }
       }
       else {
@@ -216,19 +216,20 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
     count <- 0
 
     for (i in 1:nrow(dfSentences)) {
+      string.to.check <- dfSentences$sentence[i]
       if (method == "dfm") {
         ###  DFM METHOD
-        if (!is.na(dfSentences[i,])) {
+        if (!is.na(string.to.check)) {
           # repérer le nombre de mots du dictionnaire
           # sur le sujet d'intérêt présents dans la phrase
-          dfmA <- quanteda::dfm(quanteda::corpus(dfSentences$sentence[i]), dictionary = dictionary)
+          dfmA <- quanteda::dfm(string.to.check, dictionary = dictionary)
           # compter les phrases mentionnant le
           # sujet d'intérêt en excluant les NA
           if (length(dfmA@x) != 0 && dfmA@x > 0) count <- count + 1
         }
       } else {
         ### REGEX OU WORDS MATCHING
-        if ( TRUE %in% stringr::str_detect(stringr::str_replace_all(dfSentences[i,], "[[:punct:]]", ""), dictionary) )
+        if ( TRUE %in% stringr::str_detect(stringr::str_replace_all(string.to.check, "[[:punct:]]", ""), dictionary) )
           count <- count + 1
       }
     }
