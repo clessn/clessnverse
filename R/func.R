@@ -1,5 +1,5 @@
 ######################################################
-#' @title clessnverse::runDictionary
+#' @title clessnverse
 #' @description Runs a dictionary against a text corpus and returns
 #' @param corpusA the corpus
 #' @param dataA the dataframe containing the words to check
@@ -8,16 +8,15 @@
 #' @param dataB to be documented
 #' @param dictionaryA to be documented
 #' @return dataframe
-#' @examples
+#' @examples example
 #'
 #'
 #'
 #' @export
-#'
 runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
   corpusA <- quanteda::corpus(dataA$word)
   dfmA    <- quanteda::dfm(corpusA, dictionary = dictionaryA)
-  dataB   <- convert(dfmA, to = "data.frame")
+  dataB   <- quanteda::convert(dfmA, to = "data.frame")
   return(dataB)
 }
 

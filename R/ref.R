@@ -1,16 +1,15 @@
 ######################################################
-#' @title clessnverse::getDictionary
+#' @title clessnverse
 #' @description retrives the clessn dictionnary related to a specific topic
 #' @param topic : "covid" | "sentiment"
 #' @param method : "wordmatch" | "regex" | "dfm"
 #' @param language = "en" | "fr" | ""
 #' @return Formal class 'dictionary2' of package "quanteda" for method "dfm" or a vector of regex for method "regex"
-#' @examples
+#' @examples example
 #'
 #'
 #'
 #' @export
-#'
 getDictionary <- function(topic = "covid", method = "wordmatch", language = "") {
   #topic = "covid" | "sentiment"
   #method = "wordmatch" | "regex" | "dfm"
@@ -107,7 +106,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 
   if (topic == "covid" && method == "dfm" && language == "") {
     dict.xlsx <- openxlsx::read.xlsx("../projet-quorum/_SharedFolder_projet-quorum/DictionnaireCOVID/DictionnaireDetaille.xlsx")
-    return(quanteda::dictionary(list(covid=na.omit(c(dict.xlsx$`DICT-FR`,dict.xlsx$`DICT-EN`)))))
+    return(quanteda::dictionary(list(covid=stats::na.omit(c(dict.xlsx$`DICT-FR`,dict.xlsx$`DICT-EN`)))))
   }
 
   if (topic == "sentiment" && method == "dfm" && language == "fr")
@@ -127,31 +126,30 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 
 
 ######################################################
-#' @title clessnverse::getEuropeMepData
+#' @title clessnverse
 #' @description retrieves attributes of a MEP in the european parliament
 #' @param mep_full_name : the full name of the MEP to lookup
 #' @return a dataframe
-#' @examples
-#'
+#' @examples example
+#' @importFrom stringr str_replace_all
 #'
 #'
 #' @export
-#'
 getMepData <- function (mep_full_name) {
-  url <- "https://www.europarl.europa.eu/meps/fr/download/advanced/xml?name="
-  name <- str_replace_all(map_full_name, " ", "+")
-  name <- curlEscape(map_full_name)
-  url <- paste(url, map_full_name, "&groupCode=&countryCode=&bodyType=ALL", sep = "")
-  url <- str_replace_all(url, "%2B", "+")
-  html <- getURL(url)
-  xml <- xmlTreeParse(html, useInternalNodes = TRUE)
-  top <- xmlRoot(xml)
+  url <- "https:\\/\\/www.europarl.europa.eu\\/meps\\/fr\\/download\\/advanced\\/xml?name="
+  name <- stringr::str_replace_all(mep_full_name, " ", "+")
+  name <- RCurl::curlEscape(mep_full_name)
+  url <- paste(url, mep_full_name, "&groupCode=&countryCode=&bodyType=ALL", sep = "")
+  url <- stringr::str_replace_all(url, "%2B", "+")
+  html <- RCurl::getURL(url)
+  xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
+  top <- XML::xmlRoot(xml)
 
-  fullname <- xmlValue(top[["mep"]][["fullName"]][[1]])
-  country <- xmlValue(top[["mep"]][["country"]][[1]])
-  polgroup <- xmlValue(top[["mep"]][["politicalGroup"]][[1]])
-  mepid <- xmlValue(top[["mep"]][["id"]][[1]])
-  party <- xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
+  fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
+  country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
+  polgroup <- XML::xmlValue(top[["mep"]][["politicalGroup"]][[1]])
+  mepid <- XML::xmlValue(top[["mep"]][["id"]][[1]])
+  party <- XML::xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
 
   return(data.frame(fullname = fullname, country = country, polgroup = polgroup, mepid = mepid, party = party))
 }

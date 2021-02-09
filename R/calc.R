@@ -1,19 +1,17 @@
 ######################################################
-#' @title clessnverse::countSentences
+#' @title clessnverse
 #' @description counts and returns the numbers of sentences in a text block
 #' @param textblock : the text to analyse
 #' @return sentence.count : the number of sentences in the block
-#' @examples
-#'
+#' @examples example
 #'
 #'
 #' @export
-#'
 countSentences <- function(textblock) {
-  cleanCorpus <- str_replace_all(string = textblock, pattern = "M\\.", replacement = "")
-  cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Mr\\.", replacement = "")
-  cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Dr\\.", replacement = "")
-  dfSentences <- tibble(text = cleanCorpus) %>% unnest_tokens(sentence, text, token="sentences",
+  cleanCorpus <- stringr::str_replace_all(string = textblock, pattern = "M\\.", replacement = "")
+  cleanCorpus <- stringr::str_replace_all(string = cleanCorpus, pattern = "Mr\\.", replacement = "")
+  cleanCorpus <- stringr::str_replace_all(string = cleanCorpus, pattern = "Dr\\.", replacement = "")
+  dfSentences <- tibble::tibble(text = cleanCorpus) %>% tidytext::unnest_tokens(sentence, text, token="sentences",
                                                               format="text")
   sentence.count <- nrow(dfSentences)
   return(sentence.count)
@@ -21,24 +19,23 @@ countSentences <- function(textblock) {
 
 
 ######################################################
-#' @title clessnverse::countVecSentences
+#' @title clessnverse
 #' @description counts and returns the umber of sentences in a vector of text blocks (strings)
 #' @param vecCorpus the vector of text strings
 #' @return
-#' @examples
-#'
+#' @examples example
+#' @importFrom "dplyr" "%>%"
 #'
 #'
 #' @export
-#'
 countVecSentences <- function(vecCorpus) {
   sentence.count <- 0
 
   for (i in 1:length(vecCorpus)) {
-    cleanCorpus <- str_replace_all(string = vecCorpus[i], pattern = "M\\.", replacement = "")
-    cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Mr\\.", replacement = "")
-    cleanCorpus <- str_replace_all(string = cleanCorpus, pattern = "Dr\\.", replacement = "")
-    dfSentences <- tibble(text = cleanCorpus) %>% unnest_tokens(sentence, text, token="sentences",
+    cleanCorpus <- stringr::str_replace_all(string = vecCorpus[i], pattern = "M\\.", replacement = "")
+    cleanCorpus <- stringr::str_replace_all(string = cleanCorpus, pattern = "Mr\\.", replacement = "")
+    cleanCorpus <- stringr::str_replace_all(string = cleanCorpus, pattern = "Dr\\.", replacement = "")
+    dfSentences <- tibble::tibble(text = cleanCorpus) %>% tidytext::unnest_tokens(sentence, text, token="sentences",
                                                                 format="text")
     sentence.count <- sentence.count + nrow(dfSentences)# - sum(words(vecCorpus[i]) %in% patterns.titres == TRUE)
   }
@@ -47,7 +44,7 @@ countVecSentences <- function(vecCorpus) {
 
 
 ######################################################
-#' @title clessnverse::evaluateRelevanceIndex
+#' @title clessnverse
 #' @description Evaluates and returns the relevance index of a text block (string)
 #' @param textToCheck - A character string
 #' @param dictionary  - A vector of strings containing regex or words or words combinations
@@ -64,12 +61,11 @@ countVecSentences <- function(vecCorpus) {
 #'			                strings containing words, words sequences or regex.
 #'			                If method = "dfm" then dictionary must be of type quanteda dictionary
 #' @return a double objet representing the relevance index of a subjet in the text provided
-#' @examples
+#' @examples example
 #'
 #'
 #'
 #' @export
-#'
 evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", method = "dfm") {
   relevanceIndex <- 0
 

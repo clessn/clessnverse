@@ -2,7 +2,7 @@
 % Please edit documentation in R/func.R
 \name{runDictionary}
 \alias{runDictionary}
-\title{clessnverse::runDictionary}
+\title{clessnverse}
 \usage{
 runDictionary(corpusA, dataA, word, dfmA, dataB, dictionaryA)
 }
@@ -26,6 +26,7 @@ dataframe
 Runs a dictionary against a text corpus and returns
 }
 \examples{
+example
 
 
 
