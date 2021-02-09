@@ -124,3 +124,34 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
        . topic=\'sentiment\', method=\'dfm\', language=\'fr\'
        . topic=\'sentiment\', method=\'dfm\', language=\'en\'")
 }
+
+
+######################################################
+#' @title clessnverse::getEuropeMepData
+#' @description retrieves attributes of a MEP in the europeean parliament
+#' @param mep_full_name : the full name of the MEP to lookpu
+#' @return a dataframe
+#' @examples
+#'
+#'
+#'
+#' @export
+#'
+getMepData <- function (mep_full_name) {
+  url <- "https://www.europarl.europa.eu/meps/fr/download/advanced/xml?name="
+  name <- str_replace_all(map_full_name, " ", "+")
+  name <- curlEscape(map_full_name)
+  url <- paste(url, map_full_name, "&groupCode=&countryCode=&bodyType=ALL", sep = "")
+  url <- str_replace_all(url, "%2B", "+")
+  html <- getURL(url)
+  xml <- xmlTreeParse(html, useInternalNodes = TRUE)
+  top <- xmlRoot(xml)
+
+  fullname <- xmlValue(top[["mep"]][["fullName"]][[1]])
+  country <- xmlValue(top[["mep"]][["country"]][[1]])
+  polgroup <- xmlValue(top[["mep"]][["politicalGroup"]][[1]])
+  mepid <- xmlValue(top[["mep"]][["id"]][[1]])
+  party <- xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
+
+  return(data.frame(fullname = fullname, country = country, polgroup = polgroup, mepid = mepid, party = party))
+}
