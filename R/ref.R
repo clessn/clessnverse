@@ -145,11 +145,11 @@ getEuropeMepData <- function (mep_full_name) {
   #xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
   #top <- XML::xmlRoot(xml)
 
-  fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
-  country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
-  polgroup <- XML::xmlValue(top[["mep"]][["politicalGroup"]][[1]])
-  mepid <- XML::xmlValue(top[["mep"]][["id"]][[1]])
-  party <- XML::xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
+  #fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
+  #country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
+  #polgroup <- XML::xmlValue(top[["mep"]][["politicalGroup"]][[1]])
+  #mepid <- XML::xmlValue(top[["mep"]][["id"]][[1]])
+  #party <- XML::xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
 
   return(data.frame(fullname = fullname, country = country, polgroup = polgroup, mepid = mepid, party = party))
 }
