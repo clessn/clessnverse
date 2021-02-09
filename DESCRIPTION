@@ -8,7 +8,7 @@ Description: This package contains the functions allowing research or analytics 
     For now it also contains functions related to ETL in the data pipeline but we will have eventually to split it.
 License: Proprietary 
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 RoxygenNote: 7.1.1
 Imports: tm,
   stringr,
