@@ -136,7 +136,6 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 #'
 #' @export
 getEuropeMepData <- function (mep_full_name) {
-  print("before")
   url <- "https://www.europarl.europa.eu/meps/fr/download/advanced/xml?name="
   mep_full_name <- stringr::str_replace_all(mep_full_name, " ", "+")
   mep_full_name <- RCurl::curlEscape(mep_full_name)
@@ -146,12 +145,11 @@ getEuropeMepData <- function (mep_full_name) {
   xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
   top <- XML::xmlRoot(xml)
 
-  #fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
-  #country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
-  #polgroup <- XML::xmlValue(top[["mep"]][["politicalGroup"]][[1]])
-  #mepid <- XML::xmlValue(top[["mep"]][["id"]][[1]])
-  #party <- XML::xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
-  print("after")
+  fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
+  country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
+  polgroup <- XML::xmlValue(top[["mep"]][["politicalGroup"]][[1]])
+  mepid <- XML::xmlValue(top[["mep"]][["id"]][[1]])
+  party <- XML::xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
 
   return(data.frame(fullname = fullname, country = country, polgroup = polgroup, mepid = mepid, party = party))
 }
