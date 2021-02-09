@@ -128,8 +128,8 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 
 ######################################################
 #' @title clessnverse::getEuropeMepData
-#' @description retrieves attributes of a MEP in the europeean parliament
-#' @param mep_full_name : the full name of the MEP to lookpu
+#' @description retrieves attributes of a MEP in the european parliament
+#' @param mep_full_name : the full name of the MEP to lookup
 #' @return a dataframe
 #' @examples
 #'
