@@ -143,8 +143,8 @@ getEuropeMepData <- function (mep_full_name) {
   url <- paste(url, mep_full_name, "&groupCode=&countryCode=&bodyType=ALL", sep = "")
   url <- stringr::str_replace_all(url, "%2B", "+")
   html <- RCurl::getURL(url)
-  #xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
-  #top <- XML::xmlRoot(xml)
+  xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
+  top <- XML::xmlRoot(xml)
 
   #fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
   #country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
