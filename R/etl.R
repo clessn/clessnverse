@@ -45,6 +45,7 @@ translateText <- function (text, engine, target_lang) {
       response_json <- jsonlite::parse_json(content(response, "text"))
     }
 
+    print(response_json[1][[1]]$code)
     return(response_json[1][[1]]$translations[[1]]$text)
 
   } else {
