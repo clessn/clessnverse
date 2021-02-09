@@ -42,7 +42,7 @@ translateText <- function (text, engine, target_lang) {
                              body = paste("[{'Text':'",text,"'}]", sep = ""),
                              encode = "json")
 
-      response_json <- jsonlite::parse_json(http::content(response, "text"))
+      response_json <- jsonlite::parse_json(httr::content(response, "text"))
     }
 
     print(response_json[1][[1]]$code)
