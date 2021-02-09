@@ -6,7 +6,7 @@ Author: Patrick Poncet
 Maintainer: The package maintainer <patrick@infoscope.ca>
 Description: This package contains the functions allowing research or analytics related calculations and automations
     For now it also contains functions related to ETL in the data pipeline but we will have eventually to split it.
-License: Free
+License: None
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
