@@ -12,26 +12,29 @@ evaluateRelevanceIndex(
 )
 }
 \arguments{
-\item{textToCheck}{- A character string
- dictionary  - A vector of strings containing regex or words or words combinations
-                 or an objet of type dictionary from the quanteda package
-base          - A string containing either "sentence" or "paragraph" which tells the
-                  the function on which base to compute the index.
-                  If base = "sentence" then every sentence containing one or more terms
-                  matching in the dictionary will score 1 in the calculation.
-                  At the end of the count the sum is devided by the number of sentences.
-                  If base = "paragraph" the same logic applies but at the paragraph level
-                  instead of the sentence level
-method      - A string describing the method used for matching terms.
-                  If method = "wordsmatch" or "regex" then dictionary must be a vector of
-                  strings containing words, words sequences or regex.
-                  If method = "dfm" then dictionary must be of type quanteda dictionary}
+\item{textToCheck}{- A character string}
+
+\item{dictionary}{- A vector of strings containing regex or words or words combinations
+or an objet of type dictionary from the quanteda package}
+
+\item{base}{- A string containing either "sentence" or "paragraph" which tells the
+the function on which base to compute the index.
+If base = "sentence" then every sentence containing one or more terms
+matching in the dictionary will score 1 in the calculation.
+At the end of the count the sum is devided by the number of sentences.
+If base = "paragraph" the same logic applies but at the paragraph level
+instead of the sentence level}
+
+\item{method}{- A string describing the method used for matching terms.
+If method = "wordsmatch" or "regex" then dictionary must be a vector of
+strings containing words, words sequences or regex.
+If method = "dfm" then dictionary must be of type quanteda dictionary}
 }
 \value{
 a double objet representing the relevance index of a subjet in the text provided
 }
 \description{
-clessnverse::evaluateRelevanceIndex
+Evaluates and returns the relevance index of a text block (string)
 }
 \examples{
 

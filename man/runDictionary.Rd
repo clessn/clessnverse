@@ -6,11 +6,24 @@
 \usage{
 runDictionary(corpusA, dataA, word, dfmA, dataB, dictionaryA)
 }
+\arguments{
+\item{corpusA}{the corpus}
+
+\item{dataA}{the dataframe containing the words to check}
+
+\item{word}{to be documented}
+
+\item{dfmA}{to be documented}
+
+\item{dataB}{to be documented}
+
+\item{dictionaryA}{to be documented}
+}
 \value{
 dataframe
 }
 \description{
-clessnverse::runDictionary
+Runs a dictionary against a text corpus and returns
 }
 \examples{
 

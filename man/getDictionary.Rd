@@ -6,11 +6,18 @@
 \usage{
 getDictionary(topic = "covid", method = "wordmatch", language = "")
 }
+\arguments{
+\item{topic}{: "covid" | "sentiment"}
+
+\item{method}{: "wordmatch" | "regex" | "dfm"}
+
+\item{language}{= "en" | "fr" | ""}
+}
 \value{
-dataframe
+Formal class 'dictionary2' of package "quanteda" for method "dfm" or a vector of regex for method "regex"
 }
 \description{
-clessnverse::getDictionary
+retrives the clessn dictionnary related to a specific topic
 }
 \examples{
 
