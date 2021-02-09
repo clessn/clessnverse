@@ -33,7 +33,7 @@ translateText <- function (text, engine, target_lang) {
                            body = paste("[{'Text':'",text,"'}]", sep = ""),
                            encode = "json")
 
-    response_json <- jsonlite::parse_json(content(response, "text"))
+    response_json <- jsonlite::parse_json(httr::content(response, "text"))
 
     while (!is.null(response_json[1][[1]]$code) && response_json[1][[1]]$code == "429001") {
       Sys.sleep(30)
@@ -42,7 +42,7 @@ translateText <- function (text, engine, target_lang) {
                              body = paste("[{'Text':'",text,"'}]", sep = ""),
                              encode = "json")
 
-      response_json <- jsonlite::parse_json(content(response, "text"))
+      response_json <- jsonlite::parse_json(http::content(response, "text"))
     }
 
     print(response_json[1][[1]]$code)
