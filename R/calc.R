@@ -1,5 +1,5 @@
 ######################################################
-#' @title clessnverse
+#' @title clessnverse::countSentences
 #' @description counts and returns the numbers of sentences in a text block
 #' @param textblock : the text to analyse
 #' @return sentence.count : the number of sentences in the block
@@ -19,7 +19,7 @@ countSentences <- function(textblock) {
 
 
 ######################################################
-#' @title clessnverse
+#' @title clessnverse::countVecSentences
 #' @description counts and returns the umber of sentences in a vector of text blocks (strings)
 #' @param vecCorpus the vector of text strings
 #' @return
@@ -44,7 +44,7 @@ countVecSentences <- function(vecCorpus) {
 
 
 ######################################################
-#' @title clessnverse
+#' @title clessnverse::evaluateRelevanceIndex
 #' @description Evaluates and returns the relevance index of a text block (string)
 #' @param textToCheck - A character string
 #' @param dictionary  - A vector of strings containing regex or words or words combinations

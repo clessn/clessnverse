@@ -1,0 +1,56 @@
+######################################################
+#' @title clessnverse::translateText
+#' @description translates the text provided as a parameter using language autodetection in the language
+#' @param text : the text to translate
+#' @param engine : "azure" | "google"
+#' @param target_lang : which language to translate to
+#' @return a string containing the translated text
+#' @examples example
+#'
+#'
+#' @export
+translateText <- function (text, engine, target_lang) {
+  # Translation
+
+  if (engine == "azure") {
+    base_url <- "https://api.cognitive.microsofttranslator.com/"
+    path <- '/translate?api-version=3.0'
+    params = paste('&to=', target_lang, sep="")
+    url <- paste(base_url, path, params, sep="")
+
+    # There atr characters that need to be escaped (or even removed) in order for the translator to
+    # be able to take them
+    text <- str_replace_all(text, "\\'", "\\\\'")
+    text <- str_replace_all(text, "\\«", "")
+    text <- str_replace_all(text, "\\»", "")
+    text <- str_replace_all(text, "\\’", "\\\\'")
+
+    headers <- add_headers(`Ocp-Apim-Subscription-Key`="059a35dce0d24b99a8a5b176d95199be",
+                           `Ocp-Apim-Subscription-Region`= "canadacentral",
+                           `Content-Type` = "application/json")
+
+    response <- POST(url, headers,
+                     body = paste("[{'Text':'",text,"'}]", sep = ""),
+                     encode = "json")
+
+    response_json <- parse_json(content(response, "text"))
+
+    while (!is.null(response_json[1][[1]]$code) && response_json[1][[1]]$code == "429001") {
+      Sys.sleep(30)
+
+      response <- POST(url, headers,
+                       body = paste("[{'Text':'",text,"'}]", sep = ""),
+                       encode = "json")
+
+      response_json <- parse_json(content(response, "text"))
+    }
+
+    return(response_json[1][[1]]$translations[[1]]$text)
+
+  } else {
+
+    stop("not implemented")
+
+  } # if (engine == "azure")
+
+}

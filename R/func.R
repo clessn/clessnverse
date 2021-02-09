@@ -1,5 +1,5 @@
 ######################################################
-#' @title clessnverse
+#' @title clessnverse::runDictionary
 #' @description Runs a dictionary against a text corpus and returns
 #' @param corpusA the corpus
 #' @param dataA the dataframe containing the words to check
