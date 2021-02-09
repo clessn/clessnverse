@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.R
 \name{countSentences}
 \alias{countSentences}
-\title{clessnverse}
+\title{clessnverse::countSentences}
 \usage{
 countSentences(textblock)
 }

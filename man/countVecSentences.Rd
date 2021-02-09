@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.R
 \name{countVecSentences}
 \alias{countVecSentences}
-\title{clessnverse}
+\title{clessnverse::countVecSentences}
 \usage{
 countVecSentences(vecCorpus)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ref.R
 \name{getDictionary}
 \alias{getDictionary}
-\title{clessnverse}
+\title{clessnverse::getDictionary}
 \usage{
 getDictionary(topic = "covid", method = "wordmatch", language = "")
 }

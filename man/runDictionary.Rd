@@ -2,7 +2,7 @@
 % Please edit documentation in R/func.R
 \name{runDictionary}
 \alias{runDictionary}
-\title{clessnverse}
+\title{clessnverse::runDictionary}
 \usage{
 runDictionary(corpusA, dataA, word, dfmA, dataB, dictionaryA)
 }

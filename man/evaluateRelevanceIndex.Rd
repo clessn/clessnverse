@@ -2,7 +2,7 @@
 % Please edit documentation in R/calc.R
 \name{evaluateRelevanceIndex}
 \alias{evaluateRelevanceIndex}
-\title{clessnverse}
+\title{clessnverse::evaluateRelevanceIndex}
 \usage{
 evaluateRelevanceIndex(
   textToCheck,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ref.R
 \name{getEuropeMepData}
 \alias{getEuropeMepData}
-\title{clessnverse}
+\title{clessnverse::getEuropeMepData}
 \usage{
 getEuropeMepData(mep_full_name)
 }
