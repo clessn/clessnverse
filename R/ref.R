@@ -135,7 +135,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 #'
 #'
 #' @export
-getMepData <- function (mep_full_name) {
+getEuropeMepData <- function (mep_full_name) {
   url <- "https:\\/\\/www.europarl.europa.eu\\/meps\\/fr\\/download\\/advanced\\/xml?name="
   name <- stringr::str_replace_all(mep_full_name, " ", "+")
   name <- RCurl::curlEscape(mep_full_name)
