@@ -1,8 +1,10 @@
 ######################################################
 #' @title clessnverse::getDictionary
-#' @description
-#' @param
-#' @return dataframe
+#' @description retrives the clessn dictionnary related to a specific topic
+#' @param topic : "covid" | "sentiment"
+#' @param method : "wordmatch" | "regex" | "dfm"
+#' @param language = "en" | "fr" | ""
+#' @return Formal class 'dictionary2' of package "quanteda" for method "dfm" or a vector of regex for method "regex"
 #' @examples
 #'
 #'
@@ -109,7 +111,7 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
   }
 
   if (topic == "sentiment" && method == "dfm" && language == "fr")
-    return( quanteda::dictionary(file = "../quorum-agoraplus-graphiques/_SharedFolder_quorum-agoraplus-graphiques/lexicoder_french/frlsd.cat") )
+    return( quanteda::dictionary(file = "../projet-quorum/_SharedFolder_projet-quorum/lexicoder_french/frlsd.cat") )
 
   if (topic == "sentiment" && method == "dfm" && language == "en")
     return( quanteda::data_dictionary_LSD2015 )
@@ -128,8 +130,13 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
 
 ######################################################
 #' @title clessnverse::runDictionary
-#' @description
-#' @param
+#' @description Runs a dictionary against a text corpus and returns
+#' @param corpusA the corpus
+#' @param dataA the dataframe containing the words to check
+#' @param word to be documented
+#' @param dfmA to be documented
+#' @param dataB to be documented
+#' @param dictionaryA to be documented
 #' @return dataframe
 #' @examples
 #'
@@ -149,18 +156,18 @@ runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
 
 ######################################################
 #' @title clessnverse::evaluateRelevanceIndex
-#' @description
+#' @description Evaluates and returns the relevance index of a text block (string)
 #' @param textToCheck - A character string
-#'        dictionary  - A vector of strings containing regex or words or words combinations
+#' @param dictionary  - A vector of strings containing regex or words or words combinations
 #'			               or an objet of type dictionary from the quanteda package
-#'	      base	      - A string containing either "sentence" or "paragraph" which tells the
+#' @param base	      - A string containing either "sentence" or "paragraph" which tells the
 #'			                the function on which base to compute the index.
 #'			                If base = "sentence" then every sentence containing one or more terms
 #'			                matching in the dictionary will score 1 in the calculation.
 #'			                At the end of the count the sum is devided by the number of sentences.
 #'			                If base = "paragraph" the same logic applies but at the paragraph level
 #'			                instead of the sentence level
-#'	      method      - A string describing the method used for matching terms.
+#' @param method      - A string describing the method used for matching terms.
 #'			                If method = "wordsmatch" or "regex" then dictionary must be a vector of
 #'			                strings containing words, words sequences or regex.
 #'			                If method = "dfm" then dictionary must be of type quanteda dictionary
@@ -245,9 +252,9 @@ evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", 
 
 ######################################################
 #' @title clessnverse::countSentences
-#' @description
-#' @param
-#' @return
+#' @description counts and returns the numbers of sentences in a text block
+#' @param textblock : the text to analyse
+#' @return sentence.count : the number of sentences in the block
 #' @examples
 #'
 #'
@@ -267,8 +274,8 @@ countSentences <- function(textblock) {
 
 ######################################################
 #' @title clessnverse::countVecSentences
-#' @description
-#' @param
+#' @description counts and returns the umber of sentences in a vector of text blocks (strings)
+#' @param vecCorpus the vector of text strings
 #' @return
 #' @examples
 #'
