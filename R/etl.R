@@ -50,9 +50,9 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
 
   } else {
 
-    stop("not implemented")
+    stop("google translation not implemented")
 
   } # if (engine == "azure")
 
-  return("")
+  return("Fake translation text - use fake = false if you want to consume the translation service")
 }
