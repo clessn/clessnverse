@@ -9,7 +9,7 @@
 #'
 #'
 #' @export
-translateText <- function (text, engine, target_lang) {
+translateText <- function (text, engine, target_lang, fake) {
   # Translation
 
   if (engine == "azure") {
@@ -29,23 +29,24 @@ translateText <- function (text, engine, target_lang) {
                                  `Ocp-Apim-Subscription-Region`= "canadacentral",
                                  `Content-Type` = "application/json")
 
-    response <- httr::POST(url, headers,
+    if(!fake) {
+      response <- httr::POST(url, headers,
                            body = paste("[{'Text':'",text,"'}]", sep = ""),
                            encode = "json")
-
-    response_json <- jsonlite::parse_json(httr::content(response, "text"))
-
-    while (!is.null(response_json[1][[1]]$code) && response_json[1][[1]]$code == "429001") {
-      Sys.sleep(30)
-
-      response <- httr::POST(url, headers,
-                             body = paste("[{'Text':'",text,"'}]", sep = ""),
-                             encode = "json")
-
       response_json <- jsonlite::parse_json(httr::content(response, "text"))
-    }
 
-    return(response_json[1][[1]]$translations[[1]]$text)
+      while (!is.null(response_json[1][[1]]$code) && response_json[1][[1]]$code == "429001") {
+        Sys.sleep(30)
+
+        response <- httr::POST(url, headers,
+                               body = paste("[{'Text':'",text,"'}]", sep = ""),
+                               encode = "json")
+
+        response_json <- jsonlite::parse_json(httr::content(response, "text"))
+      }
+
+      return(response_json[1][[1]]$translations[[1]]$text)
+    }
 
   } else {
 
@@ -53,4 +54,5 @@ translateText <- function (text, engine, target_lang) {
 
   } # if (engine == "azure")
 
+  return("")
 }
