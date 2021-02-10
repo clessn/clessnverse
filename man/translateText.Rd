@@ -4,7 +4,7 @@
 \alias{translateText}
 \title{clessnverse::translateText}
 \usage{
-translateText(text, engine, target_lang)
+translateText(text, engine = "azure", target_lang = "fr", fake = TRUE)
 }
 \arguments{
 \item{text}{: the text to translate}

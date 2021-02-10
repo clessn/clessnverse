@@ -18,5 +18,7 @@ Imports: tm,
   openxlsx,
   dplyr,
   RCurl,
-  XML
+  XML,
+  httr,
+  jsonlite
 Suggests:
