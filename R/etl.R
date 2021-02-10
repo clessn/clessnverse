@@ -9,7 +9,7 @@
 #'
 #'
 #' @export
-translateText <- function (text, engine, target_lang, fake) {
+translateText <- function (text, engine = "azure", target_lang = "fr", fake = TRUE) {
   # Translation
 
   if (engine == "azure") {
