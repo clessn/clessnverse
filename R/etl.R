@@ -74,7 +74,6 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
 commitAgoraDeep <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
   # Primary key is eventID + interventionSeqNum
   # use the fonction commitToHub
-  print(hubTableName)
 
   # Let's handle the local data first
   for (i in 1:nrow(dfSource)) {
@@ -143,7 +142,7 @@ commitAgoraDeep <- function (dfSource, dfDestination, hubTableName, modeLocalDat
 commitAgoraSimple <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
   # Primary key is eventID
   # use the fonction commitToHub
-  print(hubTableName)
+
   # Let's handle the local data first
   for (i in 1:nrow(dfSource)) {
     current_event_id <- dfSource$eventID[i]
