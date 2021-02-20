@@ -1,4 +1,19 @@
 ######################################################
+#' @title clessnverse::version
+#' @description prints the version of the package
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+version <- function() {
+print("1.1.1")
+}
+
+
+######################################################
 #' @title clessnverse::runDictionary
 #' @description Runs a dictionary against a text corpus and returns
 #' @param corpusA the corpus
