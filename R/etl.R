@@ -111,13 +111,13 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
     current_seqnum <- dfSource$interventionSeqNum[i]
 
     # If the eventID+interventionSeqNum does not already exist append it to the dataset
-    if ( modeLocalData != "skip"  &&
+    if ( (modeLocalData == "update" || modeLocalData == "rebuild") &&
          nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) == 0) {
 
       dfDestination <- dfDestination %>% rbind(dfSource[i,])
 
       # Then append it to the hub
-      if ( modeHub != "skip" ) {
+      if ( modeHub == "update" || modeHub == "rebuild") {
         hub_row <- dfSource[i,] %>%
           mutate_if(is.numeric , replace_na, replace = 0) %>%
           mutate_if(is.character , replace_na, replace = "") %>%
@@ -131,14 +131,16 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
     # If the eventID+interventionSeqNum already exists and update_mode is "refresh"
     # Update the existing row with primary key eventID*interventionSeqNum
     if ( modeLocalData == "refresh" &&
-         nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) > 0) {
+         nrow(dplyr::filter(dfDestination,
+                            eventID == current_event_id &
+                            interventionSeqNum == current_seqnum) > 0) ) {
 
-      matching_row_index <- which(dfDestination$eventID == current_id &
+      matching_row_index <- which(dfDestination$eventID == current_event_id &
                                   dfDestination$interventionSeqNum == current_seqnum)
 
       dfDestination[matching_row_index,] <- dfSource[i,]
 
-      if ( modeHub == "refresh" && dfSource$uuid == "") {
+      if ( modeHub == "refresh") {
         hub_row <- dfSource[i,] %>%
           mutate_if(is.numeric , replace_na, replace = 0) %>%
           mutate_if(is.character , replace_na, replace = "") %>%
