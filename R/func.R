@@ -14,6 +14,30 @@ print("1.1.3")
 
 
 ######################################################
+#' @title clessnverse::log
+#' @description logs a message into the clessnverse syslog for automation activity monitoring & debug purposes
+#' @param message  : the message to be logged in the file
+#' @param filename : this is the filename the message is going to be logged into
+#'
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+log <- function(message, filename) {
+  # Open the log
+  logr::log_open(filename)
+
+  # Print text to the log
+  logr::log_print(Sys.time(), )
+
+  # Close the log
+  logr::log_close()
+}
+
+
+######################################################
 #' @title clessnverse::runDictionary
 #' @description Runs a dictionary against a text corpus and returns
 #' @param corpusA the corpus
