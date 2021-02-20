@@ -108,15 +108,16 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
   # Let's handle the local data first
   for (i in 1:nrow(dfSource)) {
     current_event_id <- dfSource$eventID[i]
-    current_seqnum <- dfSource$eventID[i]
+    current_seqnum <- dfSource$interventionSeqNum[i]
 
+    # If the eventID+interventionSeqNum does not already exist append it to the dataset
     if ( modeLocalData != "skip"  &&
          nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) == 0) {
-      # If the eventID+interventionSeqNum does not already exist
-      # append it to the dataset
-      dfDestination <- dfDeep %>% rbind(dfSource[i,])
 
-      if ( modeHub != "skip" && dfSource$uuid == "") {
+      dfDestination <- dfDestination %>% rbind(dfSource[i,])
+
+      # Then append it to the hub
+      if ( modeHub != "skip" ) {
         hub_row <- dfSource[i,] %>%
           mutate_if(is.numeric , replace_na, replace = 0) %>%
           mutate_if(is.character , replace_na, replace = "") %>%
@@ -127,10 +128,11 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
     }
 
 
+    # If the eventID+interventionSeqNum already exists and update_mode is "refresh"
+    # Update the existing row with primary key eventID*interventionSeqNum
     if ( modeLocalData == "refresh" &&
          nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) > 0) {
-      # If the eventID+interventionSeqNum already exists and update_mode is "refresh"
-      # Update the existing row with primary key eventID*interventionSeqNum
+
       matching_row_index <- which(dfDestination$eventID == current_id &
                                   dfDestination$interventionSeqNum == current_seqnum)
 
@@ -142,7 +144,7 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
 
-        clessnhub::edit_item(dfSource$uuid, as.list(hub_row), hubTableName)
+        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row), hubTableName)
       }
     }
 
