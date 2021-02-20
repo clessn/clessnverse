@@ -55,40 +55,10 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
 }
 
 
-######################################################
-#' @title clessnverse::commitToHub
-#' @description Writes the observation of a dataframe to the CLESSN Hub.  Updates it if uuid already exists and writeMode = "update"
-#' @param df : the obesrvation of the dataframe to write as a 1 row dataframe
-#' @param uuid : the uuid of the observation to write
-#' @param table : name of the table to be updated
-#' @param writeMode : same as SQL - "insert" | "update"
-#' @return
-#' @examples example
-#'
-#'
-#' @export
-commitToHub <- function (df, uuid, table, writeMode = "insert") {
-
-}
 
 ######################################################
-#' @title clessnverse::deleteFromHub
-#' @description Deletes an observation from the CLESSN Hub based on its uuid.
-#' @param uuid : the uuid of the observation to delete
-#' @param table : name of the table to delete the observation from
-#' @return
-#' @examples example
-#'
-#'
-#' @export
-deleteFromHub <- function (uuid, table) {
-
-}
-
-
-######################################################
-#' @title clessnverse::commitAgoraInterventions
-#' @description adds, inserts or deletes an observation to the Agora hub
+#' @title clessnverse::commitAgoraDeep
+#' @description adds, inserts or deletes an observation to the Agora hub for tables having eventID+interventionSeqNum as primary key
 #' @param df : the dataframe containing rows to be committed to the hub & local dataframe
 #' @param table : the name of the table the data must be commited to
 #' @param modeLocalData : "skip": totally skip the transaction
@@ -101,8 +71,8 @@ deleteFromHub <- function (uuid, table) {
 #'
 #'
 #' @export
-commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
-  # Primary key for interventions are eventID + interventionSeqNum
+commitAgoraDeep <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
+  # Primary key is eventID + interventionSeqNum
   # use the fonction commitToHub
 
   # Let's handle the local data first
@@ -127,7 +97,6 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
       }
     }
 
-
     # If the eventID+interventionSeqNum already exists and update_mode is "refresh"
     # Update the existing row with primary key eventID*interventionSeqNum
     if ( modeLocalData == "refresh" &&
@@ -151,7 +120,69 @@ commitAgoraInterventions <- function (dfSource, dfDestination, hubTableName, mod
     }
 
   } #for (i in i:nrow(dfSource))
-
   return(dfDestination)
+}
 
+
+######################################################
+#' @title clessnverse::commitAgoraSimple
+#' @description adds, inserts or deletes an observation to the Agora hub for tables having eventI as primary key
+#' @param df : the dataframe containing rows to be committed to the hub & local dataframe
+#' @param table : the name of the table the data must be commited to
+#' @param modeLocalData : "skip": totally skip the transaction
+#'                        "update" : update the dataset with new observations only
+#'                        "refresh" : updates the dataset with new observations and updates existing observations also
+#'                        "rebuild" : rebuilds the local dataset from scratch at the execution of the script & refresh the hub data
+#' @param modeHub : "skip"| "update" | "refresh" | "rebuild"
+#' @return the updated dataframe
+#' @examples example
+#'
+#'
+#' @export
+commitAgoraSimple <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
+  # Primary key is eventID
+  # use the fonction commitToHub
+
+  # Let's handle the local data first
+  for (i in 1:nrow(dfSource)) {
+    current_event_id <- dfSource$eventID[i]
+
+    # If the eventID does not already exist append it to the dataset
+    if ( (modeLocalData == "update" || modeLocalData == "rebuild") &&
+         nrow(dplyr::filter(dfDestination, eventID == current_event_id)) == 0) {
+
+      dfDestination <- dfDestination %>% rbind(dfSource[i,])
+
+      # Then append it to the hub
+      if ( modeHub == "update" || modeHub == "rebuild") {
+        hub_row <- dfSource[i,] %>%
+          mutate_if(is.numeric , replace_na, replace = 0) %>%
+          mutate_if(is.character , replace_na, replace = "") %>%
+          mutate_if(is.logical , replace_na, replace = 0)
+
+        clessnhub::create_item(as.list(hub_row), hubTableName)
+      }
+    }
+
+    # If the eventID already exists and update_mode is "refresh"
+    # Update the existing row with primary key eventID
+    if ( modeLocalData == "refresh" &&
+         nrow(dplyr::filter(dfDestination, eventID == current_event_id) > 0) ) {
+
+      matching_row_index <- which(dfDestination$eventID == current_event_id)
+
+      dfDestination[matching_row_index,] <- dfSource[i,]
+
+      if ( modeHub == "refresh") {
+        hub_row <- dfSource[i,] %>%
+          mutate_if(is.numeric , replace_na, replace = 0) %>%
+          mutate_if(is.character , replace_na, replace = "") %>%
+          mutate_if(is.logical , replace_na, replace = 0)
+
+        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row), hubTableName)
+      }
+    }
+
+  } #for (i in i:nrow(dfSource))
+  return(dfDestination)
 }
