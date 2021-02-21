@@ -25,11 +25,10 @@ print("1.1.3")
 #' @export
 setenv <- function() {
   script_filename <- sys.frame(1)$filename
-  print(script_filename)
   script_filename <- strsplit(script_filename, "/")
   script_filename <- script_filename[[1]][length(script_filename[[1]])]
-  Sys.setenv(SCRIPT_FILENAME = script_filename)
 
+  Sys.setenv(SCRIPT_FILENAME = script_filename)
   Sys.setenv(LOG_FILENAME = paste("log/",script_filename,".txt",sep=""))
 }
 
@@ -46,7 +45,7 @@ setenv <- function() {
 #'
 #' @export
 log <- function(message) {
-  message <- paste()
+  message <- paste(Sys.time(), message, sep = " ")
   write(message,file=Sys.getenv("LOG_FILENAME"),append=TRUE)
 }
 
