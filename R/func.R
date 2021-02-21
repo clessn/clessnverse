@@ -26,14 +26,7 @@ print("1.1.3")
 #'
 #' @export
 log <- function(message, filename) {
-  # Open the log
-  logr::log_open(filename)
-
-  # Print text to the log
-  logr::log_print(Sys.time(), )
-
-  # Close the log
-  logr::log_close()
+  write(message,file=filename,append=TRUE)
 }
 
 
