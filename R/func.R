@@ -25,6 +25,7 @@ print("1.1.3")
 #' @export
 setenv <- function() {
   script_filename <- sys.frame(1)$filename
+  print(script_filename)
   script_filename <- strsplit(script_filename, "/")
   script_filename <- script_filename[[1]][length(script_filename[[1]])]
   Sys.setenv(SCRIPT_FILENAME = script_filename)
