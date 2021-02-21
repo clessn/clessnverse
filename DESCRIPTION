@@ -20,6 +20,5 @@ Imports: tm,
   RCurl,
   XML,
   httr,
-  jsonlite,
-  logr
+  jsonlite
 Suggests:
