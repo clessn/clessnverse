@@ -14,6 +14,25 @@ print("1.1.3")
 
 
 ######################################################
+#' @title clessnverse::setenv
+#' @description sets the env variables required for automation
+#'              SCRIPT_FILENAME : the name of the script running
+#'              LOG_FILENAME : the name of the logfile where the execution activity will be logged
+#' @examples example
+#'
+#'
+#'
+#' @export
+setenv <- function() {
+  script_filename <- sys.frame(1)$filename
+  script_filename <- strsplit(script_filename)
+  script_filename <- script_filename[[1]][length(script_filename[[1]])]
+  Sys.setenv(SCRIPT_FILENAME = script_filename)
+
+  Sys.setenv(LOG_FILENAME = paste("log/",script_filename,".txt",sep=""))
+}
+
+######################################################
 #' @title clessnverse::log
 #' @description logs a message into the clessnverse syslog for automation activity monitoring & debug purposes
 #' @param message  : the message to be logged in the file
@@ -26,6 +45,7 @@ print("1.1.3")
 #'
 #' @export
 log <- function(message) {
+  message <- paste()
   write(message,file=Sys.getenv("LOG_FILENAME"),append=TRUE)
 }
 
