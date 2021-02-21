@@ -25,8 +25,8 @@ print("1.1.3")
 #'
 #'
 #' @export
-log <- function(message, filename) {
-  write(message,file=filename,append=TRUE)
+log <- function(message) {
+  write(message,file=sys.getenv("LOG_FILENAME"),append=TRUE)
 }
 
 
