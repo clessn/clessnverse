@@ -9,7 +9,7 @@
 #'
 #' @export
 version <- function() {
-  cat("1.1.3")
+  cat("1.1.4")
 }
 
 
