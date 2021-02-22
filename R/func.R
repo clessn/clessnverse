@@ -9,38 +9,7 @@
 #'
 #' @export
 version <- function() {
-print("1.1.3")
-}
-
-
-######################################################
-#' @title clessnverse::setenv
-#' @description sets the env variables required for automation
-#'              SCRIPT_FILENAME : the name of the script running
-#'              LOG_FILENAME : the name of the logfile where the execution activity will be logged
-#' @examples example
-#'
-#'
-#'
-#' @export
-setenv <- function(scriptname = "UnknownScript") {
-
-}
-
-######################################################
-#' @title clessnverse::log
-#' @description logs a message into the clessnverse syslog for automation activity monitoring & debug purposes
-#' @param message  : the message to be logged in the file
-#' @param filename : this is the filename the message is going to be logged into
-#'
-#' @return
-#' @examples example
-#'
-#'
-#'
-#' @export
-log <- function(message) {
-
+  cat("1.1.3")
 }
 
 
