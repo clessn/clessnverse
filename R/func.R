@@ -43,8 +43,9 @@ setenv <- function(scriptname = "UnknownScript") {
 log <- function(message) {
   logger <- file(Sys.getenv("LOG_FILENAME"), open = "at")
   sink(logger, type="message")
-  cat(format(Sys.time(), "%Y-%m-%d %X"), ":", paste(Sys.getenv("SCRIPT_FILENAME"),message), "\n", append = T,file = logger)
-  sink()
+  cat(format(Sys.time(), "%Y-%m-%d %X"), "-",
+      paste(Sys.getenv("SCRIPT_FILENAME"),":",message), "\n",
+      append = T,file = logger)
 }
 
 
