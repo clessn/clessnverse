@@ -24,8 +24,7 @@ print("1.1.3")
 #'
 #' @export
 setenv <- function(scriptname = "UnknownScript") {
-  Sys.setenv(SCRIPT_FILENAME = scriptname)
-  Sys.setenv(LOG_FILENAME = paste("log/",scriptname,".txt",sep=""))
+
 }
 
 ######################################################
@@ -41,11 +40,7 @@ setenv <- function(scriptname = "UnknownScript") {
 #'
 #' @export
 log <- function(message) {
-  logger <- file(Sys.getenv("LOG_FILENAME"), open = "at")
-  sink(logger, type="message")
-  cat(format(Sys.time(), "%Y-%m-%d %X"), "-",
-      paste(Sys.getenv("SCRIPT_FILENAME"),":",message), "\n",
-      append = T,file = logger)
+
 }
 
 
