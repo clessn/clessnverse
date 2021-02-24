@@ -8,7 +8,10 @@
 #'
 #'
 #' @export
-createSimple <- function() {
+createSimple <- function(context) {
+  if (!exists(context))
+    stop("clessnverse::createSimple(): must provide a context in which the agora dataframe")
+
   return(data.frame(uuid = character(),
                     created = character(),
                     modified = character(),
@@ -21,8 +24,8 @@ createSimple <- function() {
                     eventEndTime = character(),
                     eventTitle = character(),
                     eventSubtitle = character(),
-                    eventWordCount = character(),
-                    eventSentenceCount = character(),
+                    eventWordCount = integer(),
+                    eventSentenceCount = integer(),
                     eventParagraphCount = integer(),
                     eventContent = character(),
                     eventTranslatedContent = character(),
@@ -40,7 +43,7 @@ createSimple <- function() {
 #'
 #'
 #' @export
-createDeep <- function() {
+createDeep <- function(context) {
   return(data.frame(uuid = character(),
                     created = character(),
                     modified = character(),
@@ -83,7 +86,7 @@ createDeep <- function() {
 #'
 #'
 #' @export
-createCache <- function() {
+createCache <- function(context) {
   return(data.frame(uuid = character(),
                     created = character(),
                     modified = character(),
@@ -104,7 +107,7 @@ createCache <- function() {
 #'
 #'
 #' @export
-loadSimpleFromHub <- function() {
+loadSimpleFromHub <- function(context) {
   cat("1.1.4")
 }
 
@@ -119,7 +122,7 @@ loadSimpleFromHub <- function() {
 #'
 #'
 #' @export
-loadDeepFromHub <- function() {
+loadDeepFromHub <- function(context) {
   cat("1.1.4")
 }
 
@@ -134,7 +137,7 @@ loadDeepFromHub <- function() {
 #'
 #'
 #' @export
-loadCacheFromHub <- function() {
+loadCacheFromHub <- function(context) {
   cat("1.1.4")
 }
 

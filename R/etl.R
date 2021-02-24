@@ -57,7 +57,7 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
 
 
 ######################################################
-#' @title clessnverse::commitAgoraDeep
+#' @title clessnverse::commitDeepRows
 #' @description adds, inserts or deletes an observation to the Agora hub for tables having eventID+interventionSeqNum as primary key
 #' @param df : the dataframe containing rows to be committed to the hub & local dataframe
 #' @param table : the name of the table the data must be commited to
@@ -71,7 +71,7 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
 #'
 #'
 #' @export
-commitAgoraDeep <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
+commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
   # Primary key is eventID + interventionSeqNum
   # use the fonction commitToHub
 
@@ -125,7 +125,7 @@ commitAgoraDeep <- function (dfSource, dfDestination, hubTableName, modeLocalDat
 
 
 ######################################################
-#' @title clessnverse::commitAgoraSimple
+#' @title clessnverse::commitSimpleRows
 #' @description adds, inserts or deletes an observation to the Agora hub for tables having eventI as primary key
 #' @param df : the dataframe containing rows to be committed to the hub & local dataframe
 #' @param table : the name of the table the data must be commited to
@@ -139,7 +139,7 @@ commitAgoraDeep <- function (dfSource, dfDestination, hubTableName, modeLocalDat
 #'
 #'
 #' @export
-commitAgoraSimple <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
+commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
   # Primary key is eventID
   # use the fonction commitToHub
 
@@ -186,3 +186,23 @@ commitAgoraSimple <- function (dfSource, dfDestination, hubTableName, modeLocalD
   } #for (i in i:nrow(dfSource))
   return(dfDestination)
 }
+
+######################################################
+#' @title clessnverse::commitCacheRows
+#' @description adds, inserts or deletes an observation to the Agora hub for tables having eventI as primary key
+#' @param df : the dataframe containing rows to be committed to the hub & local dataframe
+#' @param table : the name of the table the data must be commited to
+#' @param modeLocalData : "skip": totally skip the transaction
+#'                        "update" : update the dataset with new observations only
+#'                        "refresh" : updates the dataset with new observations and updates existing observations also
+#'                        "rebuild" : rebuilds the local dataset from scratch at the execution of the script & refresh the hub data
+#' @param modeHub : "skip"| "update" | "refresh" | "rebuild"
+#' @return the updated dataframe
+#' @examples example
+#'
+#'
+#' @export
+commitCacheRows <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
+  return(clessnverse::commitSimpleRows(dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip"))
+}
+
