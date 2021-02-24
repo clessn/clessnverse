@@ -90,7 +90,7 @@ createDeep <- function(context) {
 #'
 #' @export
 createCache <- function(context) {
-  if (missing(context))
+  if (missing(context) || !context %in% c("quebec" ,"canada", "europe"))
     stop("clessnverse::createCache(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 
     return(data.frame(uuid = character(),
@@ -130,7 +130,7 @@ loadSimpleFromHub <- function(context) {
 #'
 #' @export
 loadDeepFromHub <- function(context) {
-  if (missing(context))
+  if (missing(context) || !context %in% c("quebec" ,"canada", "europe"))
     stop("clessnverse::loadDeepFromHub(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 }
 
