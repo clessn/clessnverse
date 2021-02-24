@@ -9,8 +9,8 @@
 #'
 #' @export
 createSimple <- function(context) {
-  if (missing(context))
-    stop("clessnverse::createSimple(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
+  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+    stop("You must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 
   return(data.frame(uuid = character(),
                     created = character(),
@@ -44,8 +44,8 @@ createSimple <- function(context) {
 #'
 #' @export
 createDeep <- function(context) {
-  if (missing(context))
-    stop("clessnverse::createDeep(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
+  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+    stop("You must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 
   return(data.frame(uuid = character(),
                     created = character(),
@@ -90,8 +90,8 @@ createDeep <- function(context) {
 #'
 #' @export
 createCache <- function(context) {
-  if (missing(context) || !context %in% c("quebec" ,"canada", "europe"))
-    stop("clessnverse::createCache(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
+  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+    stop("You must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 
     return(data.frame(uuid = character(),
                     created = character(),
@@ -114,8 +114,8 @@ createCache <- function(context) {
 #'
 #' @export
 loadSimpleFromHub <- function(context) {
-  if (missing(context))
-    stop("clessnverse::loadSimpleFromHub(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
+  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+    stop("You must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 }
 
 
@@ -130,8 +130,8 @@ loadSimpleFromHub <- function(context) {
 #'
 #' @export
 loadDeepFromHub <- function(context) {
-  if (missing(context) || !context %in% c("quebec" ,"canada", "europe"))
-    stop("clessnverse::loadDeepFromHub(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
+  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+    stop("You must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 }
 
 
@@ -146,7 +146,7 @@ loadDeepFromHub <- function(context) {
 #'
 #' @export
 loadCacheFromHub <- function(context) {
-  if (missing(context))
-    stop("clessnverse::loadDeepFromHub(): must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
+  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+    stop("You must provide a context in which to create the agora dataframe possible values are quebec | canada | europe")
 }
 

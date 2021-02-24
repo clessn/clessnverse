@@ -14,6 +14,20 @@ version <- function() {
 
 
 ######################################################
+#' @title clessnverse::getAgoraplusAvailableContexts
+#' @description returns the available contexts implemented in agoraplus in a vector of strings
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+getAgoraplusAvailableContexts <- function() {
+  return(c("quebec" ,"canada", "europe"))
+}
+
+######################################################
 #' @title clessnverse::runDictionary
 #' @description Runs a dictionary against a text corpus and returns
 #' @param corpusA the corpus
