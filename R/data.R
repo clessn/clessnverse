@@ -12,8 +12,7 @@ createSimple <- function(context) {
   if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are",
-               clessnverse::getAgoraplusAvailableContexts(),
-               collapse=''))
+               paste(clessnverse::getAgoraplusAvailableContexts(),collapse='')))
 
   return(data.frame(uuid = character(),
                     created = character(),
@@ -50,8 +49,7 @@ createDeep <- function(context) {
   if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are",
-               clessnverse::getAgoraplusAvailableContexts(),
-               collapse=''))
+               paste(clessnverse::getAgoraplusAvailableContexts(),collapse='')))
 
   return(data.frame(uuid = character(),
                     created = character(),
@@ -99,8 +97,7 @@ createCache <- function(context) {
   if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are",
-               clessnverse::getAgoraplusAvailableContexts(),
-               collapse=''))
+               paste(clessnverse::getAgoraplusAvailableContexts(),collapse='')))
 
     return(data.frame(uuid = character(),
                     created = character(),
@@ -126,8 +123,7 @@ loadSimpleFromHub <- function(context) {
   if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are",
-               clessnverse::getAgoraplusAvailableContexts(),
-               collapse=''))
+               paste(clessnverse::getAgoraplusAvailableContexts(),collapse='')))
 }
 
 
@@ -145,8 +141,7 @@ loadDeepFromHub <- function(context) {
   if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are",
-               clessnverse::getAgoraplusAvailableContexts(),
-               collapse=''))
+               paste(clessnverse::getAgoraplusAvailableContexts(),collapse='')))
 }
 
 
@@ -164,7 +159,6 @@ loadCacheFromHub <- function(context) {
   if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are",
-               clessnverse::getAgoraplusAvailableContexts(),
-               collapse=''))
+               paste(clessnverse::getAgoraplusAvailableContexts(),collapse='')))
 }
 
