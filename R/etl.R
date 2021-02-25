@@ -107,20 +107,15 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
       matching_row_index <- which(dfDestination$eventID == current_event_id &
                                   dfDestination$interventionSeqNum == current_seqnum)
 
-      dfSource$uuid[i] <- dfDestination$uuid[matching_row_index]
-      dfSource$created[i] <- dfDestination$created[matching_row_index]
-      dfSource$modified[i] <- dfDestination$mofified[matching_row_index]
-      dfSource$metadata[i] <- dfDestination$metadata[matching_row_index]
-
-      dfDestination[matching_row_index,] <- dfSource[i,]
+      dfDestination[matching_row_index,-c(1,4)] <- dfSource[i,-c(1,4)]
 
       if ( modeHub == "refresh") {
-        hub_row <- dfSource[i,] %>%
+        hub_row <- dfSource[i,-c(1:4)] %>%
           mutate_if(is.numeric , replace_na, replace = 0) %>%
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
 
-        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[-c(1:4)]), hubTableName)
+        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row), hubTableName)
       }
     }
 
@@ -176,10 +171,10 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
 
       matching_row_index <- which(dfDestination$eventID == current_event_id)
 
-      dfDestination[matching_row_index,] <- dfSource[i,]
+      dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1,4)]
 
       if ( modeHub == "refresh") {
-        hub_row <- dfSource[i,] %>%
+        hub_row <- dfSource[i,-c(1:4)] %>%
           mutate_if(is.numeric , replace_na, replace = 0) %>%
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
@@ -208,6 +203,6 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
 #'
 #' @export
 commitCacheRows <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
-  return(clessnverse::commitSimpleRows(dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip"))
+  return(clessnverse::commitSimpleRows(dfSource, dfDestination, hubTableName, modeLocalData, modeHub))
 }
 
