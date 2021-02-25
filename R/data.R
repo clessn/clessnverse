@@ -149,13 +149,10 @@ loadCacheFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')))
 
-  dataset <- case_when(
-    context == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_cache_items'),
-    context == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_cache_items'),
-    contect == "canada" ~ stop("context canada is unsupported yet"),
-    TRUE ~ stop("context is unsupported yet")
-  )
 
-  return(dataset)
+  if (context == "quebec") return(clessnhub::download_table('agoraplus_warehouse_cache_items'))
+  if (context == "europe") return(clessnhub::download_table('agoraplus-eu_warehouse_cache_items'))
+  if (context == "canada") stop("context canada is unsupported yet")
+  stop("context is unsupported yet")
 }
 
