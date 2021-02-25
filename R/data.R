@@ -93,14 +93,12 @@ loadSimpleFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')))
 
-  for (c in available_contexts) {
-    dataset <- case_when(
-      c == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_event_items'),
-      c == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_event_items'),
-      c == "canada" ~ stop("context canada is unsupported yet"),
-      TRUE ~ stop("context is unsupported yet")
-    )
-  }
+  dataset <- case_when(
+    context == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_event_items'),
+    context == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_event_items'),
+    context == "canada" ~ stop("context canada is unsupported yet"),
+    TRUE ~ stop("context is unsupported yet")
+  )
 
   return(dataset)
 }
@@ -123,14 +121,12 @@ loadDeepFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')))
 
-  for (c in available_contexts) {
-    dataset <- case_when(
-      c == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_intervention_items'),
-      c == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_intervention_items'),
-      c == "canada" ~ stop("context canada is unsupported yet"),
-      TRUE ~ stop("context is unsupported yet")
-    )
-  }
+  dataset <- case_when(
+    context == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_intervention_items'),
+    context == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_intervention_items'),
+    context == "canada" ~ stop("context canada is unsupported yet"),
+    TRUE ~ stop("context is unsupported yet")
+  )
 
   return(dataset)
 }
@@ -153,14 +149,12 @@ loadCacheFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')))
 
-  for (c in available_contexts) {
-    dataset <- case_when(
-      c == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_cache_items'),
-      c == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_cache_items'),
-      c == "canada" ~ stop("context canada is unsupported yet"),
-      TRUE ~ stop("context is unsupported yet")
-    )
-  }
+  dataset <- case_when(
+    context == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_cache_items'),
+    context == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_cache_items'),
+    contect == "canada" ~ stop("context canada is unsupported yet"),
+    TRUE ~ stop("context is unsupported yet")
+  )
 
   return(dataset)
 }
