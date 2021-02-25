@@ -9,29 +9,18 @@
 #'
 #' @export
 createSimple <- function(context) {
-  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
-    stop(paste("You must provide a context in which to create the agora dataframe",
-               "possible values are",
-               paste(clessnverse::getAgoraplusAvailableContexts(),collapse=' | ')))
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
 
-  return(data.frame(uuid = character(),
-                    created = character(),
-                    modified = character(),
-                    metedata = character(),
-                    eventID = character(),
-                    eventSourceType = character(),
-                    eventURL = character(),
-                    eventDate = character(),
-                    eventStartTime = character(),
-                    eventEndTime = character(),
-                    eventTitle = character(),
-                    eventSubtitle = character(),
-                    eventWordCount = integer(),
-                    eventSentenceCount = integer(),
-                    eventParagraphCount = integer(),
-                    eventContent = character(),
-                    eventTranslatedContent = character(),
-                    stringsAsFactors = FALSE))
+  if (missing(context) || !context %in% available_contexts)
+    stop(paste("You must provide a context in which to create the agora dataframe",
+               "possible values are", paste(available_contexts,collapse=' | ')))
+
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",context,"/simple-datatypes.csv", sep='')
+  classes <- read.csv(filename, header = TRUE, stringsAsFactors = FALSE, colClasses = rep("character"), nrows = 1)
+  classes <- unlist(classes[1,])
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",context,"/simple-colnames.csv", sep='')
+  dataset <- read.csv(filename, header = TRUE, stringsAsFactors = FALSE, colClasses = classes, nrows=1)
+  return(dataset)
 }
 
 
@@ -46,40 +35,18 @@ createSimple <- function(context) {
 #'
 #' @export
 createDeep <- function(context) {
-  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
-    stop(paste("You must provide a context in which to create the agora dataframe",
-               "possible values are",
-               paste(clessnverse::getAgoraplusAvailableContexts(),collapse=' | ')))
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
 
-  return(data.frame(uuid = character(),
-                    created = character(),
-                    modified = character(),
-                    metedata = character(),
-                    eventID = character(),
-                    chapterNumber = character(),
-                    chapterTitle = character(),
-                    chapterTabledDocId = character(),
-                    chapterAdoptedDocId = character(),
-                    interventionSeqNum = integer(),
-                    speakerFirstName = character(),
-                    speakerLastName = character(),
-                    speakerFullName = character(),
-                    speakerGender = character(),
-                    speakerIsMinister = character(),
-                    speakerType = character(),
-                    speakerCountry = character(),
-                    speakerParty = character(),
-                    speakerPolGroup = character(),
-                    speakerDistrict = character(),
-                    speakerMedia = character(),
-                    speakerSpeechType = character(),
-                    speakerSpeechLang = character(),
-                    speakerSpeechWordCount = integer(),
-                    speakerSpeechSentenceCount = integer(),
-                    speakerSpeechParagraphCount = integer(),
-                    speakerSpeech = character(),
-                    speakerTranslatedSpeech = character(),
-                    stringsAsFactors = FALSE))
+  if (missing(context) || !context %in% available_contexts)
+    stop(paste("You must provide a context in which to create the agora dataframe",
+               "possible values are", paste(available_contexts,collapse=' | ')))
+
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",context,"/deep-datatypes.csv", sep='')
+  classes <- read.csv(filename, header = TRUE, stringsAsFactors = FALSE, colClasses = rep("character"), nrows = 1)
+  classes <- unlist(classes[1,])
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",context,"/deep-colnames.csv", sep='')
+  dataset <- read.csv(filename, header = TRUE, stringsAsFactors = FALSE, colClasses = classes, nrows = 1)
+  return(dataset)
 }
 
 
@@ -94,18 +61,18 @@ createDeep <- function(context) {
 #'
 #' @export
 createCache <- function(context) {
-  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
-    stop(paste("You must provide a context in which to create the agora dataframe",
-               "possible values are",
-               paste(clessnverse::getAgoraplusAvailableContexts(),collapse=' | ')))
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
 
-    return(data.frame(uuid = character(),
-                    created = character(),
-                    modified = character(),
-                    metedata = character(),
-                    eventID = character(),
-                    eventHtml = character(),
-                    stringsAsFactors = FALSE))
+  if (missing(context) || !context %in% clessnverse::available_contexts)
+    stop(paste("You must provide a context in which to create the agora dataframe",
+               "possible values are", paste(available_contexts,collapse=' | ')))
+
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",context,"/cache-datatypes.csv", sep='')
+  classes <- read.csv(filename, header = TRUE, stringsAsFactors = FALSE, colClasses = rep("character"), nrows = 1)
+  classes <- unlist(classes[1,])
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",context,"/cache-colnames.csv", sep='')
+  dataset <- read.csv(filename, header = TRUE, stringsAsFactors = FALSE, colClasses = classes, nrows = 1)
+  return(dataset)
 }
 
 
@@ -120,10 +87,22 @@ createCache <- function(context) {
 #'
 #' @export
 loadSimpleFromHub <- function(context) {
-  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
+
+  if (missing(context) || !context %in% available_contexts)
     stop(paste("You must provide a context in which to create the agora dataframe",
-               "possible values are",
-               paste(clessnverse::getAgoraplusAvailableContexts(),collapse=' | ')))
+               "possible values are", paste(available_contexts,collapse=' | ')))
+
+  for (c in available_contexts) {
+    dataset <- case_when(
+      c == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_event_items'),
+      c == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_event_items'),
+      c == "canada" ~ stop("context canada is unsupported yet"),
+      TRUE ~ stop("context is unsupported yet")
+    )
+  }
+
+  return(dataset)
 }
 
 
@@ -138,10 +117,22 @@ loadSimpleFromHub <- function(context) {
 #'
 #' @export
 loadDeepFromHub <- function(context) {
-  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
+
+  if (missing(context) || !context %in% available_contexts)
     stop(paste("You must provide a context in which to create the agora dataframe",
-               "possible values are",
-               paste(clessnverse::getAgoraplusAvailableContexts(),collapse=' | ')))
+               "possible values are", paste(available_contexts,collapse=' | ')))
+
+  for (c in available_contexts) {
+    dataset <- case_when(
+      c == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_intervention_items'),
+      c == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_intervention_items'),
+      c == "canada" ~ stop("context canada is unsupported yet"),
+      TRUE ~ stop("context is unsupported yet")
+    )
+  }
+
+  return(dataset)
 }
 
 
@@ -156,9 +147,21 @@ loadDeepFromHub <- function(context) {
 #'
 #' @export
 loadCacheFromHub <- function(context) {
-  if (missing(context) || !context %in% clessnverse::getAgoraplusAvailableContexts())
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
+
+  if (missing(context) || !context %in% available_contexts)
     stop(paste("You must provide a context in which to create the agora dataframe",
-               "possible values are",
-               paste(clessnverse::getAgoraplusAvailableContexts(),collapse=' | ')))
+               "possible values are", paste(available_contexts,collapse=' | ')))
+
+  for (c in available_contexts) {
+    dataset <- case_when(
+      c == "quebec" ~ clessnhub::download_table('agoraplus_warehouse_cache_items'),
+      c == "europe" ~ clessnhub::download_table('agoraplus-eu_warehouse_cache_items'),
+      c == "canada" ~ stop("context canada is unsupported yet"),
+      TRUE ~ stop("context is unsupported yet")
+    )
+  }
+
+  return(dataset)
 }
 
