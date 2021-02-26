@@ -48,7 +48,7 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
       return(response_json[1][[1]]$translations[[1]]$text)
     }
   } else {
-    stop("google translation not implemented")
+    stop("google translation not implemented", call. = F)
   } # if (engine == "azure")
 
   return("Fake translation text - use fake = false if you want to consume the translation service")
