@@ -79,44 +79,47 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
   for (i in 1:nrow(dfSource)) {
     current_event_id <- dfSource$eventID[i]
     current_seqnum <- dfSource$interventionSeqNum[i]
+    matching_row_index <- which(dfDestination$eventID == current_event_id &
+                                  dfDestination$interventionSeqNum == current_seqnum)
 
     # If the eventID+interventionSeqNum does not already exist append it to the dataset
     if ( (modeLocalData == "update" || modeLocalData == "rebuild") &&
-         nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) == 0) {
+         nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) == 0 &&
+         length(matching_row_index) == 0 ) {
 
       dfDestination <- dfDestination %>% rbind(dfSource[i,])
-
-      # Then append it to the hub
-      if ( modeHub == "update" || modeHub == "rebuild") {
-        hub_row <- dfSource[i,] %>%
-          mutate_if(is.numeric , replace_na, replace = 0) %>%
-          mutate_if(is.character , replace_na, replace = "") %>%
-          mutate_if(is.logical , replace_na, replace = 0)
-
-        clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
-      }
     }
 
     # If the eventID+interventionSeqNum already exists and update_mode is "refresh"
     # Update the existing row with primary key eventID*interventionSeqNum
     if ( modeLocalData == "refresh" &&
-         nrow(dplyr::filter(dfDestination,
-                            eventID == current_event_id &
-                            interventionSeqNum == current_seqnum) > 0) ) {
+         nrow(dplyr::filter(dfDestination,eventID == current_event_id & interventionSeqNum == current_seqnum)) > 0 &&
+         length(matching_row_index) > 0 ) {
 
       matching_row_index <- which(dfDestination$eventID == current_event_id &
                                   dfDestination$interventionSeqNum == current_seqnum)
 
       dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
 
-      if ( modeHub == "refresh") {
-        hub_row <- dfSource[i,-c(1:4)] %>%
-          mutate_if(is.numeric , replace_na, replace = 0) %>%
-          mutate_if(is.character , replace_na, replace = "") %>%
-          mutate_if(is.logical , replace_na, replace = 0)
+    }
 
-        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
-      }
+    # Then append it to the hub
+    if ( (modeHub == "update" || modeHub == "rebuild") && (length(matching_row_index) = 0 || matching_row_index == 0) ) {
+      hub_row <- dfSource[i,] %>%
+        mutate_if(is.numeric , replace_na, replace = 0) %>%
+        mutate_if(is.character , replace_na, replace = "") %>%
+        mutate_if(is.logical , replace_na, replace = 0)
+
+      clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
+    }
+
+    if ( modeHub == "refresh" && length(matching_row_index) > 0 && matching_row_index > 0 ) {
+      hub_row <- dfSource[i,-c(1:4)] %>%
+        mutate_if(is.numeric , replace_na, replace = 0) %>%
+        mutate_if(is.character , replace_na, replace = "") %>%
+        mutate_if(is.logical , replace_na, replace = 0)
+
+      clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
   } #for (i in i:nrow(dfSource))
@@ -146,42 +149,45 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
   # Let's handle the local data first
   for (i in 1:nrow(dfSource)) {
     current_event_id <- dfSource$eventID[i]
+    matching_row_index <- which(dfDestination$eventID == current_event_id)
 
     # If the eventID does not already exist append it to the dataset
     if ( (modeLocalData == "update" || modeLocalData == "rebuild") &&
-         nrow(dplyr::filter(dfDestination, eventID == current_event_id)) == 0) {
+         nrow(dplyr::filter(dfDestination, eventID == current_event_id)) == 0 &&
+         length(matching_row_index) == 0) {
 
       dfDestination <- dfDestination %>% rbind(dfSource[i,])
-
-      # Then append it to the hub
-      if ( modeHub == "update" || modeHub == "rebuild") {
-        hub_row <- dfSource[i,] %>%
-          mutate_if(is.numeric , replace_na, replace = 0) %>%
-          mutate_if(is.character , replace_na, replace = "") %>%
-          mutate_if(is.logical , replace_na, replace = 0)
-
-        clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
-      }
     }
 
     # If the eventID already exists and update_mode is "refresh"
     # Update the existing row with primary key eventID
     if ( modeLocalData == "refresh" &&
-         nrow(dplyr::filter(dfDestination, eventID == current_event_id) > 0) ) {
-
-      matching_row_index <- which(dfDestination$eventID == current_event_id)
+         nrow(dplyr::filter(dfDestination, eventID == current_event_id) > 0) &&
+         length(matching_row_index) > 0 ) {
 
       dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
-
-      if ( modeHub == "refresh") {
-        hub_row <- dfSource[i,-c(1:4)] %>%
-          mutate_if(is.numeric , replace_na, replace = 0) %>%
-          mutate_if(is.character , replace_na, replace = "") %>%
-          mutate_if(is.logical , replace_na, replace = 0)
-
-        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
-      }
     }
+
+
+    # Then append it to the hub
+    if ( (modeHub == "update" || modeHub == "rebuild") && (length(matching_row_index) = 0 || matching_row_index == 0) ) {
+      hub_row <- dfSource[i,] %>%
+        mutate_if(is.numeric , replace_na, replace = 0) %>%
+        mutate_if(is.character , replace_na, replace = "") %>%
+        mutate_if(is.logical , replace_na, replace = 0)
+
+      clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
+    }
+
+    if ( modeHub == "refresh" && length(matching_row_index) > 0 && matching_row_index > 0 ) {
+      hub_row <- dfSource[i,-c(1:4)] %>%
+        mutate_if(is.numeric , replace_na, replace = 0) %>%
+        mutate_if(is.character , replace_na, replace = "") %>%
+        mutate_if(is.logical , replace_na, replace = 0)
+
+      clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
+    }
+
 
   } #for (i in i:nrow(dfSource))
   return(dfDestination)
