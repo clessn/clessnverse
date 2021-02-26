@@ -93,7 +93,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
 
-        clessnhub::create_item(as.list(hub_row), hubTableName)
+        clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
       }
     }
 
@@ -107,7 +107,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
       matching_row_index <- which(dfDestination$eventID == current_event_id &
                                   dfDestination$interventionSeqNum == current_seqnum)
 
-      dfDestination[matching_row_index,-c(1,4)] <- dfSource[i,-c(1,4)]
+      dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
 
       if ( modeHub == "refresh") {
         hub_row <- dfSource[i,-c(1:4)] %>%
@@ -115,7 +115,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
 
-        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row), hubTableName)
+        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
       }
     }
 
@@ -160,7 +160,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
 
-        clessnhub::create_item(as.list(hub_row), hubTableName)
+        clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
       }
     }
 
@@ -171,7 +171,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
 
       matching_row_index <- which(dfDestination$eventID == current_event_id)
 
-      dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1,4)]
+      dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
 
       if ( modeHub == "refresh") {
         hub_row <- dfSource[i,-c(1:4)] %>%
@@ -179,7 +179,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
           mutate_if(is.character , replace_na, replace = "") %>%
           mutate_if(is.logical , replace_na, replace = 0)
 
-        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row), hubTableName)
+        clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
       }
     }
 
