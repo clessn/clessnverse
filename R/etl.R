@@ -103,11 +103,9 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
 
     }
 
-    logit(as.character(matching_row_index))
 
     # Then append it to the hub
-    if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index == 0) ) {
-      logit(paste("append to the hub", hubTableName))
+    if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index) == 0 ) {
       hub_row <- dfSource[i,] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
@@ -119,7 +117,6 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
     if ( modeHub == "refresh" && length(matching_row_index) > 0 &&
          matching_row_index > 0 && dfDestination$uuid[matching_row_index] != "") {
 
-      logit(paste("refresh to the hub", hubTableName))
       hub_row <- dfSource[i,-c(1:4)] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
@@ -174,11 +171,9 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
       dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
     }
 
-    logit(as.character(matching_row_index))
 
     # Then append it to the hub
     if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index) == 0 ) {
-      logit(paste("append to the hub", hubTableName))
       hub_row <- dfSource[i,] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
@@ -190,7 +185,6 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
     if ( modeHub == "refresh" && length(matching_row_index) > 0 &&
          matching_row_index > 0 && dfDestination$uuid[matching_row_index] != "") {
 
-      logit(paste("refresh to the hub", hubTableName))
       hub_row <- dfSource[i,-c(1:4)] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
