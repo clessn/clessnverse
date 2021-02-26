@@ -83,7 +83,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
                                   dfDestination$interventionSeqNum == current_seqnum)
 
     # If the eventID+interventionSeqNum does not already exist append it to the dataset
-    if ( (modeLocalData == "update" || modeLocalData == "rebuild") &&
+    if ( (modeLocalData == "update" || modeLocalData == "rebuild" || modeLocalData == "refresh") &&
          nrow(dplyr::filter(dfDestination, eventID == current_event_id & interventionSeqNum == current_seqnum)) == 0 &&
          length(matching_row_index) == 0 ) {
 
@@ -152,7 +152,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
     matching_row_index <- which(dfDestination$eventID == current_event_id)
 
     # If the eventID does not already exist append it to the dataset
-    if ( (modeLocalData == "update" || modeLocalData == "rebuild") &&
+    if ( (modeLocalData == "update" || modeLocalData == "rebuild" || modeLocalData == "refresh") &&
          nrow(dplyr::filter(dfDestination, eventID == current_event_id)) == 0 &&
          length(matching_row_index) == 0) {
 
