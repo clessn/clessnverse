@@ -181,7 +181,9 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
       clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
-    if ( modeHub == "refresh" && length(matching_row_index) > 0 && matching_row_index > 0 ) {
+    if ( modeHub == "refresh" && length(matching_row_index) > 0 &&
+         matching_row_index > 0 && dfDestination$uuid[matching_row_index] != "") {
+
       logit(paste("refresh to the hub", hubTableName))
       hub_row <- dfSource[i,-c(1:4)] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
