@@ -63,7 +63,7 @@ createDeep <- function(context) {
 createCache <- function(context) {
   available_contexts <- clessnverse::getAgoraplusAvailableContexts()
 
-  if (missing(context) || !context %in% clessnverse::available_contexts)
+  if (missing(context) || !context %in% available_contexts)
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')))
 
