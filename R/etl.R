@@ -168,6 +168,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
       dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
     }
 
+    logit(as.character(matching_row_index))
 
     # Then append it to the hub
     if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index) == 0 ) {
