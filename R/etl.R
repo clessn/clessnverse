@@ -104,7 +104,8 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
     }
 
     # Then append it to the hub
-    if ( (modeHub == "update" || modeHub == "rebuild") && (length(matching_row_index) = 0) ) {
+    if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index == 0) ) {
+      logit("append to the hub")
       hub_row <- dfSource[i,] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
@@ -114,6 +115,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
     }
 
     if ( modeHub == "refresh" && length(matching_row_index) > 0 && matching_row_index > 0 ) {
+      logit("refresh the hub")
       hub_row <- dfSource[i,-c(1:4)] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
@@ -170,7 +172,8 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
 
 
     # Then append it to the hub
-    if ( (modeHub == "update" || modeHub == "rebuild") && (length(matching_row_index) = 0) ) {
+    if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index) == 0 ) {
+      logit("append to the hub")
       hub_row <- dfSource[i,] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
@@ -180,6 +183,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
     }
 
     if ( modeHub == "refresh" && length(matching_row_index) > 0 && matching_row_index > 0 ) {
+      logit("refresh to the hub")
       hub_row <- dfSource[i,-c(1:4)] %>%
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
