@@ -171,7 +171,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
       dfDestination[matching_row_index,-c(1:4)] <- dfSource[i,-c(1:4)]
     }
 
-
+    hub_row <- NULL
     # Then append it to the hub
     if ( (modeHub == "update" || modeHub == "rebuild" || modeHub == "refresh") && length(matching_row_index) == 0 ) {
       hub_row <- dfSource[i,] %>%
@@ -193,9 +193,10 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
       clessnverse::logit(.ChildEnv$logger, paste("updating existing item in hub", dfDestination$uuid[matching_row_index]))
       clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
-
-
   } #for (i in i:nrow(dfSource))
+
+  if (is.null(hub_row)) clessnverse::logit(.ChildEnv$logger, "hub not updated")
+
   return(dfDestination)
 }
 
