@@ -48,7 +48,7 @@ loginit <- function(script,backend) {
 #'
 #' @export
 logit <- function(logger, message) {
-  if (exists("logger"))
+  if (!missing("logger"))
     if (!is.null(logger)) cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
     else print(message)
   else
