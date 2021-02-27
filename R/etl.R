@@ -190,6 +190,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
 
+      clessnverse::logit(.ChildEnv$logger, paste("updating existing item in hub", dfDestination$uuid[matching_row_index]))
       clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
