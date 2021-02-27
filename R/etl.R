@@ -178,7 +178,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
-
+      clessnverse::logit(.ChildEnv$logger, paste("creating new item in hub", dfSource$eventID))
       clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
