@@ -14,6 +14,60 @@ version <- function() {
 
 
 ######################################################
+#' @title clessnverse::loginit
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+loginit <- function(script,backend) {
+  available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
+
+  if (missing(backend) || !backend %in% available_backends)
+    stop(paste("You must provide a backend in which to store the logs",
+               "possible values are", paste(available_backends,collapse=' | ')), call. = F)
+
+  if (backend == "file") return(file(paste("./log/",script,".log",sep=""), open = "at"))
+  if (backend == "hub") stop("not yet implemented", call. = F)
+  stop("Log backend not supported", call. = F)
+}
+
+######################################################
+#' @title clessnverse::logit
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+logit <- function(logger, message) {
+
+  if (!is.null(logger))
+    cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n",
+               append = T, file = logger)
+
+}
+
+######################################################
+#' @title clessnverse::logclose
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+logclose <- function(logger) {
+  if (!is.null(logger)) close(logger)
+}
+
+######################################################
 #' @title clessnverse::getAgoraplusAvailableContexts
 #' @description returns the available contexts implemented in agoraplus in a vector of strings
 #' @param
@@ -25,6 +79,20 @@ version <- function() {
 #' @export
 getAgoraplusAvailableContexts <- function() {
   return(c("quebec" ,"canada", "europe"))
+}
+
+######################################################
+#' @title clessnverse::getAgoraplusAvailableLogBackends
+#' @description returns the available log backends
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+getAgoraplusAvailableLogBackends <- function() {
+  return(c("hub" ,"file"))
 }
 
 ######################################################
