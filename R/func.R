@@ -9,7 +9,9 @@
 #'
 #' @export
 version <- function() {
-  return("1.1.6")
+  version <- "1.1.6"
+  clessnverse::logit(logger, version)
+  return(version)
 }
 
 
@@ -48,8 +50,9 @@ loginit <- function(script,backend) {
 logit <- function(logger, message) {
 
   if (!is.null(logger))
-    cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n",
-               append = T, file = logger)
+    cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
+  else
+    print(message)
 
 }
 
