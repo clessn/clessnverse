@@ -65,6 +65,7 @@ logit <- function(logger, message) {
 #' @export
 logclose <- function(logger) {
   if (!is.null(logger)) close(logger)
+  return(NULL)
 }
 
 ######################################################
