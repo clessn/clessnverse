@@ -48,7 +48,7 @@ loginit <- function(script,backend) {
 #'
 #' @export
 logit <- function(message, logger = NULL) {
-  print(environmentName(parent.env(parent.env(environment()))))
+  print(environmentName(environment()))
   print(message)
 
   tryCatch(
