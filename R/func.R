@@ -48,7 +48,8 @@ loginit <- function(script,backend) {
 #'
 #' @export
 logit <- function(message, logger = NULL) {
- tryCatch(
+  print(parent.env(environment()))
+  tryCatch(
     {
       if (getConnection(logger))
         cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
