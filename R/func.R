@@ -69,7 +69,7 @@ logit <- function(message, logger = NULL) {
     {
       if (getConnection(logger)) {
         cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
-        print(environmentName(where("logger")))
+        print(environmentName(environment()))
       }
     },
     error = function(e) {
