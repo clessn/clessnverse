@@ -148,7 +148,6 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
 commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalData = "skip", modeHub = "skip") {
   # Primary key is eventID
   # use the fonction commitToHub
-  print(environment())
 
   # Let's handle the local data first
   for (i in 1:nrow(dfSource)) {

@@ -48,10 +48,29 @@ loginit <- function(script,backend) {
 #'
 #' @export
 logit <- function(message, logger = NULL) {
+
+  where <- function(name, env = parent.frame()) {
+    if (identical(env, emptyenv())) {
+      # Base case
+      stop("Can't find ", name, call. = FALSE)
+
+    } else if (exists(name, envir = env, inherits = FALSE)) {
+      # Success case
+      env
+
+    } else {
+      # Recursive case
+      where(name, parent.env(env))
+
+    }
+  }
+
   tryCatch(
     {
-      if (getConnection(logger))
+      if (getConnection(logger)) {
         cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
+        where("logger")
+      }
     },
     error = function(e) {
       print("invalid log file connection - printing to console instead")
