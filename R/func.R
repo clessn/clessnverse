@@ -47,12 +47,17 @@ loginit <- function(script,backend) {
 #'
 #'
 #' @export
-logit <- function(logger, message) {
-  if (!missing("logger"))
-    if (!is.null(logger)) cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
-    else print(message)
-  else
-    print(message)
+logit <- function(logger = NULL, message) {
+  tryCatch(
+    {
+      if (getConnection(logger))
+        cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
+    },
+    error = function(e) {
+      print("invalid log file connection - printing to console instead")
+      print(message)
+    }
+  )
 }
 
 ######################################################
