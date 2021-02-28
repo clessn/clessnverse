@@ -55,8 +55,7 @@ logit <- function(message, logger = NULL) {
       }
     },
     error = function(e) {
-      print("invalid log file connection - printing to console instead")
-      print(message)
+      cat("invalid log file connection - printing to console instead : ",message,"\n")
     }
   )
 }
