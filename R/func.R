@@ -77,7 +77,6 @@ logclose <- function(logger) {
       if (getConnection(logger)) {
         close(logger)
       }
-      rm(parent.env(environment())$logger)
     },
     error = function(e) {
     }
