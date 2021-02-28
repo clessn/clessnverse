@@ -48,7 +48,6 @@ loginit <- function(script,backend) {
 #'
 #' @export
 logit <- function(message, logger = NULL) {
-  print(logger)
   tryCatch(
     {
       if (getConnection(logger))
