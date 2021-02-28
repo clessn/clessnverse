@@ -72,8 +72,17 @@ logit <- function(message, logger = NULL) {
 #'
 #' @export
 logclose <- function(logger) {
-  if (!is.null(logger)) close(logger)
-  return(NULL)
+  tryCatch(
+    {
+      if (getConnection(logger)) {
+        close(logger)
+        rm(logger)
+      }
+    },
+    error = function(e) {
+      print("invalid log connection")
+    }
+  )
 }
 
 ######################################################
