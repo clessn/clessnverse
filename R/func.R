@@ -9,8 +9,8 @@
 #'
 #' @export
 version <- function() {
-  version <- "1.1.6"
-  clessnverse::logit(logger, version)
+  version <- "1.1.7"
+  clessnverse::logit(version, logger)
   return(version)
 }
 
@@ -47,7 +47,7 @@ loginit <- function(script,backend) {
 #'
 #'
 #' @export
-logit <- function(logger = NULL, message) {
+logit <- function(message, logger = NULL) {
   tryCatch(
     {
       if (getConnection(logger))

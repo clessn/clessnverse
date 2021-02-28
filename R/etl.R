@@ -178,7 +178,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
-      clessnverse::logit(logger, paste("creating new item in",hubTableName,":", dfSource$eventID))
+      clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
       clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
@@ -190,12 +190,12 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
 
-      clessnverse::logit(logger, paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]))
+      clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
       clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
   } #for (i in i:nrow(dfSource))
 
-  if (is.null(hub_row)) clessnverse::logit(logger, paste(hubTableName,"not updated"))
+  if (is.null(hub_row)) clessnverse::logit(paste(hubTableName,"not updated"), logger)
 
   return(dfDestination)
 }
