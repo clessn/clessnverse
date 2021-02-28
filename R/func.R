@@ -49,7 +49,7 @@ loginit <- function(script,backend) {
 #' @export
 logit <- function(message, logger = NULL) {
   print(environmentName(parent.env(environment())))
-  search()
+  print(search())
   tryCatch(
     {
       if (getConnection(logger))
