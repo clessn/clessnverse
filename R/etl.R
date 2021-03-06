@@ -121,8 +121,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         mutate_if(is.numeric , replace_na, replace = 0) %>%
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
-      print(hub_row)
-      print(as.list(hub_row[1,-c(1:4)]))
+
       clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
