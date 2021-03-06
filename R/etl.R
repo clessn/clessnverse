@@ -193,9 +193,11 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
       clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
       clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
+
+    if (is.null(hub_row)) clessnverse::logit(paste(hubTableName,"not updated. (Update mode:", modeHub), logger)
+
   } #for (i in i:nrow(dfSource))
 
-  if (is.null(hub_row)) clessnverse::logit(paste(hubTableName,"not updated. (Update mode:", modeHub), logger)
 
   return(dfDestination)
 }
