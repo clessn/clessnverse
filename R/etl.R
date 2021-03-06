@@ -195,7 +195,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
     }
   } #for (i in i:nrow(dfSource))
 
-  if (is.null(hub_row)) clessnverse::logit(paste(hubTableName,"not updated"), logger)
+  if (is.null(hub_row)) clessnverse::logit(paste(hubTableName,"not updated. (Update mode:", modeHub), logger)
 
   return(dfDestination)
 }
