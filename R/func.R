@@ -25,14 +25,14 @@ version <- function() {
 #'
 #'
 #' @export
-loginit <- function(script,backend) {
+loginit <- function(script,backend,relativepath) {
   available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
 
   if (missing(backend) || !backend %in% available_backends)
     stop(paste("You must provide a backend in which to store the logs",
                "possible values are", paste(available_backends,collapse=' | ')), call. = F)
 
-  if (backend == "file") return(file(paste("./log/",script,".log",sep=""), open = "at"))
+  if (backend == "file") return(file(paste(relativepath, "/log/",script,".log",sep=""), open = "at"))
   if (backend == "hub") stop("not yet implemented", call. = F)
   stop("Log backend not supported", call. = F)
 }
