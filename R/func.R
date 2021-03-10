@@ -25,7 +25,7 @@ version <- function() {
 #'
 #'
 #' @export
-loginit <- function(script,backend,logpath) {
+loginit <- function(script,backend,logpath=".") {
   available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
 
   if (missing(backend) || !backend %in% available_backends)
