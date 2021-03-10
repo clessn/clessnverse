@@ -27,6 +27,7 @@ version <- function() {
 #' @export
 loginit <- function(script,backend,logpath=".") {
   available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
+  if (logpath=="") logpath <- "."
 
   if (missing(backend) || !backend %in% available_backends)
     stop(paste("You must provide a backend in which to store the logs",
