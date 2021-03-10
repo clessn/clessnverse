@@ -56,7 +56,7 @@ logit <- function(message, logger = NULL) {
       }
     },
     error = function(e) {
-      cat("invalid logger - using console instead : ",message,"\n")
+      cat("activity log : ",message,"\n")
     }
   )
 }
