@@ -171,7 +171,7 @@ return(r)
     return(httr::content(r))
 
   } else {
-    clessnverse::logit(paste("Error", httr::content(r)$error_summary, "when attempting to download file", filename), logger)
+    clessnverse::logit(paste("Error", httr::content(r), "when attempting to download file", filename), logger)
     return(NULL)
   }
 }
