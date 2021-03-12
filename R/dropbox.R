@@ -28,6 +28,7 @@ dbxListDir <- function(dir, token) {
 
 
     print(length(r$entries))
+
     for (i in 1:length(r$entries)) {
       print(i)
       cat(r$entries[i][[1]]$.tag,
