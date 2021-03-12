@@ -164,7 +164,7 @@ dbxDownloadFile <- function(filename, token) {
                                     'Content-Type' = 'application/json'),
                   body = body,
                   encode = "form")
-
+return(r)
   if (r$status_code == 200) {
 
     clessnverse::logit(paste("file", fileName, "sucessfully downloaded"), logger)
