@@ -153,7 +153,7 @@ dbxDeleteFile <- function(filename, token) {
 #'
 #'
 #' @export
-dbxDownloadFile <- function(filename, token) {
+dbxDownloadFile <- function(filename, local_path,token) {
   header <- paste('{\"path\": \"',
                   filename,
                   '\"}',
@@ -161,8 +161,10 @@ dbxDownloadFile <- function(filename, token) {
 
   r <- httr::POST(url = 'https://content.dropboxapi.com/2/files/download',
                   httr::add_headers('Authorization' = paste("Bearer", token),
-                                    'Dropbox-API-Arg'= header))
-return(r)
+                                    'Dropbox-API-Arg'= header),
+                  httr::progress(),
+                  httr::write_disk(local_path, TRUE))
+
   if (r$status_code == 200) {
 
     clessnverse::logit(paste("file", fileName, "sucessfully downloaded"), logger)
