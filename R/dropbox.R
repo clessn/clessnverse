@@ -163,7 +163,7 @@ dbxDownloadFile <- function(filename, local_path,token) {
                   httr::add_headers('Authorization' = paste("Bearer", token),
                                     'Dropbox-API-Arg'= header),
                   httr::progress(),
-                  httr::write_disk(local_path, TRUE))
+                  httr::write_disk(paste(local_path,filename,sep=''), TRUE))
 
   if (r$status_code == 200) {
 
