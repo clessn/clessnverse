@@ -25,7 +25,7 @@ dbxListDir <- function(dir, token) {
   print(httr::content(r))
 
   if (r$status_code == 200) {
-    clessnverse::logit(paste("directory", dir, "sucessfully listed"), logger)
+    clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
     return(TRUE)
   }
 }
