@@ -27,6 +27,7 @@ dbxListDir <- function(dir, token) {
                      objectID=character())
 
     for (i in 1:length(r$entries)) {
+      print(i)
       cat(r$entries[i][[1]]$.tag,
           r$entries[i][[1]]$path_lower,
           r$entries[i][[1]]$id,
