@@ -20,9 +20,7 @@ dbxListDir <- function(dir, token) {
                                     'Content-Type' = 'application/json'),
                   body = body,
                   encode = "form")
-  print(r)
-  return(r)
-print(httr::content(r))
+
   if (r$status_code == 200) {
     df <- data.frame(objectType=character(),
                      objectName=character(),
@@ -38,7 +36,9 @@ print(httr::content(r))
     clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
     return(df)
   } else {
-    clessnverse::logit(paste("Error", httr::content(r)$error_summary, "when attempting list content of folder", dir), logger)
+
+
+    clessnverse::logit(paste(httr::content(r), "when attempting list content of folder", dir), logger)
 
     return(data.frame(objectType = r$entries[i][[1]]$.tag,
                       objectName = r$entries[i][[1]]$path_lower,
