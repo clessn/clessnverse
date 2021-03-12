@@ -159,11 +159,13 @@ dbxDownloadFile <- function(filename, local_path,token) {
                   '\"}',
                   sep='')
 
+  local_path <- file.path(local_path, basename(filename) )
+
   r <- httr::POST(url = 'https://content.dropboxapi.com/2/files/download',
                   httr::add_headers('Authorization' = paste("Bearer", token),
                                     'Dropbox-API-Arg'= header),
                   httr::progress(),
-                  httr::write_disk(paste(local_path,file.path(filename),sep=''), TRUE))
+                  httr::write_disk(local_path, TRUE))
 
   if (r$status_code == 200) {
 
