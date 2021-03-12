@@ -20,6 +20,7 @@ dbxListDir <- function(dir, token) {
                                     'Content-Type' = 'application/json'),
                   body = body,
                   encode = "form")
+  print(r)
 print(httr::content(r))
   if (r$status_code == 200) {
     df <- data.frame(objectType=character(),
