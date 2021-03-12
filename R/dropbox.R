@@ -21,21 +21,18 @@ dbxListDir <- function(dir, token) {
                   body = body,
                   encode = "form")
 
-  return(r)
   if (r$status_code == 200) {
+    l <- httr::content(r)
+
     df <- data.frame(objectType=character(),
                      objectName=character(),
                      objectID=character())
 
 
-    for (i in 1:length(httr::content(r)$entries)) {
-      cat(r$entries[i][[1]]$.tag,
-          r$entries[i][[1]]$path_lower,
-          r$entries[i][[1]]$id,
-          "\n")
-      df <- df %>% rbind(data.frame(objectType = r$entries[i][[1]]$.tag,
-                                    objectName = r$entries[i][[1]]$path_lower,
-                                    objectID = r$entries[i][[1]]$id))
+    for (i in 1:length(l$entries)) {
+      df <- df %>% rbind(data.frame(objectType = l$entries[i][[1]]$.tag,
+                                    objectName = l$entries[i][[1]]$path_lower,
+                                    objectID = l$entries[i][[1]]$id))
     }
 
     clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
