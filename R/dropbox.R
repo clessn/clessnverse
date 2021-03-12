@@ -21,6 +21,7 @@ dbxListDir <- function(dir, token) {
                   body = body,
                   encode = "form")
   print(r)
+  return(r)
 print(httr::content(r))
   if (r$status_code == 200) {
     df <- data.frame(objectType=character(),
