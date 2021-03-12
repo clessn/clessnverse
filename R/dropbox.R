@@ -154,14 +154,14 @@ dbxDeleteFile <- function(filename, token) {
 #'
 #' @export
 dbxDownloadFile <- function(filename, token) {
-  body <- paste('Dropbox-API-Arg: {\"path\": \"',
-                filename,
-                '\"}',
-                sep='')
+  header <- paste('{\"path\": \"',
+                  filename,
+                  '\"}',
+                  sep='')
 
   r <- httr::POST(url = 'https://content.dropboxapi.com/2/files/download',
                   httr::add_headers('Authorization' = paste("Bearer", token),
-                                    body))
+                                    'Dropbox-API-Arg'= header))
 return(r)
   if (r$status_code == 200) {
 
