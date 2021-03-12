@@ -89,24 +89,17 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
 
       if (result == TRUE) {
         clessnverse::logit("destination file deleted, trying to move again", logger)
-        #body <- paste('{\"from_path\": \"/',source,'\",\"to_path\": \"/',destination,
-        #              '\",\"allow_shared_folder\": false,\"autorename\": false,\"allow_ownership_transfer\": false}',
-        #              sep='')
-        #
-        #t <- httr::POST(url = 'https://api.dropboxapi.com/2/files/move_v2',
-        #                add_headers('Authorization' = paste("Bearer", token$credentials$access_token),
-        #                            'Content-Type' = 'application/json'),
-        #                body = body,
-        #                encode = "form")
-        #httr::verbose(info = FALSE))
         result1 <- clessnverse::dbxMoveFile(source, destination, token, overwrite)
         if (result1 == TRUE) {
           clessnverse::logit("file moved", logger)
+          return(TRUE)
         } else {
-          stop("something went wrong while trying to move file", logger)
+          clessnverse::logit("something went wrong while trying to move file", logger)
+          return(FALSE)
         }
       } else {
-        stop("could not delete destination file", logger)
+        clessnverse::logit("could not delete destination file", logger)
+        return(FALSE)
       }
     }
   }
@@ -128,7 +121,7 @@ dbxDeleteFile <- function(filename, token) {
                 '\"}',
                 sep='')
 
-  s <- httr::POST(url = 'https://api.dropboxapi.com/2/files/delete_v2',
+  r <- httr::POST(url = 'https://api.dropboxapi.com/2/files/delete_v2',
                   httr::add_headers('Authorization' = paste("Bearer", token),
                                     'Content-Type' = 'application/json'),
                   body = body,
@@ -136,9 +129,12 @@ dbxDeleteFile <- function(filename, token) {
 
   #httr::verbose(info = FALSE))
 
-  if (s$status_code == 200) {
+  if (r$status_code == 200) {
     clessnverse::logit(paste("file",filename,"deleted"), logger)
     return(TRUE)
+  } else {
+    clessnverse::logit(paste("error", http::content(r),"trying to delete file",filename), logger)
+    return(FALSE)
   }
 }
 
@@ -168,13 +164,11 @@ dbxDownloadFile <- function(filename, local_path,token) {
                   httr::write_disk(local_path, TRUE))
 
   if (r$status_code == 200) {
-
     clessnverse::logit(paste("file", fileName, "sucessfully downloaded"), logger)
-    return(httr::content(r))
-
+    return(TRUE)
   } else {
     clessnverse::logit(paste("Error", httr::content(r), "when attempting to download file", filename), logger)
-    return(NULL)
+    return(FALSE)
   }
 }
 
