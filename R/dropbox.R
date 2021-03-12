@@ -35,7 +35,14 @@ dbxListDir <- function(dir, token) {
 
     clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
     return(df)
+  } else {
+    clessnverse::logit(paste("Error", httr::content(r)$error_summary, "when attempting list content of folder", dir), logger)
+
+    return(data.frame(objectType = r$entries[i][[1]]$.tag,
+                      objectName = r$entries[i][[1]]$path_lower,
+                      objectID = r$entries[i][[1]]$id))
   }
+
 }
 
 
