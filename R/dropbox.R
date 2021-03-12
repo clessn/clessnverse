@@ -9,7 +9,26 @@
 #'
 #'
 #' @export
+dbxListDir <- function(dir, token) {
+  body <- paste('{\"path\": \"',
+                dir,
+                '\",\"recursive\": false,\"include_media_info\": false,\"include_deleted\": false,\"include_has_explicit_shared_members\": false,\"include_mounted_folders\": true,\"include_non_downloadable_files\": true}',
+                sep='')
 
+  r <- httr::POST(url = 'https://api.dropboxapi.com/2/files/list_folder',
+                  httr::add_headers('Authorization' = paste("Bearer", token),
+                                    'Content-Type' = 'application/json'),
+                  body = body,
+                  encode = "form")
+
+  print(r)
+  print(httr::content(r))
+
+  if (r$status_code == 200) {
+    clessnverse::logit(paste("directory", dir, "sucessfully listed"), logger)
+    return(TRUE)
+  }
+}
 
 
 ######################################################
