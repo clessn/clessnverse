@@ -94,7 +94,7 @@ dbxDeleteFile <- function(filename, token) {
                 sep='')
 
   s <- httr::POST(url = 'https://api.dropboxapi.com/2/files/delete_v2',
-                  httr::add_headers('Authorization' = paste("Bearer", token$credentials$access_token),
+                  httr::add_headers('Authorization' = paste("Bearer", token),
                                     'Content-Type' = 'application/json'),
                   body = body,
                   encode = "form")
