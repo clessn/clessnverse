@@ -26,12 +26,14 @@ dbxListDir <- function(dir, token) {
 
     df <- data.frame(objectType=character(),
                      objectName=character(),
+                     objetcPath=character(),
                      objectID=character())
 
 
     for (i in 1:length(l$entries)) {
       df <- df %>% rbind(data.frame(objectType = l$entries[i][[1]]$.tag,
-                                    objectName = l$entries[i][[1]]$path_lower,
+                                    objectName = basename(l$entries[i][[1]]$path_lower),
+                                    objectPath = dirname(l$entries[i][[1]]$path_lower))
                                     objectID = l$entries[i][[1]]$id))
     }
 
