@@ -102,7 +102,7 @@ dbxDeleteFile <- function(filename, token) {
   #httr::verbose(info = FALSE))
 
   if (s$status_code == 200) {
-    clessnverse::logit("destination file deleted, trying to move again", logger)
+    clessnverse::logit(paste("file",filename,"deleted"), logger)
     return(TRUE)
   }
 }
