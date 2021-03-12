@@ -27,6 +27,7 @@ dbxListDir <- function(dir, token) {
                      objectID=character())
     print(r)
     print(httr::content(r))
+    return(r)
 
     for (i in 1:length(r$entries)) {
       cat(r$entries[i][[1]]$.tag,
