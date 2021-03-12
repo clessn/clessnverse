@@ -161,9 +161,7 @@ dbxDownloadFile <- function(filename, token) {
 
   r <- httr::POST(url = 'https://content.dropboxapi.com/2/files/download',
                   httr::add_headers('Authorization' = paste("Bearer", token),
-                                    'Content-Type' = 'application/json'),
-                  body = body,
-                  encode = "form")
+                                    body))
 return(r)
   if (r$status_code == 200) {
 
