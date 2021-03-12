@@ -29,18 +29,19 @@ dbxListDir <- function(dir, token) {
     print(httr::content(r))
 
     for (i in 1:length(r$entries)) {
+      cat(r$entries[i][[1]]$.tag,
+          r$entries[i][[1]]$path_lower,
+          r$entries[i][[1]]$id)
       df <- df %>% rbind(data.frame(objectType = r$entries[i][[1]]$.tag,
                                     objectName = r$entries[i][[1]]$path_lower,
                                     objectID = r$entries[i][[1]]$id))
     }
 
+    print(df)
     clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
     return(df)
   } else {
-
-
     clessnverse::logit(paste(httr::content(r), "when attempting list content of folder", dir), logger)
-
     return(data.frame(objectType = r$entries[i][[1]]$.tag,
                       objectName = r$entries[i][[1]]$path_lower,
                       objectID = r$entries[i][[1]]$id))
