@@ -1,7 +1,7 @@
 Package: clessnverse
 Type: Package
 Title: clessnverse
-Version: 1.1.7
+Version: 1.2.0
 Author: Patrick Poncet
 Maintainer: The package maintainer <patrick@infoscope.ca>
 Description: This package contains the functions allowing research or analytics related calculations and automations
