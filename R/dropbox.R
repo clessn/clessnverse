@@ -79,7 +79,7 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
 
   if (r$status_code == 200) {
 
-    clessnverse::logit(paste("file", fileName, "sucessfully moved"), logger)
+    clessnverse::logit(paste("file", source, "sucessfully moved"), logger)
     return(TRUE)
 
   } else {
@@ -162,7 +162,7 @@ dbxDownloadFile <- function(filename, local_path,token) {
 
   local_path <- file.path(local_path, basename(filename) )
 
-  clessnverse::logit(paste("downloading file", fileName), logger)
+  clessnverse::logit(paste("downloading file", filename), logger)
 
   r <- httr::POST(url = 'https://content.dropboxapi.com/2/files/download',
                   httr::add_headers('Authorization' = paste("Bearer", token),
@@ -170,7 +170,7 @@ dbxDownloadFile <- function(filename, local_path,token) {
                   httr::write_disk(local_path, TRUE))
 
   if (r$status_code == 200) {
-    clessnverse::logit(paste("file", fileName, "sucessfully downloaded"), logger)
+    clessnverse::logit(paste("file", filename, "sucessfully downloaded"), logger)
     return(TRUE)
   } else {
     clessnverse::logit(paste("Error", httr::content(r), "when attempting to download file", filename), logger)
