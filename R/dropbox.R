@@ -30,14 +30,17 @@ dbxListDir <- function(dir, token) {
                      objectID=character())
 
 
-    for (i in 1:length(l$entries)) {
-      df <- df %>% rbind(data.frame(objectType = l$entries[i][[1]]$.tag,
-                                    objectName = basename(l$entries[i][[1]]$path_lower),
-                                    objectPath = dirname(l$entries[i][[1]]$path_lower),
-                                    objectID = l$entries[i][[1]]$id))
+    if (length(l$entries) > 0) {
+      for (i in 1:length(l$entries)) {
+        df <- df %>% rbind(data.frame(objectType = l$entries[i][[1]]$.tag,
+                                      objectName = basename(l$entries[i][[1]]$path_lower),
+                                      objectPath = dirname(l$entries[i][[1]]$path_lower),
+                                      objectID = l$entries[i][[1]]$id))
+      }
+      clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
+    } else {
+      clessnverse::logit(paste("warning : directory", dir, "is empty"), logger)
     }
-
-    clessnverse::logit(paste("directory", dir, "sucessfully listed."), logger)
     return(df)
   } else {
     clessnverse::logit(paste(httr::content(r), "when attempting list content of folder", dir), logger)
@@ -81,9 +84,7 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
 
   } else {
 
-    clessnverse::logit(paste("Error", httr::content(r)$error_summary, "when attempting to move file", source), logger)
-
-    if (grepl("conflict", httr::content(r)$error_summary) && overwrite == TRUE) {
+    if (grepl("conflict", httr::content(r)) && overwrite == TRUE) {
       # The destination file already exists : if overwrite == TRUE then let's delete destination and try again
       clessnverse::logit(paste("file", destination, "already exists in destination.  Deleting it from destination and trying to move again"), logger)
 
@@ -103,6 +104,8 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
         clessnverse::logit("could not delete destination file", logger)
         return(FALSE)
       }
+    } else {
+      clessnverse::logit(paste("Error", httr::content(r), "when attempting to move file", source), logger)
     }
   }
 }
