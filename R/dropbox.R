@@ -43,6 +43,8 @@ dbxListDir <- function(dir, token) {
     }
     return(df)
   } else {
+    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+
     clessnverse::logit(paste(httr::content(r), "when attempting list content of folder", dir), logger)
     return(data.frame(objectType = r$entries[i][[1]]$.tag,
                       objectName = r$entries[i][[1]]$path_lower,
@@ -83,6 +85,7 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
     return(TRUE)
 
   } else {
+    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
 
     if (grepl("conflict", httr::content(r)) && overwrite == TRUE) {
       # The destination file already exists : if overwrite == TRUE then let's delete destination and try again
@@ -138,6 +141,8 @@ dbxDeleteFile <- function(filename, token) {
     clessnverse::logit(paste("file",filename,"deleted"), logger)
     return(TRUE)
   } else {
+    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+
     clessnverse::logit(paste("error", http::content(r),"trying to delete file",filename), logger)
     return(FALSE)
   }
@@ -173,6 +178,7 @@ dbxDownloadFile <- function(filename, local_path,token) {
     clessnverse::logit(paste("file", filename, "sucessfully downloaded"), logger)
     return(TRUE)
   } else {
+    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
     clessnverse::logit(paste("Error", httr::content(r), "when attempting to download file", filename), logger)
     return(FALSE)
   }
