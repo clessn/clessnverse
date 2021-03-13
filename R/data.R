@@ -315,7 +315,7 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
   }
 
   clessnverse::logit("getting deputes from CSV", logger)
-  deputes <- read.csv(file = paste(base_csv_folder,"Deputes_Quebec_Coordonnees.csv"), sep = ";")
+  deputes <- read.csv(file = paste("../clessn-blend/_SharedFolder_clessn-blend/data/","Deputes_Quebec_Coordonnees.csv"), sep = ";")
   deputes <- deputes %>% separate(nom, c("firstName", "lastName1", "lastName2"), " ")
   names(deputes)[names(deputes)=="femme"] <- "isFemale"
   names(deputes)[names(deputes)=="parti"] <- "party"
@@ -323,7 +323,7 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
   names(deputes)[names(deputes)=="ministre"] <- "isMinister"
 
   clessnverse::logit("getting journalits from CSV", logger)
-  journalists <- read.csv(file = paste(base_csv_folder, "journalist_handle.csv", sep = ";"), sep = ";")
+  journalists <- read.csv(file = paste("../clessn-blend/_SharedFolder_clessn-blend/data/", "journalist_handle.csv", sep = ";"), sep = ";")
   journalists$X <- NULL
   names(journalists)[names(journalists)=="female"] <- "isFemale"
   names(journalists)[names(journalists)=="author"] <- "fullName"
