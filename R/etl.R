@@ -221,3 +221,42 @@ commitCacheRows <- function (dfSource, dfDestination, hubTableName, modeLocalDat
   return(clessnverse::commitSimpleRows(dfSource, dfDestination, hubTableName, modeLocalData, modeHub))
 }
 
+
+######################################################
+#' @title clessnverse::removeSpeakerTitle
+#' @description removes Mr. M. Mme from a string of characters
+#' @param string : the string from which to remove the title
+#' @return the updated string without the title
+#' @examples example
+#'
+#'
+#' @export
+removeSpeakerTitle <- function(string) {
+  result <- ""
+
+  if ( grepl("M\\.", string) )  result <- gsub("M.", "", string)
+  if ( grepl("Mme", string) ) result <- gsub("Mme", "", string)
+
+  result <- sub("^\\s+", "", result)
+  result <- sub("\\s+$", "", result)
+
+  if ( result == "" ) result <- string
+
+  return(result)
+}
+
+
+loadETLRefData <- function() {
+  months_fr <<- c("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre",
+                 "octobre", "novembre", "décembre")
+  months_en <<- c("january", "february", "march", "april", "may", "june", "july", "august", "september",
+                 "october", "november", "december")
+
+  patterns_titres <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
+                       "journaliste :", "Le Président", "La Présidente", "La Vice-Présidente",
+                       "Le Vice-Président", "Titre :")
+
+  patterns_periode_de_questions <<- c("période de questions", "période des questions",
+                                     "prendre les questions", "prendre vos questions",
+                                     "est-ce qu'il y a des questions", "passer aux questions")
+}
