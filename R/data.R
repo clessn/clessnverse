@@ -277,7 +277,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
 loadAgoraplusCSVDatasets <- function(context, opt, path) {
   clessnverse::logit("getting data from CSV", logger)
 
-  base_csv_folder <- path
+  base_csv_folder <<- path
 
   if (opt$cache_update != "rebuild" && opt$cache_update != "skip") {
     clessnverse::logit("getting journalists from CSV", logger)
