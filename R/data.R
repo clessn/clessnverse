@@ -280,7 +280,7 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
   base_csv_folder <<- path
 
   if (opt$cache_update != "rebuild" && opt$cache_update != "skip") {
-    clessnverse::logit("getting journalists from CSV", logger)
+    clessnverse::logit("getting Cache from CSV", logger)
     dfCache <<- read.csv2(file = paste(base_csv_folder,"dfCacheAgoraPlus.csv",sep=''),
                          sep = ";", comment.char = "#")
   }
