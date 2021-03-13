@@ -246,6 +246,15 @@ removeSpeakerTitle <- function(string) {
 }
 
 
+######################################################
+#' @title clessnverse::loadETLRefData
+#' @description loads ETL cross ref matrix and lists commonly used at CLESSN
+#' @param
+#' @return
+#' @examples
+#'
+#'
+#' @export
 loadETLRefData <- function() {
   months_fr <<- c("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre",
                  "octobre", "novembre", "décembre")
