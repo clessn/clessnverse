@@ -244,8 +244,8 @@ removeSpeakerTitle <- function(string) {
   if ( grepl("M\\.", string) )  result <- gsub("M.", "", string)
   if ( grepl("Mme", string) ) result <- gsub("Mme", "", string)
 
-  result <- sub("^(\\s*)", "", result)
-  result <- sub("(\\s*)$", "", result)
+  result <- sub("^\\s+", "", result)
+  result <- sub("\\s+$", "", result)
 
   if ( result == "" ) result <- string
 
