@@ -112,7 +112,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         mutate_if(is.logical , replace_na, replace = 0)
 
       clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
-      clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
+      #clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
     }
 
     if ( modeHub == "refresh" && length(matching_row_index) > 0 &&
@@ -124,12 +124,12 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         mutate_if(is.logical , replace_na, replace = 0)
 
       clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
-      clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
+      #clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
 
     }
 
-    if (is.null(hub_row) && length(matching_row_index) > 0)
-      clessnverse::logit(paste(hubTableName,"not updated because update mode is", modeHub, "and item already exists"), logger)
+    #if (is.null(hub_row) && length(matching_row_index) > 0)
+    #  clessnverse::logit(paste(hubTableName,"not updated because update mode is", modeHub, "and item already exists"), logger)
 
   } #for (i in i:nrow(dfSource))
   return(dfDestination)
