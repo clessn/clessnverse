@@ -243,7 +243,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
 
   clessnverse::logit("getting deputes from HUB", logger)
   deputes <<- clessnhub::download_table('warehouse_quebec_mnas')
-  deputes <<- deputes %>% separate(lastName, c("lastName1", "lastName2"), " ")
+  deputes <<- deputes %>% tidyr::separate(lastName, c("lastName1", "lastName2"), " ")
 
   clessnverse::logit("getting journalists from HUB", logger)
   journalists <<- clessnhub::download_table('warehouse_journalists')
@@ -316,7 +316,7 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
 
   clessnverse::logit("getting deputes from CSV", logger)
   deputes <- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/Deputes_Quebec_Coordonnees.csv", sep=";")
-  deputes <- deputes %>% separate(nom, c("firstName", "lastName1", "lastName2"), " ")
+  deputes <- deputes %>% tidyr::separate(nom, c("firstName", "lastName1", "lastName2"), " ")
   names(deputes)[names(deputes)=="femme"] <- "isFemale"
   names(deputes)[names(deputes)=="parti"] <- "party"
   names(deputes)[names(deputes)=="circonscription"] <- "currentDistrict"
