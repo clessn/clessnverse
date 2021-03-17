@@ -10,7 +10,7 @@
 #'
 #'
 #' @export
-getDictionary <- function(topic = "covid", method = "wordmatch", language = "") {
+getDictionary <- function(topic, method, language = "") {
   #topic = "covid" | "sentiment"
   #method = "wordmatch" | "regex" | "dfm"
   #language = "en" | "fr" | ""
@@ -115,13 +115,20 @@ getDictionary <- function(topic = "covid", method = "wordmatch", language = "") 
   if (topic == "sentiment" && method == "dfm" && language == "en")
     return( quanteda::data_dictionary_LSD2015 )
 
+  if (topic == "ai" && method == "dfm" && (language == "en" || language == "fr" || language =="")) {
+    dict.xlsx <- openxlsx::read.xlsx("../clessn-blend/_SharedFolder_clessn-blend/dict/DictionnaireIA.xlsx")
+    return(quanteda::dictionary(list(ai=stats::na.omit(c(dict.xlsx$`FR`,dict.xlsx$`EN`)))))
+
+  }
+
   stop("clessnverse::getDictionary() invalid parameters combination of topic/method/language
        Valid combinations currently are :
        . topic=\'covid\', method=\'wordmatch\', language=\'\'
        . topic=\'covid\', method=\'regex\', language=\'\'
        . topic=\'covid\', method=\'dfm\', language=\'\'
        . topic=\'sentiment\', method=\'dfm\', language=\'fr\'
-       . topic=\'sentiment\', method=\'dfm\', language=\'en\'")
+       . topic=\'sentiment\', method=\'dfm\', language=\'en\'
+       . topic=\'ai\', method=\'dfm\'")
 }
 
 
