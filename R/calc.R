@@ -69,7 +69,7 @@ countVecSentences <- function(vecCorpus) {
 evaluateRelevanceIndex <- function (textToCheck, dictionary, base = "sentence", method = "dfm") {
   relevanceIndex <- 0
 
-  if (is.na(textToCheck) || nchar(textToCheck) == 0) return(relevanceIndex)
+  if (is.na(textToCheck) || is.null(textToCheck) || nchar(textToCheck) == 0) return(relevanceIndex)
 
   if (base == "paragraph") {
     vec.textToCheck <- vector()
