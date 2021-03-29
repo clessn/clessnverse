@@ -281,19 +281,19 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
 
   if (opt$cache_update != "rebuild" && opt$cache_update != "skip") {
     clessnverse::logit("getting Cache from CSV", logger)
-    dfCache <<- read.csv2(file = paste(base_csv_folder,"dfCacheAgoraPlus.csv",sep=''),
+    dfCache <<- read.csv2(file = paste(base_csv_folder,"dfCacheAgoraPlus.csv",sep='/'),
                          sep = ";", comment.char = "#")
   }
 
   if (opt$simple_update != "rebuild" && opt$simple_update != "skip") {
     clessnverse::logit("getting Simple from CSV", logger)
-    dfSimple <<- read.csv2(file= paste(base_csv_folder,"dfSimpleAgoraPlus.csv",sep=''),
+    dfSimple <<- read.csv2(file= paste(base_csv_folder,"dfSimpleAgoraPlus.csv",sep='/'),
                           sep = ";", comment.char = "#", encoding = "UTF-8")
   }
 
   if (opt$deep_update != "rebuild" && opt$deep_update != "skip") {
     clessnverse::logit("getting Deep from CSV", logger)
-    dfDeep <<- read.csv2(file=paste(base_csv_folder,"dfDeepAgoraPlus.csv",sep=''),
+    dfDeep <<- read.csv2(file=paste(base_csv_folder,"dfDeepAgoraPlus.csv",sep='/'),
                         sep = ";", comment.char = "#", encoding = "UTF-8")
   }
 
@@ -315,15 +315,15 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
   }
 
   clessnverse::logit("getting deputes from CSV", logger)
-  deputes <- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/Deputes_Quebec_Coordonnees.csv", sep=";")
-  deputes <- deputes %>% tidyr::separate(nom, c("firstName", "lastName1", "lastName2"), " ")
+  deputes <<- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/Deputes_Quebec_Coordonnees.csv", sep=";")
+  deputes <<- deputes %>% tidyr::separate(nom, c("firstName", "lastName1", "lastName2"), " ")
   names(deputes)[names(deputes)=="femme"] <- "isFemale"
   names(deputes)[names(deputes)=="parti"] <- "party"
   names(deputes)[names(deputes)=="circonscription"] <- "currentDistrict"
   names(deputes)[names(deputes)=="ministre"] <- "isMinister"
 
   clessnverse::logit("getting journalits from CSV", logger)
-  journalists <- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/journalist_handle.csv", sep = ";")
+  journalists <<- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/journalist_handle.csv", sep = ";")
   journalists$X <- NULL
   names(journalists)[names(journalists)=="female"] <- "isFemale"
   names(journalists)[names(journalists)=="author"] <- "fullName"
