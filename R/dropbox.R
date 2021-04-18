@@ -196,5 +196,33 @@ dbxDownloadFile <- function(filename, local_path,token) {
 #'
 #'
 #' @export
+dbxUploadFile <- function(filename, remote_path, token, overwrite = FALSE) {
 
+  if (overwrite == TRUE) mode <- "overwrite"
+  else mode <- "add"
+
+  header <- paste('{\"path\": \"',
+                  remote_path,
+                  filename,
+                  '\",\"mode\": \"',mode,
+                  '\",\"autorename\": true,\"mute\": false,\"strict_conflict\": false}',
+                  sep='')
+
+  clessnverse::logit(paste("uploading file", filename), logger)
+
+  r <- httr::POST(url = 'https://content.dropboxapi.com/2/files/upload',
+                  httr::add_headers('Authorization' = paste("Bearer", token),
+                                    'Dropbox-API-Arg'= header,
+                                    'Content-Type' = "application/octet-stream"),
+                  body = httr::upload_file(filename, "application/octet-stream"))
+
+  if (r$status_code == 200) {
+    clessnverse::logit(paste("file", filename, "sucessfully downloaded"), logger)
+    return(TRUE)
+  } else {
+    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+    clessnverse::logit(paste("Error", httr::content(r), "when attempting to download file", filename), logger)
+    return(FALSE)
+  }
+}
 

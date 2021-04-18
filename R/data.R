@@ -175,7 +175,6 @@ loadCacheFromHub <- function(context) {
 #'
 #' @export
 loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
-  clessnverse::logit("getting data from HUB", logger)
 
   # Connect to the HUB
   clessnverse::logit(paste("login to the HUB", url), logger)
@@ -191,7 +190,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   } else {
     clessnverse::logit(paste("not retrieving dfCache from HUB because update mode is",
                              opt$cache_update,
-                             case_when(exists("dfCache") && !is.null(dfCache) ~ "and it aleady exists",
+                             dplyr::case_when(exists("dfCache") && !is.null(dfCache) ~ "and it aleady exists",
                                        TRUE ~ "")),
                        logger)
   }
@@ -205,7 +204,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   } else {
     clessnverse::logit(paste("not retrieving dfSimple from HUB because update mode is",
                              opt$simple_update,
-                             case_when(exists("dfSimple") && !is.null(dfSimple) ~ "and it aleady exists",
+                             dplyr::case_when(exists("dfSimple") && !is.null(dfSimple) ~ "and it aleady exists",
                              TRUE ~ "")),
                        logger)
   }
@@ -219,7 +218,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   } else {
     clessnverse::logit(paste("not retrieving dfDeep from HUB because update mode is",
                              opt$deep_update,
-                             case_when(exists("dfDeep") && !is.null(dfDeep) ~ "and it aleady exists",
+                             dplyr::case_when(exists("dfDeep") && !is.null(dfDeep) ~ "and it aleady exists",
                              TRUE ~ "")),
                        logger)
   }
@@ -227,18 +226,24 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   # We only do this if we want to rebuild those datasets from scratch to start fresh
   # or if then don't exist in the environment of the current R session
   if ( !exists("dfCache") || is.null(dfCache) || opt$cache_update == "rebuild" ) {
-    clessnverse::logit("creating cache either because it doesn't exist or because its rebuild option", logger)
-    dfCache <<- clessnverse::createCache(context = "quebec")
+    clessnverse::logit("creating dfCache either because it doesn't exist or because its rebuild option", logger)
+    dfCache <<- clessnverse::createCache(context = context)
+  } else {
+    clessnverse::logit("not creating dfCache either because it already exists", logger)
   }
 
   if ( !exists("dfSimple") || is.null(dfSimple) || opt$simple_update == "rebuild" ) {
-    clessnverse::logit("creating Simple either because it doesn't exist or because its rebuild option", logger)
-    dfSimple <<- clessnverse::createSimple(context = "quebec")
+    clessnverse::logit("creating dfSimple either because it doesn't exist or because its rebuild option", logger)
+    dfSimple <<- clessnverse::createSimple(context = context)
+  } else {
+    clessnverse::logit("not creating dfSimple either because it already exists", logger)
   }
 
   if ( !exists("dfDeep") || is.null(dfDeep) || opt$deep_update == "rebuild" ) {
-    clessnverse::logit("creating Deep either because it doesn't exist or because its rebuild option", logger)
-    dfDeep <<- clessnverse::createDeep(context = "quebec")
+    clessnverse::logit("creating dfDeep either because it doesn't exist or because its rebuild option", logger)
+    dfDeep <<- clessnverse::createDeep(context = context)
+  } else {
+    clessnverse::logit("not creating dfDeep either because it already exists", logger)
   }
 
   clessnverse::logit("getting deputes from HUB", logger)
@@ -301,17 +306,17 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
   # or if then don't exist in the environment of the current R session
   if ( !exists("dfCache") || is.null(dfCache) || opt$cache_update == "rebuild" ) {
     clessnverse::logit("creating cache either because it doesn't exist or because its rebuild option", logger)
-    dfCache <<- clessnverse::createCache(context = "quebec")
+    dfCache <<- clessnverse::createCache(context = context)
   }
 
   if ( !exists("dfSimple") || is.null(dfSimple) || opt$simple_update == "rebuild" ) {
     clessnverse::logit("creating Simple either because it doesn't exist or because its rebuild option", logger)
-    dfSimple <<- clessnverse::createSimple(context = "quebec")
+    dfSimple <<- clessnverse::createSimple(context = context)
   }
 
   if ( !exists("dfDeep") || is.null(dfDeep) || opt$deep_update == "rebuild" ) {
     clessnverse::logit("creating Deep either because it doesn't exist or because its rebuild option", logger)
-    dfDeep <<- clessnverse::createDeep(context = "quebec")
+    dfDeep <<- clessnverse::createDeep(context = context)
   }
 
   clessnverse::logit("getting deputes from CSV", logger)

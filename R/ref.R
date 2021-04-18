@@ -160,3 +160,35 @@ getEuropeMepData <- function (mep_full_name) {
 
   return(data.frame(fullname = fullname, country = country, polgroup = polgroup, mepid = mepid, party = party))
 }
+
+
+######################################################
+#' @title clessnverse::getEuropeMepData
+#' @description retrieves attributes of a MEP in the european parliament
+#' @param mep_full_name : the full name of the MEP to lookup
+#' @return a dataframe
+#' @examples example
+#' @importFrom stringr str_replace_all
+#'
+#'
+#' @export
+getCanadaMepData <- function (mep_full_name) {
+  url <- "https://www.noscommunes.ca/Members/fr/search/xml?searchText="
+  mep_full_name <- stringr::str_replace_all(mep_full_name, " ", "+")
+  mep_full_name <- RCurl::curlEscape(mep_full_name)
+  url <- paste(url, mep_full_name, "&parliament=all", sep = "")
+  url <- stringr::str_replace_all(url, "%2B", "+")
+  html <- RCurl::getURL(url)
+  xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
+  top <- XML::xmlRoot(xml)
+
+  fullname <- paste(XML::xmlValue(top[["MemberOfParliament"]][["PersonOfficialFirstName"]][[1]]),
+                    XML::xmlValue(top[["MemberOfParliament"]][["PersonOfficialLastName"]][[1]]))
+  district <- XML::xmlValue(top[["MemberOfParliament"]][["ConstituencyName"]][[1]])
+  province <- XML::xmlValue(top[["MemberOfParliament"]][["ConstituencyProvinceTerritoryName"]][[1]])
+  from_date <- XML::xmlValue(top[["MemberOfParliament"]][["FromDateTime"]][[1]])
+  to_date <- XML::xmlValue(top[["MemberOfParliament"]][["ToDateTime"]][[1]])
+  party <- XML::xmlValue(top[["MemberOfParliament"]][["CaucusShortName"]][[1]])
+
+  return(data.frame(fullname = fullname, district = district, province = province, fromDate = from_date, toDate = to_date, party = party))
+}

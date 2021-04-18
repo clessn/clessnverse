@@ -23,6 +23,8 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
     text <- stringr::str_replace_all(text, "\\'", "\\\\'")
     text <- stringr::str_replace_all(text, "\\«", "")
     text <- stringr::str_replace_all(text, "\\»", "")
+    text <- stringr::str_replace_all(text, "\\«", "")
+    text <- stringr::str_replace_all(text, "\\»", "")
     text <- stringr::str_replace_all(text, "\\’", "\\\\'")
 
     headers <- httr::add_headers(`Ocp-Apim-Subscription-Key`="059a35dce0d24b99a8a5b176d95199be",
@@ -270,7 +272,7 @@ loadETLRefData <- function() {
 
   patterns_titres <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
                        "journaliste :", "Le Président", "La Présidente", "La Vice-Présidente",
-                       "Le Vice-Président", "Titre :")
+                       "Le Vice-Président", "Titre :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe")
 
   patterns_periode_de_questions <<- c("période de questions", "période des questions",
                                      "prendre les questions", "prendre vos questions",
