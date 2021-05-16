@@ -113,7 +113,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
 
-      clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
+      clessnhub::v1_create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
       #clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
     }
 
@@ -125,7 +125,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
 
-      clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
+      clessnhub::v1_edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
       #clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
 
     }
@@ -187,7 +187,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         mutate_if(is.character , replace_na, replace = "") %>%
         mutate_if(is.logical , replace_na, replace = 0)
       clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
-      clessnhub::create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
+      clessnhub::v1_create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
     if ( modeHub == "refresh" && length(matching_row_index) > 0 &&
@@ -199,7 +199,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         mutate_if(is.logical , replace_na, replace = 0)
 
       clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
-      clessnhub::edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
+      clessnhub::v1_edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
     if (is.null(hub_row) && length(matching_row_index) > 0)

@@ -93,8 +93,8 @@ loadSimpleFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
-  if (context == "quebec") return(clessnhub::download_table('agoraplus_warehouse_event_items'))
-  if (context == "europe") return(clessnhub::download_table('agoraplus-eu_warehouse_event_items'))
+  if (context == "quebec") return(clessnhub::v1_download_table('agoraplus_warehouse_event_items'))
+  if (context == "europe") return(clessnhub::v1_download_table('agoraplus-eu_warehouse_event_items'))
   if (context == "canada") stop("context canada is unsupported yet", call. = F)
   stop("context is unsupported yet", call. = F)
 }
@@ -117,8 +117,8 @@ loadDeepFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
-  if (context == "quebec") return(clessnhub::download_table('agoraplus_warehouse_intervention_items'))
-  if (context == "europe") return(clessnhub::download_table('agoraplus-eu_warehouse_intervention_items'))
+  if (context == "quebec") return(clessnhub::v1_download_table('agoraplus_warehouse_intervention_items'))
+  if (context == "europe") return(clessnhub::v1_download_table('agoraplus-eu_warehouse_intervention_items'))
   if (context == "canada") stop("context canada is unsupported yet", call. = F)
   stop("context is unsupported yet", call. = F)
 }
@@ -142,8 +142,8 @@ loadCacheFromHub <- function(context) {
                "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
 
-  if (context == "quebec") return(clessnhub::download_table('agoraplus_warehouse_cache_items'))
-  if (context == "europe") return(clessnhub::download_table('agoraplus-eu_warehouse_cache_items'))
+  if (context == "quebec") return(clessnhub::v1_download_table('agoraplus_warehouse_cache_items'))
+  if (context == "europe") return(clessnhub::v1_download_table('agoraplus-eu_warehouse_cache_items'))
   if (context == "canada") stop("context canada is unsupported yet", call. = F)
   stop("context is unsupported yet", call. = F)
 }
@@ -178,7 +178,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
 
   # Connect to the HUB
   clessnverse::logit(paste("login to the HUB", url), logger)
-  clessnhub::login(username = username, password = password, url = url)
+  clessnhub::v1_login(username = username, password = password, url = url)
 
   # Récuperer les données de Cache, Simple et Deep
   if (opt$cache_update != "rebuild" && opt$cache_update != "skip" &&
@@ -196,7 +196,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   }
 
 clessnverse::logit("refreshing token", logger)
-clessnhub::refresh_token(configuration$token, configuration$url)
+clessnhub::v1_refresh_token(configuration$token, configuration$url)
 
   if (opt$simple_update != "rebuild" && opt$simple_update != "skip" &&
       (!exists("dfSimple") || is.null(dfSimple) || nrow(dfSimple) == 0) ||
@@ -213,7 +213,7 @@ clessnhub::refresh_token(configuration$token, configuration$url)
   }
 
 clessnverse::logit("refreshing token", logger)
-clessnhub::refresh_token(configuration$token, configuration$url)
+clessnhub::v1_refresh_token(configuration$token, configuration$url)
 
 
   if (opt$deep_update != "rebuild" && opt$deep_update != "skip" &&
@@ -254,11 +254,11 @@ clessnhub::refresh_token(configuration$token, configuration$url)
   }
 
   clessnverse::logit("getting deputes from HUB", logger)
-  deputes <<- clessnhub::download_table('warehouse_quebec_mnas')
+  deputes <<- clessnhub::v1_download_table('warehouse_quebec_mnas')
   deputes <<- deputes %>% tidyr::separate(lastName, c("lastName1", "lastName2"), " ")
 
   clessnverse::logit("getting journalists from HUB", logger)
-  journalists <<- clessnhub::download_table('warehouse_journalists')
+  journalists <<- clessnhub::v1_download_table('warehouse_journalists')
 
 }
 
