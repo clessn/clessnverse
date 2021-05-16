@@ -196,7 +196,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   }
 
 clessnverse::logit("refreshing token", logger)
-clessnhub::v1_refresh_token(configuration$token, configuration$url)
+clessnhub::refresh_token(configuration$token, configuration$url)
 
   if (opt$simple_update != "rebuild" && opt$simple_update != "skip" &&
       (!exists("dfSimple") || is.null(dfSimple) || nrow(dfSimple) == 0) ||
@@ -213,7 +213,7 @@ clessnhub::v1_refresh_token(configuration$token, configuration$url)
   }
 
 clessnverse::logit("refreshing token", logger)
-clessnhub::v1_refresh_token(configuration$token, configuration$url)
+clessnhub::refresh_token(configuration$token, configuration$url)
 
 
   if (opt$deep_update != "rebuild" && opt$deep_update != "skip" &&
