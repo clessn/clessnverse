@@ -293,20 +293,20 @@ loadAgoraplusCSVDatasets <- function(context, opt, path) {
 
   if (opt$cache_update != "rebuild" && opt$cache_update != "skip") {
     clessnverse::logit("getting Cache from CSV", logger)
-    dfCache <<- read.csv2(file = paste(base_csv_folder,"dfCacheAgoraPlus.csv",sep='/'),
-                         sep = ";", comment.char = "#")
+    dfCache <<- readr::read_csv2(file = paste(base_csv_folder,"dfCacheAgoraPlus.csv",sep='/'))#,
+                         #sep = ";", comment.char = "#")
   }
 
   if (opt$simple_update != "rebuild" && opt$simple_update != "skip") {
     clessnverse::logit("getting Simple from CSV", logger)
-    dfSimple <<- read.csv2(file= paste(base_csv_folder,"dfSimpleAgoraPlus.csv",sep='/'),
-                          sep = ";", comment.char = "#", encoding = "UTF-8")
+    dfSimple <<- readr::read_csv2(file= paste(base_csv_folder,"dfSimpleAgoraPlus.csv",sep='/'))#,
+                          #sep = ";", comment.char = "#", encoding = "UTF-8")
   }
 
   if (opt$deep_update != "rebuild" && opt$deep_update != "skip") {
     clessnverse::logit("getting Deep from CSV", logger)
-    dfDeep <<- read.csv2(file=paste(base_csv_folder,"dfDeepAgoraPlus.csv",sep='/'),
-                        sep = ";", comment.char = "#", encoding = "UTF-8")
+    dfDeep <<- readr::read_csv2(file=paste(base_csv_folder,"dfDeepAgoraPlus.csv",sep='/'))#,
+                        #sep = ";", comment.char = "#", encoding = "UTF-8")
   }
 
   # We only do this if we want to rebuild those datasets from scratch to start fresh
