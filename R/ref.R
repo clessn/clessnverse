@@ -178,6 +178,13 @@ getCanadaMepData <- function (mep_full_name) {
   mep_full_name <- RCurl::curlEscape(mep_full_name)
   url <- paste(url, mep_full_name, "&parliament=all", sep = "")
   url <- stringr::str_replace_all(url, "%2B", "+")
+
+  safe_GET <- purrr::safely(httr::GET)
+
+  html <- NULL
+  i_get_attempt <- 1
+  while (is.null(html) && i_get_attempt <= 20) { html <- safe_GET(url) }
+
   html <- RCurl::getURL(url)
   xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
   top <- XML::xmlRoot(xml)
