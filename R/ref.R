@@ -185,7 +185,6 @@ getCanadaMepData <- function (mep_full_name) {
   i_get_attempt <- 1
   while (is.null(html) && i_get_attempt <= 20) { html <- safe_GET(url) }
 
-  html <- RCurl::getURL(url)
   xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
   top <- XML::xmlRoot(xml)
 
