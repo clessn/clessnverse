@@ -9,7 +9,7 @@
 #'
 #' @export
 version <- function() {
-  version <- "1.4.3"
+  version <- "1.4.4"
   clessnverse::logit(version, logger)
   return(version)
 }
@@ -95,6 +95,22 @@ logclose <- function(logger) {
 #' @export
 getAgoraplusAvailableContexts <- function() {
   return(c("quebec" ,"canada", "europe"))
+}
+
+######################################################
+#' @title clessnverse::getAgoraplusAvailableSchemas
+#' @description returns the available dats strcture
+#'              schema versions implemented in agoraplus
+#'              in a vector of strings
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+getAgoraplusAvailableSchemas <- function() {
+  return(c("v1" ,"v2"))
 }
 
 ######################################################

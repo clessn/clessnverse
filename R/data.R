@@ -49,6 +49,34 @@ createDeep <- function(context) {
   return(dataset)
 }
 
+######################################################
+#' @title clessnverse::createParliamentDebateDataframe
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+createParliamentDebateDataframe <- function(context, schema) {
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
+  available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
+
+  if (missing(context) || !context %in% available_contexts)
+    stop(paste("You must provide a context in which to create the agora dataframe. ",
+               "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
+
+  if (missing(schema) || !schema %in% available_schemas)
+    stop(paste("You must provide the schema version of the agora dataframe. ",
+               "possible values are", paste(available_schemas,collapse=' | ')), call. = F)
+
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-debate-",schema,".json", sep='')
+  list <- jsonlite::fromJSON(filename)
+  dataset <- as.data.frame(list)[-c(1),]
+  return(dataset)
+}
+
 
 ######################################################
 #' @title clessnverse::createCache
