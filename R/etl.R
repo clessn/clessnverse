@@ -255,26 +255,4 @@ removeSpeakerTitle <- function(string) {
 }
 
 
-######################################################
-#' @title clessnverse::loadETLRefData
-#' @description loads ETL cross ref matrix and lists commonly used at CLESSN
-#' @param
-#' @return
-#' @examples
-#'
-#'
-#' @export
-loadETLRefData <- function() {
-  months_fr <<- c("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre",
-                 "octobre", "novembre", "décembre")
-  months_en <<- c("january", "february", "march", "april", "may", "june", "july", "august", "september",
-                 "october", "november", "december")
 
-  patterns_titres <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
-                       "journaliste :", "Le Président", "La Présidente", "La Vice-Présidente",
-                       "Le Vice-Président", "Titre :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe")
-
-  patterns_periode_de_questions <<- c("période de questions", "période des questions",
-                                     "prendre les questions", "prendre vos questions",
-                                     "est-ce qu'il y a des questions", "passer aux questions")
-}

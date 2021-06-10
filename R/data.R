@@ -59,19 +59,25 @@ createDeep <- function(context) {
 #'
 #'
 #' @export
-createParliamentDebateDataframe <- function(context, schema) {
+createAgoraplusInterventionDataframe <- function(type, context, schema) {
   available_contexts <- clessnverse::getAgoraplusAvailableContexts()
   available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
+  available_types <- clessnverse::getAgoraplusAvailableTypes()
 
-  if (missing(context) || !context %in% available_contexts)
+  if (missing(type) || !context %in% available_contexts)
+    stop(paste("You must provide a type in which to create the agora dataframe. ",
+               "Possible values are", paste(available_types,collapse=' | ')), call. = F)
+
+    if (missing(context) || !context %in% available_contexts)
     stop(paste("You must provide a context in which to create the agora dataframe. ",
-               "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
+               "Possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
   if (missing(schema) || !schema %in% available_schemas)
     stop(paste("You must provide the schema version of the agora dataframe. ",
-               "possible values are", paste(available_schemas,collapse=' | ')), call. = F)
+               "Possible values are", paste(available_schemas,collapse=' | ')), call. = F)
 
-  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-debate-",schema,".json", sep='')
+
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
   dataset <- as.data.frame(list)[-c(1),]
   return(dataset)
@@ -121,8 +127,8 @@ loadSimpleFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
-  if (context == "quebec") return(clessnhub::v1_download_table('agoraplus_warehouse_event_items'))
-  if (context == "europe") return(clessnhub::v1_download_table('agoraplus-eu_warehouse_event_items'))
+  if (context == "quebec") return(clessnhub::v1_download_light('agoraplus_warehouse_event_items'))
+  if (context == "europe") return(clessnhub::v1_download_light('agoraplus-eu_warehouse_event_items'))
   if (context == "canada") stop("context canada is unsupported yet", call. = F)
   stop("context is unsupported yet", call. = F)
 }
@@ -145,8 +151,8 @@ loadDeepFromHub <- function(context) {
     stop(paste("You must provide a context in which to create the agora dataframe",
                "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
-  if (context == "quebec") return(clessnhub::v1_download_table('agoraplus_warehouse_intervention_items'))
-  if (context == "europe") return(clessnhub::v1_download_table('agoraplus-eu_warehouse_intervention_items'))
+  if (context == "quebec") return(clessnhub::v1_download_light('agoraplus_warehouse_intervention_items'))
+  if (context == "europe") return(clessnhub::v1_download_light('agoraplus-eu_warehouse_intervention_items'))
   if (context == "canada") stop("context canada is unsupported yet", call. = F)
   stop("context is unsupported yet", call. = F)
 }
@@ -170,8 +176,8 @@ loadCacheFromHub <- function(context) {
                "possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
 
-  if (context == "quebec") return(clessnhub::v1_download_table('agoraplus_warehouse_cache_items'))
-  if (context == "europe") return(clessnhub::v1_download_table('agoraplus-eu_warehouse_cache_items'))
+  if (context == "quebec") return(clessnhub::v1_download_light('agoraplus_warehouse_cache_items'))
+  if (context == "europe") return(clessnhub::v1_download_light('agoraplus-eu_warehouse_cache_items'))
   if (context == "canada") stop("context canada is unsupported yet", call. = F)
   stop("context is unsupported yet", call. = F)
 }
@@ -282,11 +288,11 @@ clessnhub::refresh_token(configuration$token, configuration$url)
   }
 
   clessnverse::logit("getting deputes from HUB", logger)
-  deputes <<- clessnhub::v1_download_table('warehouse_quebec_mnas')
+  deputes <<- clessnhub::v1_download_light('warehouse_quebec_mnas')
   deputes <<- deputes %>% tidyr::separate(lastName, c("lastName1", "lastName2"), " ")
 
   clessnverse::logit("getting journalists from HUB", logger)
-  journalists <<- clessnhub::v1_download_table('warehouse_journalists')
+  journalists <<- clessnhub::v1_download_light('warehouse_journalists')
 
 }
 

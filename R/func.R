@@ -114,6 +114,22 @@ getAgoraplusAvailableSchemas <- function() {
 }
 
 ######################################################
+#' @title clessnverse::getAgoraplusAvailableSchemas
+#' @description returns the available dats strcture
+#'              schema versions implemented in agoraplus
+#'              in a vector of strings
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+getAgoraplusAvailableTypes <- function() {
+  return(c("parliament_debate" ,"press_conference"))
+}
+
+######################################################
 #' @title clessnverse::getAgoraplusAvailableLogBackends
 #' @description returns the available log backends
 #' @param
