@@ -38,6 +38,7 @@ loginit <- function(script,backend,logpath=".") {
   stop("Log backend not supported", call. = F)
 }
 
+
 ######################################################
 #' @title clessnverse::logit
 #' @description
@@ -61,6 +62,7 @@ logit <- function(message, logger = NULL) {
   )
 }
 
+
 ######################################################
 #' @title clessnverse::logclose
 #' @description
@@ -83,8 +85,43 @@ logclose <- function(logger) {
   )
 }
 
+
+#####################################################
+#' @title clessnverse::checkContextSchemaType
+#' @description
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+checkContextSchemaType <- function(type, location, schema) {
+  available_locations <- clessnverse::getAgoraplusAvailableLocations()
+  available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
+  available_types <- clessnverse::getAgoraplusAvailableTypes()
+
+  if (missing(type) || !type %in% available_types)
+    stop(paste("You must provide a type for which to create/load the agora dataframe. ",
+               "Possible values are", paste(available_types,collapse=' | ')), call. = F)
+
+  if (missing(locations) || !location %in% available_locations)
+    stop(paste("You must provide a location for which to create/load the agora dataframe. ",
+               "Possible values are", paste(available_locations,collapse=' | ')), call. = F)
+
+  if (missing(schema) || !schema %in% available_schemas)
+    stop(paste("You must provide the schema version of the agora dataframe. ",
+               "Possible values are", paste(available_schemas,collapse=' | ')), call. = F)
+}
+
+
 ######################################################
-#' @title clessnverse::getAgoraplusAvailableContexts
+#' @title clessnverse::getAgoraplusAvailableLocations
 #' @description returns the available contexts implemented in agoraplus in a vector of strings
 #' @param
 #' @return
@@ -93,9 +130,10 @@ logclose <- function(logger) {
 #'
 #'
 #' @export
-getAgoraplusAvailableContexts <- function() {
-  return(c("quebec" ,"canada", "europe"))
+getAgoraplusAvailableLocations <- function() {
+  return(c("CA-QC" ,"EU", "CA"))
 }
+
 
 ######################################################
 #' @title clessnverse::getAgoraplusAvailableSchemas
@@ -113,8 +151,9 @@ getAgoraplusAvailableSchemas <- function() {
   return(c("v2"))
 }
 
+
 ######################################################
-#' @title clessnverse::getAgoraplusAvailableSchemas
+#' @title clessnverse::getAgoraplusAvailableTypes
 #' @description returns the available dats strcture
 #'              schema versions implemented in agoraplus
 #'              in a vector of strings
@@ -128,6 +167,7 @@ getAgoraplusAvailableSchemas <- function() {
 getAgoraplusAvailableTypes <- function() {
   return(c("parliament_debate" ,"press_conference"))
 }
+
 
 ######################################################
 #' @title clessnverse::getAgoraplusAvailableLogBackends
@@ -143,8 +183,9 @@ getAgoraplusAvailableLogBackends <- function() {
   return(c("hub" ,"file"))
 }
 
+
 ######################################################
-#' @title clessnverse::runDictionary
+#' @title clessnverse::processCommandLineOptions
 #' @description Parse the command line options of the agora+ scrapers
 # Which are the update modes of each database in the HUB or in the CSV backend
 #
@@ -157,14 +198,14 @@ getAgoraplusAvailableLogBackends <- function() {
 # - CSV : work with the CSV in the shared folders - good for testing
 #         or for datamining and research or messing around
 # - HUB : work with the CLESSNHUB data directly : this is prod data
-#' @param corpusA the corpus
-#' @param dataA the dataframe containing the words to check
-#' @param word to be documented
-#' @param dfmA to be documented
-#' @param dataB to be documented
-#' @param dictionaryA to be documented
-#' @return dataframe
-#' @examples example
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @return
+#' @examples
 #'
 #'
 #'
@@ -227,16 +268,14 @@ runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
 }
 
 
+######################################################
+#                     V1 Functions                   #
+######################################################
 
 
 ######################################################
-#' @title clessnverse::checkContextSchemaType
-#' @description
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
+#' @title clessnverse::getAgoraplusAvailableContexts
+#' @description returns the available contexts implemented in agoraplus in a vector of strings
 #' @param
 #' @return
 #' @examples example
@@ -244,22 +283,9 @@ runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
 #'
 #'
 #' @export
-checkContextSchemaType <- function(type, context, schema) {
-  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
-  available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
-  available_types <- clessnverse::getAgoraplusAvailableTypes()
-
-  if (missing(type) || !context %in% available_contexts)
-    stop(paste("You must provide a type in which to create the agora dataframe. ",
-               "Possible values are", paste(available_types,collapse=' | ')), call. = F)
-
-  if (missing(context) || !context %in% available_contexts)
-    stop(paste("You must provide a context in which to create the agora dataframe. ",
-               "Possible values are", paste(available_contexts,collapse=' | ')), call. = F)
-
-  if (missing(schema) || !schema %in% available_schemas)
-    stop(paste("You must provide the schema version of the agora dataframe. ",
-               "Possible values are", paste(available_schemas,collapse=' | ')), call. = F)
+getAgoraplusAvailableContexts <- function() {
+  return(c("quebec" ,"europe", "canada"))
 }
+
 
 

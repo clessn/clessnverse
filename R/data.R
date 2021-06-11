@@ -8,11 +8,12 @@
 #'
 #'
 #' @export
-loadHubAgoraplusInterventionsDf <- function(type, context, schema, opt, username, password, url) {
+loadHubAgoraplusInterventionsDf <- function(type, location, schema, opt, username, password, url) {
 
-  clessnverse::checkContextSchemaType(type, context, schema)
-
-  if (context == "quebec") return(clessnhub::download_table('agoraplus_interventions'))
+  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnhub::create_filter()
+  clessnhub::create_filter(type = type, schema = schema, )
+  clessnhub::download_table('agoraplus_interventions')
 }
 
 ######################################################
@@ -25,11 +26,10 @@ loadHubAgoraplusInterventionsDf <- function(type, context, schema, opt, username
 #'
 #'
 #' @export
-loadHubAgoraplusPersonsDf <- function(type, context, schema, opt, username, password, url) {
+loadHubAgoraplusPersonsDf <- function(type, location, schema, opt, username, password, url) {
 
-  clessnverse::checkContextSchemaType(type, context, schema)
+  clessnverse::checkLocationSchemaType(type, location, schema)
 
-  if (context == "quebec") return(clessnhub::download_table('agoraplus_interventions'))
 }
 
 ######################################################
@@ -42,11 +42,10 @@ loadHubAgoraplusPersonsDf <- function(type, context, schema, opt, username, pass
 #'
 #'
 #' @export
-loadHubAgoraplusCacheDf <- function(type, context, schema, opt, username, password, url) {
+loadHubAgoraplusCacheDf <- function(type, location, schema, opt, username, password, url) {
 
-  clessnverse::checkContextSchemaType(type, context, schema)
+  clessnverse::checkLocationSchemaType(type, location, schema)
 
-  if (context == "quebec") return(clessnhub::download_table('agoraplus_interventions'))
 }
 
 ######################################################
@@ -59,9 +58,9 @@ loadHubAgoraplusCacheDf <- function(type, context, schema, opt, username, passwo
 #'
 #'
 #' @export
-createAgoraplusInterventionsDf <- function(type, context, schema) {
+createAgoraplusInterventionsDf <- function(type, location, schema) {
 
-  clessnverse::checkContextSchemaType(type, context, schema)
+  clessnverse::checkLocationSchemaType(type, location, schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
@@ -79,9 +78,9 @@ createAgoraplusInterventionsDf <- function(type, context, schema) {
 #'
 #'
 #' @export
-createAgoraplusPersonsDf <- function(type, context, schema) {
+createAgoraplusPersonsDf <- function(type, location, schema) {
 
-  clessnverse::checkContextSchemaType(type, context, schema)
+  clessnverse::checkLocationSchemaType(type, location, schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
@@ -99,9 +98,9 @@ createAgoraplusPersonsDf <- function(type, context, schema) {
 #'
 #'
 #' @export
-createAgoraplusCacheDf <- function(type, context, schema) {
+createAgoraplusCacheDf <- function(type, location, schema) {
 
-  clessnverse::checkContextSchemaType(type, context, schema)
+  clessnverse::checkLocationSchemaType(type, location, schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
