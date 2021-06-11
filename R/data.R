@@ -78,9 +78,9 @@ createAgoraplusInterventionsDf <- function(type, location, schema) {
 #'
 #'
 #' @export
-createAgoraplusPersonsDf <- function(type, location, schema) {
+createAgoraplusPersonsDf <- function(type, schema) {
 
-  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnverse::checkLocationSchemaType(type, "CA", schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
@@ -102,7 +102,7 @@ createAgoraplusCacheDf <- function(type, location, schema) {
 
   clessnverse::checkLocationSchemaType(type, location, schema)
 
-  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
+  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-cache-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
   dataset <- as.data.frame(list)[-c(1),]
   return(dataset)
