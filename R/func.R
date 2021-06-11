@@ -110,7 +110,7 @@ getAgoraplusAvailableContexts <- function() {
 #'
 #' @export
 getAgoraplusAvailableSchemas <- function() {
-  return(c("v1" ,"v2"))
+  return(c("v2"))
 }
 
 ######################################################
@@ -177,6 +177,8 @@ processCommandLineOptions <- function() {
                 help="update mode of the simple dataframe [default= %default]", metavar="character"),
     make_option(c("-d", "--deep_update"), type="character", default="rebuild",
                 help="update mode of the deep dataframe [default= %Adefault]", metavar="character"),
+    make_option(c("-d", "--dataframe_update"), type="character", default="rebuild",
+                help="update mode of the dataframe [default= %Adefault]", metavar="character"),
     make_option(c("-h", "--hub_update"), type="character", default="skip",
                 help="update mode of the hub [default= %default]", metavar="character"),
     make_option(c("-f", "--csv_update"), type="character", default="skip",
@@ -190,10 +192,10 @@ processCommandLineOptions <- function() {
 
   # Process incompatible option sets
   if ( opt$hub_update == "refresh" &&
-       (opt$simple_update == "rebuild" || opt$deep_update == "rebuild" ||
-        opt$simple_update == "skip" || opt$deep_update == "skip") )
+       (opt$simple_update == "rebuild" || opt$deep_update == "rebuild" ||  opt$dataframe_update == "rebuild" ||
+        opt$simple_update == "skip" || opt$deep_update == "skip" || opt$dataframe_update == "skip") )
     stop(paste("this set of options:",
-               paste("--hub_update=", opt$hub_update, " --simple_update=", opt$simple_update, " --deep_update=", opt$deep_update, sep=''),
+               paste("--hub_update=", opt$hub_update, " --simple_update=", opt$simple_update, " --deep_update=", opt$deep_update, " --dataframe_update=", opt$dataframe_update, sep=''),
                "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
 
   clessnverse::logit(paste("command line options: ",
@@ -227,8 +229,37 @@ runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
 
 
 
+######################################################
+#' @title clessnverse::checkContextSchemaType
+#' @description
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+checkContextSchemaType <- function(type, context, schema) {
+  available_contexts <- clessnverse::getAgoraplusAvailableContexts()
+  available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
+  available_types <- clessnverse::getAgoraplusAvailableTypes()
 
+  if (missing(type) || !context %in% available_contexts)
+    stop(paste("You must provide a type in which to create the agora dataframe. ",
+               "Possible values are", paste(available_types,collapse=' | ')), call. = F)
 
+  if (missing(context) || !context %in% available_contexts)
+    stop(paste("You must provide a context in which to create the agora dataframe. ",
+               "Possible values are", paste(available_contexts,collapse=' | ')), call. = F)
 
+  if (missing(schema) || !schema %in% available_schemas)
+    stop(paste("You must provide the schema version of the agora dataframe. ",
+               "Possible values are", paste(available_schemas,collapse=' | ')), call. = F)
+}
 
 
