@@ -86,40 +86,6 @@ logclose <- function(logger) {
 }
 
 
-#####################################################
-#' @title clessnverse::checkContextSchemaType
-#' @description
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples example
-#'
-#'
-#'
-#' @export
-checkContextSchemaType <- function(type, location, schema) {
-  available_locations <- clessnverse::getAgoraplusAvailableLocations()
-  available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
-  available_types <- clessnverse::getAgoraplusAvailableTypes()
-
-  if (missing(type) || !type %in% available_types)
-    stop(paste("You must provide a type for which to create/load the agora dataframe. ",
-               "Possible values are", paste(available_types,collapse=' | ')), call. = F)
-
-  if (missing(locations) || !location %in% available_locations)
-    stop(paste("You must provide a location for which to create/load the agora dataframe. ",
-               "Possible values are", paste(available_locations,collapse=' | ')), call. = F)
-
-  if (missing(schema) || !schema %in% available_schemas)
-    stop(paste("You must provide the schema version of the agora dataframe. ",
-               "Possible values are", paste(available_schemas,collapse=' | ')), call. = F)
-}
-
-
 ######################################################
 #' @title clessnverse::getAgoraplusAvailableLocations
 #' @description returns the available contexts implemented in agoraplus in a vector of strings
@@ -165,7 +131,7 @@ getAgoraplusAvailableSchemas <- function() {
 #'
 #' @export
 getAgoraplusAvailableTypes <- function() {
-  return(c("parliament_debate" ,"press_conference"))
+  return(c("parliament_debate" ,"press_conference", "mp"))
 }
 
 
@@ -184,20 +150,51 @@ getAgoraplusAvailableLogBackends <- function() {
 }
 
 
+#####################################################
+#' @title clessnverse::checkLocationchemaType
+#' @description
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+checkLocationSchemaType <- function(type, location, schema) {
+  available_locations <- clessnverse::getAgoraplusAvailableLocations()
+  available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
+  available_types <- clessnverse::getAgoraplusAvailableTypes()
+
+  if (missing(type) || !type %in% available_types)
+    stop(paste("You must provide a type for which to create/load the agora dataframe. ",
+               "Possible values are", paste(available_types,collapse=' | ')), call. = F)
+
+  if (missing(location) || !location %in% available_locations)
+    stop(paste("You must provide a location for which to create/load the agora dataframe. ",
+               "Possible values are", paste(available_locations,collapse=' | ')), call. = F)
+
+  if (missing(schema) || !schema %in% available_schemas)
+    stop(paste("You must provide the schema version of the agora dataframe. ",
+               "Possible values are", paste(available_schemas,collapse=' | ')), call. = F)
+}
+
+
+
 ######################################################
 #' @title clessnverse::processCommandLineOptions
 #' @description Parse the command line options of the agora+ scrapers
-# Which are the update modes of each database in the HUB or in the CSV backend
+# Which are the update modes of each database in the HUB
 #
 # Possible values : update, refresh, rebuild or skip
 # - update : updates the dataset by adding only new observations to it
 # - refresh : refreshes existing observations and adds new observations to the dataset
 # - rebuild : wipes out completely the dataset and rebuilds it from scratch
 # - skip : does not make any change to the dataset
-# set which backend we're working with
-# - CSV : work with the CSV in the shared folders - good for testing
-#         or for datamining and research or messing around
-# - HUB : work with the CLESSNHUB data directly : this is prod data
 #' @param
 #' @param
 #' @param
@@ -212,31 +209,27 @@ getAgoraplusAvailableLogBackends <- function() {
 #' @export
 processCommandLineOptions <- function() {
   option_list = list(
-    make_option(c("-c", "--cache_update"), type="character", default="rebuild",
+    optparse::make_option(c("-c", "--cache_mode"), type="character", default="rebuild",
                 help="update mode of the cache [default= %default]", metavar="character"),
-    make_option(c("-s", "--simple_update"), type="character", default="rebuild",
+    optparse::make_option(c("-s", "--simple_mode"), type="character", default="rebuild",
                 help="update mode of the simple dataframe [default= %default]", metavar="character"),
-    make_option(c("-d", "--deep_update"), type="character", default="rebuild",
+    optparse::make_option(c("-d", "--deep_mode"), type="character", default="rebuild",
                 help="update mode of the deep dataframe [default= %Adefault]", metavar="character"),
-    make_option(c("-d", "--dataframe_update"), type="character", default="rebuild",
+    optparse::make_option(c("-d", "--dataframe_mode"), type="character", default="rebuild",
                 help="update mode of the dataframe [default= %Adefault]", metavar="character"),
-    make_option(c("-h", "--hub_update"), type="character", default="skip",
+    optparse::make_option(c("-h", "--hub_mode"), type="character", default="skip",
                 help="update mode of the hub [default= %default]", metavar="character"),
-    make_option(c("-f", "--csv_update"), type="character", default="skip",
-                help="update mode of the simple dataframe [default= %default]", metavar="character"),
-    make_option(c("-b", "--backend_type"), type="character", default="HUB",
-                help="type of the backend - either hub or csv [default= %default]", metavar="character")
   )
 
-  opt_parser = OptionParser(option_list=option_list)
-  opt = parse_args(opt_parser)
+  opt_parser = optparse::OptionParser(option_list=option_list)
+  opt = optparse::parse_args(opt_parser)
 
   # Process incompatible option sets
   if ( opt$hub_update == "refresh" &&
-       (opt$simple_update == "rebuild" || opt$deep_update == "rebuild" ||  opt$dataframe_update == "rebuild" ||
-        opt$simple_update == "skip" || opt$deep_update == "skip" || opt$dataframe_update == "skip") )
+       (opt$simple_mode == "rebuild" || opt$deep_mode == "rebuild" ||  opt$dataframe_mode == "rebuild" ||
+        opt$simple_mode == "skip" || opt$deep_mode == "skip" || opt$dataframe_mode == "skip") )
     stop(paste("this set of options:",
-               paste("--hub_update=", opt$hub_update, " --simple_update=", opt$simple_update, " --deep_update=", opt$deep_update, " --dataframe_update=", opt$dataframe_update, sep=''),
+               paste("--hub_update=", opt$hub_update, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
                "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
 
   clessnverse::logit(paste("command line options: ",
@@ -269,7 +262,15 @@ runDictionary <- function(corpusA, dataA, word, dfmA, dataB, dictionaryA) {
 
 
 ######################################################
+######################################################
+######################################################
+######################################################
+######################################################
 #                     V1 Functions                   #
+######################################################
+######################################################
+######################################################
+######################################################
 ######################################################
 
 

@@ -1,54 +1,4 @@
 ######################################################
-#' @title clessnverse::loadHubAgoraplusInterventionsDf
-#' @description
-#' @param
-#' @return
-#' @examples example
-#'
-#'
-#'
-#' @export
-loadHubAgoraplusInterventionsDf <- function(type, location, schema, opt, username, password, url) {
-
-  clessnverse::checkLocationSchemaType(type, location, schema)
-  clessnhub::create_filter()
-  clessnhub::create_filter(type = type, schema = schema, )
-  clessnhub::download_table('agoraplus_interventions')
-}
-
-######################################################
-#' @title clessnverse::loadHubAgoraplusPersonsDf
-#' @description
-#' @param
-#' @return
-#' @examples example
-#'
-#'
-#'
-#' @export
-loadHubAgoraplusPersonsDf <- function(type, location, schema, opt, username, password, url) {
-
-  clessnverse::checkLocationSchemaType(type, location, schema)
-
-}
-
-######################################################
-#' @title clessnverse::loadHubAgoraplusCacheDf
-#' @description
-#' @param
-#' @return
-#' @examples example
-#'
-#'
-#'
-#' @export
-loadHubAgoraplusCacheDf <- function(type, location, schema, opt, username, password, url) {
-
-  clessnverse::checkLocationSchemaType(type, location, schema)
-
-}
-
-######################################################
 #' @title clessnverse::createAgoraplusInterventionsDf
 #' @description
 #' @param
@@ -67,6 +17,7 @@ createAgoraplusInterventionsDf <- function(type, location, schema) {
   dataset <- as.data.frame(list)[-c(1),]
   return(dataset)
 }
+
 
 ######################################################
 #' @title clessnverse::createAgoraplusPersonsDf
@@ -88,6 +39,7 @@ createAgoraplusPersonsDf <- function(type, schema) {
   return(dataset)
 }
 
+
 ######################################################
 #' @title clessnverse::createAgoraplusCacheDf
 #' @description
@@ -108,8 +60,143 @@ createAgoraplusCacheDf <- function(type, location, schema) {
   return(dataset)
 }
 
+
+######################################################
+#' @title clessnverse::loadHubAgoraplusInterventionsDf
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+loadAgoraplusInterventionsDf <- function(type, schema, location, download_data=F, token="") {
+
+  # Check the compatibility of metadata and stop if there is an error
+  clessnverse::checkLocationSchemaType(type, location, schema)
+
+  clessnverse::logit("getting Interventions from HUB", logger)
+
+  # Connect to the hub with token - if token doesnt exist check if hub_config exists and if not ask for login
+  if (token != "" ) {
+    clessnverse::logit("connecting to hub with token", logger)
+    clessnhub::connect_with_token(token = token)
+  } else {
+    if ( exists("hub_config") && !is.null(hub_config$token) && hub_config$token != "") {
+      clessnverse::logit("refreshing token", logger)
+      clessnhub::refresh_token(hub_config$token, hub_config$url)
+    }
+    else {
+      clessnverse::logit("connecting to hub", logger)
+      clessnhub::connect()
+    }
+  }
+
+  # Filter based on the type of data, the location of event/interventions and schema
+  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
+  clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
+
+  # Get the data
+  dataset <- clessnhub::get_items(table = 'agoraplus_interventions', filter = filter, download_data = download_data)
+
+  return(dataset)
+}
+
+######################################################
+#' @title clessnverse::loadHubAgoraplusPersonsDf
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+loadAgoraplusPersonsDf <- function(type, schema, location, overwrite=F , download_data=F, token="") {
+
+  # Check the compatibility of metadata and stop if there is an error
+  clessnverse::checkLocationSchemaType(type, location, schema)
+
+  clessnverse::logit("getting Persons from HUB", logger)
+
+  # Connect to the hub with token - if token doesnt exist check if hub_config exists and if not ask for login
+  if (token != "" ) {
+    clessnverse::logit("connecting to hub with token", logger)
+    clessnhub::connect_with_token(token = token)
+  } else {
+    if ( exists("hub_config") && !is.null(hub_config$token) && hub_config$token != "") {
+      clessnverse::logit("refreshing token", logger)
+      clessnhub::refresh_token(hub_config$token, hub_config$url)
+    }
+    else {
+      clessnverse::logit("connecting to hub", logger)
+      clessnhub::connect()
+    }
+  }
+
+  # Filter based on the type of data, the location of persons and schema
+  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
+  clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
+
+  # Get the data
+  dataset <- clessnhub::get_items(table = 'persons', filter = filter, download_data = download_data)
+
+  return(dataset)
+}
+
+######################################################
+#' @title clessnverse::loadHubAgoraplusCacheDf
+#' @description
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+loadAgoraplusCacheDf <- function(type, schema, location, download_data=F, token="") {
+
+  # Check the compatibility of metadata and stop if there is an error
+  clessnverse::checkLocationSchemaType(type, location, schema)
+
+    clessnverse::logit("getting Cache from HUB", logger)
+
+    # Connect to the hub with token - if token doesnt exist check if hub_config exists and if not ask for login
+    if (token != "" ) {
+      clessnverse::logit("connecting to hub with token", logger)
+      clessnhub::connect_with_token(token = token)
+    } else {
+      if ( exists("hub_config") && !is.null(hub_config$token) && hub_config$token != "") {
+        clessnverse::logit("refreshing token", logger)
+        clessnhub::refresh_token(hub_config$token, hub_config$url)
+      }
+      else {
+        clessnverse::logit("connecting to hub", logger)
+        clessnhub::connect()
+      }
+    }
+
+    # Filter based on the type of data, the location of persons and schema
+    filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
+    clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
+
+    # Get the data
+    dataset <- clessnhub::get_items(table = 'agoraplus_cache', filter = filter, download_data = download_data)
+    return(dataset)
+}
+
+
+######################################################
+######################################################
+######################################################
+######################################################
 ######################################################
 #                    V1 Functions                    #
+######################################################
+######################################################
+######################################################
+######################################################
 ######################################################
 
 ######################################################
@@ -267,7 +354,7 @@ loadCacheFromHub <- function(context) {
 
 ######################################################
 #' @title clessnverse::loadAgoraplusHUBDatasets
-#' @description Get all data from the HUB or from CSV.
+#' @description Get all data from the HUB.
 # If neither was successful, then create empty datasets from scratch
 #
 # - Cache which contains the raw html scraped from the assnat.qc.ca site
@@ -297,7 +384,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   clessnhub::v1_login(username = username, password = password, url = url)
 
   # Récuperer les données de Cache, Simple et Deep
-  if (opt$cache_update != "rebuild" && opt$cache_update != "skip" &&
+  if (opt$cache_mode != "rebuild" && opt$cache_mode != "skip" &&
       (!exists("dfCache") || is.null(dfCache) || nrow(dfCache) == 0) ||
       opt$hub_update == "refresh") {
 
@@ -305,7 +392,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
     dfCache <<- clessnverse::loadCacheFromHub(context)
   } else {
     clessnverse::logit(paste("not retrieving dfCache from HUB because update mode is",
-                             opt$cache_update,
+                             opt$cache_mode,
                              dplyr::case_when(exists("dfCache") && !is.null(dfCache) ~ "and it aleady exists",
                                        TRUE ~ "")),
                        logger)
@@ -314,7 +401,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
 clessnverse::logit("refreshing token", logger)
 clessnhub::refresh_token(configuration$token, configuration$url)
 
-  if (opt$simple_update != "rebuild" && opt$simple_update != "skip" &&
+  if (opt$simple_mode != "rebuild" && opt$simple_mode != "skip" &&
       (!exists("dfSimple") || is.null(dfSimple) || nrow(dfSimple) == 0) ||
       opt$hub_update == "refresh") {
 
@@ -322,7 +409,7 @@ clessnhub::refresh_token(configuration$token, configuration$url)
     dfSimple <<- clessnverse::loadSimpleFromHub(context)
   } else {
     clessnverse::logit(paste("not retrieving dfSimple from HUB because update mode is",
-                             opt$simple_update,
+                             opt$simple_mode,
                              dplyr::case_when(exists("dfSimple") && !is.null(dfSimple) ~ "and it aleady exists",
                              TRUE ~ "")),
                        logger)
@@ -332,7 +419,7 @@ clessnverse::logit("refreshing token", logger)
 clessnhub::refresh_token(configuration$token, configuration$url)
 
 
-  if (opt$deep_update != "rebuild" && opt$deep_update != "skip" &&
+  if (opt$deep_mode != "rebuild" && opt$deep_mode != "skip" &&
       (!exists("dfDeep") || is.null(dfDeep) || nrow(dfDeep) == 0) ||
       opt$hub_update == "refresh") {
 
@@ -340,7 +427,7 @@ clessnhub::refresh_token(configuration$token, configuration$url)
     dfDeep <<- clessnverse::loadDeepFromHub(context)
   } else {
     clessnverse::logit(paste("not retrieving dfDeep from HUB because update mode is",
-                             opt$deep_update,
+                             opt$deep_mode,
                              dplyr::case_when(exists("dfDeep") && !is.null(dfDeep) ~ "and it aleady exists",
                              TRUE ~ "")),
                        logger)
@@ -348,21 +435,21 @@ clessnhub::refresh_token(configuration$token, configuration$url)
 
   # We only do this if we want to rebuild those datasets from scratch to start fresh
   # or if then don't exist in the environment of the current R session
-  if ( !exists("dfCache") || is.null(dfCache) || opt$cache_update == "rebuild" ) {
+  if ( !exists("dfCache") || is.null(dfCache) || opt$cache_mode == "rebuild" ) {
     clessnverse::logit("creating dfCache either because it doesn't exist or because its rebuild option", logger)
     dfCache <<- clessnverse::createCache(context = context)
   } else {
     clessnverse::logit("not creating dfCache either because it already exists", logger)
   }
 
-  if ( !exists("dfSimple") || is.null(dfSimple) || opt$simple_update == "rebuild" ) {
+  if ( !exists("dfSimple") || is.null(dfSimple) || opt$simple_mode == "rebuild" ) {
     clessnverse::logit("creating dfSimple either because it doesn't exist or because its rebuild option", logger)
     dfSimple <<- clessnverse::createSimple(context = context)
   } else {
     clessnverse::logit("not creating dfSimple either because it already exists", logger)
   }
 
-  if ( !exists("dfDeep") || is.null(dfDeep) || opt$deep_update == "rebuild" ) {
+  if ( !exists("dfDeep") || is.null(dfDeep) || opt$deep_mode == "rebuild" ) {
     clessnverse::logit("creating dfDeep either because it doesn't exist or because its rebuild option", logger)
     dfDeep <<- clessnverse::createDeep(context = context)
   } else {
@@ -376,88 +463,4 @@ clessnhub::refresh_token(configuration$token, configuration$url)
   clessnverse::logit("getting journalists from HUB", logger)
   journalists <<- clessnhub::v1_download_table('warehouse_journalists')
 
-}
-
-
-######################################################
-#' @title clessnverse::loadAgoraplusCSVDatasets
-#' @description Get all data from CSV files.
-# If neither was successful, then create empty datasets from scratch
-#
-# - Cache which contains the raw html scraped from the assnat.qc.ca site
-# - dfSimple which contains one observation per event (débat or press conf)
-# - dfDeep which contains one observation per intervention per event
-# - journalists : a reference dataframe that contains the journalists in order
-#                 to add relevant data on journalists in the interventions
-#                 dataset
-# - deputes     : a reference dataframe that contains the deputes in order
-#                 to add relevant data on journalists in the interventions
-#                 dataset
-#' @param context currently "quebec" | "canada" | "europe" are supported
-#' @param opt see clessnverse::processCommandLineOtions
-#' @param path the path that contains the CSV
-#' @return
-#' @examples example
-#'
-#'
-#'
-#' @export
-loadAgoraplusCSVDatasets <- function(context, opt, path) {
-  clessnverse::logit("getting data from CSV", logger)
-
-  base_csv_folder <<- path
-
-  if (opt$cache_update != "rebuild" && opt$cache_update != "skip") {
-    clessnverse::logit("getting Cache from CSV", logger)
-    dfCache <<- readr::read_csv2(file = paste(base_csv_folder,"dfCacheAgoraPlus.csv",sep='/'))#,
-                         #sep = ";", comment.char = "#")
-  }
-
-  if (opt$simple_update != "rebuild" && opt$simple_update != "skip") {
-    clessnverse::logit("getting Simple from CSV", logger)
-    dfSimple <<- readr::read_csv2(file= paste(base_csv_folder,"dfSimpleAgoraPlus.csv",sep='/'))#,
-                          #sep = ";", comment.char = "#", encoding = "UTF-8")
-  }
-
-  if (opt$deep_update != "rebuild" && opt$deep_update != "skip") {
-    clessnverse::logit("getting Deep from CSV", logger)
-    dfDeep <<- readr::read_csv2(file=paste(base_csv_folder,"dfDeepAgoraPlus.csv",sep='/'))#,
-                        #sep = ";", comment.char = "#", encoding = "UTF-8")
-  }
-
-  # We only do this if we want to rebuild those datasets from scratch to start fresh
-  # or if then don't exist in the environment of the current R session
-  if ( !exists("dfCache") || is.null(dfCache) || opt$cache_update == "rebuild" ) {
-    clessnverse::logit("creating cache either because it doesn't exist or because its rebuild option", logger)
-    dfCache <<- clessnverse::createCache(context = context)
-  }
-
-  if ( !exists("dfSimple") || is.null(dfSimple) || opt$simple_update == "rebuild" ) {
-    clessnverse::logit("creating Simple either because it doesn't exist or because its rebuild option", logger)
-    dfSimple <<- clessnverse::createSimple(context = context)
-  }
-
-  if ( !exists("dfDeep") || is.null(dfDeep) || opt$deep_update == "rebuild" ) {
-    clessnverse::logit("creating Deep either because it doesn't exist or because its rebuild option", logger)
-    dfDeep <<- clessnverse::createDeep(context = context)
-  }
-
-  clessnverse::logit("getting deputes from CSV", logger)
-  deputes <<- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/Deputes_Quebec_Coordonnees.csv", sep=";")
-  deputes <<- deputes %>% tidyr::separate(nom, c("firstName", "lastName1", "lastName2"), " ")
-  names(deputes)[names(deputes)=="femme"] <- "isFemale"
-  names(deputes)[names(deputes)=="parti"] <- "party"
-  names(deputes)[names(deputes)=="circonscription"] <- "currentDistrict"
-  names(deputes)[names(deputes)=="ministre"] <- "isMinister"
-
-  clessnverse::logit("getting journalits from CSV", logger)
-  journalists <<- read.csv(file = "../clessn-blend/_SharedFolder_clessn-blend/data/journalist_handle.csv", sep = ";")
-  journalists$X <- NULL
-  names(journalists)[names(journalists)=="female"] <- "isFemale"
-  names(journalists)[names(journalists)=="author"] <- "fullName"
-  names(journalists)[names(journalists)=="selfIdJourn"] <- "thinkIsJournalist"
-  names(journalists)[names(journalists)=="handle"] <- "twitterHandle"
-  names(journalists)[names(journalists)=="realID"] <- "twittweJobTitle"
-  names(journalists)[names(journalists)=="user_id"] <- "twitterID"
-  names(journalists)[names(journalists)=="protected"] <- "twitterAccountProtected"
 }

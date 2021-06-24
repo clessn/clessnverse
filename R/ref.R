@@ -148,10 +148,26 @@ loadETLRefData <- function() {
                   "october", "november", "december")
 
   patterns_titres <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
-                        "journaliste :", "Le Président", "La Présidente", "La Vice-Présidente",
-                        "Le Vice-Président", "Titre :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe",
+                        "journaliste :", "Titre :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe",
+                        "Le Président", "La Présidente", "La Vice-Présidente","Le Vice-Président",
+                        "LePrésident", "LaPrésidente", "LaVice-Présidente","LeVice-Président",
                         "^M\\.\\s+(.*?)\\s+:", "^Mme\\s+(.*?)\\s+:", "^(Le|La)\\s+(Modérat.*?|Président.*?|Vice-Président.*?)\\s+:",
-                        "^Titre(.*?):", "^Journaliste(.*?):", "^Modérat(.*?):", "^une\\svoix(.*?):", "^des\\svoix(.*?):")
+                        "^Titre(.*?):", "^Journaliste(.*?):", "^Modérat(.*?):",
+                        "^Une\\svoix(.*?):", "^Des\\svoix(.*?):",
+                        "^Une\\sVoix(.*?):", "^Des\\sVoix(.*?):",
+                        "^une\\svoix(.*?):", "^des\\svoix(.*?):",
+                        "(^\\•\\s\\()|(^\\()")
+
+  patterns_intervenants <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
+                        "journaliste :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe",
+                        "Le Président", "La Présidente", "La Vice-Présidente","Le Vice-Président",
+                        "LePrésident", "LaPrésidente", "LaVice-Présidente","LeVice-Président",
+                        "^M\\.\\s+(.*?)\\s+:", "^Mme\\s+(.*?)\\s+:", "^(Le|La)\\s+(Modérat.*?|Président.*?|Vice-Président.*?)\\s+:",
+                        "^Journaliste(.*?):", "^Modérat(.*?):",
+                        "^Une\\svoix(.*?):", "^Des\\svoix(.*?):",
+                        "^Une\\sVoix(.*?):", "^Des\\sVoix(.*?):",
+                        "^une\\svoix(.*?):", "^des\\svoix(.*?):",
+                        "(^\\•\\s\\()|(^\\()")
 
   patterns_periode_de_questions <<- c("période de questions", "période des questions",
                                       "prendre les questions", "prendre vos questions",
@@ -234,3 +250,5 @@ getCanadaMepData <- function (mep_full_name) {
 
   return(data.frame(fullname = fullname, district = district, province = province, fromDate = from_date, toDate = to_date, party = party))
 }
+
+

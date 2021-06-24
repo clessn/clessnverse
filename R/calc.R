@@ -17,6 +17,25 @@ countSentences <- function(textblock) {
   return(sentence.count)
 }
 
+######################################################
+#' @title clessnverse::wordCount
+#' @description returns the number of words in a string
+#' @param txt the string
+#' @return an integer
+#' @examples example
+#'
+#'
+#'
+#' @export
+countWords <- function(txt) {
+  txt <- gsub("[[:punct:][:blank:]]+", " ", txt)
+  txt <- trimws(txt, which="both")
+
+  count <- length(strsplit(txt, "\\s+")[[1]])
+
+  return(count)
+}
+
 
 ######################################################
 #' @title clessnverse::countVecSentences
