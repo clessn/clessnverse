@@ -386,7 +386,7 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
   # Récuperer les données de Cache, Simple et Deep
   if (opt$cache_mode != "rebuild" && opt$cache_mode != "skip" &&
       (!exists("dfCache") || is.null(dfCache) || nrow(dfCache) == 0) ||
-      opt$hub_update == "refresh") {
+      opt$hub_mode == "refresh") {
 
     clessnverse::logit("getting cache from HUB", logger)
     dfCache <<- clessnverse::loadCacheFromHub(context)
@@ -403,7 +403,7 @@ clessnhub::refresh_token(configuration$token, configuration$url)
 
   if (opt$simple_mode != "rebuild" && opt$simple_mode != "skip" &&
       (!exists("dfSimple") || is.null(dfSimple) || nrow(dfSimple) == 0) ||
-      opt$hub_update == "refresh") {
+      opt$hub_mode == "refresh") {
 
     clessnverse::logit("getting simple from HUB", logger)
     dfSimple <<- clessnverse::loadSimpleFromHub(context)
@@ -421,7 +421,7 @@ clessnhub::refresh_token(configuration$token, configuration$url)
 
   if (opt$deep_mode != "rebuild" && opt$deep_mode != "skip" &&
       (!exists("dfDeep") || is.null(dfDeep) || nrow(dfDeep) == 0) ||
-      opt$hub_update == "refresh") {
+      opt$hub_mode == "refresh") {
 
     clessnverse::logit("getting deep from HUB", logger)
     dfDeep <<- clessnverse::loadDeepFromHub(context)

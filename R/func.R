@@ -225,11 +225,11 @@ processCommandLineOptions <- function() {
   opt = optparse::parse_args(opt_parser)
 
   # Process incompatible option sets
-  if ( opt$hub_update == "refresh" &&
+  if ( opt$hub_mode == "refresh" &&
        (opt$simple_mode == "rebuild" || opt$deep_mode == "rebuild" ||  opt$dataframe_mode == "rebuild" ||
         opt$simple_mode == "skip" || opt$deep_mode == "skip" || opt$dataframe_mode == "skip") )
     stop(paste("this set of options:",
-               paste("--hub_update=", opt$hub_update, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
+               paste("--hub_mode=", opt$hub_mode, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
                "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
 
   clessnverse::logit(paste("command line options: ",
