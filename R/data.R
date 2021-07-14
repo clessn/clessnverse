@@ -455,12 +455,4 @@ clessnhub::refresh_token(configuration$token, configuration$url)
   } else {
     clessnverse::logit("not creating dfDeep either because it already exists", logger)
   }
-
-  clessnverse::logit("getting deputes from HUB", logger)
-  deputes <<- clessnhub::v1_download_table('warehouse_quebec_mnas')
-  deputes <<- deputes %>% tidyr::separate(lastName, c("lastName1", "lastName2"), " ")
-
-  clessnverse::logit("getting journalists from HUB", logger)
-  journalists <<- clessnhub::v1_download_table('warehouse_journalists')
-
 }
