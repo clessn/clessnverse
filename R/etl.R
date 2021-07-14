@@ -204,7 +204,6 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
   # Let's handle the local data first
   for (i in 1:nrow(data)) {
     current_event_id <- data$eventID[i]
-    print(current_event_id)
     current_key <- current_event_id
     matching_row_index <- which(dfDestination$key == current_event_id)
 
@@ -222,7 +221,6 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
                                                             metadata.location = metadata$location,
                                                             metadata.format = metadata$format,
                                                             metadata.url = metadata$url))
-        print("hello1")
       } else {
         data_to_commit <- data[i,]
         colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
@@ -239,12 +237,10 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
 
       }
     }
-print(matching_row_index)
-print(length(matching_row_index))
-   # Then append it to the hub
+
+    # Then append it to the hub
     if ( (backend_update == "update" || backend_update == "rebuild" || backend_update == "refresh") && length(matching_row_index) == 0 ) {
       hub_row <- data[i,]
-      print("hello2")
       clessnhub::create_item('agoraplus_cache', current_key, type, schema, metadata, as.list(hub_row))
       clessnverse::logit(paste("creating new item in","agoraplus_cache",":", current_key), logger)
     }
