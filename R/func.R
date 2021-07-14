@@ -131,7 +131,7 @@ getAgoraplusAvailableSchemas <- function() {
 #'
 #' @export
 getAgoraplusAvailableTypes <- function() {
-  return(c("parliament_debate" ,"press_conference", "mp"))
+  return(c("parliament_debate" ,"press_conference", "mp", "public_service"))
 }
 
 
@@ -210,15 +210,17 @@ checkLocationSchemaType <- function(type, location, schema) {
 processCommandLineOptions <- function() {
   option_list = list(
     optparse::make_option(c("-c", "--cache_mode"), type="character", default="rebuild",
-                help="update mode of the cache [default= %default]", metavar="character"),
+                          help="update mode of the cache [default= %default]", metavar="character"),
     optparse::make_option(c("-s", "--simple_mode"), type="character", default="rebuild",
-                help="update mode of the simple dataframe [default= %default]", metavar="character"),
+                          help="update mode of the simple dataframe [default= %default]", metavar="character"),
     optparse::make_option(c("-d", "--deep_mode"), type="character", default="rebuild",
-                help="update mode of the deep dataframe [default= %Adefault]", metavar="character"),
-    optparse::make_option(c("-d", "--dataframe_mode"), type="character", default="rebuild",
-                help="update mode of the dataframe [default= %Adefault]", metavar="character"),
+                          help="update mode of the deep dataframe [default= %Adefault]", metavar="character"),
+    optparse::make_option(c("-l", "--dataframe_mode"), type="character", default="rebuild",
+                          help="update mode of the dataframe [default= %Adefault]", metavar="character"),
     optparse::make_option(c("-h", "--hub_mode"), type="character", default="skip",
-                help="update mode of the hub [default= %default]", metavar="character"),
+                          help="update mode of the hub [default= %default]", metavar="character"),
+    optparse::make_option(c("-t", "--download_data"), type="logical", default=TRUE,
+                          help="download data from the hub [default= %default]", metavar="logical")
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)
