@@ -131,7 +131,7 @@ getAgoraplusAvailableSchemas <- function() {
 #'
 #' @export
 getAgoraplusAvailableTypes <- function() {
-  return(c("parliament_debate" ,"press_conference", "mp", "public_service"))
+  return(c("parliament_debate" ,"press_conference", "mp", "public_service", "journalist"))
 }
 
 
