@@ -141,29 +141,32 @@ getDictionary <- function(topic, method, language = "") {
 #'
 #'
 #' @export
-loadETLRefData <- function() {
+loadETLRefData <- function(username, password, url) {
   months_fr <<- c("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre",
                   "octobre", "novembre", "décembre")
   months_en <<- c("january", "february", "march", "april", "may", "june", "july", "august", "september",
                   "october", "november", "december")
+  days_fr <<- c("lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche")
+  days_en <<- c("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
 
-  patterns_titres <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
-                        "journaliste :", "Titre :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe",
-                        "Le Président", "La Présidente", "La Vice-Présidente","Le Vice-Président",
-                        "LePrésident", "LaPrésidente", "LaVice-Présidente","LeVice-Président",
+  patterns_titres <<- c("^M\\.(.*):", "^Mme(.*):", "^Modérateur", "^Modératrice", "^Le Modérateur", "^La Modératrice",
+                        "^L’hon\\.", "^Le Vice-Président Adjoint", "^La Vice-Présidente Adjointe",
+                        "^Le Président(.*):", "^La Présidente(.*):", "^La Vice-Présidente(.*):","^Le Vice-Président(.*):",
+                        "^LePrésident", "^LaPrésidente", "^LaVice-Présidente","^LeVice-Président",
                         "^M\\.\\s+(.*?)\\s+:", "^Mme\\s+(.*?)\\s+:", "^(Le|La)\\s+(Modérat.*?|Président.*?|Vice-Président.*?)\\s+:",
-                        "^Titre(.*?):", "^Journaliste(.*?):", "^Modérat(.*?):",
+                        "^journaliste :", "^Journaliste(.*?):", "^Modérat(.*?):",
                         "^Une\\svoix(.*?):", "^Des\\svoix(.*?):",
                         "^Une\\sVoix(.*?):", "^Des\\sVoix(.*?):",
                         "^une\\svoix(.*?):", "^des\\svoix(.*?):",
+                        "^Titre:",
                         "(^\\•\\s\\()|(^\\()")
 
-  patterns_intervenants <<- c("M\\.", "Mme", "Modérateur", "Modératrice", "Le Modérateur", "La Modératrice",
-                        "journaliste :", "L’hon\\.", "Le Vice-Président Adjoint", "La Vice-Présidente Adjointe",
-                        "Le Président", "La Présidente", "La Vice-Présidente","Le Vice-Président",
-                        "LePrésident", "LaPrésidente", "LaVice-Présidente","LeVice-Président",
+  patterns_intervenants <<- c("^M\\.(.*):", "^Mme(.*):", "Modérateur", "Modératrice", "^Le Modérateur", "^La Modératrice",
+                        "^L’hon\\.", "^Le Vice-Président Adjoint", "^La Vice-Présidente Adjointe",
+                        "^Le Président(.*):", "^La Présidente(.*):", "^La Vice-Présidente(.*):","^Le Vice-Président(.*):",
+                        "^LePrésident", "^LaPrésidente", "^LaVice-Présidente","^LeVice-Président",
                         "^M\\.\\s+(.*?)\\s+:", "^Mme\\s+(.*?)\\s+:", "^(Le|La)\\s+(Modérat.*?|Président.*?|Vice-Président.*?)\\s+:",
-                        "^Journaliste(.*?):", "^Modérat(.*?):",
+                        "^journaliste :", "^Journaliste(.*?):", "^Modérat(.*?):",
                         "^Une\\svoix(.*?):", "^Des\\svoix(.*?):",
                         "^Une\\sVoix(.*?):", "^Des\\sVoix(.*?):",
                         "^une\\svoix(.*?):", "^des\\svoix(.*?):",
@@ -173,13 +176,30 @@ loadETLRefData <- function() {
                                       "prendre les questions", "prendre vos questions",
                                       "est-ce qu'il y a des questions", "passer aux questions")
 
-  patterns_titres_OOB <<- c("^Ajournement", "^Affaires courantes", "^Affaires du jour", "^Affaires prioritaires")
+  patterns_oob_rubric <<- c("^Affaires courantes", "^Affaires du jour", "^Ajournement")
+  patterns_oob_title <<- c( "^Affaires prioritaires", "^Affaires prioritaires (suite)", "^Déclarations de députés",
+                           "^Dépôt de documents", "^Dépôt de rapports de commissions",
+                           "^Dépôt de pétitions", "^Questions et réponses orales", "^Motions sans préavis",
+                           "^Avis touchant les travaux des commissions", "^Renseignements sur les travaux de l'Assemblée",
+                           "^Présentation de projets de loi", "^Débats sur les rapports de commissions",
+                           "^Débats de fin de séance", "^Annexes", "^Annexes du discours sur le budget",
+                           "^Présence d'ex-parlementaires de l'Assemblée nationale", "^Dépôt de documents (suite)",
+                           "^Votes reportés", "^Réponse à une pétition", "^Réponse une pétition")
 
-  patterns_titres_SOB <<- c("^Discussion générale", "^Décision de la présidence", "^Débats de fin de séance",
-                            "^Vote reporté", "^Dépôt de documents", "^Document déposé", "^Documents déposés",
-                            "^Adoption", "^Commission plénière", "^Remarques préliminaires", "^Votes reportés",
-                            "^Amendements déposés", "^Réponse à une pétition", "^Bilan éthique du gouvernement",
-                            "^Questions et réponses orales", "^plénière")
+  patterns_start_time_debate_fr <<- "^\\((une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|dix-sept|dix-huit|dix-neuf|vingt|vingt-et-une|vingt-deux|vingt-trois)(.*)\\)$"
+
+
+  # Connect to the HUB
+  clessnverse::logit(paste("login to the HUB", url), logger)
+  clessnhub::v1_login(username = username, password = password, url = url)
+
+  clessnverse::logit("getting deputes from HUB", logger)
+  deputes <<- clessnhub::v1_download_table('warehouse_quebec_mnas')
+  deputes <<- deputes %>% tidyr::separate(lastName, c("lastName1", "lastName2"), " ")
+
+  clessnverse::logit("getting journalists from HUB", logger)
+  journalists <<- clessnhub::v1_download_table('warehouse_journalists')
+
 }
 
 
