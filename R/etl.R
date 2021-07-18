@@ -91,7 +91,10 @@ removeSpeakerTitle <- function(string) {
 #'
 #' @export
 splitWords <- function(txt) {
-  txt <- gsub("[[:punct:][:blank:]]+", " ", txt)
+  #txt <- gsub("[[:punct:][:blank:]]+", " ", txt)
+  txt <- gsub("[(\\!|\\'|\\#|\\S|\\%|\\&|\\'|\\(|\\)|\\x|\\+|\\,|\\/|\\:|\\;|\\<|\\=|\\>|\\?|\\@|\\[|\\/|\\]|\\^|\\_|\\{|\\||\\}|\\~)[:blank:]]+", " ", txt)
+  #txt <- gsub("[(\\,|\\.|\\;)[:blank:]]+", " ", txt)
+
   txt <- trimws(txt, which="both")
 
   list <- strsplit(txt, "\\s+")[[1]]
@@ -130,36 +133,62 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
          nrow(dplyr::filter(dfDestination, key == current_key)) == 0 &&
          length(matching_row_index) == 0 ) {
 
-      if (ncol(dfDestination) == 9) {
+      if ( !TRUE %in% grepl("^data.", names(dfDestination)) ) {
         # here we are working without the data part in the dataset
-        dfDestination <- dfDestination %>%
-          rbind(data.frame(key = current_key,
-                           schema = schema,
-                           type = type,
-                           uuid = "",
-                           metadata.format = metadata$format,
-                           metadata.url = metadata$url,
-                           metadata.location = metadata$location,
-                           metadata.parliament_number = metadata$parliament_number,
-                           metadata.parliament_session = metadata$parliament_session
-                           )
-                )
+        metadata_to_commit <- metadata
+        names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+        row_to_commit <- rbind(data.frame(key = current_key,
+                                          type = type,
+                                          schema = schema,
+                                          uuid = "") %>%
+                                 cbind(as.data.frame(metadata_to_commit)))
+        #metadata.location = metadata$location,
+        #metadata.format = metadata$format,
+        #metadata.url = metadata$url))
       } else {
-        # here we are working with the entire dataset (all columns including data)
         data_to_commit <- data[i,]
         colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
-        row_to_commit <- cbind(data.frame(key = current_key,
+        metadata_to_commit <- metadata
+        names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+        row_to_commit <- data.frame(key = current_key,
                                           schema = schema,
                                           type = type,
-                                          uuid = "",
-                                          metadata.format = metadata$format,
-                                          metadata.url = metadata$url,
-                                          metadata.location = metadata$location,
-                                          metadata.parliament_number = metadata$parliament_number,
-                                          metadata.parliament_session = metadata$parliament_session),
-                               cbind(data_to_commit))
+                                          uuid = "") %>%
+                         cbind(as.data.frame(metadata_to_commit)) %>%
+                                 #metadata.format = metadata$format,
+                                 #metadata.url = metadata$url,
+                                 #metadata.location = metadata$location),
+                         cbind(data_to_commit)
+      }
 
-        dfDestination <- dfDestination %>% rbind(row_to_commit)
+      dfDestination <- dfDestination %>% rbind(row_to_commit)
+
+    } else {
+      # if refresh then replace the matching row
+      if (dataframe_mode == "refresh" && nrow(dplyr::filter(dfDestination, key == current_key)) > 0 && length(matching_row_index) > 0) {
+        if ( !TRUE %in% grepl("^data.", names(dfDestination)) ) {
+          metadata_to_commit <- metadata
+          names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+          row_to_commit <- data.frame(key = current_key,
+                                      type = type,
+                                      schema = schema,
+                                      uuid = "") %>%
+                           cbind(as.data.frame(metadata_to_commit))
+
+        } else {
+
+          data_to_commit <- data[i,]
+          colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
+          metadata_to_commit <- metadata
+          names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+          row_to_commit <- data.frame(key = current_key,
+                                            schema = schema,
+                                            type = type,
+                                            uuid = "") %>%
+                           cbind(as.data.frame(metadata_to_commit)) %>%
+                           cbind(data_to_commit)
+        }
+        dfDestination[matching_row_index,] <- row_to_commit
 
       }
     }
@@ -209,31 +238,65 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
 
     # If the eventID+interventionSeqNum does not already exist append it to the dataset
     if ( (dataframe_mode == "update" || dataframe_mode == "rebuild" || dataframe_mode == "refresh") &&
-         nrow(dplyr::filter(dfDestination, key == current_event_id)) == 0 &&
+         nrow(dplyr::filter(dfDestination, key == current_key)) == 0 &&
          length(matching_row_index) == 0 ) {
 
-      if (ncol(dfDestination) == 7) {
+      if ( !TRUE %in% grepl("^data.", names(dfDestination)) ) {
         # here we are working without the data part in the dataset
-        dfDestination <- dfDestination %>% rbind(data.frame(key = current_event_id,
-                                                            type = type,
-                                                            schema = schema,
-                                                            uuid = "",
-                                                            metadata.location = metadata$location,
-                                                            metadata.format = metadata$format,
-                                                            metadata.url = metadata$url))
+        metadata_to_commit <- metadata
+        names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+        row_to_commit <- rbind(data.frame(key = current_event_id,
+                                          type = type,
+                                          schema = schema,
+                                          uuid = "") %>%
+                                 cbind(as.data.frame(metadata_to_commit)))
+        #metadata.location = metadata$location,
+        #metadata.format = metadata$format,
+        #metadata.url = metadata$url))
       } else {
         data_to_commit <- data[i,]
         colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
-        row_to_commit <- cbind(data.frame(key = current_key,
-                                          schema = schema,
-                                          type = type,
-                                          uuid = "",
-                                          metadata.format = metadata$format,
-                                          metadata.url = metadata$url,
-                                          metadata.location = metadata$location),
-                               cbind(data_to_commit))
+        metadata_to_commit <- metadata
+        names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+        row_to_commit <- data.frame(key = current_key,
+                                    schema = schema,
+                                    type = type,
+                                    uuid = "") %>%
+          cbind(as.data.frame(metadata_to_commit)) %>%
+          #metadata.format = metadata$format,
+          #metadata.url = metadata$url,
+          #metadata.location = metadata$location),
+          cbind(data_to_commit)
+      }
 
-        dfDestination <- dfDestination %>% rbind(row_to_commit)
+      dfDestination <- dfDestination %>% rbind(row_to_commit)
+
+    } else {
+      # if refresh then replace the matching row
+      if (dataframe_mode == "refresh" && nrow(dplyr::filter(dfDestination, key == current_key)) > 0 && length(matching_row_index) > 0) {
+        if ( !TRUE %in% grepl("^data.", names(dfDestination)) ) {
+          metadata_to_commit <- metadata
+          names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+          row_to_commit <- data.frame(key = current_event_id,
+                                      type = type,
+                                      schema = schema,
+                                      uuid = "") %>%
+            cbind(as.data.frame(metadata_to_commit))
+
+        } else {
+
+          data_to_commit <- data[i,]
+          colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
+          metadata_to_commit <- metadata
+          names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
+          row_to_commit <- data.frame(key = current_key,
+                                      schema = schema,
+                                      type = type,
+                                      uuid = "") %>%
+            cbind(as.data.frame(metadata_to_commit)) %>%
+            cbind(data_to_commit)
+        }
+        dfDestination[matching_row_index,] <- row_to_commit
 
       }
     }
@@ -275,7 +338,7 @@ convertTextToNumberFR <- function(word) {
                      six=6, sept=7, huit=8, neuf=9)
   teens <- list(onze=11, douze=12, treize=13, quatorze=14, quinze=15,
                 seize=16, "dix-sept"=17, "dix-huit"=18, "dix-neuf"=19)
-  ten_digits <- list(dix=10, vingt=20, trente=30, quarante=40, cinquante=50,
+  ten_digits <- list(dix=10, dipex=10, vingt=20, trente=30, quarante=40, cinquante=50,
                      soixante=60, "soixante-dix"=70, "quatre-vingts"=80, "quatre-vingt-dix"=90)
   doubles <- c(teens,ten_digits)
   out <- 0
