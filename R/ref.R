@@ -186,20 +186,20 @@ loadETLRefData <- function(username, password, url) {
                            "^Présence d'ex-parlementaires de l'Assemblée nationale", "^Dépôt de documents (suite)",
                            "^Votes reportés", "^Réponse à une pétition", "^Réponse une pétition")
 
-  patterns_time_digits_or_text_fr <<- "^\\((une|1\\sheure|deux|2\\sheures|trois|3\\sheures|quatre|4\\sheures|cinq|5\\sheures|six|6\\sheures
-  |sept|7\\sheures|huit|8\\sheures|neuf|9\\sheures|dix|10\\sheures|onze|11\\sheures|douze|12\\sheures|treize|13\\sheures|quatorze|14\\sheures
-  |quinze|15\\sheures|seize|16\\sheures|dix-sept|17\\sheures|dix-huit|18\\sheures|dix-neuf|19\\sheures|vingt|20\\sheures|vingt-et-une|21\\sheures
-  |vingt-deux|22\\sheures|vingt-trois|23\\sheures)(.*)\\)$"
+  patterns_time_digits_or_text_fr <<- "^\\((une|1\\s+heure|deux|2\\s+heures|trois|3\\s+heures|quatre|4\\s+heures|cinq|5\\s+heures|six|6\\s+heures
+  |sept|7\\s+heures|huit|8\\s+heures|neuf|9\\s+heures|dix|10\\s+heures|onze|11\\s+heures|douze|12\\s+heures|treize|13\\s+heures|quatorze|14\\s+heures
+  |quinze|15\\s+heures|seize|16\\s+heures|dix-sept|17\\s+heures|dix-huit|18\\s+heures|dix-neuf|19\\s+heures|vingt|20\\s+heures|vingt-et-une|21\\s+heures
+  |vingt-deux|22\\s+heures|vingt-trois|23\\s+heures)(.*)\\)$"
 
-  patterns_time_digits <<- "^\\((0(\\sheure|h)|1(\\sheure|h)|2(\\sheures|h)|3(\\sheures|h)|4(\\sheures|h)|
-  5(\\sheures|h)|6(\\sheures|h)|7(\\sheures|h)|8(\\sheures|h)|9(\\sheures|h)|10(\\sheures|h)|11(\\sheures|h)|
-  12(\\sheures|h)|13(\\sheures|h)|14(\\sheures|h)|15(\\sheures|h)|16(\\sheures|h)|17(\\sheures|h)|18(\\sheures|h)|
-  19(\\sheures|h)|20(\\sheures|h)|21(\\sheures|h)|22(\\sheures|h)|23(\\sheures|h)|)\\)$"
+  patterns_time_digits <<- "^\\((0(\\s+heure|h)|1(\\s+heure|h)|2(\\s+heures|h)|3(\\s+heures|h)|4(\\s+heures|h)|
+  5(\\s+heures|h)|6(\\s+heures|h)|7(\\s+heures|h)|8(\\s+heures|h)|9(\\s+heures|h)|10(\\s+heures|h)|11(\\s+heures|h)|
+  12(\\s+heures|h)|13(\\s+heures|h)|14(\\s+heures|h)|15(\\s+heures|h)|16(\\s+heures|h)|17(\\s+heures|h)|18(\\s+heures|h)|
+  19(\\s+heures|h)|20(\\s+heures|h)|21(\\s+heures|h)|22(\\s+heures|h)|23(\\s+heures|h)|)\\)$"
 
-  patterns_time_text_fr <<- "^\\((une(\\sheure|h)|deux(\\sheures|h)|trois(\\sheures|h)|quatre(\\sheures|h)|cinq(\\sheures|h)|six(\\sheures|h)
-  |sept(\\sheures|h)|huit(\\sheures|h)|neuf(\\sheures|h)|dix(\\sheures|h)|onze(\\sheures|h)|douze(\\sheures|h)|treize(\\sheures|h)|quatorze(\\sheures|h)
-  |quinze(\\sheures|h)|seize(\\sheures|h)|dix-sept(\\sheures|h)|dix-huit(\\sheures|h)|dix-neuf(\\sheures|h)|vingt(\\sheures|h)|vingt-et-une(\\sheures|h)
-  |vingt-deux(\\sheures|h)|vingt-trois(\\sheures|h))(.*)\\)$"
+  patterns_time_text_fr <<- "^\\((une(\\s+heure|h)|deux(\\s+heures|h)|trois(\\s+heures|h)|quatre(\\s+heures|h)|cinq(\\s+heures|h)|six(\\s+heures|h)
+  |sept(\\s+heures|h)|huit(\\s+heures|h)|neuf(\\s+heures|h)|dix(\\s+heures|h)|onze(\\s+heures|h)|douze(\\s+heures|h)|treize(\\s+heures|h)|quatorze(\\s+heures|h)
+  |quinze(\\s+heures|h)|seize(\\s+heures|h)|dix-sept(\\s+heures|h)|dix-huit(\\s+heures|h)|dix-neuf(\\s+heures|h)|vingt(\\s+heures|h)|vingt-et-une(\\s+heures|h)
+  |vingt-deux(\\s+heures|h)|vingt-trois(\\s+heures|h))(.*)\\)$"
 
 
   # Connect to the HUB
