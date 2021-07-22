@@ -142,9 +142,6 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
                                           schema = schema,
                                           uuid = "") %>%
                                  cbind(as.data.frame(metadata_to_commit)))
-        #metadata.location = metadata$location,
-        #metadata.format = metadata$format,
-        #metadata.url = metadata$url))
       } else {
         data_to_commit <- data[i,]
         colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
@@ -155,9 +152,6 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
                                           type = type,
                                           uuid = "") %>%
                          cbind(as.data.frame(metadata_to_commit)) %>%
-                                 #metadata.format = metadata$format,
-                                 #metadata.url = metadata$url,
-                                 #metadata.location = metadata$location),
                          cbind(data_to_commit)
       }
 
@@ -167,16 +161,17 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
       # if refresh then replace the matching row
       if (dataframe_mode == "refresh" && nrow(dplyr::filter(dfDestination, key == current_key)) > 0 && length(matching_row_index) > 0) {
         if ( !TRUE %in% grepl("^data.", names(dfDestination)) ) {
+          # we're working with download_data = false => a shortened version of what's in the hub
           metadata_to_commit <- metadata
           names(metadata_to_commit) <- paste("metadata.", names(metadata_to_commit), sep='')
           row_to_commit <- data.frame(key = current_key,
                                       type = type,
                                       schema = schema,
-                                      uuid = "") %>%
+                                      uuid = dfDestination$uuid[matching_row_index]) %>%
                            cbind(as.data.frame(metadata_to_commit))
 
         } else {
-
+          # we're working with the entire data from the hub
           data_to_commit <- data[i,]
           colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
           metadata_to_commit <- metadata
@@ -184,7 +179,7 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
           row_to_commit <- data.frame(key = current_key,
                                             schema = schema,
                                             type = type,
-                                            uuid = "") %>%
+                                            uuid = dfDestination$uuid[matching_row_index]) %>%
                            cbind(as.data.frame(metadata_to_commit)) %>%
                            cbind(data_to_commit)
         }
@@ -250,9 +245,6 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
                                           schema = schema,
                                           uuid = "") %>%
                                  cbind(as.data.frame(metadata_to_commit)))
-        #metadata.location = metadata$location,
-        #metadata.format = metadata$format,
-        #metadata.url = metadata$url))
       } else {
         data_to_commit <- data[i,]
         colnames(data_to_commit) <- paste("data.", names(data_to_commit), sep='')
@@ -263,9 +255,6 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
                                     type = type,
                                     uuid = "") %>%
           cbind(as.data.frame(metadata_to_commit)) %>%
-          #metadata.format = metadata$format,
-          #metadata.url = metadata$url,
-          #metadata.location = metadata$location),
           cbind(data_to_commit)
       }
 
