@@ -200,19 +200,6 @@ loadETLRefData <- function(username, password, url) {
   |sept(\\s+heures|h)|huit(\\s+heures|h)|neuf(\\s+heures|h)|dix(\\s+heures|h)|onze(\\s+heures|h)|douze(\\s+heures|h)|treize(\\s+heures|h)|quatorze(\\s+heures|h)
   |quinze(\\s+heures|h)|seize(\\s+heures|h)|dix-sept(\\s+heures|h)|dix-huit(\\s+heures|h)|dix-neuf(\\s+heures|h)|vingt(\\s+heures|h)|vingt-et-une(\\s+heures|h)
   |vingt-deux(\\s+heures|h)|vingt-trois(\\s+heures|h))(.*)\\)$"
-
-
-  # Connect to the HUB
-  clessnverse::logit(paste("login to the HUB", url), logger)
-  clessnhub::v1_login(username = username, password = password, url = url)
-
-  clessnverse::logit("getting deputes from HUB", logger)
-  deputes <<- clessnhub::v1_download_table('warehouse_quebec_mnas')
-  deputes <<- deputes %>% tidyr::separate(lastName, c("lastName1", "lastName2"), " ")
-
-  clessnverse::logit("getting journalists from HUB", logger)
-  journalists <<- clessnhub::v1_download_table('warehouse_journalists')
-
 }
 
 
