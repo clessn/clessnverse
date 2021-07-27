@@ -4,7 +4,7 @@ Welcome to our work in progress. This branch is dedicated to the creation of an 
 
 The package is divided into 6 `R` scripts each containing multiple functions :
 
-  1. [agoraplus.R](https://github.com/clessn/clessnverse/blob/v2/R/agoraplus.R
+  1. [agoraplus.R](https://github.com/clessn/clessnverse/blob/v2/R/agoraplus.R)
   2. [civimetre.R](https://github.com/clessn/clessnverse/blob/v2/R/civimetre.R)
   3. [radarplus.R](https://github.com/clessn/clessnverse/blob/v2/R/radarplus.R)
   4. [domestication.R](https://github.com/clessn/clessnverse/blob/v2/R/domestication.R)
