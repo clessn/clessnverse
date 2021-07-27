@@ -4,12 +4,12 @@ Welcome to our work in progress. This branch is dedicated to the creation of an 
 
 The package is divided into 6 `R` scripts each containing multiple functions :
 
-  1. [agoraplus.R](https://github.com/clessn/clessnverse/tree/v2)
-  2. [civimetre.R](https://github.com/clessn/clessnverse/tree/v2)
-  3. [radarplus.R](https://github.com/clessn/clessnverse/tree/v2)
-  4. [domestication.R](https://github.com/clessn/clessnverse/tree/v2)
-  5. [analysis.R](https://github.com/clessn/clessnverse/tree/v2)
-  6. [visualization.R](https://github.com/clessn/clessnverse/tree/v2)
+  1. [agoraplus.R](https://github.com/clessn/clessnverse/blob/v2/R/agoraplus.R
+  2. [civimetre.R](https://github.com/clessn/clessnverse/blob/v2/R/civimetre.R)
+  3. [radarplus.R](https://github.com/clessn/clessnverse/blob/v2/R/radarplus.R)
+  4. [domestication.R](https://github.com/clessn/clessnverse/blob/v2/R/domestication.R)
+  5. [analysis.R](https://github.com/clessn/clessnverse/blob/v2/R/analysis.R)
+  6. [visualization.R](https://github.com/clessn/clessnverse/blob/v2/R/visualization.R)
 
 It might not be the best way to organize our repo long term, but for the scale we are in, it's the best option. 
 
