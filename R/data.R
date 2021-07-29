@@ -136,7 +136,12 @@ loadAgoraplusPersonsDf <- function(type, schema, location, overwrite=F , downloa
   }
 
   # Filter based on the type of data, the location of persons and schema
-  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
+  if (location == "all") {
+    filter <- clessnhub::create_filter(type = type, schema = schema)
+  } else {
+    filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
+  }
+
   clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
 
   # Get the data
