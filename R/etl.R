@@ -27,7 +27,9 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
     text <- stringr::str_replace_all(text, "\\»", "")
     text <- stringr::str_replace_all(text, "\\’", "\\\\'")
 
-    headers <- httr::add_headers(`Ocp-Apim-Subscription-Key`="059a35dce0d24b99a8a5b176d95199be",
+    key <- Sys.getenv("AZURE_TRANSLATE_KEY")
+
+    headers <- httr::add_headers(`Ocp-Apim-Subscription-Key`=key,
                                  `Ocp-Apim-Subscription-Region`= "canadacentral",
                                  `Content-Type` = "application/json")
 
