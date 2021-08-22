@@ -194,7 +194,7 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
     if ( (backend_update == "update" || backend_update == "rebuild" || backend_update == "refresh") && length(matching_row_index) == 0 ) {
       hub_row <- data[i,]
       clessnhub::create_item(table = 'agoraplus_interventions', key = current_key, type = type, schema = schema, metadata = metadata, data = as.list(hub_row))
-      clessnverse::logit(paste("creating new item in","agoraplus_interventions",":", current_key), logger)
+      clessnverse::logit(message = paste("creating new item in","agoraplus_interventions",":", current_key), logger = logger)
     }
 
     if ( backend_update == "refresh" && length(matching_row_index) > 0 &&
@@ -202,7 +202,7 @@ commitAgoraplusInterventions <- function (dfDestination, type, schema, metadata,
 
       hub_row <- data[i,]
       clessnhub::edit_item('agoraplus_interventions', current_key, type, schema, metadata, as.list(hub_row))
-      clessnverse::logit(paste("updating existing item in", "agoraplus_interventions",":", dfDestination$uuid[matching_row_index], current_key), logger)
+      clessnverse::logit(message = paste("updating existing item in", "agoraplus_interventions",":", dfDestination$uuid[matching_row_index], current_key), logger = logger)
     }
   } #for (i in i:nrow(data))
   return(dfDestination)
@@ -296,7 +296,7 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
     if ( (backend_update == "update" || backend_update == "rebuild" || backend_update == "refresh") && length(matching_row_index) == 0 ) {
       hub_row <- data[i,]
       clessnhub::create_item('agoraplus_cache', current_key, type, schema, metadata, as.list(hub_row))
-      clessnverse::logit(paste("creating new item in","agoraplus_cache",":", current_key), logger)
+      clessnverse::logit(message = paste("creating new item in","agoraplus_cache",":", current_key), logger = logger)
     }
 
     if ( backend_update == "refresh" && length(matching_row_index) > 0 &&
@@ -304,7 +304,7 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
 
       hub_row <- data[i,]
       clessnhub::edit_item('agoraplus_cache', current_key, type, schema, metadata, as.list(hub_row))
-      clessnverse::logit(paste("updating existing item in", "agoraplus_cache",":", dfDestination$uuid[matching_row_index], current_key), logger)
+      clessnverse::logit(message = paste("updating existing item in", "agoraplus_cache",":", dfDestination$uuid[matching_row_index], current_key), logger = logger)
     }
   } #for (i in i:nrow(data))
   return(dfDestination)
@@ -437,7 +437,7 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         dplyr::mutate_if(is.logical , tidyr::replace_na, replace = 0)
 
       clessnhub::v1_create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
-      #clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
+      #clessnverse::logit(message = paste("creating new item in",hubTableName,":", dfSource$eventID), logger = logger)
     }
 
     if ( modeHub == "refresh" && length(matching_row_index) > 0 &&
@@ -449,12 +449,12 @@ commitDeepRows <- function (dfSource, dfDestination, hubTableName, modeLocalData
         dplyr::mutate_if(is.logical , tidyr::replace_na, replace = 0)
 
       clessnhub::v1_edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
-      #clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
+      #clessnverse::logit(message = paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger = logger)
 
     }
 
     #if (is.null(hub_row) && length(matching_row_index) > 0)
-    #  clessnverse::logit(paste(hubTableName,"not updated because update mode is", modeHub, "and item already exists"), logger)
+    #  clessnverse::logit(message = paste(hubTableName,"not updated because update mode is", modeHub, "and item already exists"), logger = logger)
 
   } #for (i in i:nrow(dfSource))
   return(dfDestination)
@@ -509,7 +509,7 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         dplyr::mutate_if(is.numeric , tidyr::replace_na, replace = 0) %>%
         dplyr::mutate_if(is.character , tidyr::replace_na, replace = "") %>%
         dplyr::mutate_if(is.logical , tidyr::replace_na, replace = 0)
-      clessnverse::logit(paste("creating new item in",hubTableName,":", dfSource$eventID), logger)
+      clessnverse::logit(message = paste("creating new item in",hubTableName,":", dfSource$eventID), logger = logger)
       clessnhub::v1_create_item(as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
@@ -521,12 +521,12 @@ commitSimpleRows <- function (dfSource, dfDestination, hubTableName, modeLocalDa
         dplyr::mutate_if(is.character , tidyr::replace_na, replace = "") %>%
         dplyr::mutate_if(is.logical , tidyr::replace_na, replace = 0)
 
-      clessnverse::logit(paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger)
+      clessnverse::logit(message = paste("updating existing item in", hubTableName,":", dfDestination$uuid[matching_row_index]), logger = logger)
       clessnhub::v1_edit_item(dfDestination$uuid[matching_row_index], as.list(hub_row[1,-c(1:4)]), hubTableName)
     }
 
     if (is.null(hub_row) && length(matching_row_index) > 0)
-      clessnverse::logit(paste(hubTableName,"not updated because update mode is", modeHub, "and item already exists"), logger)
+      clessnverse::logit(message = paste(hubTableName,"not updated because update mode is", modeHub, "and item already exists"), logger = logger)
 
   } #for (i in i:nrow(dfSource))
 

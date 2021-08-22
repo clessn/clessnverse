@@ -10,7 +10,7 @@
 #' @export
 version <- function() {
   version <- "1.4.4"
-  clessnverse::logit(version, logger)
+  clessnverse::logit(message = version, logger = logger)
   return(version)
 }
 
@@ -55,7 +55,7 @@ loginit <- function(script, backend, logpath=".") {
 #'
 #'
 #' @export
-logit <- function(scriptname, message, logger = NULL) {
+logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
   tryCatch(
     {
       if ("hub_log" %in% logger) {
@@ -67,7 +67,7 @@ logit <- function(scriptname, message, logger = NULL) {
       }
     },
     error = function(e) {
-      cat("")
+      cat("console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", message)
     }
   )
 }
@@ -245,8 +245,8 @@ processCommandLineOptions <- function() {
                paste("--hub_mode=", opt$hub_mode, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
                "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
 
-  clessnverse::logit(paste("command line options: ",
-                           paste(c(rbind(paste(" ",names(opt),"=",sep=''),opt)), collapse='')), logger)
+  clessnverse::logit(message = paste("command line options: ",
+                           paste(c(rbind(paste(" ",names(opt),"=",sep=''),opt)), collapse='')), logger = logger)
 
   return(opt)
 }

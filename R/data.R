@@ -76,26 +76,26 @@ loadAgoraplusInterventionsDf <- function(type, schema, location, download_data=F
   # Check the compatibility of metadata and stop if there is an error
   clessnverse::checkLocationSchemaType(type, location, schema)
 
-  clessnverse::logit("getting Interventions from HUB", logger)
+  clessnverse::logit(message = "getting Interventions from HUB", logger = logger)
 
   # Connect to the hub with token - if token doesnt exist check if hub_config exists and if not ask for login
   if (token != "" ) {
-    clessnverse::logit("connecting to hub with token", logger)
+    clessnverse::logit(message = "connecting to hub with token", logger = logger)
     clessnhub::connect_with_token(token = token)
   } else {
     if ( exists("hub_config") && !is.null(hub_config$token) && hub_config$token != "") {
-      clessnverse::logit("refreshing token", logger)
+      clessnverse::logit(message = "refreshing token", logger = logger)
       clessnhub::refresh_token(hub_config$token, hub_config$url)
     }
     else {
-      clessnverse::logit("connecting to hub", logger)
+      clessnverse::logit(message = "connecting to hub", logger = logger)
       clessnhub::connect()
     }
   }
 
   # Filter based on the type of data, the location of event/interventions and schema
   filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
-  clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
+  clessnverse::logit(message = paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger = logger)
 
   # Get the data
   dataset <- clessnhub::get_items(table = 'agoraplus_interventions', filter = filter, download_data = download_data)
@@ -118,19 +118,19 @@ loadAgoraplusPersonsDf <- function(type, schema, location, overwrite=F , downloa
   # Check the compatibility of metadata and stop if there is an error
   clessnverse::checkLocationSchemaType(type, location, schema)
 
-  clessnverse::logit("getting Persons from HUB", logger)
+  clessnverse::logit(message = "getting Persons from HUB", logger = logger)
 
   # Connect to the hub with token - if token doesnt exist check if hub_config exists and if not ask for login
   if (token != "" ) {
-    clessnverse::logit("connecting to hub with token", logger)
+    clessnverse::logit(message = "connecting to hub with token", logger = logger)
     clessnhub::connect_with_token(token = token)
   } else {
     if ( exists("hub_config") && !is.null(hub_config$token) && hub_config$token != "") {
-      clessnverse::logit("refreshing token", logger)
+      clessnverse::logit(message = "refreshing token", logger = logger)
       clessnhub::refresh_token(hub_config$token, hub_config$url)
     }
     else {
-      clessnverse::logit("connecting to hub", logger)
+      clessnverse::logit(message = "connecting to hub", logger = logger)
       clessnhub::connect()
     }
   }
@@ -142,7 +142,7 @@ loadAgoraplusPersonsDf <- function(type, schema, location, overwrite=F , downloa
     filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
   }
 
-  clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
+  clessnverse::logit(message = paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger = logger)
 
   # Get the data
   dataset <- clessnhub::get_items(table = 'persons', filter = filter, download_data = download_data)
@@ -165,26 +165,26 @@ loadAgoraplusCacheDf <- function(type, schema, location, download_data=F, token=
   # Check the compatibility of metadata and stop if there is an error
   clessnverse::checkLocationSchemaType(type, location, schema)
 
-    clessnverse::logit("getting Cache from HUB", logger)
+    clessnverse::logit(message = "getting Cache from HUB", logger = logger)
 
     # Connect to the hub with token - if token doesnt exist check if hub_config exists and if not ask for login
     if (token != "" ) {
-      clessnverse::logit("connecting to hub with token", logger)
+      clessnverse::logit(message = "connecting to hub with token", logger = logger)
       clessnhub::connect_with_token(token = token)
     } else {
       if ( exists("hub_config") && !is.null(hub_config$token) && hub_config$token != "") {
-        clessnverse::logit("refreshing token", logger)
+        clessnverse::logit(message = "refreshing token", logger = logger)
         clessnhub::refresh_token(hub_config$token, hub_config$url)
       }
       else {
-        clessnverse::logit("connecting to hub", logger)
+        clessnverse::logit(message = "connecting to hub", logger = logger)
         clessnhub::connect()
       }
     }
 
     # Filter based on the type of data, the location of persons and schema
     filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
-    clessnverse::logit(paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger)
+    clessnverse::logit(message = paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger = logger)
 
     # Get the data
     dataset <- clessnhub::get_items(table = 'agoraplus_cache', filter = filter, download_data = download_data)
@@ -385,7 +385,7 @@ loadCacheFromHub <- function(context) {
 loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
 
   # Connect to the HUB
-  clessnverse::logit(paste("login to the HUB", url), logger)
+  clessnverse::logit(message = paste("login to the HUB", url), logger = logger)
   clessnhub::v1_login(username = username, password = password, url = url)
 
   # Récuperer les données de Cache, Simple et Deep
@@ -393,34 +393,34 @@ loadAgoraplusHUBDatasets <- function(context, opt, username, password, url) {
       (!exists("dfCache") || is.null(dfCache) || nrow(dfCache) == 0) ||
       opt$hub_mode == "refresh") {
 
-    clessnverse::logit("getting cache from HUB", logger)
+    clessnverse::logit(message = "getting cache from HUB", logger = logger)
     dfCache <<- clessnverse::loadCacheFromHub(context)
   } else {
-    clessnverse::logit(paste("not retrieving dfCache from HUB because update mode is",
+    clessnverse::logit(message = paste("not retrieving dfCache from HUB because update mode is",
                              opt$cache_mode,
                              dplyr::case_when(exists("dfCache") && !is.null(dfCache) ~ "and it aleady exists",
                                        TRUE ~ "")),
-                       logger)
+                       logger = logger)
   }
 
-clessnverse::logit("refreshing token", logger)
+clessnverse::logit(message = "refreshing token", logger = logger)
 clessnhub::refresh_token(configuration$token, configuration$url)
 
   if (opt$simple_mode != "rebuild" && opt$simple_mode != "skip" &&
       (!exists("dfSimple") || is.null(dfSimple) || nrow(dfSimple) == 0) ||
       opt$hub_mode == "refresh") {
 
-    clessnverse::logit("getting simple from HUB", logger)
+    clessnverse::logit(message = "getting simple from HUB", logger = logger)
     dfSimple <<- clessnverse::loadSimpleFromHub(context)
   } else {
-    clessnverse::logit(paste("not retrieving dfSimple from HUB because update mode is",
+    clessnverse::logit(message = paste("not retrieving dfSimple from HUB because update mode is",
                              opt$simple_mode,
                              dplyr::case_when(exists("dfSimple") && !is.null(dfSimple) ~ "and it aleady exists",
                              TRUE ~ "")),
-                       logger)
+                       logger = logger)
   }
 
-clessnverse::logit("refreshing token", logger)
+clessnverse::logit(message = "refreshing token", logger = logger)
 clessnhub::refresh_token(configuration$token, configuration$url)
 
 
@@ -428,36 +428,36 @@ clessnhub::refresh_token(configuration$token, configuration$url)
       (!exists("dfDeep") || is.null(dfDeep) || nrow(dfDeep) == 0) ||
       opt$hub_mode == "refresh") {
 
-    clessnverse::logit("getting deep from HUB", logger)
+    clessnverse::logit(message = "getting deep from HUB", logger = logger)
     dfDeep <<- clessnverse::loadDeepFromHub(context)
   } else {
-    clessnverse::logit(paste("not retrieving dfDeep from HUB because update mode is",
+    clessnverse::logit(message = paste("not retrieving dfDeep from HUB because update mode is",
                              opt$deep_mode,
                              dplyr::case_when(exists("dfDeep") && !is.null(dfDeep) ~ "and it aleady exists",
                              TRUE ~ "")),
-                       logger)
+                       logger = logger)
   }
 
   # We only do this if we want to rebuild those datasets from scratch to start fresh
   # or if then don't exist in the environment of the current R session
   if ( !exists("dfCache") || is.null(dfCache) || opt$cache_mode == "rebuild" ) {
-    clessnverse::logit("creating dfCache either because it doesn't exist or because its rebuild option", logger)
+    clessnverse::logit(message = "creating dfCache either because it doesn't exist or because its rebuild option", logger = logger)
     dfCache <<- clessnverse::createCache(context = context)
   } else {
-    clessnverse::logit("not creating dfCache either because it already exists", logger)
+    clessnverse::logit(message = "not creating dfCache either because it already exists", logger = logger)
   }
 
   if ( !exists("dfSimple") || is.null(dfSimple) || opt$simple_mode == "rebuild" ) {
-    clessnverse::logit("creating dfSimple either because it doesn't exist or because its rebuild option", logger)
+    clessnverse::logit(message = "creating dfSimple either because it doesn't exist or because its rebuild option", logger = logger)
     dfSimple <<- clessnverse::createSimple(context = context)
   } else {
-    clessnverse::logit("not creating dfSimple either because it already exists", logger)
+    clessnverse::logit(message = "not creating dfSimple either because it already exists", logger = logger)
   }
 
   if ( !exists("dfDeep") || is.null(dfDeep) || opt$deep_mode == "rebuild" ) {
-    clessnverse::logit("creating dfDeep either because it doesn't exist or because its rebuild option", logger)
+    clessnverse::logit(message = "creating dfDeep either because it doesn't exist or because its rebuild option", logger = logger)
     dfDeep <<- clessnverse::createDeep(context = context)
   } else {
-    clessnverse::logit("not creating dfDeep either because it already exists", logger)
+    clessnverse::logit(message = "not creating dfDeep either because it already exists", logger = logger)
   }
 }
