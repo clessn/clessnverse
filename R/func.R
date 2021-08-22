@@ -67,7 +67,7 @@ logit <- function(scriptname, message, logger = NULL) {
       }
     },
     error = function(e) {
-      cat("")
+      cat(" ")
     }
   )
 }
