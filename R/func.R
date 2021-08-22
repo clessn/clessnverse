@@ -157,7 +157,7 @@ getAgoraplusAvailableTypes <- function() {
 #'
 #' @export
 getAgoraplusAvailableLogBackends <- function() {
-  return(c("hub" ,"file"))
+  return(c("hub" ,"file", c("hub","file")))
 }
 
 
