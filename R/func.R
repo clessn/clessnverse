@@ -25,16 +25,22 @@ version <- function() {
 #'
 #'
 #' @export
-loginit <- function(script,backend,logpath=".") {
+loginit <- function(script, backend, logpath=".") {
   available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
   if (logpath=="") logpath <- "."
 
-  if (missing(backend) || !backend %in% available_backends)
-    stop(paste("You must provide a backend in which to store the logs",
-               "possible values are", paste(available_backends,collapse=' | ')), call. = F)
+  if (missing(backend) || !backend %in% available_backends) stop(paste("You must provide a backend in which to store the logs",
+                                                                       "possible values are", paste(available_backends,collapse=' | ')), call. = F)
 
-  if (backend == "file") return(file(paste(logpath, "/",script,".log",sep=""), open = "at"))
-  if (backend == "hub") stop("not yet implemented", call. = F)
+  file_logger <- NULL
+  hub_logger <- NULL
+
+  if ("file" %in% backend) file_logger <- file(paste(logpath, "/",script,".log",sep=""), open = "at")
+
+  if ("hub" %in% backend) hub_logger <- "hub_log"
+
+  if (!is.null(file_logger) || !is.null(hub_logger)) return(list(file_logger, hub_logger))
+
   stop("Log backend not supported", call. = F)
 }
 
@@ -49,15 +55,19 @@ loginit <- function(script,backend,logpath=".") {
 #'
 #'
 #' @export
-logit <- function(message, logger = NULL) {
+logit <- function(scriptname, message, logger = NULL) {
   tryCatch(
     {
-      if (getConnection(logger)) {
-        cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger)
+      if ("hub_log" %in% logger) {
+        clessnhub::logToHub(scriptname, data=message, metadata = format(Sys.time(), "%Y-%m-%d %X"))
+      }
+
+      if (getConnection(logger[[1]])) {
+        cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger[[1]])
       }
     },
     error = function(e) {
-      cat("activity log : ",message,"\n")
+      cat("")
     }
   )
 }
@@ -76,11 +86,12 @@ logit <- function(message, logger = NULL) {
 logclose <- function(logger) {
   tryCatch(
     {
-      if (getConnection(logger)) {
-        close(logger)
+      if (getConnection(logger[[1]])) {
+        close(logger[[1]])
       }
     },
     error = function(e) {
+      cat("")
     }
   )
 }
