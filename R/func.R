@@ -29,7 +29,7 @@ loginit <- function(script, backend, logpath=".") {
   available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
   if (logpath=="") logpath <- "."
 
-  if (missing(backend) || !backend %in% available_backends) stop(paste("You must provide a backend in which to store the logs",
+  if (missing(backend) || FALSE %in% (backend %in% available_backends)) stop(paste("You must provide a backend in which to store the logs",
                                                                        "possible values are", paste(available_backends,collapse=' | ')), call. = F)
 
   file_logger <- NULL
@@ -157,7 +157,7 @@ getAgoraplusAvailableTypes <- function() {
 #'
 #' @export
 getAgoraplusAvailableLogBackends <- function() {
-  return(c("hub" ,"file", "file,hub", "hub,file"))
+  return(c("hub" ,"file"))
 }
 
 
