@@ -141,7 +141,7 @@ getDictionary <- function(topic, method, language = "") {
 #'
 #'
 #' @export
-loadETLRefData <- function(username, password, url) {
+loadETLRefData <- function() {
   months_fr <<- c("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre",
                   "octobre", "novembre", "décembre")
   months_en <<- c("january", "february", "march", "april", "may", "june", "july", "august", "september",
