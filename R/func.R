@@ -88,9 +88,11 @@ logclose <- function(logger) {
     {
       if (getConnection(logger[[1]])) {
         close(logger[[1]])
+        logger <<- NULL
       }
     },
     error = function(e) {
+      logger <<- NULL
       cat("")
     }
   )
