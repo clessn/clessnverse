@@ -62,6 +62,10 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
         clessnhub::logToHub(scriptname, data=message, metadata = format(Sys.time(), "%Y-%m-%d %X"))
       }
 
+      if ("console" %in% logger) {
+        cat(scriptname,format(Sys.time(), "%Y-%m-%d %X"), "-", message, "\n")
+      }
+
       if (getConnection(logger[[1]])) {
         cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger[[1]])
       }
@@ -157,7 +161,7 @@ getAgoraplusAvailableTypes <- function() {
 #'
 #' @export
 getAgoraplusAvailableLogBackends <- function() {
-  return(c("hub" ,"file"))
+  return(c("hub" ,"file", "console"))
 }
 
 
