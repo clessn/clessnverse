@@ -69,11 +69,11 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
       }
 
       if (getConnection(logger[[1]])) {
-        cat(format(Sys.time(), "%Y-%m-%d %X"), ":", message, "\n", append = T, file = logger[[1]])
+        cat(format("\n", Sys.time(), "%Y-%m-%d %X"), ":", message, append = T, file = logger[[1]])
       }
     },
     error = function(e) {
-      cat("console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "), "\n")
+      cat("\n", "console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "))
     }
   )
 }
