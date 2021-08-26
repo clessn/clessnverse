@@ -65,15 +65,15 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
       }
 
       if ("console" %in% logger) {
-        cat("\n", scriptname,format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "))
+        cat(scriptname,format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "), "\n")
       }
 
       if (getConnection(logger[[1]])) {
-        cat(format("\n", Sys.time(), "%Y-%m-%d %X"), ":", paste(message, collapse = " "), append = T, file = logger[[1]])
+        cat(format(Sys.time(), "%Y-%m-%d %X"), ":", paste(message, collapse = " "), "\n", append = T, file = logger[[1]])
       }
     },
     error = function(e) {
-      cat("\n", "console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "))
+      cat("console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "), "\n")
     }
   )
 }
