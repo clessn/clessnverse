@@ -55,7 +55,7 @@ loginit <- function(script, backend, logpath=".") {
   backend_list <- list(file_logger, hub_logger, console_logger)
   backend_list[sapply(backend_list, is.null)] <- NULL
 
-  if (!is.null(file_logger) || !is.null(hub_logger)) return(backend_list)
+  if (!is.null(file_logger) || !is.null(hub_logger) || !is.null(console_logger)) return(backend_list)
 
   stop("Log backend not supported", call. = F)
 }
