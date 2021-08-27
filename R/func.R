@@ -32,25 +32,30 @@ loginit <- function(script, backend, logpath=".") {
   if (missing(backend)) stop(paste("You must provide a backend in which to store the logs",
                                    "possible values are", paste(available_backends,collapse=' | ')), call. = F)
 
-  if (substr(str(backend),1,5) == "chr [") {
-    print("list")
-  }
-
-  if (substr(str(backend, 1, 5)) == 'chr \\"') {
-    print("char")
-  }
+    if(length(backend) == 1 && grepl(",", backend)) {
+      backend <- trimws(strsplit(backend, ",")[[1]])
+    } else {
+      if (length(backend) == 1) {
+        # nothing to do we only have one string without csv
+      } else {
+        if (length(backend) > 1) {
+          # nothing to do we already have a list
+        }
+      }
+    }
 
   file_logger <- NULL
   hub_logger <- NULL
   console_logger <- NULL
 
   if ("file" %in% backend) file_logger <- file(paste(logpath, "/",script,".log",sep=""), open = "at")
-
   if ("hub" %in% backend) hub_logger <- "hub_log"
-
   if ("console" %in% backend) console_logger <- "console"
 
-  if (!is.null(file_logger) || !is.null(hub_logger)) return(list(file_logger, hub_logger, console_logger))
+  backend_list <- list(file_logger, hub_logger, console_logger)
+  backend_list[sapply(backend_list, is.null)] <- NULL
+
+  if (!is.null(file_logger) || !is.null(hub_logger)) return(backend_list)
 
   stop("Log backend not supported", call. = F)
 }
