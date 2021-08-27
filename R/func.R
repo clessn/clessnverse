@@ -34,6 +34,7 @@ loginit <- function(script, backend, logpath=".") {
 
   file_logger <- NULL
   hub_logger <- NULL
+  console_logger <- NULL
 
   if ("file" %in% backend) file_logger <- file(paste(logpath, "/",script,".log",sep=""), open = "at")
 
@@ -65,7 +66,7 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
       }
 
       if ("console" %in% logger) {
-        cat(scriptname,format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "), "\n")
+        cat(format(Sys.time(), "%Y-%m-%d %X"), scriptname, "-", paste(message, collapse = " "), "\n")
       }
 
       if (getConnection(logger[[1]])) {
