@@ -29,8 +29,16 @@ loginit <- function(script, backend, logpath=".") {
   available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
   if (logpath=="") logpath <- "."
 
-  if (missing(backend) || FALSE %in% (backend %in% available_backends)) stop(paste("You must provide a backend in which to store the logs",
-                                                                       "possible values are", paste(available_backends,collapse=' | ')), call. = F)
+  if (missing(backend)) stop(paste("You must provide a backend in which to store the logs",
+                                   "possible values are", paste(available_backends,collapse=' | ')), call. = F)
+
+  if (substr(str(backend),1,5) == "chr [") {
+    print("list")
+  }
+
+  if (substr(str(backend, 1, 5)) == 'chr \\"') {
+    print("char")
+  }
 
   file_logger <- NULL
   hub_logger <- NULL
