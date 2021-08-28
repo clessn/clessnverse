@@ -82,8 +82,8 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
         cat(format(Sys.time(), "%Y-%m-%d %X"), scriptname, "-", paste(message, collapse = " "), "\n")
       }
 
-      if (getConnection(logger[[1]])) {
-        cat(format(Sys.time(), "%Y-%m-%d %X"), ":", paste(message, collapse = " "), "\n", append = T, file = logger[[1]])
+      if (is.numeric(logger[[1]][1])) {
+        if (getConnection(logger[[1]][1])) cat(format(Sys.time(), "%Y-%m-%d %X"), ":", paste(message, collapse = " "), "\n", append = T, file = logger[[1]][1])
       }
     },
     error = function(e) {
@@ -106,8 +106,8 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
 logclose <- function(logger) {
   tryCatch(
     {
-      if (getConnection(logger[[1]])) {
-        close(logger[[1]])
+      if (is.numeric(logger[[1]][1])){
+        if (getConnection(logger[[1]])) close(logger[[1]][1])
       }
     },
     error = function(e) {
