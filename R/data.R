@@ -19,7 +19,7 @@ createAgoraplusInterventionsDf <- function(type, schema) {
     error = function(e) {
       #If reading the file name failed, try using the dropbox API
       filename <- paste("/clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
-      clessnverse::dbxDownloadFile(filename = filename, Sys.getenv("DROPBOX_TOKEN"))
+      clessnverse::dbxDownloadFile(filename = filename, local_path = ".", Sys.getenv("DROPBOX_TOKEN"))
     },
 
     finally = {
