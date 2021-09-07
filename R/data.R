@@ -21,10 +21,10 @@ createAgoraplusInterventionsDf <- function(type, schema) {
       filename <- paste("/clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
       clessnverse::dbxDownloadFile(filename = filename, local_path = ".", Sys.getenv("DROPBOX_TOKEN"))
       list <- jsonlite::fromJSON(paste("./agoraplus-",type,"-",schema,".json", sep=''))
+      if (file.exists(paste("./agoraplus-",type,"-",schema,".json", sep=''))) file.remove(paste("./agoraplus-",type,"-",schema,".json", sep=''))
     },
 
     finally = {
-
     }
   )
 
