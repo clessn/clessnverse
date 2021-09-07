@@ -12,23 +12,27 @@ createAgoraplusInterventionsDf <- function(type, schema) {
 
   clessnverse::checkTypeSchema(type, schema)
 
-  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
+  env <- new.env()
+
   tryCatch(
-    {list <- jsonlite::fromJSON(filename)},
+    {
+      filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
+      assign("mylist", jsonlite::fromJSON(filename), envir = env)
+    },
 
     error = function(e) {
       #If reading the file name failed, try using the dropbox API
       filename <- paste("/clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
       clessnverse::dbxDownloadFile(filename = filename, local_path = ".", Sys.getenv("DROPBOX_TOKEN"))
-      list <- jsonlite::fromJSON(paste("./agoraplus-",type,"-",schema,".json", sep=''))
+      assign("mylist", jsonlite::fromJSON(paste("./agoraplus-",type,"-",schema,".json", sep='')), envir = env)
       if (file.exists(paste("./agoraplus-",type,"-",schema,".json", sep=''))) file.remove(paste("./agoraplus-",type,"-",schema,".json", sep=''))
     },
 
     finally = {
+      dataset <- as.data.frame(env$mylist)[-c(1),]
+      rm(env)
     }
   )
-
-  dataset <- as.data.frame(list)[-c(1),]
   return(dataset)
 }
 
@@ -68,9 +72,28 @@ createAgoraplusCacheDf <- function(type, schema) {
 
   clessnverse::checkTypeSchema(type, schema)
 
-  filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-cache-",schema,".json", sep='')
-  list <- jsonlite::fromJSON(filename)
-  dataset <- as.data.frame(list)[-c(1),]
+  type <- "cache"
+  env <- new.env()
+
+  tryCatch(
+    {
+      filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-", type, "-",schema,".json", sep='')
+      assign("mylist",jsonlite::fromJSON(filename), envir = env)
+    },
+
+    error = function(e) {
+      #If reading the file name failed, try using the dropbox API
+      filename <- paste("/clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
+      clessnverse::dbxDownloadFile(filename = filename, local_path = ".", Sys.getenv("DROPBOX_TOKEN"))
+      assign("mylist", jsonlite::fromJSON(paste("./agoraplus-",type,"-",schema,".json", sep='')), envir = env)
+      if (file.exists(paste("./agoraplus-",type,"-",schema,".json", sep=''))) file.remove(paste("./agoraplus-",type,"-",schema,".json", sep=''))
+    },
+
+    finally = {
+      dataset <- as.data.frame(env$mylist)[-c(1),]
+      rm(env)
+    }
+  )
   return(dataset)
 }
 
