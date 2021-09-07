@@ -8,12 +8,27 @@
 #'
 #'
 #' @export
-createAgoraplusInterventionsDf <- function(type, location, schema) {
+createAgoraplusInterventionsDf <- function(type, schema) {
 
-  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnverse::checkTypeSchema(type, schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
-  list <- jsonlite::fromJSON(filename)
+  tryCatch(
+    {list <- jsonlite::fromJSON(filename)},
+
+    error = function(e) {
+      #If reading the file name failed, try using the dropbox API
+      filename <- paste("agoraplus-",type,"-",schema,".json", sep='')
+      filepath <- "clessn-blend/_SharedFolder_clessn-blend/datastructure/"
+
+      clessnverse::dbxDownloadFile(filename = filename, Sys.getenv("DROPBOX_TOKEN"))
+    },
+
+    finally = {
+
+    }
+  )
+
   dataset <- as.data.frame(list)[-c(1),]
   return(dataset)
 }
@@ -31,7 +46,7 @@ createAgoraplusInterventionsDf <- function(type, location, schema) {
 #' @export
 createAgoraplusPersonsDf <- function(type, schema) {
 
-  clessnverse::checkLocationSchemaType(type, "CA", schema)
+  clessnverse::checkTypeSchema(type, schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-",type,"-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
@@ -50,9 +65,9 @@ createAgoraplusPersonsDf <- function(type, schema) {
 #'
 #'
 #' @export
-createAgoraplusCacheDf <- function(type, location, schema) {
+createAgoraplusCacheDf <- function(type, schema) {
 
-  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnverse::checkTypeSchema(type, schema)
 
   filename <- paste("../clessn-blend/_SharedFolder_clessn-blend/datastructure/agoraplus-cache-",schema,".json", sep='')
   list <- jsonlite::fromJSON(filename)
@@ -74,7 +89,7 @@ createAgoraplusCacheDf <- function(type, location, schema) {
 loadAgoraplusInterventionsDf <- function(type, schema, location, download_data=F, token="") {
 
   # Check the compatibility of metadata and stop if there is an error
-  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnverse::checkTypeSchema(type, schema)
 
   clessnverse::logit(message = "getting Interventions from HUB", logger = logger)
 
@@ -116,7 +131,7 @@ loadAgoraplusInterventionsDf <- function(type, schema, location, download_data=F
 loadAgoraplusPersonsDf <- function(type, schema, location, overwrite=F , download_data=F, token="") {
 
   # Check the compatibility of metadata and stop if there is an error
-  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnverse::checkTypeSchema(type, schema)
 
   clessnverse::logit(message = "getting Persons from HUB", logger = logger)
 
@@ -163,7 +178,7 @@ loadAgoraplusPersonsDf <- function(type, schema, location, overwrite=F , downloa
 loadAgoraplusCacheDf <- function(type, schema, location, download_data=F, token="") {
 
   # Check the compatibility of metadata and stop if there is an error
-  clessnverse::checkLocationSchemaType(type, location, schema)
+  clessnverse::checkTypeSchema(type, schema)
 
     clessnverse::logit(message = "getting Cache from HUB", logger = logger)
 
