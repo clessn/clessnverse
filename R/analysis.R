@@ -32,7 +32,20 @@ get_EuDistance <- function(point1,point2){
 
 #### 2. Sampling ####
 #### ~2.1 Creating multiple samples with probabilities biased by category ####
-library(tidyverse)
+library(magrittr)
+#' Title
+#'
+#' @param data 
+#' @param x 
+#' @param probs 
+#' @param size 
+#' @param iterations 
+#' @param replace 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 sample_biased <- function(data, x, probs, size, iterations = 1, replace = FALSE){
   if(!is.data.frame(data))
     rlang::abort("Argument `data` must be a data frame.")
@@ -87,7 +100,7 @@ sample_biased <- function(data, x, probs, size, iterations = 1, replace = FALSE)
         return(VariableData[sampleRowIDs, ])
       }
       else{
-        Samples <- map_dfr(
+        Samples <- purrr::map_dfr(
           .x = replicate(
             n = iterations, 
             expr = VariableData[sample(x = VariableData$rowID,
@@ -116,6 +129,10 @@ sample_biased(CO2, Plant, probs = c(.1, .2, .3, .4, .5, .6, .7, .8, .9, 1,
 Test <- sample_biased(CO2, Plant, probs = c(.1, .2, .3, .4, .5, .6, .7, .8, .9, 1,
                                             .01, .02), size = 50, iterations = 2,
                       replace = TRUE)
+sample_biased(CO2, Treatment, probs = c("nonchilled" = .1, "chilled" = .5),
+              size = 5)
+sample_biased(CO2, Treatment, probs = c("chilled" = .1, "nonchilled" = .5),
+              size = 5)
 
 VariableData <- CO2 %>%
   dplyr::select(Plant) %>% # create a data frame with only the variable to bias
