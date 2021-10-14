@@ -71,7 +71,7 @@ createAgoraplusCacheDf <- function(type, location, schema) {
 #'
 #'
 #' @export
-loadAgoraplusInterventionsDf <- function(type, schema, location, download_data=F, token="") {
+loadAgoraplusInterventionsDf <- function(type, schema, location, format, download_data=F, token="") {
 
   # Check the compatibility of metadata and stop if there is an error
   clessnverse::checkLocationSchemaType(type, location, schema)
@@ -94,7 +94,7 @@ loadAgoraplusInterventionsDf <- function(type, schema, location, download_data=F
   }
 
   # Filter based on the type of data, the location of event/interventions and schema
-  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location))
+  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location, "format"=format))
   clessnverse::logit(message = paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger = logger)
 
   # Get the data
