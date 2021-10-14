@@ -131,7 +131,7 @@ loadAgoraplusInterventionsDf <- function(type, schema, location, format, downloa
   }
 
   # Filter based on the type of data, the location of event/interventions and schema
-  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location, "format"=format))
+  filter <- clessnhub::create_filter(type = type, schema = schema, metadata = list("location"=location, "format"=format) )
   clessnverse::logit(message = paste("filtering data with", paste(filter, collapse = ' '), sep = ' '), logger = logger)
 
   # Get the data
