@@ -182,7 +182,7 @@ getAgoraplusAvailableLogBackends <- function() {
 
 
 #####################################################
-#' @title clessnverse::checkLocationchemaType
+#' @title clessnverse::checkTypeSchema
 #' @description
 #' @param
 #' @param
@@ -196,18 +196,13 @@ getAgoraplusAvailableLogBackends <- function() {
 #'
 #'
 #' @export
-checkLocationSchemaType <- function(type, location, schema) {
-  available_locations <- clessnverse::getAgoraplusAvailableLocations()
+checkTypeSchema <- function(type, schema) {
   available_schemas <- clessnverse::getAgoraplusAvailableSchemas()
   available_types <- clessnverse::getAgoraplusAvailableTypes()
 
   if (missing(type) || !type %in% available_types)
     stop(paste("You must provide a type for which to create/load the agora dataframe. ",
                "Possible values are", paste(available_types,collapse=' | ')), call. = F)
-
-  if (missing(location) || !location %in% available_locations)
-    stop(paste("You must provide a location for which to create/load the agora dataframe. ",
-               "Possible values are", paste(available_locations,collapse=' | ')), call. = F)
 
   if (missing(schema) || !schema %in% available_schemas)
     stop(paste("You must provide the schema version of the agora dataframe. ",
