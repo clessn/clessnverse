@@ -127,8 +127,8 @@ sample_biased <- function(data, x, probs, size, iterations = 1, replace = FALSE)
                                        replace = replace), ],
             simplify = F),
           .f = as.list)
-        # assign an ordered sample ID to differentiate between different samples
         Samples$iterationID <- rep(1:(nrow(Samples) / size), each = size)
+        # assign an ordered sample ID to differentiate between different samples
         Samples$rowID <- NULL # remove row IDs from output
         return(Samples)
       }
