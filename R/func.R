@@ -87,6 +87,7 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
       }
     },
     error = function(e) {
+      print(e)
       cat("console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "), "\n")
     }
   )
