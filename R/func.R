@@ -145,7 +145,7 @@ getAgoraplusAvailableLocations <- function() {
 #'
 #' @export
 getAgoraplusAvailableSchemas <- function() {
-  return(c("v2"))
+  return(c("v1", "v2"))
 }
 
 
@@ -162,7 +162,7 @@ getAgoraplusAvailableSchemas <- function() {
 #'
 #' @export
 getAgoraplusAvailableTypes <- function() {
-  return(c("parliament_debate" ,"press_conference", "mp", "public_service", "journalist"))
+  return(c("parliament_debate" ,"parliament_debate_archive", "press_conference", "mp", "public_service", "journalist"))
 }
 
 
