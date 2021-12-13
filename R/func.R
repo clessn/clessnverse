@@ -246,7 +246,9 @@ processCommandLineOptions <- function() {
     optparse::make_option(c("-h", "--hub_mode"), type="character", default="skip",
                           help="update mode of the hub [default= %default]", metavar="character"),
     optparse::make_option(c("-t", "--download_data"), type="logical", default=TRUE,
-                          help="download data from the hub [default= %default]", metavar="logical")
+                          help="download data from the hub [default= %default]", metavar="logical"),
+    optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
+                          help="translate text using paid APIs [default= %default]", metavar="logical")
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)

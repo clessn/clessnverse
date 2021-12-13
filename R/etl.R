@@ -49,13 +49,13 @@ translateText <- function (text, engine = "azure", target_lang = "fr", fake = TR
         response_json <- jsonlite::parse_json(httr::content(response, "text"))
       }
 
-      return(response_json[1][[1]]$translations[[1]]$text)
+      return(c(response_json[1][[1]]$detectedLanguage[1]$language, response_json[1][[1]]$translations[[1]]$text))
     }
   } else {
     stop("google translation not implemented", call. = F)
   } # if (engine == "azure")
 
-  return("Fake translation text - use fake = false if you want to consume the translation service")
+  return(c(NA, "Fake translation text - use fake = false if you want to consume the translation service"))
 }
 
 

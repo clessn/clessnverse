@@ -203,6 +203,24 @@ loadETLRefData <- function() {
 }
 
 
+######################################################
+#' @title clessnverse::loadETLRefData
+#' @description loads ETL cross ref matrix and lists commonly used at CLESSN
+#' @param
+#' @return
+#' @examples
+#'
+#'
+#' @export
+loadCountryLanguageCodes <- function(path = '/clessn-blend/_SharedFolder_clessn-blend/dict', file = 'countrylanguagecodes.csv', token) {
+
+  clessnverse::dbxDownloadFile(paste(path,file,sep='/'), './', token)
+
+  df <- read.csv2(paste('./',file,sep=''), sep=';', fileEncoding="latin1")
+
+  return(df)
+}
+
 
 ######################################################
 #' @title clessnverse::getEuropeMepData
