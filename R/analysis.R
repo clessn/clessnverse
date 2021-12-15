@@ -42,16 +42,16 @@ get_EuDistance <- function(point1,point2){
 #' categories can be given a lower probability of inclusion
 #' than others.
 #'
-#' @param data an object of type data.frame.
-#' @param x a vector included in the data, which will be
+#' @param data An object of type data.frame.
+#' @param x A vector included in the data, which will be
 #' used to bias the sample.
-#' @param probs a vector of probabilities which has the
+#' @param probs A vector of probabilities which has the
 #' same length as the number of values x can take.
-#' @param size the number of observations to include
+#' @param size The number of observations to include
 #' in each sample.
-#' @param iterations the number of samples to take from
+#' @param iterations The number of samples to take from
 #' the data.frame.
-#' @param replace should sampling be with replacement?
+#' @param replace Should sampling be with replacement?
 #'
 #' @return The sampled data, with all columns from the
 #' original data.frame and a `prob` column indicating
@@ -61,98 +61,141 @@ get_EuDistance <- function(point1,point2){
 #' @export
 #' @import magrittr
 #' @author CLESSN
-#' @description
-#'
 #' @examples
-sample_biased <- function(data, x, probs, size, iterations = 1, replace = FALSE){
-  if(!is.data.frame(data))
-    rlang::abort("Argument `data` must be a data frame.")
-  VariableData <- dplyr::filter(data, !is.na({{x}})) # remove columns where x = NA
-  VariableData$rowID <- 1:nrow(VariableData) # create column numbers
-  columnNumber <- grep(deparse(substitute(x)), # get column number for x
-                       colnames(VariableData))
-  VariableData[, columnNumber] <- factor(
-    VariableData[, columnNumber], ordered = FALSE) # transform into factor variable
-  if(size < 1){
-    rlang::abort(
-      "Argument `size` must be a positive number.")
-  }
-  else{
-    if((as.numeric(size) / nrow(VariableData)) > 0.8 & replace == FALSE &
-       size <= nrow(VariableData))
-      warning(paste("Warning message:\nArgument `size` is at least 80% as large as",
-                    "`x` and sampling is done without replacement. Probabilities",
-                    "for some categories are likely to drop to zero after repeated",
-                    "sampling."))
-    else if(size > min(table(VariableData[, 1])) & replace == FALSE &
-            size <= nrow(VariableData))
-      warning(paste("Warning message:\nArgument `size` is larger than some",
-                    "categories of `x` and sampling is done without replacement.",
-                    "Probabilities for these categories may drop to zero after",
-                    "repeated sampling."))
-    categoriesFactor <- as.factor(names(table(
-      VariableData[, columnNumber]))) # identify the variable's categories
-    for(k in probs){ # probs = probabilities vector
-      if(k <= 0)
-      rlang::abort("Argument `probs` must include positive numbers only.")
+#'
+#' ## Not run:
+#'
+#' ## Create a 100-respondent sample where men are three
+#' ## times more likely to be included than women.
+#'
+#' sample_biased(Data, genderWoman, probs = c(3, 1), size = 100)
+#'
+#' ## End(Not run)
+#'
+sample_biased <-
+  function(data,
+           x,
+           probs,
+           size,
+           iterations = 1,
+           replace = FALSE) {
+    if (!is.data.frame(data))
+      rlang::abort("Argument `data` must be a data frame.")
+    VariableData <-
+      dplyr::filter(data,!is.na({
+        {
+          x
+        }
+      })) # remove columns where x = NA
+    VariableData$rowID <- 1:nrow(VariableData) # create column numbers
+    columnNumber <-
+      grep(deparse(substitute(x)), # get column number for x
+           colnames(VariableData))
+    VariableData[, columnNumber] <- factor(VariableData[, columnNumber], ordered = FALSE) # transform into factor variable
+    if (size < 1) {
+      rlang::abort("Argument `size` must be a positive number.")
     }
-    if(length(categoriesFactor) != length(probs))
-      rlang::abort(
-        "Argument `probs` must have the same number of categories as variable `x`.")
     else{
-      VariableData$prob <- NA # create empty probabilities vector
-      for(i in VariableData$rowID){
-        index <- which(categoriesFactor == VariableData[i, columnNumber]
-                       ) # associate row IDs to categories
-        VariableData$prob[i] <- probs[index] # create probabilities vector
+      if ((as.numeric(size) / nrow(VariableData)) > 0.8 &
+          replace == FALSE &
+          size <= nrow(VariableData))
+        warning(
+          paste(
+            "Warning message:\nArgument `size` is at least 80% as large as",
+            "`x` and sampling is done without replacement. Probabilities",
+            "for some categories are likely to drop to zero after repeated",
+            "sampling."
+          )
+        )
+      else if (size > min(table(VariableData[, 1])) &
+               replace == FALSE &
+               size <= nrow(VariableData))
+        warning(
+          paste(
+            "Warning message:\nArgument `size` is larger than some",
+            "categories of `x` and sampling is done without replacement.",
+            "Probabilities for these categories may drop to zero after",
+            "repeated sampling."
+          )
+        )
+      categoriesFactor <- as.factor(names(table(VariableData[, columnNumber]))) # identify the variable's categories
+      for (k in probs) {
+        # probs = probabilities vector
+        if (k <= 0)
+          rlang::abort("Argument `probs` must include positive numbers only.")
       }
-      if(iterations < 1){
-        rlang::abort(
-          "Argument `iterations` must be a positive number.")
-      }
-      else if(iterations == 1){
-        sampleRowIDs <- sample(x = VariableData$rowID, size = size, # sample size
-                               prob = VariableData$prob, replace = replace)
-        Sample <- VariableData[sampleRowIDs, ]
-        Sample$rowID <- NULL # remove row IDs from output
-        return(Sample)
-      }
+      if (length(categoriesFactor) != length(probs))
+        rlang::abort("Argument `probs` must have the same number of categories as variable `x`.")
       else{
-        Samples <- purrr::map_dfr(
-          .x = replicate(
-            n = iterations,
-            expr = VariableData[sample(x = VariableData$rowID,
-                                       size = size, # sample size
-                                       prob = VariableData$prob,
-                                       replace = replace), ],
-            simplify = F),
-          .f = as.list)
-        Samples$iterationID <- rep(1:(nrow(Samples) / size), each = size)
-        # assign an ordered sample ID to differentiate between different samples
-        Samples$rowID <- NULL # remove row IDs from output
-        return(Samples)
+        VariableData$prob <- NA # create empty probabilities vector
+        for (i in VariableData$rowID) {
+          index <- which(categoriesFactor == VariableData[i, columnNumber]) # associate row IDs to categories
+          VariableData$prob[i] <-
+            probs[index] # create probabilities vector
+        }
+        if (iterations < 1) {
+          rlang::abort("Argument `iterations` must be a positive number.")
+        }
+        else if (iterations == 1) {
+          sampleRowIDs <-
+            sample(
+              x = VariableData$rowID,
+              size = size,
+              # sample size
+              prob = VariableData$prob,
+              replace = replace
+            )
+          Sample <- VariableData[sampleRowIDs,]
+          Sample$rowID <- NULL # remove row IDs from output
+          return(Sample)
+        }
+        else{
+          Samples <- purrr::map_dfr(
+            .x = replicate(
+              n = iterations,
+              expr = VariableData[sample(
+                x = VariableData$rowID,
+                size = size,
+                # sample size
+                prob = VariableData$prob,
+                replace = replace
+              ),],
+              simplify = F
+            ),
+            .f = as.list
+          )
+          Samples$iterationID <-
+            rep(1:(nrow(Samples) / size), each = size)
+          # assign an ordered sample ID to differentiate between different samples
+          Samples$rowID <- NULL # remove row IDs from output
+          return(Samples)
+        }
       }
     }
   }
-}
 
 #### tests ####
-VariableData <- dplyr::filter(CO2, !is.na(Plant)) # remove columns where x = NA
+VariableData <-
+  dplyr::filter(CO2,!is.na(Plant)) # remove columns where x = NA
 VariableData$rowID <- 1:nrow(VariableData) # create column numbers
-columnNumber <- grep(deparse(substitute(Plant)), # get column number for x
-                     colnames(VariableData))
-VariableData[, columnNumber] <- factor(
-  VariableData[, columnNumber], ordered = FALSE) # transform into factor variable
-categoriesFactor <- as.factor(names(table(
-  VariableData[, columnNumber]))) # identify the variable's categories
+columnNumber <-
+  grep(deparse(substitute(Plant)), # get column number for x
+       colnames(VariableData))
+VariableData[, columnNumber] <- factor(VariableData[, columnNumber], ordered = FALSE) # transform into factor variable
+categoriesFactor <- as.factor(names(table(VariableData[, columnNumber]))) # identify the variable's categories
 VariableData$prob <- NA # create empty probabilities vector
-for(i in VariableData$rowID){
-  index <- which(categoriesFactor == VariableData[i, columnNumber]
-                 ) # associate row IDs to categories
-  VariableData$prob[i] <- c(.1, .2, .3, .4, .5, .6, .7, .8, .9, 1, .01, .02)[
-    index] # create probabilities vector
+for (i in VariableData$rowID) {
+  index <- which(categoriesFactor == VariableData[i, columnNumber]) # associate row IDs to categories
+  VariableData$prob[i] <-
+    c(.1, .2, .3, .4, .5, .6, .7, .8, .9, 1, .01, .02)[index] # create probabilities vector
 }
-sampleRowIDs <- sample(x = VariableData$rowID, size = 5, # sample size
-                       prob = VariableData$prob, replace = FALSE)
-Sample <- VariableData[sampleRowIDs, ]
+sampleRowIDs <-
+  sample(
+    x = VariableData$rowID,
+    size = 5,
+    # sample size
+    prob = VariableData$prob,
+    replace = FALSE
+  )
+Sample <- VariableData[sampleRowIDs,]
 Sample$rowID <- NULL # remove row IDs from output
