@@ -39,8 +39,8 @@ get_EuDistance <- function(point1,point2){
 #' This function creates a data.frame which includes one
 #' or more samples taken from the original data. These samples
 #' are biased on the categories of one variable: some of the
-#' categories are given a lower probability of inclusion than
-#' others.
+#' categories can be given a lower probability of inclusion
+#' than others.
 #'
 #' @param data an object of type data.frame.
 #' @param x a vector included in the data, which will be
