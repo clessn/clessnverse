@@ -59,18 +59,18 @@ get_EuDistance <- function(point1,point2){
 #' `iterations > 1`, an `iterations` column is included
 #' to identify which iteration the observation belongs to.
 #' @export
-#' @import magrittr
+#' @importFrom magrittr `%>%`
 #' @author CLESSN
 #' @examples
 #'
-#' ## Not run:
+#' \dontrun{
 #'
-#' ## Create a 100-respondent sample where men are three
-#' ## times more likely to be included than women.
+#' # Create a 100-respondent sample where men are three
+#' # times more likely to be included than women.
 #'
-#' sample_biased(Data, genderWoman, probs = c(3, 1), size = 100)
-#'
-#' ## End(Not run)
+#' sample_biased(Data, genderWoman,
+#' probs = c(3, 1), size = 100)
+#' }
 #'
 sample_biased <-
   function(data,
