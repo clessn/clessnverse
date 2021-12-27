@@ -250,7 +250,7 @@ processCommandLineOptions <- function() {
     optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
                           help="translate text using paid APIs [default= %default]", metavar="logical"),
     optparse::make_option(c("-o", "--log_output"), type="character", default="file,console",
-                          help="where to output the logs [default= %default]", metavar="character"),
+                          help="where to output the logs [default= %default]", metavar="character")
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)
