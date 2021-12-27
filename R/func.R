@@ -239,7 +239,7 @@ processCommandLineOptions <- function() {
                           help="update mode of the cache [default= %default]", metavar="character"),
     optparse::make_option(c("-s", "--simple_mode"), type="character", default="rebuild",
                           help="update mode of the simple dataframe [default= %default]", metavar="character"),
-    optparse::make_option(c("-e", "--deep_mode"), type="character", default="rebuild",
+    optparse::make_option(c("-p", "--deep_mode"), type="character", default="rebuild",
                           help="update mode of the deep dataframe [default= %Adefault]", metavar="character"),
     optparse::make_option(c("-l", "--dataframe_mode"), type="character", default="rebuild",
                           help="update mode of the dataframe [default= %Adefault]", metavar="character"),
