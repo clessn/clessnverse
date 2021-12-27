@@ -83,7 +83,7 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
       }
 
       if (is.numeric(logger[[1]][1])) {
-        if (getConnection(logger[[1]][1])) cat(format(Sys.time(), "%Y-%m-%d %X"), ":", paste(message, collapse = " "), "\n", append = T, file = logger[[1]][1])
+        if (getConnection(logger[[1]][1])) cat(format(Sys.time(), "%Y-%m-%d %X"), scriptname, ":", paste(message, collapse = " "), "\n", append = T, file = logger[[1]][1])
       }
     },
     error = function(e) {
@@ -239,13 +239,13 @@ processCommandLineOptions <- function() {
                           help="update mode of the cache [default= %default]", metavar="character"),
     optparse::make_option(c("-s", "--simple_mode"), type="character", default="rebuild",
                           help="update mode of the simple dataframe [default= %default]", metavar="character"),
-    optparse::make_option(c("-d", "--deep_mode"), type="character", default="rebuild",
+    optparse::make_option(c("-e", "--deep_mode"), type="character", default="rebuild",
                           help="update mode of the deep dataframe [default= %Adefault]", metavar="character"),
     optparse::make_option(c("-l", "--dataframe_mode"), type="character", default="rebuild",
                           help="update mode of the dataframe [default= %Adefault]", metavar="character"),
     optparse::make_option(c("-h", "--hub_mode"), type="character", default="skip",
                           help="update mode of the hub [default= %default]", metavar="character"),
-    optparse::make_option(c("-t", "--download_data"), type="logical", default=TRUE,
+    optparse::make_option(c("-d", "--download_data"), type="logical", default=TRUE,
                           help="download data from the hub [default= %default]", metavar="logical"),
     optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
                           help="translate text using paid APIs [default= %default]", metavar="logical"),
