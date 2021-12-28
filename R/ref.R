@@ -218,6 +218,11 @@ loadCountryLanguageCodes <- function(path = '/clessn-blend/_SharedFolder_clessn-
 
   df <- read.csv2(paste('./',file,sep=''), sep=';', fileEncoding="latin1")
 
+  if ( file.exists(paste('./', file, sep='')) ) {
+    #Delete file if it exists
+    file.remove(paste('./', file, sep=''))
+  }
+
   return(df)
 }
 
