@@ -5,8 +5,24 @@ Authors@R:
     person(given = "William",
            family = "Poirier",
            role = c("aut", "cre"),
-           email = "william.poirier.1@ulaval.ca",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "william.poirier.1@ulaval.ca"),
+    person(given = "Alexandre",
+           family = "Fortier-Chouinard",
+           role = c("aut"),
+           email = "alexandre.fortier.chouinard@mail.utoronto.ca",
+           comment = c(ORCID = "0000-0002-6282-9709")),
+    person(given = "Nadjim",
+           family = "Fréchet",
+           role = c("aut"),
+           email = "nadjim.frechet@umontreal.ca"),
+    person(given = "Patrick",
+           family = "Poncet",
+           role = c("aut"),
+           email = "patrick@infoscope.ca"),
+    person(given = "Yannick",
+           family = "Dufresne",
+           role = c("cph"),
+           email = "yannick.dufresne@pol.ulaval.ca")
 Description: What the package does (one paragraph).
 License: use_mit_license()
 Encoding: UTF-8
