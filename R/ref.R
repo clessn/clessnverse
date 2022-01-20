@@ -238,7 +238,7 @@ loadCountryLanguageCodes <- function(path = '/clessn-blend/_SharedFolder_clessn-
 #'
 #' @export
 getEuropeMepData <- function (mep_full_name) {
-  url <- "https://www.europarl.europa.eu/meps/fr/download/advanced/xml?name="
+  url <- "https://www.europarl.europa.eu/meps/en/download/advanced/xml?name="
   mep_full_name <- stringr::str_replace_all(mep_full_name, " ", "+")
   mep_full_name <- RCurl::curlEscape(mep_full_name)
   url <- paste(url, mep_full_name, "&groupCode=&countryCode=&bodyType=ALL", sep = "")
