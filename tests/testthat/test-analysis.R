@@ -1,5 +1,8 @@
 library(testthat)
 library(clessnverse)
+
+#### 2. Sampling ####
+#### ~2.1 Creating multiple samples with probabilities biased by category ####
 context("Biased samples")
 
 test_that("`size` argument works", {
@@ -73,3 +76,31 @@ test_that("`replace` argument works", {
                                              probs = c(1, 1))$Treatment),
                expected = length(CO2$Treatment) + 1)
 })
+
+
+#### 3. Weighting ####
+#### ~3.1 Calc proportions of categories for one variable ####
+context("Calculate Proportions")
+test_that("`variable` argument works", {
+  expect_equal(object = unlist(unname(c(
+    round(calculate_props(data = CO2, variable = Plant)[1, 3], 4)
+  ))),
+  expected = 0.0833)
+  expect_equal(object = unlist(unname(c(
+    round(calculate_props(data = CO2, variable = Type)[1, 3], 1)
+  ))),
+  expected = 0.5)
+  expect_equal(object = unlist(unname(c(
+    round(calculate_props(data = CO2, variable = uptake)[1, 3], 4)
+  ))),
+  expected = 0.0119)
+  expect_equal(object = nrow(calculate_props(data = CO2, variable = uptake)[, 1]),
+               expected = length(as.numeric(names(
+                 table(CO2$uptake)
+               ))))
+  expect_equal(object = nrow(calculate_props(data = CO2, variable = Type)),
+               expected = 2)
+  expect_error(object = calculate_props(data = CO2, variable = c(Type, Plant)))
+})
+  
+  
