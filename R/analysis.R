@@ -6,31 +6,31 @@
 
 #### 1. Geometry ####
 #### ~1.1 Eucledian distance ####
-get_EuDistance <- function(point1,point2){
-  if (length(point1) > 3 | length(point2) > 3) {
-    stop("Points must come from a 2D or 3D space. \n Point 1 has ",length(point1),
-         " dimensions and point 2 has ",length(point2)," dimensions.")
-  }
-  else if (length(point1) != length(point2)) {
-    stop("Points must have the same number of dimensions. \n Point 1 has ",
-         length(point1),
-         " dimensions and point 2 has ",length(point2)," dimensions.")
-  }
-  else if (length(point1) == 0) {
-    stop("Point 1 has length 0.")
-  }
-  else if (length(point2) == 0) {
-    stop("Point 2 has length 0.")
-  }
-  else if (length(point1) == 3) {
-    euDistance <- sqrt((point2[1]-point1[1])^2 + (point2[2]-point1[2])^2 +
-                         (point2[3]-point1[3])^2)
-  }
-  else if (length(point1) == 2) {
-    euDistance <- sqrt((point2[1]-point1[1])^2 + (point2[2]-point1[2])^2)
-  }
-  return(euDistance)
-}
+#get_EuDistance <- function(point1,point2){
+#  if (length(point1) > 3 | length(point2) > 3) {
+#    stop("Points must come from a 2D or 3D space. \n Point 1 has ",length(point1),
+#         " dimensions and point 2 has ",length(point2)," dimensions.")
+#  }
+#  else if (length(point1) != length(point2)) {
+#    stop("Points must have the same number of dimensions. \n Point 1 has ",
+#         length(point1),
+#         " dimensions and point 2 has ",length(point2)," dimensions.")
+#  }
+#  else if (length(point1) == 0) {
+#    stop("Point 1 has length 0.")
+#  }
+#  else if (length(point2) == 0) {
+#    stop("Point 2 has length 0.")
+#  }
+#  else if (length(point1) == 3) {
+#    euDistance <- sqrt((point2[1]-point1[1])^2 + (point2[2]-point1[2])^2 +
+#                         (point2[3]-point1[3])^2)
+#  }
+#  else if (length(point1) == 2) {
+#    euDistance <- sqrt((point2[1]-point1[1])^2 + (point2[2]-point1[2])^2)
+#  }
+#  return(euDistance)
+#}
 
 #### 2. Sampling ####
 #### ~2.1 Creating multiple samples with probabilities biased by category ####
@@ -199,3 +199,59 @@ sampleRowIDs <-
   )
 Sample <- VariableData[sampleRowIDs,]
 Sample$rowID <- NULL # remove row IDs from output
+
+
+
+#### 3. Weighting ####
+#### ~3.1 Calc proportions of categories for one variable ####
+#' Calculate the proportions of each categories from one variable.
+#'
+#' This function creates a data.frame which includes 3 columns.
+#' 1) a column containing the variable's categories;
+#' 2) a column containing each categorie's frequency;
+#' 3) a column containing each categorie's proportion.
+#'
+#' @param data An object of type data.frame.
+#' @param variable The name of the variable from which to calculate
+#' the proportions.
+#' @return A data.frame which includes 3 columns.
+#' 1) `variable` : a column containing the variable's categories;
+#' 2) `n` : a column containing each categorie's frequency;
+#' 3) `prop` : a column containing each categorie's proportion.
+#' @export
+#' @importFrom magrittr `%>%`
+#' @author CLESSN
+#' @examples
+#'
+#' \dontrun{
+#'
+#' # Calculate the proportions of each cylinder configuration
+#' # from mtcars.
+#' 
+#' calculate_props(mtcars,cyl)
+#'
+calculate_props <- function(data, variable) {
+  if (!is.data.frame(data)) {
+    rlang::abort("Argument `data` must be a data frame.")
+  }
+  else {
+    D <- data %>%
+      dplyr::select({
+        {
+          variable
+        }
+      }) %>%
+      dplyr::group_by({
+        {
+          variable
+        }
+      }) %>%
+      dplyr::summarize(n = n()) %>% #cal frequencies
+      stats::na.omit() %>%
+      dplyr::mutate(prop = n / sum(n))
+  }
+  if (length(table(D[, 1])) == 1) {
+    warning(paste0("`", names(D[, 1]), "`", " only has one category."))
+  }
+  return(D)
+}
