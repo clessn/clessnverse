@@ -1,7 +1,7 @@
 Package: clessnverse
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person(given = "William",
            family = "Poirier",
            role = c("aut", "cre"),
@@ -22,11 +22,12 @@ Authors@R:
     person(given = "Yannick",
            family = "Dufresne",
            role = c("cph"),
-           email = "yannick.dufresne@pol.ulaval.ca")
+           email = "yannick.dufresne@pol.ulaval.ca"))
 Description: What the package does (one paragraph).
 License: use_mit_license()
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: magrittr
+Imports:
+     magrittr
