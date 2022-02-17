@@ -3,7 +3,7 @@
 ############################################# Analysis Functions #################
 ##################################################################################
 ##################################################################################
-
+utils::globalVariables(c("n", "prob"))
 #### 1. Geometry ####
 #### ~1.1 Eucledian distance ####
 #get_EuDistance <- function(point1,point2){
@@ -227,9 +227,9 @@ Sample$rowID <- NULL # remove row IDs from output
 #'
 #' # Calculate the proportions of each cylinder configuration
 #' # from mtcars.
-#' 
-#' calculate_props(mtcars,cyl)
 #'
+#' calculate_props(mtcars,cyl)
+#' }
 calculate_props <- function(data, variable) {
   if (!is.data.frame(data)) {
     rlang::abort("Argument `data` must be a data frame.")
@@ -246,7 +246,7 @@ calculate_props <- function(data, variable) {
           variable
         }
       }) %>%
-      dplyr::summarize(n = n()) %>% #cal frequencies
+      dplyr::summarize(n = dplyr::n()) %>% #cal frequencies
       stats::na.omit() %>%
       dplyr::mutate(prop = n / sum(n))
   }

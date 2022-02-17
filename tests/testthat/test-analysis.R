@@ -102,5 +102,4 @@ test_that("`variable` argument works", {
                expected = 2)
   expect_error(object = calculate_props(data = CO2, variable = c(Type, Plant)))
 })
-  
-  
+
