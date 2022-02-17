@@ -1,9 +1,7 @@
-library(testthat)
-library(clessnverse)
 
 #### 2. Sampling ####
 #### ~2.1 Creating multiple samples with probabilities biased by category ####
-context("Biased samples")
+testthat::context("Biased samples")
 
 test_that("`size` argument works", {
   expect_equal(object = length(sample_biased(data = CO2, x = Treatment, size = 1,
@@ -80,7 +78,7 @@ test_that("`replace` argument works", {
 
 #### 3. Weighting ####
 #### ~3.1 Calc proportions of categories for one variable ####
-context("Calculate Proportions")
+testthat::context("Calculate Proportions")
 test_that("`variable` argument works", {
   expect_equal(object = unlist(unname(c(
     round(calculate_props(data = CO2, variable = Plant)[1, 3], 4)

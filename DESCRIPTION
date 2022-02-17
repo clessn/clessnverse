@@ -1,12 +1,29 @@
 Package: clessnverse
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R: c(
     person(given = "William",
            family = "Poirier",
            role = c("aut", "cre"),
            email = "william.poirier.1@ulaval.ca",
-           comment = c(ORCID = "0000-0002-3274-1351"))
+           comment = c(ORCID = "0000-0002-3274-1351")),
+           person(given = "Alexandre",
+           family = "Fortier-Chouinard",
+           role = c("aut"),
+           email = "alexandre.fortier.chouinard@mail.utoronto.ca",
+           comment = c(ORCID = "0000-0002-6282-9709")),
+    person(given = "Nadjim",
+           family = "Fréchet",
+           role = c("aut"),
+           email = "nadjim.frechet@umontreal.ca"),
+    person(given = "Patrick",
+           family = "Poncet",
+           role = c("aut"),
+           email = "patrick@infoscope.ca"),
+    person(given = "Yannick",
+           family = "Dufresne",
+           role = c("cph"),
+           email = "yannick.dufresne@pol.ulaval.ca"))
 Description: A repository of useful functions for the workflow of the CLESSN research group.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -19,3 +36,4 @@ Imports:
     purrr,
     rlang,
     testthat
+

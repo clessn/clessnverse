@@ -1,4 +1,2 @@
-library(testthat)
-library(clessnverse)
-
-test_check("clessnverse")
+library("clessnverse")
+testthat::test_check("clessnverse")
