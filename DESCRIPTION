@@ -31,9 +31,9 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
+    clessnverse,
     dplyr,
     magrittr,
     purrr,
     rlang,
     testthat
-
