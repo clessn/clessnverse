@@ -59,7 +59,6 @@ utils::globalVariables(c("n", "prob"))
 #' `iterations > 1`, an `iterations` column is included
 #' to identify which iteration the observation belongs to.
 #' @export
-#' @importFrom magrittr `%>%`
 #' @author CLESSN
 #' @examples
 #'
