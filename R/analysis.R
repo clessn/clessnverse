@@ -203,20 +203,20 @@ Sample$rowID <- NULL # remove row IDs from output
 
 #### 3. Weighting ####
 #### ~3.1 Calc proportions of categories for one variable ####
-#' Calculate the proportions of each categories from one variable.
+#' Calculate the proportion of each category from one variable.
 #'
 #' This function creates a data.frame which includes 3 columns.
 #' 1) a column containing the variable's categories;
-#' 2) a column containing each categorie's frequency;
-#' 3) a column containing each categorie's proportion.
+#' 2) a column containing each category's frequency;
+#' 3) a column containing each category's proportion.
 #'
 #' @param data An object of type data.frame.
 #' @param variable The name of the variable from which to calculate
 #' the proportions.
 #' @return A data.frame which includes 3 columns.
-#' 1) `variable` : a column containing the variable's categories;
-#' 2) `n` : a column containing each categorie's frequency;
-#' 3) `prop` : a column containing each categorie's proportion.
+#' 1) `variable`: a column containing the variable's categories;
+#' 2) `n`: a column containing each category's frequency;
+#' 3) `prop`: a column containing each category's proportion.
 #' @export
 #' @importFrom magrittr `%>%`
 #' @author CLESSN
@@ -245,7 +245,7 @@ calculate_props <- function(data, variable) {
           variable
         }
       }) %>%
-      dplyr::summarize(n = dplyr::n()) %>% #cal frequencies
+      dplyr::summarize(n = dplyr::n()) %>% #category frequencies
       stats::na.omit() %>%
       dplyr::mutate(prop = n / sum(n))
   }

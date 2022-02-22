@@ -3,6 +3,7 @@ library(magrittr)
 library(purrr)
 library(rlang)
 library(testthat)
+library(clessnverse)
 
 #### 2. Sampling ####
 #### ~2.1 Creating multiple samples with probabilities biased by category ####
