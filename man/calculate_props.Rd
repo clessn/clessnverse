@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis.R
 \name{calculate_props}
 \alias{calculate_props}
-\title{Calculate the proportions of each categories from one variable.}
+\title{Calculate the proportion of each category from one variable.}
 \usage{
 calculate_props(data, variable)
 }
@@ -15,17 +15,17 @@ the proportions.}
 \value{
 A data.frame which includes 3 columns.
 \enumerate{
-\item \code{variable} : a column containing the variable's categories;
-\item \code{n} : a column containing each categorie's frequency;
-\item \code{prop} : a column containing each categorie's proportion.
+\item \code{variable}: a column containing the variable's categories;
+\item \code{n}: a column containing each category's frequency;
+\item \code{prop}: a column containing each category's proportion.
 }
 }
 \description{
 This function creates a data.frame which includes 3 columns.
 \enumerate{
 \item a column containing the variable's categories;
-\item a column containing each categorie's frequency;
-\item a column containing each categorie's proportion.
+\item a column containing each category's frequency;
+\item a column containing each category's proportion.
 }
 }
 \examples{

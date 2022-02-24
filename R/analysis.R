@@ -235,11 +235,6 @@ calculate_props <- function(data, variable) {
   }
   else {
     D <- data %>%
-      dplyr::select({
-        {
-          variable
-        }
-      }) %>%
       dplyr::group_by({
         {
           variable
