@@ -227,9 +227,9 @@ Sample$rowID <- NULL # remove row IDs from output
 #' # Calculate the proportions of each cylinder configuration
 #' # from mtcars.
 #'
-#' calculate_props(mtcars,cyl)
+#' calculate_proportions(mtcars,cyl)
 #' }
-calculate_props <- function(data, variable) {
+calculate_proportions <- function(data, variable) {
   if (!is.data.frame(data)) {
     rlang::abort("Argument `data` must be a data frame.")
   }
