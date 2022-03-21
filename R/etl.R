@@ -329,8 +329,8 @@ convertTextToNumberFR <- function(word) {
                      six=6, sept=7, huit=8, neuf=9)
   teens <- list(onze=11, douze=12, midi=12, treize=13, quatorze=14, quinze=15,
                 seize=16, "dix-sept"=17, "dix-huit"=18, "dix-neuf"=19, minuit=0)
-  ten_digits <- list(dix=10, dipex=10, vingt=20, trente=30, quarante=40, cinquante=50,
-                     soixante=60, "soixante-dix"=70, "quatre-vingts"=80, "quatre-vingt-dix"=90)
+  ten_digits <- list(dix=10, dipex=10, vingt=20, trente=30, trentes=30, quarante=40, quarantes=40, cinquante=50, cinquantes=50,
+                     soixante=60, soixantes=60, "soixante-dix"=70, "quatre-vingts"=80, "quatre-vingt"=80, "quatre-vingt-dix"=90)
   doubles <- c(teens,ten_digits)
   out <- 0
   i <- 1
