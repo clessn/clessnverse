@@ -74,9 +74,6 @@ loginit <- function(script, backend, logpath=".") {
 logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
   tryCatch(
     {
-      if ("hub_log" %in% logger) {
-        clessnhub::logToHub(scriptname, data=message, metadata = format(Sys.time(), "%Y-%m-%d %X"))
-      }
 
       if ("console" %in% logger) {
         cat(format(Sys.time(), "%Y-%m-%d %X"), scriptname, "-", paste(message, collapse = " "), "\n")
@@ -85,9 +82,13 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
       if (is.numeric(logger[[1]][1])) {
         if (getConnection(logger[[1]][1])) cat(format(Sys.time(), "%Y-%m-%d %X"), scriptname, ":", paste(message, collapse = " "), "\n", append = T, file = logger[[1]][1])
       }
+
+      if ("hub_log" %in% logger) {
+        clessnhub::logToHub(scriptname, data=message, metadata = format(Sys.time(), "%Y-%m-%d %X"))
+      }
     },
     error = function(e) {
-      cat("console log: ",format(Sys.time(), "%Y-%m-%d %X"), "-", paste(message, collapse = " "), "\n")
+      cat("console log: ",format(Sys.time(), "%Y-%m-%d %X"), "- Error logging", e[[1]], "-", paste(message, collapse = " "), "\n")
     }
   )
 }
