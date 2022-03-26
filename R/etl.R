@@ -323,9 +323,10 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
 #'
 #' @export
 convertTextToNumberFR <- function(word) {
+  temp <- NA
   wsplit <- strsplit(tolower(word),"\\s+|\\-|et")[[1]]
   wsplit <- wsplit[wsplit != ""]
-  one_digits <- list(zéro=0, un=1, une = 1, deux=2, trois=3, quatre=4, cinq=5,
+  one_digits <- list(zéro=0, un=1, une = 1, deux=2, trois=3, troix=3, quatre=4, cinq=5,
                      six=6, sept=7, huit=8, neuf=9)
   teens <- list(onze=11, douze=12, midi=12, treize=13, quatorze=14, quinze=15,
                 seize=16, "dix-sept"=17, "dix-huit"=18, "dix-neuf"=19, minuit=0)
