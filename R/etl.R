@@ -323,7 +323,7 @@ commitAgoraplusCache <- function (dfDestination, type, schema, metadata, data, d
 #'
 #' @export
 convertTextToNumberFR <- function(word) {
-  temp <- NA
+  temp <- 0
   wsplit <- strsplit(tolower(word),"\\s+|\\-|et")[[1]]
   wsplit <- wsplit[wsplit != ""]
   one_digits <- list(zéro=0, un=1, une = 1, deux=2, trois=3, troix=3, quatre=4, cinq=5,
