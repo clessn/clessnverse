@@ -10,7 +10,6 @@
 #' @export
 version <- function() {
   version <- "1.4.6"
-  clessnverse::logit(message = version, logger = logger)
   return(version)
 }
 
