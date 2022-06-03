@@ -60,6 +60,9 @@
 #' @export
 #' 
 get_datamart_table <- function(my_table, my_credentials, nbrows=0) {
+
+    my_table <- paste("clhub_tables_datamart_", my_table, sep="")
+    
     hubr::count_table_items(my_table, credentials) 
 
     page <- hubr::list_table_items(my_table, credentials) 
@@ -72,7 +75,7 @@ get_datamart_table <- function(my_table, my_credentials, nbrows=0) {
             break
         }
     }
-    
+
     if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
     datamart <- tidyjson::spread_all(data)
