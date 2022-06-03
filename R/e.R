@@ -59,7 +59,7 @@
 #'
 #' @export
 #' 
-get_datamart_table <- function(my_table, my_credentials, max_nb_rows=0) {
+get_datamart_table <- function(my_table, my_credentials, nbrows=0) {
     hubr::count_table_items(my_table, credentials) 
 
     page <- hubr::list_table_items(my_table, credentials) 
@@ -68,10 +68,13 @@ get_datamart_table <- function(my_table, my_credentials, max_nb_rows=0) {
     repeat {
         data <- c(data, page$results)
         page <- hubr::list_next(page, credentials)
-        if (is.null(page) || length(data) >= max_nb_rows) {
+        if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
             break
         }
     }
+    
+    if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
+
     datamart <- tidyjson::spread_all(data)
 
     return(datamart)
