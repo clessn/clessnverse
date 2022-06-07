@@ -1,6 +1,4 @@
-library(dplyr)
-library(magrittr)
-library(purrr)
+library(tidyverse)
 library(rlang)
 library(testthat)
 library(clessnverse)

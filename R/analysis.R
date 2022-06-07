@@ -1,8 +1,4 @@
-##################################################################################
-##################################################################################
 ############################################# Analysis Functions #################
-##################################################################################
-##################################################################################
 utils::globalVariables(c("n", "prob"))
 #### 1. Geometry ####
 #### ~1.1 Eucledian distance ####
@@ -248,4 +244,67 @@ calculate_proportions <- function(data, variable) {
     warning(paste0("`", names(D[, 1]), "`", " only has one category."))
   }
   return(D)
+}
+
+#### 4. Dictionary analysis ####
+#### ~4.1 Run dictionary ####
+#' Calculate dictionary expression mentions in a text.
+#'
+#' This function creates a data.frame which includes one column
+#' with each observation's ID as well as one column for each
+#' category of the inputted dictionary.
+#'
+#' @param data An object of type data.frame.
+#' @param text The name of the character variable for which
+#' dictionary expressions are to be matched against.
+#' @param dictionary An object of type dictionary.
+#' @return A data.frame which includes one more column than
+#' the number of dictionary categories. The first column is named
+#' doc_id. Each other column is named after a dictionary category.
+#' @export
+#' @import tidyverse
+#' @import crayon
+#' @import quanteda
+#' @author CLESSN
+#' @examples
+#'
+#' \dontrun{
+#'
+#' # Calculate the number of dictionary expression mentions in
+#' a list of attitudes.
+#'
+#' run_dictionary(data.frame(colnames(attitude)),
+#' text = colnames(attitude),
+#' dictionary = quanteda::data_dictionary_LSD2015)
+#' }
+run_dictionary <- function(data, text, dictionary) {
+  tictoc::tic() # calculate number of seconds for function execution
+  if (is.data.frame(data) != "TRUE") {
+    stop(crayon::yellow('the argument "data" needs to be a dataframe'))
+  }
+  data <- data %>% dplyr::mutate(text = {
+    {
+      text
+    }
+  })
+  if (is.character(data$text) != "TRUE") {
+    stop(crayon::yellow('The variable "text" needs to be a character vector'))
+  }
+  corpus <- quanteda::tokens(data$text) #
+  if (quanteda::is.dictionary(dictionary) != "TRUE") {
+    stop(crayon::yellow(
+      paste0(
+        'Your "dictionary" needs to be in a dictionary format\n',
+        ' For more information:"',
+        ' https://quanteda.io/reference/dictionary.html'
+      )
+    ))
+  }
+  dfm <- # applies the dictionary to the variable corpus and creates a
+    # dfm (document-feature matrix). Applies tolower() by default
+    quanteda::dfm(quanteda::tokens_lookup(corpus, dictionary, nested_scope = "dictionary"))
+  message(crayon::green("100% expressions/words found"))
+  dataFinal <- quanteda::convert(dfm, to = "data.frame")
+  tictoc::toc()
+  return(dataFinal)
 }
