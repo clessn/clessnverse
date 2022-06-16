@@ -1,7 +1,14 @@
-library(tidyverse)
-library(rlang)
 library(testthat)
+#devtools::install_github("clessn/clessn-verse", force = T)
 library(clessnverse)
+# list of imports
+library(dplyr)
+library(magrittr)
+library(purrr)
+library(tictoc)
+library(rlang)
+library(quanteda)
+library(crayon)
 
 #### 2. Sampling ####
 #### ~2.1 Creating multiple samples with probabilities biased by category ####
@@ -105,3 +112,43 @@ test_that("`variable` argument works", {
   expect_error(object = calculate_proportions(data = CO2, variable = c(Type, Plant)))
 })
 
+#### 4. Dictionary analysis ####
+#### ~4.1 Run dictionary ####
+context("Run dictionary analysis")
+FakeData <- data.frame(text = c(
+  "I am not able to lie.", "I was abandoned.",
+  paste0("My friend is an accomplished person. He was abandoned",
+         " and is not able to lie.")))
+FakeDictionary <- data.frame(negative = c("abandoned", "abolish"))
+ShortDictionary <- dictionary(list(negative = c("abandoned",
+                                                "abolish")))
+test_that("`dictionary` argument works", {
+  expect_equal(object = class(run_dictionary(
+    data = FakeData, text = text,
+    dictionary = data_dictionary_LSD2015)),
+    expected = "data.frame")
+  expect_equal(object = run_dictionary(
+    data = FakeData, text = text,
+    dictionary = data_dictionary_LSD2015)$neg_positive,
+    expected = c(1, 0, 1))
+  expect_equal(object = run_dictionary(
+    data = FakeData, text = text,
+    dictionary = data_dictionary_LSD2015)$positive,
+    expected = c(0, 0, 2))
+  expect_equal(object = run_dictionary(
+    data = FakeData, text = text,
+    dictionary = data_dictionary_LSD2015)$negative,
+    expected = c(0, 1, 1))
+  expect_error(object = run_dictionary(
+    data = FakeData, text = tex,
+    dictionary = data_dictionary_LSD2015)$negative)
+})
+test_that("`dictionary` argument works", {
+  expect_error(object = run_dictionary(
+    data = FakeData, text = text,
+    dictionary = FakeDictionary)$negative)
+  expect_equal(object = run_dictionary(
+    data = FakeData, text = text,
+    dictionary = ShortDictionary)$negative,
+    expected = c(0, 1, 1))
+})

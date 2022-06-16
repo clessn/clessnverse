@@ -55,6 +55,14 @@ utils::globalVariables(c("n", "prob"))
 #' `iterations > 1`, an `iterations` column is included
 #' to identify which iteration the observation belongs to.
 #' @export
+#' @importFrom rlang abort
+#' @import dplyr
+#' @importFrom testthat context
+#' @importFrom testthat test_that
+#' @importFrom testthat expect_equal
+#' @importFrom testthat expect_error
+#' @importFrom testthat expect_warning
+#' @importFrom purrr map_dfr
 #' @author CLESSN
 #' @examples
 #'
@@ -215,6 +223,7 @@ Sample$rowID <- NULL # remove row IDs from output
 #' 3) `prop`: a column containing each category's proportion.
 #' @export
 #' @importFrom magrittr `%>%`
+#' @importFrom rlang abort
 #' @author CLESSN
 #' @examples
 #'
@@ -262,9 +271,12 @@ calculate_proportions <- function(data, variable) {
 #' the number of dictionary categories. The first column is named
 #' doc_id. Each other column is named after a dictionary category.
 #' @export
-#' @import tidyverse
-#' @import crayon
+#' @import dplyr
+#' @importFrom crayon yellow
+#' @importFrom crayon green
 #' @import quanteda
+#' @importFrom tictoc tic
+#' @importFrom tictoc toc
 #' @author CLESSN
 #' @examples
 #'
@@ -290,7 +302,8 @@ run_dictionary <- function(data, text, dictionary) {
   if (is.character(data$text) != "TRUE") {
     stop(crayon::yellow('The variable "text" needs to be a character vector'))
   }
-  corpus <- quanteda::tokens(data$text) #
+  corpus <- quanteda::tokens(data$text) # transforms the vector into
+  # tokens for dictionary analysis
   if (quanteda::is.dictionary(dictionary) != "TRUE") {
     stop(crayon::yellow(
       paste0(
