@@ -17,7 +17,6 @@
 #' @export
 #'
 commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) {
-
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
     # Otherwise, do nothing (just log a message)
     table <- paste("clhub_tables_datamart_", table, sep="")
@@ -43,6 +42,40 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
     } #if(length(item$results) == 0)
 }
 
+
+#####################################################
+#' @title clessnverse::commit_warehouse_row
+#' @description adds or replaces a rown in a warehouse with a specific key
+#' @param
+#' @return
+#' @examples example
+#' @export
+#'
+commit_warehouse_row <- function(table, key, row, mode = "refresh", credentials) {
+    # If the row with the same key exist and mode=refresh then overwrite it with the new data
+    # Otherwise, do nothing (just log a message)
+    table <- paste("clhub_tables_warehouse_", table, sep="")
+
+    filter <- list(key__exact = key)
+    item <- hubr::filter_table_items(table, credentials, filter)
+
+    if(length(item$results) == 0) {
+        # l'item n'existe pas déjà dans hublot
+        hubr::add_table_item(table,
+                             body = list(key = key, timestamp = Sys.time(), data = as.list(row)),
+                             credentials)
+    } else {
+        # l'item existe déjà dans hublot
+        if (mode == "refresh") {
+            hubr::update_table_item(table, 
+                                    id = item$result[[1]]$id,
+                                    body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(as.list(row), auto_unbox = T)),
+                                    credentials)
+        } else {
+            # Do nothing but log a message saying skipping
+        } # if (mode == "refresh")
+    } #if(length(item$results) == 0)
+}
 
 
 
