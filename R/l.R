@@ -65,7 +65,7 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
 #' @examples example
 #' @export
 #'
-commit_lake_item <- function(item, data, metadata, mode, credentials, logger) {
+commit_lake_item <- function(data, metadata, mode, credentials, logger) {
 
     write(item, paste("file.", metadata$format, sep=""))
 
