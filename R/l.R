@@ -67,7 +67,7 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
 #'
 commit_lake_item <- function(item, data, metadata, mode, credentials, logger) {
 
-    write(item, "file")
+    write(item, paste("file.", metadata$format, sep=""))
 
     # check if an item with this key already exists
     existing_item <- hubr::filter_lake_items(credentials, list(key = data$key))
@@ -78,7 +78,7 @@ commit_lake_item <- function(item, data, metadata, mode, credentials, logger) {
             body = list(
             key = data$key,
             path = data$path,
-            file = httr::upload_file("file"),
+            file = httr::upload_file(paste("file.", metadata$format, sep="")),
             metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
             credentials)             
     } else {
@@ -91,7 +91,7 @@ commit_lake_item <- function(item, data, metadata, mode, credentials, logger) {
                 body = list(
                 key = data$key,
                 path = data$path,
-                file = httr::upload_file("file"),
+                file = httr::upload_file(paste("file.", metadata$format, sep="")),
                 metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
                 credentials)  
         } else {
@@ -99,5 +99,5 @@ commit_lake_item <- function(item, data, metadata, mode, credentials, logger) {
         }
     }
 
-    file.remove("file")
+    file.remove(paste("file.", metadata$format, sep=""))
 }
