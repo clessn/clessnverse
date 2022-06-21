@@ -65,7 +65,7 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
 #' @examples example
 #' @export
 #'
-commit_lake_item <- function(item, data, metadata, mode, credentials) {
+commit_lake_item <- function(item, data, metadata, mode, credentials, logger) {
 
     write(item, "file")
 
@@ -73,7 +73,7 @@ commit_lake_item <- function(item, data, metadata, mode, credentials) {
     existing_item <- hubr::filter_lake_items(credentials, list(key = data$key))
                                
     if (length(existing_item$results) == 0) {
-        clessnverse::logit(scriptname, paste("creating new item", key, "in data lake", path), logger)
+        clessnverse::logit(scriptname, paste("creating new item", data$key, "in data lake", data$path), logger)
         hublot::add_lake_item(
             body = list(
             key = data$key,
@@ -83,7 +83,7 @@ commit_lake_item <- function(item, data, metadata, mode, credentials) {
             credentials)             
     } else {
         if (mode == "refresh") {
-            clessnverse::logit(scriptname, paste("updating existing item", key, "in data lake", path), logger)
+            clessnverse::logit(scriptname, paste("updating existing item", data$key, "in data lake", data$path), logger)
 
             hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
 
@@ -95,7 +95,7 @@ commit_lake_item <- function(item, data, metadata, mode, credentials) {
                 metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
                 credentials)  
         } else {
-            clessnverse::logit(scriptname, paste("not updating existing item", key, "in data lake", path, "because mode is", mode), logger)
+            clessnverse::logit(scriptname, paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode), logger)
         }
     }
 
