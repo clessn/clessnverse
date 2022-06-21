@@ -51,21 +51,22 @@
 ######################################################
 #' @title clessnverse::get_datamart_table
 #' @description 
-#' @param table : 
-#' @param id : 
-#' @return 
+#' @param table : the table name to fetch data from in the hub
+#' @param credentials : your hub credential token
+#' @param nbrows : the number of rows to fetch from the table
+#' @return : a dataframe containing the columns and rows
 #' @examples example
 #'
 #'
 #' @export
 #' 
-get_datamart_table <- function(my_table, my_credentials, nbrows=0) {
+get_datamart_table <- function(table, credentials, nbrows=0) {
 
-    my_table <- paste("clhub_tables_datamart_", my_table, sep="")
-    
-    hubr::count_table_items(my_table, credentials) 
+    table <- paste("clhub_tables_datamart_", table, sep="")
 
-    page <- hubr::list_table_items(my_table, credentials) 
+    hubr::count_table_items(table, credentials) 
+
+    page <- hubr::list_table_items(table, credentials) 
     data <- list() 
 
     repeat {
