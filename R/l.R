@@ -65,37 +65,39 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
 #' @examples example
 #' @export
 #'
-commit_lake_item <- function(data, metadata, mode, cradentials) {
+ommit_lake_item <- function(data, metadata, mode, credentials) {
 
-    #write(html, "file.html")
+    write(data$file, "file")
 
     # check if an item with this key already exists
-    data <- hubr::filter_lake_items(credentials, list(key = data$key))
+    existing_item <- hubr::filter_lake_items(credentials, list(key = data$key))
                                
-    if (length(data$results) == 0) {
+    if (length(existing_item$results) == 0) {
         clessnverse::logit(scriptname, paste("creating new item", key, "in data lake", path), logger)
         hublot::add_lake_item(
             body = list(
-            key = key,
-            path = path,
-            file = httr::upload_file("file.html"),
+            key = data$key,
+            path = data$path,
+            file = httr::upload_file("file"),
             metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
             credentials)             
     } else {
-        clessnverse::logit(scriptname, paste("updating existing item", key, "in data lake", path), logger)
+        if (mode == "refresh") {
+            clessnverse::logit(scriptname, paste("updating existing item", key, "in data lake", path), logger)
 
-        hublot::remove_lake_item(data$results[[1]]$id, credentials)
+            hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
 
-        hublot::add_lake_item(
-            body = list(
-            key = key,
-            path = path,
-            file = httr::upload_file("file.html"),
-            metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
-            credentials)  
-        
+            hublot::add_lake_item(
+                body = list(
+                key = data$key,
+                path = data$path,
+                file = httr::upload_file("file"),
+                metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
+                credentials)  
+        } else {
+            clessnverse::logit(scriptname, paste("not updating existing item", key, "in data lake", path, "because mode is", mode), logger)
+        }
     }
-    #file.remove("file.html")
 
-
+    file.remove("file")
 }
