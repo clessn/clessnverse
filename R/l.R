@@ -65,9 +65,9 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
 #' @examples example
 #' @export
 #'
-commit_lake_item <- function(data, metadata, mode, credentials, logger) {
+commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
-    write(item, paste("file.", metadata$format, sep=""))
+    write(data$item, paste("file.", metadata$format, sep=""))
 
     # check if an item with this key already exists
     existing_item <- hubr::filter_lake_items(credentials, list(key = data$key))
