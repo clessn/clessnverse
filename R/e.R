@@ -2,7 +2,7 @@
 ##                                                                          ##
 ##  This file contains function dedicated to data extraction                ##
 ##                                                                          ##
-##  - Wrappers for hubr package to read (extract data from hublot)          ##
+##  - Wrappers for hublot package to read (extract data from hublot)        ##
 ##  - Common html and xml document extraction utilities                     ##
 ##                                                                          ##
 ##############################################################################
@@ -32,6 +32,30 @@
 #'
 #' @export
 #' 
+get_warehouse_table <- function(table, credentials, nbrows=0) {
+
+    table <- paste("clhub_tables_warehouse_", table, sep="")
+
+    hublot::count_table_items(table, credentials) 
+
+    page <- hublot::list_table_items(table, credentials) 
+    data <- list() 
+
+    repeat {
+        data <- c(data, page$results)
+        page <- hublot::list_next(page, credentials)
+        if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
+            break
+        }
+    }
+
+    if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
+
+    datamart <- tidyjson::spread_all(data)
+
+    return(datamart)
+}
+
 
 
 #' ######################################################
@@ -64,14 +88,14 @@ get_datamart_table <- function(table, credentials, nbrows=0) {
 
     table <- paste("clhub_tables_datamart_", table, sep="")
 
-    hubr::count_table_items(table, credentials) 
+    hublot::count_table_items(table, credentials) 
 
-    page <- hubr::list_table_items(table, credentials) 
+    page <- hublot::list_table_items(table, credentials) 
     data <- list() 
 
     repeat {
         data <- c(data, page$results)
-        page <- hubr::list_next(page, credentials)
+        page <- hublot::list_next(page, credentials)
         if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
             break
         }

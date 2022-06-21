@@ -2,7 +2,7 @@
 ##                                                                          ##
 ##  This file contains function dedicated to data loading                   ##
 ##                                                                          ##
-##  - Wrappers for hubr package to write (commit data to hublot)            ##
+##  - Wrappers for hublotr package to write (commit data to hublot)         ##
 ##  - Other examples...???                                                  ##
 ##                                                                          ##
 ##############################################################################
@@ -24,11 +24,11 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
     my_table <- paste("clhub_tables_datamart_", table, sep="")
 
     filter <- list(key__exact = key)
-    item <- hubr::filter_table_items(table, credentials, filter)
+    item <- hublot::filter_table_items(table, credentials, filter)
 
     if(is.null(item)) {
         # l'item n'existe pas déjà dans hublot
-        hubr::add_table_item(table,
+        hublot::add_table_item(table,
                 body = list(
                     key = key,
                     timestamp = Sys.time(),
@@ -39,7 +39,7 @@ commit_datamart_row <- function(table, key, row, mode = "refresh", credentials) 
     } else {
         # l'item existe déjà dans hublot
         if (mode == "refresh") {
-            hubr::update_table_item(table, id = item$result[[1]]$id,
+            hublot::update_table_item(table, id = item$result[[1]]$id,
                                     body = list(
                                         key = key,
                                         timestamp = as.character(Sys.time()),
@@ -70,7 +70,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
     write(data$item, paste("file.", metadata$format, sep=""))
 
     # check if an item with this key already exists
-    existing_item <- hubr::filter_lake_items(credentials, list(key = data$key))
+    existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
                                
     if (length(existing_item$results) == 0) {
         clessnverse::logit(scriptname, paste("creating new item", data$key, "in data lake", data$path), logger)
