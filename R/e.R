@@ -8,7 +8,7 @@
 ##############################################################################
 
 ######################################################
-#' @title clessnverse::get_datalake_item
+#' @title clessnverse::get_lake_item
 #' @description 
 #' @param table : 
 #' @param id : 
@@ -73,7 +73,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 
 
 ######################################################
-#' @title clessnverse::get_datamart_table
+#' @title clessnverse::get_mart_table
 #' @description 
 #' @param table : the table name to fetch data from in the hub
 #' @param credentials : your hub credential token
@@ -84,7 +84,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #'
 #' @export
 #' 
-get_datamart_table <- function(table, credentials, nbrows=0) {
+get_mart_table <- function(table, credentials, nbrows=0) {
 
     table <- paste("clhub_tables_datamart_", table, sep="")
 
@@ -111,7 +111,7 @@ get_datamart_table <- function(table, credentials, nbrows=0) {
 
 
 #' ######################################################
-#' @title clessnverse::get_datamart_item
+#' @title clessnverse::get_mart_item
 #' @description 
 #' @param table : 
 #' @param id : 

@@ -9,14 +9,14 @@
 
 
 ######################################################
-#' @title clessnverse::commit_data_row
+#' @title clessnverse::commit_mart_row
 #' @description adds or replaces a rown in a datamart with a specific key
 #' @param
 #' @return
 #' @examples example
 #' @export
 #'
-commit_datamart_row <- function(table, key, row = list(), mode = "refresh", credentials) {
+commit_mart_row <- function(table, key, row = list(), mode = "refresh", credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
     # Otherwise, do nothing (just log a message)
     table <- paste("clhub_tables_datamart_", table, sep="")
