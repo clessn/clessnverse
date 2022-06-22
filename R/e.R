@@ -86,7 +86,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #' 
 get_mart_table <- function(table, credentials, nbrows=0) {
 
-    table <- paste("clhub_tables_datamart_", table, sep="")
+    table <- paste("clhub_tables_mart_", table, sep="")
 
     hublot::count_table_items(table, credentials) 
 
