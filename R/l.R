@@ -154,11 +154,14 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
     if (grepl("file", metadata$format)) {
+      cat("rawfile")
       metadata$format <- gsub("file", "", metadata$format)
       file.rename(data$item, paste("file.", metadata$format, sep=""))
     } else {
+      cat("R object")
       write(data$item, paste("file.", metadata$format, sep=""))
     }
+
 
 
     # check if an item with this key already exists
