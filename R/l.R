@@ -153,7 +153,12 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #'
 commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
-    write(data$item, paste("file.", metadata$format, sep=""))
+    if (metadata$format != "rawfile") {
+      write(data$item, paste("file.", metadata$format, sep=""))
+    } else {
+      file.rename(data$item, paste("file.", metadata$format, sep=""))
+    }
+
 
     # check if an item with this key already exists
     existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
