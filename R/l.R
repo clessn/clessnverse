@@ -54,7 +54,7 @@ commit_mart_row <- function(table, key, row = list(), mode = "refresh", credenti
 #' @examples example
 #' @export
 #'
-commit_mart_table <- function(table_name, df, key_column, mode, credentials)
+commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
 
   for (i in 1:nrow(df)) {
