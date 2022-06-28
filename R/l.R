@@ -32,7 +32,7 @@ commit_mart_row <- function(table, key, row = list(), mode = "refresh", credenti
     } else {
         # l'item existe déjà dans hublot
         if (mode == "refresh") {
-            hublot::update_table_item(table, 
+            hublot::update_table_item(table,
                                     id = item$result[[1]]$id,
                                     body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
                                     credentials)
@@ -40,6 +40,47 @@ commit_mart_row <- function(table, key, row = list(), mode = "refresh", credenti
             # Do nothing but log a message saying skipping
         } # if (mode == "refresh")
     } #if(length(item$results) == 0)
+}
+
+
+
+
+
+######################################################
+#' @title clessnverse::commit_mart_table
+#' @description adds or replaces a table in a datamart with a specific key
+#' @param
+#' @return
+#' @examples example
+#' @export
+#'
+commit_mart_table <- function(table_name, df, key_column, mode, credentials)
+  table_name <- paste("clhub_tables_mart_", table_name, sep="")
+
+  for (i in 1:nrow(df)) {
+    key <- df[[key_column]][i]
+
+    filter <- list(key__exact = key)
+    item <- hublot::filter_table_items(table_name, credentials, filter)
+
+    if(length(item$results) == 0) {
+      # l'item n'existe pas déjà dans hublot
+      hublot::add_table_item(table_name,
+                             body = list(key = key, timestamp = Sys.time(), data = row),
+                             credentials)
+    } else {
+      # l'item existe déjà dans hublot
+      if (mode == "refresh") {
+        hublot::update_table_item(table_name,
+                                  id = item$result[[1]]$id,
+                                  body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
+                                  credentials)
+      } else {
+        # Do nothing but log a message saying skipping
+      } # if (mode == "refresh")
+    } #if(length(item$results) == 0)
+
+  } #for (i in 1:nrow(df))
 }
 
 
@@ -72,7 +113,7 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
     } else {
         # l'item existe déjà dans hublot
         if (mode == "refresh") {
-            r <- hublot::update_table_item(table, 
+            r <- hublot::update_table_item(table,
                                     id = item$result[[1]]$id,
                                     body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
                                     credentials)
@@ -103,7 +144,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
     # check if an item with this key already exists
     existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
-                               
+
     if (length(existing_item$results) == 0) {
         clessnverse::logit(scriptname, paste("creating new item", data$key, "in data lake", data$path), logger)
         hublot::add_lake_item(
@@ -112,7 +153,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
             path = data$path,
             file = httr::upload_file(paste("file.", metadata$format, sep="")),
             metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
-            credentials)             
+            credentials)
     } else {
         if (mode == "refresh") {
             clessnverse::logit(scriptname, paste("updating existing item", data$key, "in data lake", data$path), logger)
@@ -125,7 +166,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
                 path = data$path,
                 file = httr::upload_file(paste("file.", metadata$format, sep="")),
                 metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
-                credentials)  
+                credentials)
         } else {
             clessnverse::logit(scriptname, paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode), logger)
         }
