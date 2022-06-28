@@ -65,20 +65,19 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
     filter <- list(key__exact = key)
     item <- hublot::filter_table_items(table_name, credentials, filter)
 
-
-    row <- as.list(df[i,])
+    data_row <- as.list(df[i,])
 
     if(length(item$results) == 0) {
       # l'item n'existe pas déjà dans hublot
       hublot::add_table_item(table_name,
-                             body = list(key = key, timestamp = Sys.time(), data = row),
+                             body = list(key = key, timestamp = Sys.time(), data = data_row),
                              credentials)
     } else {
       # l'item existe déjà dans hublot
       if (mode == "refresh") {
         hublot::update_table_item(table_name,
                                   id = item$result[[1]]$id,
-                                  body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
+                                  body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(data_row, auto_unbox = T)),
                                   credentials)
       } else {
         # Do nothing but log a message saying skipping
