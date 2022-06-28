@@ -57,11 +57,16 @@ commit_mart_row <- function(table, key, row = list(), mode = "refresh", credenti
 commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
 
+  df <- as.data.frame(df)
+
   for (i in 1:nrow(df)) {
     key <- df[[key_column]][i]
 
     filter <- list(key__exact = key)
     item <- hublot::filter_table_items(table_name, credentials, filter)
+
+
+    row <- as.list(df[i,])
 
     if(length(item$results) == 0) {
       # l'item n'existe pas déjà dans hublot
