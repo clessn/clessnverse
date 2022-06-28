@@ -155,9 +155,9 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
     if (grepl("file", metadata$format)) {
       metadata$format <- gsub("file", "", metadata$format)
-      write(data$item, paste("file.", metadata$format, sep=""))
-    } else {
       file.rename(data$item, paste("file.", metadata$format, sep=""))
+    } else {
+      write(data$item, paste("file.", metadata$format, sep=""))
     }
 
 
