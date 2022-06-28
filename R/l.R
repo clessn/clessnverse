@@ -67,7 +67,7 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
 
   for (i in 1:nrow(df)) {
-    setTxtProgressBar(pb_chap, j)
+    setTxtProgressBar(pb_chap, i)
 
     key <- df[[key_column]][i]
 
