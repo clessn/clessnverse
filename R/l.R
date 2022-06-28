@@ -153,7 +153,8 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #'
 commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
-    if (metadata$format != "rawfile") {
+    if (grepl("file", metadata$format) {
+      metadata$format <- gsub("file", "", metadata$format)
       write(data$item, paste("file.", metadata$format, sep=""))
     } else {
       file.rename(data$item, paste("file.", metadata$format, sep=""))
