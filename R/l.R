@@ -59,7 +59,16 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
   df <- as.data.frame(df)
 
+  pb_chap <- utils::txtProgressBar(min = 0,      # Minimum value of the progress bar
+                                  max = nrow(df), # Maximum value of the progress bar
+                                  style = 3,    # Progress bar style (also available style = 1 and style = 2)
+                                  width = 80,  # Progress bar width. Defaults to getOption("width")
+                                  char = "=")   # Character used to create the bar
+
+
   for (i in 1:nrow(df)) {
+    setTxtProgressBar(pb_chap, j)
+
     key <- df[[key_column]][i]
 
     filter <- list(key__exact = key)
