@@ -19,7 +19,7 @@
 commit_mart_row <- function(table, key, row = list(), mode = "refresh", credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
     # Otherwise, do nothing (just log a message)
-    table <- paste("clhub_tables_datamart_", table, sep="")
+    table <- paste("clhub_tables_mart_", table, sep="")
 
     filter <- list(key__exact = key)
     item <- hublot::filter_table_items(table, credentials, filter)
