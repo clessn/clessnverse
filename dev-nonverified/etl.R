@@ -65,21 +65,6 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 
 
 
-#' ######################################################
-#' @title clessnverse::get_warhouse_item
-#' @description 
-#' @param table : 
-#' @param id : 
-#' @return 
-#' @examples example
-#'
-#'
-#' @export
-#' 
-#' 
-
-
-
 
 ###############################################################################
 ###############################################################################
@@ -125,20 +110,6 @@ get_mart_table <- function(table, credentials, nbrows=0) {
     return(datamart)
 }
 
-
-
-#' ######################################################
-#' @title clessnverse::get_mart_item
-#' @description 
-#' @param table : 
-#' @param id : 
-#' @return 
-#' @examples example
-#'
-#'
-#' @export
-#' 
-#' 
 
 
 
