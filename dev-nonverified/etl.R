@@ -37,7 +37,6 @@
 #'
 #'
 #' @export
-#' 
 get_warehouse_table <- function(table, credentials, nbrows=0) {
 
     table <- paste("clhub_tables_warehouse_", table, sep="")
@@ -85,7 +84,6 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #'
 #'
 #' @export
-#' 
 get_mart_table <- function(table, credentials, nbrows=0) {
 
     table <- paste("clhub_tables_mart_", table, sep="")
@@ -138,7 +136,6 @@ get_mart_table <- function(table, credentials, nbrows=0) {
 #' @return
 #' @examples example
 #' @export
-#'
 commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
     # Otherwise, do nothing (just log a message)
@@ -188,7 +185,6 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #' @return
 #' @examples example
 #' @export
-#'
 commit_mart_row <- function(table, key, row = list(), mode = "refresh", credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
     # Otherwise, do nothing (just log a message)
@@ -226,7 +222,6 @@ commit_mart_row <- function(table, key, row = list(), mode = "refresh", credenti
 #' @return
 #' @examples example
 #' @export
-#'
 commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
 
@@ -286,7 +281,6 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #' @return
 #' @examples example
 #' @export
-#'
 commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 
     if (grepl("file", metadata$format)) {
@@ -351,7 +345,6 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 #' @return
 #' @examples example
 #' @export
-#'
 compute_nb_sentences <- function(txt_bloc) {
     df_sentences <- tibble::tibble(text = txt_bloc) %>%
                         tidytext::unnest_tokens(sentence, text, token="sentences",format="text", to_lower = T)
@@ -369,7 +362,6 @@ compute_nb_sentences <- function(txt_bloc) {
 #' @return
 #' @examples example
 #' @export
-#'
 compute_nb_words <- function(txt_bloc) {
     df_words <- tibble::tibble(text = txt_bloc) %>%
                         tidytext::unnest_tokens(sentence, text, token="words",format="text", to_lower = T)
@@ -387,7 +379,6 @@ compute_nb_words <- function(txt_bloc) {
 #' @return the function returns
 #' @examples example
 #' @export
-#'
 compute_relevance_score <- function(txt_bloc, dictionary) {
     # Prepare corpus
     txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
@@ -416,16 +407,6 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 }
 
 
-######################################################
-#' @title clessnverse::commit_mart_table
-#' @description adds or replaces a table in a datamart with a specific key
-#' @param
-#' @return
-#' @examples example
-#' @export
-#'
-#compute_sentiment_score <- function(txt_bloc, sentiment_dictionary)
-
 
 
 ######################################################
@@ -435,7 +416,6 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 #' @return
 #' @examples example
 #' @export
-#'
 compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {    
     # Build one corpus per category and compute sentiment on each corpus
     corpus <- data.frame(doc_id = integer(), category = character(), text = character())
