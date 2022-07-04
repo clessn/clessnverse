@@ -71,7 +71,7 @@ log_init <- function(script, backend, logpath=".") {
 
 
 ######################################################
-#' @title clessnverse::log_activity
+#' @title clessnverse::logit
 #' @description
 #' @param
 #' @return
