@@ -80,7 +80,7 @@ log_init <- function(script, backend, logpath=".") {
 #'
 #'
 #' @export
-log_activity <- function(scriptname="clessnverse", message = "", logger = NULL) {
+log <- function(scriptname="clessnverse", message = "", logger = NULL) {
   tryCatch(
     {
 

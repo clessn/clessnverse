@@ -32,7 +32,8 @@
 #'                 limited to nbrows observations.  This is particularly useful
 #'                 when trying to see if there are records in a table and what
 #'                 how structured they are.
-#' @return
+#' @return returns a dataframe containing the data warhouse table with a JSON
+#'         attribute as well as a document.id and creation & update time stamps
 #' @examples example
 #'
 #'
@@ -75,7 +76,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 
 ######################################################
 #' @title clessnverse::get_mart_table
-#' @description
+#' @description This function allows to extract data from a datamart
 #' @param table : the table name to fetch data from in the hub
 #' @param credentials : your hub credential token
 #' @param nbrows : the number of rows to fetch from the table
@@ -413,10 +414,14 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 ######################################################
 #' @title clessnverse::commit_mart_table
 #' @description adds or replaces a table in a datamart with a specific key
-#' @param
-#' @return
+#' @param txt_bloc : the bloc of text to study
+#' @param category_dictionary : a topic dictionary containing the categories to calculate the sentiment on
+#' @param sentiment_dictionary : sentiment lexicoder dictionary
+#' @return returns a dataframe containing the sentiment score of each category in the category dictionary
 #' @examples example
+#'
 #' @importFrom stats  aggregate
+#'
 #' @export
 compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {
     # Build one corpus per category and compute sentiment on each corpus
