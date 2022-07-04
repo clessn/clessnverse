@@ -2,7 +2,7 @@
 ###############################################################################
 ###############################################################################
 # Module : utils.R
-# Description:  This module is used to gather all functions related to 
+# Description:  This module is used to gather all functions related to
 #
 #               - Activity logging
 #               -
@@ -14,8 +14,8 @@
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# ACTIVITY LOGGING 
-# 
+# ACTIVITY LOGGING
+#
 # Activity logging is about keeping a log of the activity of your code
 # The log can be consigned on the screen, into the file on the computer
 # which the script runs on, or in hublot directly.
@@ -23,7 +23,7 @@
 
 
 ######################################################
-#' @title clessnverse::loginit
+#' @title clessnverse::log_init
 #' @description This function initializes the log
 #' @param
 #' @return
@@ -33,7 +33,9 @@
 #'
 #' @export
 log_init <- function(script, backend, logpath=".") {
-  available_backends <- clessnverse::getAgoraplusAvailableLogBackends()
+
+  available_backends <- c("hub" ,"file", "console")
+
   if (logpath=="") logpath <- "."
 
   if (missing(backend)) stop(paste("You must provide a backend in which to store the logs",
@@ -69,7 +71,7 @@ log_init <- function(script, backend, logpath=".") {
 
 
 ######################################################
-#' @title clessnverse::logit
+#' @title clessnverse::log_activity
 #' @description
 #' @param
 #' @return
@@ -78,7 +80,7 @@ log_init <- function(script, backend, logpath=".") {
 #'
 #'
 #' @export
-log <- function(scriptname="clessnverse", message = "", logger = NULL) {
+log_activity <- function(scriptname="clessnverse", message = "", logger = NULL) {
   tryCatch(
     {
 
@@ -102,7 +104,7 @@ log <- function(scriptname="clessnverse", message = "", logger = NULL) {
 
 
 ######################################################
-#' @title clessnverse::logclose
+#' @title clessnverse::log_close
 #' @description
 #' @param
 #' @return
@@ -130,20 +132,20 @@ log_close <- function(logger) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# COMMAND LINE UTILITIES 
-# 
+# COMMAND LINE UTILITIES
+#
 #   When automating an R Script, it can be useful to pass paramets to it.
 #   For instance, the same script could have a different behavior depending on
 #   whether it runs automatically in a schedule, or whether you run it manually
-#   
+#
 #   One typical example of that is :
-#   - a refiner build a datamart incrementally adding only new items from the 
+#   - a refiner build a datamart incrementally adding only new items from the
 #     data warehouse
 #   - but the same refiner could be ran manually to rebuild an entire datamart
 #     from scratch with a new metadata or a new way to standardize a particular
 #     variable
-#   
-#   The clessnverse package offers therefore a way to parse command line 
+#
+#   The clessnverse package offers therefore a way to parse command line
 #   parameters which allows you to take those parameters values into account
 #   in your code and program different behaviors of your script depending
 #   on parameters values.
@@ -196,8 +198,8 @@ process_command_line_options <- function() {
                paste("--hub_mode=", opt$hub_mode, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
                "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
 
-  clessnverse::logit(message = paste("command line options: ",
-                           paste(c(rbind(paste(" ",names(opt),"=",sep=''),opt)), collapse='')), logger = logger)
+  #clessnverse::log_activity(message = paste("command line options: ",
+  #                         paste(c(rbind(paste(" ",names(opt),"=",sep=''),opt)), collapse='')), logger = logger)
 
   return(opt)
 }

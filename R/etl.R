@@ -9,7 +9,7 @@
 #               do something with it, such as transforming it, enriching it
 #               and storing it somewhere else in order for it to be consummed.
 #
-#               The source can be either in the Internet, in the CLESSN data 
+#               The source can be either in the Internet, in the CLESSN data
 #               lake or in the CLESSN data warehouse
 #
 
@@ -17,7 +17,7 @@
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA EXTRACTION 
+# DATA EXTRACTION
 #   DATAWARHOUSE
 
 
@@ -25,14 +25,14 @@
 #' @title clessnverse::get_warhouse_table
 #' @description get_warehouse_table allows the programmer to retrieve a data
 #'              table from the CLESSN data warehouse named hublot.
-#' @param table : The name of the table to retrieve from the warhouse without 
-#'                the 
+#' @param table : The name of the table to retrieve from the warhouse without
+#'                the
 #' @param credentials : The hublot credentials obtained from the hublot::
 #' @param nbrows : If nbrows is greater than 0, the dataframe returned will be
 #'                 limited to nbrows observations.  This is particularly useful
 #'                 when trying to see if there are records in a table and what
-#'                 how structured they are. 
-#' @return 
+#'                 how structured they are.
+#' @return
 #' @examples example
 #'
 #'
@@ -41,10 +41,10 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 
     table <- paste("clhub_tables_warehouse_", table, sep="")
 
-    hublot::count_table_items(table, credentials) 
+    hublot::count_table_items(table, credentials)
 
-    page <- hublot::list_table_items(table, credentials) 
-    data <- list() 
+    page <- hublot::list_table_items(table, credentials)
+    data <- list()
 
     repeat {
         data <- c(data, page$results)
@@ -68,14 +68,14 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA EXTRACTION 
+# DATA EXTRACTION
 #   DATAMART
 
 
 
 ######################################################
 #' @title clessnverse::get_mart_table
-#' @description 
+#' @description
 #' @param table : the table name to fetch data from in the hub
 #' @param credentials : your hub credential token
 #' @param nbrows : the number of rows to fetch from the table
@@ -88,10 +88,10 @@ get_mart_table <- function(table, credentials, nbrows=0) {
 
     table <- paste("clhub_tables_mart_", table, sep="")
 
-    hublot::count_table_items(table, credentials) 
+    hublot::count_table_items(table, credentials)
 
-    page <- hublot::list_table_items(table, credentials) 
-    data <- list() 
+    page <- hublot::list_table_items(table, credentials)
+    data <- list()
 
     repeat {
         data <- c(data, page$results)
@@ -116,7 +116,7 @@ get_mart_table <- function(table, credentials, nbrows=0) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA EXTRACTION 
+# DATA EXTRACTION
 #   DICTIONARIES
 
 
@@ -125,7 +125,7 @@ get_mart_table <- function(table, credentials, nbrows=0) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA LOAD 
+# DATA LOAD
 # DATAWAREHOUSE
 
 
@@ -173,7 +173,7 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA LOAD 
+# DATA LOAD
 #   DATAMART
 
 
@@ -221,6 +221,7 @@ commit_mart_row <- function(table, key, row = list(), mode = "refresh", credenti
 #' @param
 #' @return
 #' @examples example
+#' @importFrom utils setTxtProgressBar
 #' @export
 commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
@@ -235,7 +236,7 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
 
   for (i in 1:nrow(df)) {
-    setTxtProgressBar(pb_chap, i)
+    utils::setTxtProgressBar(pb_chap, i)
 
     key <- df[[key_column]][i]
 
@@ -270,7 +271,7 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA LOAD 
+# DATA LOAD
 # DATALAKE
 
 
@@ -281,7 +282,7 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #' @return
 #' @examples example
 #' @export
-commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
+commit_lake_item <- function(data, metadata, mode, credentials) {
 
     if (grepl("file", metadata$format)) {
       metadata$format <- gsub("file", "", metadata$format)
@@ -294,7 +295,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
     existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
 
     if (length(existing_item$results) == 0) {
-        clessnverse::logit(scriptname, paste("creating new item", data$key, "in data lake", data$path), logger)
+        #clessnverse::log_activity(message = paste("creating new item", data$key, "in data lake", data$path), logger = logger)
         hublot::add_lake_item(
             body = list(
             key = data$key,
@@ -304,7 +305,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
             credentials)
     } else {
         if (mode == "refresh") {
-            clessnverse::logit(scriptname, paste("updating existing item", data$key, "in data lake", data$path), logger)
+            #clessnverse::log_activity(message = paste("updating existing item", data$key, "in data lake", data$path), logger = logger)
 
             hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
 
@@ -316,7 +317,7 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
                 metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
                 credentials)
         } else {
-            clessnverse::logit(scriptname, paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode), logger)
+            #clessnverse::log_activity(message = paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode), logger = logger)
         }
     }
 
@@ -333,8 +334,8 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA TRANSFORMATION 
-# 
+# DATA TRANSFORMATION
+#
 
 
 
@@ -346,9 +347,9 @@ commit_lake_item <- function(data, metadata, mode, credentials, logger = NULL) {
 #' @examples example
 #' @export
 compute_nb_sentences <- function(txt_bloc) {
-    df_sentences <- tibble::tibble(text = txt_bloc) %>%
-                        tidytext::unnest_tokens(sentence, text, token="sentences",format="text", to_lower = T)
-                    
+    df_sentences <- tibble::tibble(txt = txt_bloc) %>%
+                        tidytext::unnest_tokens("sentence", "txt", token="sentences",format="text", to_lower = T)
+
     nb_sentences <- nrow(df_sentences)
 
     return(nb_sentences)
@@ -363,9 +364,9 @@ compute_nb_sentences <- function(txt_bloc) {
 #' @examples example
 #' @export
 compute_nb_words <- function(txt_bloc) {
-    df_words <- tibble::tibble(text = txt_bloc) %>%
-                        tidytext::unnest_tokens(sentence, text, token="words",format="text", to_lower = T)
-                    
+    df_words <- tibble::tibble(txt = txt_bloc) %>%
+                        tidytext::unnest_tokens("words", "txt", token="words",format="text", to_lower = T)
+
     nb_words <- nrow(df_words)
 
     return(nb_words)
@@ -374,7 +375,7 @@ compute_nb_words <- function(txt_bloc) {
 
 ######################################################
 #' @title clessnverse::compute_relevance_score
-#' @description calculates the relevance of a bloc of text against a topic dictionary 
+#' @description calculates the relevance of a bloc of text against a topic dictionary
 #' @param
 #' @return the function returns
 #' @examples example
@@ -388,13 +389,13 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
     tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("english"))
 
     tokens <- quanteda::tokens_replace(
-                            tokens, 
-                            quanteda::types(tokens), 
+                            tokens,
+                            quanteda::types(tokens),
                             stringi::stri_replace_all_regex(quanteda::types(tokens), "[lsd]['\\p{Pf}]", ""))
 
     if (length(tokens[[1]]) == 0) {
         tokens <- quanteda::tokens("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", remove_punct = TRUE)
-    } 
+    }
 
     dfm_corpus <- quanteda::dfm(tokens)
 
@@ -415,14 +416,15 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 #' @param
 #' @return
 #' @examples example
+#' @importFrom stats  aggregate
 #' @export
-compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {    
+compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {
     # Build one corpus per category and compute sentiment on each corpus
-    corpus <- data.frame(doc_id = integer(), category = character(), text = character())
+    corpus <- data.frame(doc_id = integer(), category = character(), txt = character())
 
-    df_sentences <- tibble::tibble(text = txt_bloc) %>%
-                        tidytext::unnest_tokens(sentence, text, token="sentences",format="text", to_lower = T)
-                    
+    df_sentences <- tibble::tibble(txt = txt_bloc) %>%
+                        tidytext::unnest_tokens("sentence", "txt", token="sentences",format="text", to_lower = T)
+
     toks <- quanteda::tokens(df_sentences$sentence)
 
     dfm_corpus <- quanteda::dfm(toks)
@@ -430,50 +432,52 @@ compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sen
     df <- quanteda::convert(lookup, to="data.frame") %>% select(-c("doc_id"))
 
     df_sentences <- df_sentences %>% cbind(df)
-    df_sentences <- df_sentences %>% tidyr::pivot_longer(-c(sentence), names_to = "category", values_to = "relevance")
-    df_sentences <- df_sentences %>% filter(relevance > 0)
+    df_sentences <- df_sentences %>% tidyr::pivot_longer(-c(.data$sentence), names_to = "category", values_to = "relevance")
+    df_sentences <- df_sentences %>% filter(.data$relevance > 0)
 
-    df_categories <- df_sentences %>% dplyr::group_by(category) %>% dplyr::summarise(text = paste(sentence, collapse = " "), relevance = sum(relevance))
+    df_categories <- df_sentences %>%
+      dplyr::group_by(.data$category) %>%
+      dplyr::summarise(txt = paste(.data$sentence, collapse = " "), relevance = sum(.data$relevance))
 
-    df_categories$text <- stringr::str_replace_all(string = df_categories$text, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "") 
+    df_categories$txt <- stringr::str_replace_all(string = df_categories$txt, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
 
-    toks <- quanteda::tokens(df_categories$text)
-    toks <- quanteda::tokens(df_categories$text, remove_punct = TRUE)
+    toks <- quanteda::tokens(df_categories$txt)
+    toks <- quanteda::tokens(df_categories$txt, remove_punct = TRUE)
     # On n'enlève pas les stopwords parce qu'on veut garder "pas" ou "ne" car connotation négative
     # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("french"))
     # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("spanish"))
     # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("english"))
     toks <- quanteda::tokens_replace(
-                                toks, 
-                                quanteda::types(toks), 
+                                toks,
+                                quanteda::types(toks),
                                 stringi::stri_replace_all_regex(quanteda::types(toks), "[lsd]['\\p{Pf}]", ""))
 
 
     if (length(toks) == 0) {
         tokens <- quanteda::tokens("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", remove_punct = TRUE)
-    } 
+    }
 
     dfm_corpus <- quanteda::dfm(toks)
     lookup <- quanteda::dfm_lookup(dfm_corpus, dictionary = sentiment_dictionary, valuetype = "glob")
     df <- quanteda::convert(lookup, to="data.frame") %>% select(-c("doc_id"))
 
-    df_categories <- df_categories %>% 
+    df_categories <- df_categories %>%
                      cbind(df)
 
     if (nrow(df_categories) > 0) {
         df_categories <- df_categories %>%
-                            dplyr::mutate(sentiment = positive - neg_positive - negative + neg_negative) %>%
-                            select(-c("text"))
+                            dplyr::mutate(sentiment = .data$positive - .data$neg_positive - .data$negative + .data$neg_negative) %>%
+                            select(-c("txt"))
     }
 
-    df_category_pads <- data.frame(category = names(category_dictionary), relevance=rep(0L, length(category_dictionary)), 
-                                negative=rep(0L, length(category_dictionary)), positive=rep(0L, length(category_dictionary)), 
+    df_category_pads <- data.frame(category = names(category_dictionary), relevance=rep(0L, length(category_dictionary)),
+                                negative=rep(0L, length(category_dictionary)), positive=rep(0L, length(category_dictionary)),
                                 neg_positive=rep(0L, length(category_dictionary)), neg_negative=rep(0L, length(category_dictionary)),
                                 sentiment=rep(0L, length(category_dictionary)))
 
-    df_sentiments <- df_categories %>% rbind(df_category_pads)  
+    df_sentiments <- df_categories %>% rbind(df_category_pads)
 
-    df_sentiments <- aggregate(df_sentiments[,-c(1)], list(df_sentiments$category), FUN=sum)
+    df_sentiments <- stats::aggregate(df_sentiments[,-c(1)], list(df_sentiments$category), FUN=sum)
     names(df_sentiments)[1] <- "category"
 
     return(df_sentiments)

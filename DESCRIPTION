@@ -38,4 +38,15 @@ Imports:
     rlang,
     testthat,
     tictoc,
-    magrittr
+    magrittr,
+    clessnhub,
+    httr,
+    hublot,
+    jsonlite,
+    optparse,
+    stringi,
+    stringr,
+    tibble,
+    tidyjson,
+    tidyr,
+    tidytext
