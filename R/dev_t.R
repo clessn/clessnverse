@@ -1,24 +1,37 @@
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# Module : etl.R
-# Description:  This module is used to gather all functions related to the ETL
-#               methodology of the data pipelines at the CLESSN
+# Module      : dev_t.R
+# Description : This module is used to gather all functions related to the T
+#               of the ELT methodology of the data pipelines at the CLESSN
 #
-#               E: Extract is about extracting data from a source in order to
-#               do something with it, such as transforming it, enriching it
-#               and storing it somewhere else in order for it to be consummed.
+#               T: Stands for 'Tranform' and is about taking data from our data
+#               warehouse, combining it with other data from our data warehouse
+#               and enriching it and then store it in our datamarts area
+#               in order to consume it in its most refined form to answer
+#               questions, conduct scientific research, or visualize it in
+#               graphics.
 #
-#               The source can be either in the Internet, in the CLESSN data
-#               lake or in the CLESSN data warehouse
+#               As a reminder, the data stored in our data warehouse is stored
+#               in databases in tables (rectangular format).  Observations in
+#               data warehouses tables represent a structured reality as it was
+#               stored in the original raw data which was harvested in out data
+#               lake
 #
+# WARNING     : The functions in this file HAVE NOT BEEN VERIFIED and HAVE NOT
+#               been subject to the CLESSN package VERIFICATION checklist
+#               Also, their relevance into the clessnverse package has not
+#               been oconfirmes either
 
 
+
+
+
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA EXTRACTION
-#   DATAWARHOUSE
+#   DATAWARHOUSE ACCESS (READ)
+
 
 
 ###############################################################################
@@ -40,26 +53,26 @@
 #' @export
 get_warehouse_table <- function(table, credentials, nbrows=0) {
 
-    table <- paste("clhub_tables_warehouse_", table, sep="")
+  table <- paste("clhub_tables_warehouse_", table, sep="")
 
-    hublot::count_table_items(table, credentials)
+  hublot::count_table_items(table, credentials)
 
-    page <- hublot::list_table_items(table, credentials)
-    data <- list()
+  page <- hublot::list_table_items(table, credentials)
+  data <- list()
 
-    repeat {
-        data <- c(data, page$results)
-        page <- hublot::list_next(page, credentials)
-        if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
-            break
-        }
+  repeat {
+    data <- c(data, page$results)
+    page <- hublot::list_next(page, credentials)
+    if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
+      break
     }
+  }
 
-    if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
+  if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-    datamart <- tidyjson::spread_all(data)
+  datamart <- tidyjson::spread_all(data)
 
-    return(datamart)
+  return(datamart)
 }
 
 
@@ -69,12 +82,11 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA EXTRACTION
-#   DATAMART
+#   DATAMART ACCESS (READ/WRITE)
 
 
 
-######################################################
+###############################################################################
 #' @title clessnverse::get_mart_table
 #' @description This function allows to extract data from a datamart
 #' @param table : the table name to fetch data from in the hub
@@ -87,99 +99,33 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #' @export
 get_mart_table <- function(table, credentials, nbrows=0) {
 
-    table <- paste("clhub_tables_mart_", table, sep="")
+  table <- paste("clhub_tables_mart_", table, sep="")
 
-    hublot::count_table_items(table, credentials)
+  hublot::count_table_items(table, credentials)
 
-    page <- hublot::list_table_items(table, credentials)
-    data <- list()
+  page <- hublot::list_table_items(table, credentials)
+  data <- list()
 
-    repeat {
-        data <- c(data, page$results)
-        page <- hublot::list_next(page, credentials)
-        if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
-            break
-        }
+  repeat {
+    data <- c(data, page$results)
+    page <- hublot::list_next(page, credentials)
+    if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
+      break
     }
+  }
 
-    if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
+  if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-    datamart <- tidyjson::spread_all(data)
+  datamart <- tidyjson::spread_all(data)
 
-    return(datamart)
+  return(datamart)
 }
 
 
 
 
 
-
 ###############################################################################
-###############################################################################
-###############################################################################
-# DATA EXTRACTION
-#   DICTIONARIES
-
-
-
-
-###############################################################################
-###############################################################################
-###############################################################################
-# DATA LOAD
-# DATAWAREHOUSE
-
-
-#####################################################
-#' @title clessnverse::commit_warehouse_row
-#' @description adds or replaces a rown in a warehouse with a specific key
-#' @param
-#' @return
-#' @examples example
-#' @export
-commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", credentials) {
-    # If the row with the same key exist and mode=refresh then overwrite it with the new data
-    # Otherwise, do nothing (just log a message)
-    table <- paste("clhub_tables_warehouse_", table, sep="")
-
-    filter <- list(key__exact = key)
-    item <- hublot::filter_table_items(table, credentials, filter)
-
-    r <- list()
-
-    if(length(item$results) == 0) {
-        # l'item n'existe pas déjà dans hublot
-        r <- hublot::add_table_item(table,
-                             body = list(key = key, timestamp = Sys.time(), data = row),
-                             credentials)
-    } else {
-        # l'item existe déjà dans hublot
-        if (mode == "refresh") {
-            r <- hublot::update_table_item(table,
-                                    id = item$result[[1]]$id,
-                                    body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
-                                    credentials)
-        } else {
-            # Do nothing but log a message saying skipping
-            r <- list(id=0)
-        } # if (mode == "refresh")
-    } #if(length(item$results) == 0)
-
-    return(r$id)
-}
-
-
-
-
-###############################################################################
-###############################################################################
-###############################################################################
-# DATA LOAD
-#   DATAMART
-
-
-
-######################################################
 #' @title clessnverse::commit_mart_row
 #' @description adds or replaces a rown in a datamart with a specific key
 #' @param
@@ -187,36 +133,36 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #' @examples example
 #' @export
 commit_mart_row <- function(table, key, row = list(), mode = "refresh", credentials) {
-    # If the row with the same key exist and mode=refresh then overwrite it with the new data
-    # Otherwise, do nothing (just log a message)
-    table <- paste("clhub_tables_mart_", table, sep="")
+  # If the row with the same key exist and mode=refresh then overwrite it with the new data
+  # Otherwise, do nothing (just log a message)
+  table <- paste("clhub_tables_mart_", table, sep="")
 
-    filter <- list(key__exact = key)
-    item <- hublot::filter_table_items(table, credentials, filter)
+  filter <- list(key__exact = key)
+  item <- hublot::filter_table_items(table, credentials, filter)
 
-    if(length(item$results) == 0) {
-        # l'item n'existe pas déjà dans hublot
-        hublot::add_table_item(table,
-                             body = list(key = key, timestamp = Sys.time(), data = row),
-                             credentials)
+  if(length(item$results) == 0) {
+    # l'item n'existe pas déjà dans hublot
+    hublot::add_table_item(table,
+                           body = list(key = key, timestamp = Sys.time(), data = row),
+                           credentials)
+  } else {
+    # l'item existe déjà dans hublot
+    if (mode == "refresh") {
+      hublot::update_table_item(table,
+                                id = item$result[[1]]$id,
+                                body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
+                                credentials)
     } else {
-        # l'item existe déjà dans hublot
-        if (mode == "refresh") {
-            hublot::update_table_item(table,
-                                    id = item$result[[1]]$id,
-                                    body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
-                                    credentials)
-        } else {
-            # Do nothing but log a message saying skipping
-        } # if (mode == "refresh")
-    } #if(length(item$results) == 0)
+      # Do nothing but log a message saying skipping
+    } # if (mode == "refresh")
+  } #if(length(item$results) == 0)
 }
 
 
 
 
 
-######################################################
+###############################################################################
 #' @title clessnverse::commit_mart_table
 #' @description adds or replaces a table in a datamart with a specific key
 #' @param
@@ -269,62 +215,12 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
 
 
+
+
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA LOAD
-# DATALAKE
-
-
-######################################################
-#' @title clessnverse::commit_lake_item
-#' @description adds or replaces an object in the lake in a specific path with a specific key
-#' @param
-#' @return
-#' @examples example
-#' @export
-commit_lake_item <- function(data, metadata, mode, credentials) {
-
-    if (grepl("file", metadata$format)) {
-      metadata$format <- gsub("file", "", metadata$format)
-      file.rename(data$item, paste("file.", metadata$format, sep=""))
-    } else {
-      write(data$item, paste("file.", metadata$format, sep=""))
-    }
-
-    # check if an item with this key already exists
-    existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
-
-    if (length(existing_item$results) == 0) {
-        #clessnverse::log_activity(message = paste("creating new item", data$key, "in data lake", data$path), logger = logger)
-        hublot::add_lake_item(
-            body = list(
-            key = data$key,
-            path = data$path,
-            file = httr::upload_file(paste("file.", metadata$format, sep="")),
-            metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
-            credentials)
-    } else {
-        if (mode == "refresh") {
-            #clessnverse::log_activity(message = paste("updating existing item", data$key, "in data lake", data$path), logger = logger)
-
-            hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
-
-            hublot::add_lake_item(
-                body = list(
-                key = data$key,
-                path = data$path,
-                file = httr::upload_file(paste("file.", metadata$format, sep="")),
-                metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
-                credentials)
-        } else {
-            #clessnverse::log_activity(message = paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode), logger = logger)
-        }
-    }
-
-    file.remove(paste("file.", metadata$format, sep=""))
-}
-
+#   DICTIONARIES ACCESS (READ)
 
 
 
@@ -335,12 +231,10 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-# DATA TRANSFORMATION
-#
+#   DATA TRANSFORMATION
 
 
-
-######################################################
+###############################################################################
 #' @title clessnverse::compute_nb_sentences
 #' @description calculates the number of sentences in a bloc of text
 #' @param
@@ -357,7 +251,7 @@ compute_nb_sentences <- function(txt_bloc) {
 }
 
 
-######################################################
+###############################################################################
 #' @title clessnverse::compute_nb_words
 #' @description calculates the number of words in a bloc of text
 #' @param
@@ -374,7 +268,7 @@ compute_nb_words <- function(txt_bloc) {
 }
 
 
-######################################################
+###############################################################################
 #' @title clessnverse::compute_relevance_score
 #' @description calculates the relevance of a bloc of text against a topic dictionary
 #' @param
@@ -411,7 +305,7 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 
 
 
-######################################################
+###############################################################################
 #' @title clessnverse::commit_mart_table
 #' @description adds or replaces a table in a datamart with a specific key
 #' @param txt_bloc : the bloc of text to study
