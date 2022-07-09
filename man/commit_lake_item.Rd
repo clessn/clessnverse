@@ -7,14 +7,38 @@
 commit_lake_item(data, metadata, mode, credentials)
 }
 \arguments{
-\item{data}{a named list object containing a key, a path and the item to be
+\item{data}{A named list object containing a key, a path and the item to be
 added to the data lake}
 
-\item{metadata}{a named list object containing the metadata to be applied to
+\item{metadata}{A named list object containing the metadata to be applied to
 the lake item}
+
+\item{mode}{A string object.
+If mode = "refresh", then if an object already exists with this
+key in the data lake, then it will be overwritten.
+If mode = "newonly", then if an object already exists with this
+key in the data lake, then it will be skipped and a warning will
+be logged}
+
+\item{credentials}{These are your HUBLOT credentials.  They are obtained by
+usung the hubblot::get_credentials function.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{               ATTENTION:
+               DO NOT explicitely leave your cresential information
+               (username and password) in your code.  Use environment
+               variables instead, using the .Renviron file in your
+               user home directory.
+}\if{html}{\out{</div>}}}
+}
+\value{
+the function returns
+- the hublot id of the element that was added to the datalake if
+the operation was successful.
+- 1 if there was an error.
+- 2 if there was a warning.
 }
 \description{
-adds or replaces an object in the lake in a specific path with
+Adds or replaces an object in the lake in a specific path, with
 a specific key
 }
 \examples{
