@@ -110,16 +110,16 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
     return(response)
   }
 
-  hubr_filter <- jsonlite::toJSON(hubr_filter, auto_unbox = T)
+  filter <- jsonlite::toJSON(filter, auto_unbox = T)
 
   path <- paste("/data/", table_name, "/count/", sep="")
-  response <- http_post(path, body=hubr_filter, hub_c = hub_conf)
+  response <- http_post(path, body=filter, hub_c = hub_conf)
   result <- httr::content(response)
   count <- result$count
   print(paste("count:", count))
 
   path <- paste("/data/", table_name, "/filter/", sep="")
-  response <- http_post(path, body=hubr_filter, hub_c = hub_conf)
+  response <- http_post(path, body=filter, hub_c = hub_conf)
   page <- httr::content(response)
   data = list()
 
@@ -140,7 +140,7 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
     }
 
     path <- strsplit(path, "science")[[1]][[2]]
-    response <- http_post(path, body=hubr_filter, hub_c = hub_conf)
+    response <- http_post(path, body=filter, hub_c = hub_conf)
     page <- httr::content(response)
   }
 
