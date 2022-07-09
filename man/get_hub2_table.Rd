@@ -4,7 +4,7 @@
 \alias{get_hub2_table}
 \title{clessnverse::get_hub2_table}
 \usage{
-get_hub2_table(table_name, hubr_filter = list(), max_pages = -1, hub_config)
+get_hub2_table(table_name, hubr_filter = list(), max_pages = -1, hub_conf)
 }
 \arguments{
 \item{table}{: The name of the table to retrieve from the warhouse without
