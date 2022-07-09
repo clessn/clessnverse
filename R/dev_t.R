@@ -93,7 +93,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #'
 #'
 #' @export
-get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1) {
+get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_config) {
 
   http_post <- function(path, body, options=NULL, verify=T) {
     token <- hub_config$token
