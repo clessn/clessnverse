@@ -7,22 +7,22 @@
 get_dictionary(topic, lang = c("en", "fr"), credentials)
 }
 \arguments{
-\item{topic}{: The topic of the dictionary to retrieve from the lake}
+\item{topic}{The topic of the dictionary to retrieve from the lake}
 
-\item{lang}{: "en", "fr" or c("en","fr")}
+\item{lang}{"en", "fr" or c("en","fr")}
 
-\item{credentials}{: Your credentials from hublot}
+\item{credentials}{Your credentials from hublot}
 }
 \value{
-returns a qaunteda type dictionary
+returns a quanteda type dictionary
 }
 \description{
 get_dictionary allows the programmer to retrieve a lexicoder
 topic dictionary from the CLESSN data lake  (hublot).
 }
 \examples{
-  \dontrun{
-     # retrieve the COVID dictionary in both EN ans FR
-     clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
-  }
+\dontrun{
+  # retrieve the COVID dictionary in both EN ans FR
+  clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
+}
 }
