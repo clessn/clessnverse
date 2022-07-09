@@ -95,7 +95,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #' @export
 get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_config) {
 
-  http_post <- function(path, body, options=NULL, verify=T, hub_config) {
+  http_post <- function(path, body, options=NULL, verify=T, hub_config = hub_config) {
     token <- hub_config$token
     token_prefix <- hub_config$token_prefix
     response <- httr::POST(url=paste0(hub_config$url, path), body=body, httr::accept_json(), httr::content_type_json(), config=httr::add_headers(Authorization=paste(token_prefix, token)), verify=verify, httr::timeout(30))
@@ -105,13 +105,13 @@ get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_con
   hubr_filter <- jsonlite::toJSON(hubr_filter, auto_unbox = T)
 
   path <- paste("/data/", table_name, "/count/", sep="")
-  response <- http_post(path, body=hubr_filter)
+  response <- http_post(path, body=hubr_filter, hub_config)
   result <- httr::content(response)
   count <- result$count
   print(paste("count:", count))
 
   path <- paste("/data/", table_name, "/filter/", sep="")
-  response <- http_post(path, body=hubr_filter)
+  response <- http_post(path, body=hubr_filter, hub_config)
   page <- httr::content(response)
   data = list()
 
