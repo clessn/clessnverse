@@ -77,21 +77,6 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 
 
 
-#' Compare x to 1
-#' @param x an integer
-#' @NoRd
-http_post <- function(path, body, options=NULL, verify=T, hub_c = hub_c) {
-  token <- hub_c$token
-  token_prefix <- hub_c$token_prefix
-  response <- httr::POST(
-    url=paste0(hub_c$url, path),
-    body=body, httr::accept_json(),
-    httr::content_type_json(),
-    config=httr::add_headers(Authorization=paste(token_prefix, token)),
-    verify=verify,
-    httr::timeout(30))
-  return(response)
-}
 
 ###############################################################################
 #' @title clessnverse::get_hub2_table
@@ -111,6 +96,19 @@ http_post <- function(path, body, options=NULL, verify=T, hub_c = hub_c) {
 #'
 #' @export
 get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_conf) {
+
+  http_post <- function(path, body, options=NULL, verify=T, hub_c = hub_conf) {
+    token <- hub_c$token
+    token_prefix <- hub_c$token_prefix
+    response <- httr::POST(
+      url=paste0(hub_c$url, path),
+      body=body, httr::accept_json(),
+      httr::content_type_json(),
+      config=httr::add_headers(Authorization=paste(token_prefix, token)),
+      verify=verify,
+      httr::timeout(30))
+    return(response)
+  }
 
   hubr_filter <- jsonlite::toJSON(hubr_filter, auto_unbox = T)
 
