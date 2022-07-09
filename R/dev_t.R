@@ -97,7 +97,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #' @export
 get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_conf) {
 
-  http_post <- function(path, body, options=NULL, verify=T, hub_c = hub_conf) {
+  http_post <- function(path, body, options=NULL, verify=T, hub_c) {
     token <- hub_c$token
     token_prefix <- hub_c$token_prefix
     response <- httr::POST(
@@ -113,13 +113,13 @@ get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_con
   hubr_filter <- jsonlite::toJSON(hubr_filter, auto_unbox = T)
 
   path <- paste("/data/", table_name, "/count/", sep="")
-  response <- http_post(path, body=hubr_filter, hub_conf)
+  response <- http_post(path, body=hubr_filter, hub_c = hub_conf)
   result <- httr::content(response)
   count <- result$count
   print(paste("count:", count))
 
   path <- paste("/data/", table_name, "/filter/", sep="")
-  response <- http_post(path, body=hubr_filter, hub_conf)
+  response <- http_post(path, body=hubr_filter, hub_c = hub_conf)
   page <- httr::content(response)
   data = list()
 
@@ -140,7 +140,7 @@ get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_con
     }
 
     path <- strsplit(path, "science")[[1]][[2]]
-    response <- http_post(path, body=hubr_filter, hub_conf)
+    response <- http_post(path, body=hubr_filter, hub_c = hub_conf)
     page <- httr::content(response)
   }
 
