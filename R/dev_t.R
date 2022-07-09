@@ -132,7 +132,7 @@ get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_con
     }
 
     path <- strsplit(path, "science")[[1]][[2]]
-    response <- http_post(path, body=hubr_filter)
+    response <- http_post(path, body=hubr_filter, hub_config)
     page <- httr::content(response)
   }
 
