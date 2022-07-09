@@ -70,12 +70,75 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  datamart <- tidyjson::spread_all(data)
+  datawarehouse_table <- tidyjson::spread_all(data)
 
-  return(datamart)
+  return(datawarehouse_table)
 }
 
 
+###############################################################################
+#' @title clessnverse::get_hub2_table
+#' @description get_hub2_table allows the programmer to retrieve a data
+#'              table from the CLESSN hub2 data warehouse.
+#' @param table : The name of the table to retrieve from the warhouse without
+#'                the
+#' @param credentials : The hublot credentials obtained from the hublot::
+#' @param nbrows : If nbrows is greater than 0, the dataframe returned will be
+#'                 limited to nbrows observations.  This is particularly useful
+#'                 when trying to see if there are records in a table and what
+#'                 how structured they are.
+#' @return returns a dataframe containing the data warhouse table with a JSON
+#'         attribute as well as a document.id and creation & update time stamps
+#' @examples example
+#'
+#'
+#' @export
+get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1) {
+
+  http_post <- function(path, body, options=NULL, verify=T) {
+    token <- hub_config$token
+    token_prefix <- hub_config$token_prefix
+    response <- httr::POST(url=paste0(hub_config$url, path), body=body, httr::accept_json(), httr::content_type_json(), config=httr::add_headers(Authorization=paste(token_prefix, token)), verify=verify, httr::timeout(30))
+    return(response)
+  }
+
+  hubr_filter <- jsonlite::toJSON(hubr_filter, auto_unbox = T)
+
+  path <- paste("/data/", table_name, "/count/", sep="")
+  response <- http_post(path, body=hubr_filter)
+  result <- httr::content(response)
+  count <- result$count
+  print(paste("count:", count))
+
+  path <- paste("/data/", table_name, "/filter/", sep="")
+  response <- http_post(path, body=hubr_filter)
+  page <- httr::content(response)
+  data = list()
+
+  repeat {
+
+    data <- c(data, page$results)
+    print(paste(length(data), "/", count))
+    path <- page$"next"
+
+    if (is.null(path)) {
+      break
+    }
+
+    max_pages <- max_pages - 1
+    if (max_pages == 0)
+    {
+      break
+    }
+
+    path <- strsplit(path, "science")[[1]][[2]]
+    response <- http_post(path, body=hubr_filter)
+    page <- httr::content(response)
+  }
+
+  hub2_table <- tidyjson::spread_all(data)
+  return(hub2_table)
+}
 
 
 
