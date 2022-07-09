@@ -6,9 +6,54 @@
 \usage{
 commit_mart_table(table_name, df, key_column, mode, credentials)
 }
+\arguments{
+\item{table_name}{The name of the data mart table to store without the
+'chlub_tables_mart' prefix.}
+
+\item{mode}{A character string cintaining either "refresh" or "append".
+If mode = "refresh" then if an observation with a key = key
+already exists in the table, it will be overwritten with the
+new values.
+If mode = "append" then it will be added to the table.  However
+if an existing observation with a key = key already exists in the
+table, a warning will be returned.}
+
+\item{credentials}{The hublot credentials obtained from the
+hublot::get_credentials function}
+
+\item{key}{A character string containing the unique primary key of this
+observation in the table.  Data integrity of the CLESSN data
+model is maintained by having a unique key per observation in
+each table.}
+
+\item{row}{A named list containing the observation to write to the datamart
+table.  The names of the list \emph{are the columns} of the table.}
+
+\item{nbrows}{Optional argument
+If nbrows is greater than 0, the dataframe returned will be
+limited to nbrows observations.  This is particularly useful
+when trying to see if there are records in a table and what
+how structured they are.
+If nbrows is omitted, then all rows of the table are returned}
+}
+\value{
+returns a dataframe containing the data warehouse table with a JSON
+attribute as well as a document.id and creation & update time stamps
+}
 \description{
-adds or replaces a table in a datamart with a specific key
+commit_mart_row allows the programmer to write a tabe as a
+CLESSN data mart.
 }
 \examples{
-example
+ # connect to hublot
+ credentials <- hublot::get_credentials(
+   Sys.getenv("HUB3_URL"),
+   Sys.getenv("HUB3_USERNAME"),
+   Sys.getenv("HUB3_PASSWORD")
+   )
+
+ # gets the entire datamart political_parties_press_releases_freq
+
+ # gets the first 10 rows of the warehouse table 'people'
+
 }

@@ -7,26 +7,53 @@
 get_hub2_table(table_name, filter = list(), max_pages = -1, hub_conf)
 }
 \arguments{
-\item{table}{: The name of the table to retrieve from the warhouse without
-the}
+\item{filter}{A list containing the filters to apply against the query
+to retrieve the data.  Only observations in the table
+complyingw with the filter conditions will be returned}
 
-\item{credentials}{: The hublot credentials obtained from the hublot::}
+\item{hub_conf}{The hub2.0 credentials obtained from the
+clessnhub::login function}
 
-\item{nbrows}{: If nbrows is greater than 0, the dataframe returned will be
+\item{table}{The name of the table to retrieve from the hub2 warehouse}
+
+\item{max_page}{The number of pages to return.  A page is 1000 rows.
+Tu return the entire table use \emph{max_pages = -1}}
+
+\item{nbrows}{If nbrows is greater than 0, the dataframe returned will be
 limited to nbrows observations.  This is particularly useful
 when trying to see if there are records in a table and what
 how structured they are.}
 }
 \value{
-returns a dataframe containing the data warhouse table with a JSON
-attribute as well as a document.id and creation & update time stamps
+returns a dataframe containing the data warehouse table content
 }
 \description{
 get_hub2_table allows the programmer to retrieve a data
 table from the CLESSN hub2 data warehouse.
+** WARNING hub2 will be decommissionned by end of 2022 **
 }
 \examples{
-example
 
+ clessnhub::login(
+   Sys.getenv("HUB_USERNAME"),
+   Sys.getenv("HUB_PASSWORD"),
+   Sys.getenv("HUB_URL"))
+
+ # get the journalists intervention in press conference from the
+ # 'agoraplus_interventions' table from hub2
+ filter = list(
+   type = "press_conference",
+   metadata__location = "CA-QC",
+   data__speakerType = "journalist",
+   data__eventDate__gte = "2021-01-01",
+   data__eventDate__lte = "2022-06-23"
+   )
+
+ df <- clessnverse::get_hub2_table(
+   table_name = 'agoraplus_interventions',
+   filter = filter,
+   max_pages = -1,
+   hub_conf = hub_config
+   )
 
 }

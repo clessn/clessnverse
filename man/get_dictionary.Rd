@@ -21,6 +21,14 @@ get_dictionary allows the programmer to retrieve a lexicoder
 topic dictionary from the CLESSN data lake  (hublot).
 }
 \examples{
-  # retrieve the COVID dictionary in both EN and FR
-  clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
+
+ # connect to hublot
+ credentials <- hublot::get_credentials(
+   Sys.getenv("HUB3_URL"),
+   Sys.getenv("HUB3_USERNAME"),
+   Sys.getenv("HUB3_PASSWORD")
+   )
+ # retrieve the COVID dictionary in both EN and FR
+ clessnverse::get_dictionary("covid", c("en", "fr"), credentials)
+
 }

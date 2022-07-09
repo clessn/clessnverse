@@ -4,23 +4,39 @@
 \alias{get_mart_table}
 \title{clessnverse::get_mart_table}
 \usage{
-get_mart_table(table, credentials, nbrows = 0)
+get_mart_table(table_name, credentials, nbrows = 0)
 }
 \arguments{
-\item{table}{: the table name to fetch data from in the hub}
+\item{table_name}{The name of the table to retrieve from the warehouse without
+the 'chlub_tables_mart' prefix}
 
-\item{credentials}{: your hub credential token}
+\item{credentials}{The hublot credentials obtained from the hublot::}
 
-\item{nbrows}{: the number of rows to fetch from the table}
+\item{nbrows}{Optional argument
+If nbrows is greater than 0, the dataframe returned will be
+limited to nbrows observations.  This is particularly useful
+when trying to see if there are records in a table and what
+how structured they are.
+If nbrows is omitted, then all rows of the table are returned}
 }
 \value{
-: a dataframe containing the columns and rows
+returns a dataframe containing the data warehouse table with a JSON
+attribute as well as a document.id and creation & update time stamps
 }
 \description{
-This function allows to extract data from a datamart
+get_mart_table allows the programmer to retrieve a data
+table from a CLESSN data mart.
 }
 \examples{
-example
+ # connect to hublot
+ credentials <- hublot::get_credentials(
+   Sys.getenv("HUB3_URL"),
+   Sys.getenv("HUB3_USERNAME"),
+   Sys.getenv("HUB3_PASSWORD")
+   )
 
+ # gets the entire datamart political_parties_press_releases_freq
+
+ # gets the first 10 rows of the warehouse table 'people'
 
 }

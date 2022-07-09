@@ -2,31 +2,49 @@
 % Please edit documentation in R/dev_t.R
 \name{get_warehouse_table}
 \alias{get_warehouse_table}
-\title{clessnverse::get_warhouse_table}
+\title{clessnverse::get_warehouse_table}
 \usage{
-get_warehouse_table(table, credentials, nbrows = 0)
+get_warehouse_table(table_name, credentials, nbrows = 0)
 }
 \arguments{
-\item{table}{: The name of the table to retrieve from the warhouse without
-the}
+\item{credentials}{The hublot credentials obtained from the
+hublot::get_credentials function}
 
-\item{credentials}{: The hublot credentials obtained from the hublot::}
-
-\item{nbrows}{: If nbrows is greater than 0, the dataframe returned will be
+\item{nbrows}{Optional argument
+If nbrows is greater than 0, the dataframe returned will be
 limited to nbrows observations.  This is particularly useful
 when trying to see if there are records in a table and what
-how structured they are.}
+how structured they are.
+If nbrows is omitted, then all rows of the table are returned}
+
+\item{table}{The name of the table to retrieve from the warehouse without
+the 'chlub_tables_warehouse' prefix}
 }
 \value{
-returns a dataframe containing the data warhouse table with a JSON
-attribute as well as a document.id and creation & update time stamps
+returns a dataframe containing the data warehouse table content
+with the document.id and creation & update time stamps
 }
 \description{
 get_warehouse_table allows the programmer to retrieve a data
 table from the CLESSN data warehouse named hublot.
 }
 \examples{
-example
 
+ # connect to hublot
+ credentials <- hublot::get_credentials(
+   Sys.getenv("HUB3_URL"),
+   Sys.getenv("HUB3_USERNAME"),
+   Sys.getenv("HUB3_PASSWORD")
+   )
+
+ # gets the entire warehouse table 'people'
+ clessnverse::get_warehouse_table('people', credentials)
+
+ # gets the first 10 rows of the 'political_parties_press_releases' table
+ clessnverse::get_warehouse_table(
+   'political_parties_press_releases',
+   credentials,
+   nbrows=10
+   )
 
 }
