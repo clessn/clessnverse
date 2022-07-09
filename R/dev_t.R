@@ -95,7 +95,7 @@ get_warehouse_table <- function(table, credentials, nbrows=0) {
 #' @export
 get_hub2_table <- function(table_name, hubr_filter=list(), max_pages=-1, hub_config) {
 
-  http_post <- function(path, body, options=NULL, verify=T) {
+  http_post <- function(path, body, options=NULL, verify=T, hub_config) {
     token <- hub_config$token
     token_prefix <- hub_config$token_prefix
     response <- httr::POST(url=paste0(hub_config$url, path), body=body, httr::accept_json(), httr::content_type_json(), config=httr::add_headers(Authorization=paste(token_prefix, token)), verify=verify, httr::timeout(30))
