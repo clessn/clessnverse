@@ -203,3 +203,26 @@ process_command_line_options <- function() {
 
   return(opt)
 }
+
+
+
+
+###############################################################################
+#' @title %vcontains
+#' @description check if a vector 'vector' contains all values specified in the
+#'              vector 'values'
+#' @param vector : A vector containing all possible values
+#' @param values : each individual value, in the form of a vector, to check the
+#'                 presence of in 'vector'
+#' @return - TRUE if all the values in the vector 'values' are contained in the
+#'           vector 'vector'
+#'         = FALSE if all the values in 'values' are not contained in 'vector'
+#' @examples
+#'
+#' @export
+"%vcontains%" <- function(vector, values) {
+  tx <- table(values)
+  tv <- table(vector)
+  z <- tv[names(tx)] - tx
+  all(z >= 0 & !is.na(z))
+}

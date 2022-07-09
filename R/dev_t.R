@@ -294,8 +294,60 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #   DICTIONARIES ACCESS (READ)
 
 
+###############################################################################
+#' @title clessnverse::get_dictionary
+#' @description get_dictionary allows the programmer to retrieve a lexicoder
+#'              topic dictionary from the CLESSN data lake  (hublot).
+#' @param topic       : The topic of the dictionary to retrieve from the lake
+#' @param lang        : "en", "fr" or c("en","fr")
+#' @param credentials : Your credentials from hublot
+#' @return returns a qaunteda type dictionary
+#' @examples
+#'   \dontrun{
+#'      # retrieve the COVID dictionary in both EN ans FR
+#'      clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
+#'   }
+#' @export
+get_dictionary <- function(topic, lang=c("en","fr"), credentials) {
+  # Validate arguments
+  file_info <- hublot::retrieve_file("config_dict", credentials)
+  config_dict <- utils::read.csv2(file_info$file)
 
+  if (!topic %in% config_dict$topic) stop (
+    paste("invalid topic in lessnverse::get_dictionary function:",
+          topic,
+          "\nvalid topics are",
+          paste(config_dict$topic, collapse = ", ")))
 
+  if (!unique(unlist(strsplit(config_dict$lang, ","))) %vcontains% lang) stop (
+    paste("invalid language clessnverse::get_dictionary function:",
+          lang))
+
+  if (is.null(credentials$auth) || is.na(credentials$auth)) stop(
+    "You must supply valid hublot credentials in clessnverse::get_dictionary")
+
+  # Get dictionary file from lake
+  file_key <- paste("dict_", topic, sep="")
+  file_info <- hublot::retrieve_file(file_key, credentials)
+  dict_df <- utils::read.csv2(file_info$file)
+
+  # Filter on language provided in lang if language is a dictionary feature
+  if (!is.null(dict_df$language)) {
+    dict_df <- dict_df[dict_df$language %in% lang,]
+
+    # Remove language column
+    dict_df$language <- NULL
+  }
+
+  dict_list <- list()
+  for (c in unique(dict_df$category)) {
+    dict_list[[c]] <- dict_df$item[dict_df$category == c]
+  }
+
+  # Convert dataframe to quanteda dict and return it
+  qdict <- quanteda::dictionary(as.list(dict_list))
+  return(qdict)
+}
 
 
 
