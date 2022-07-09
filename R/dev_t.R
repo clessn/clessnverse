@@ -298,12 +298,12 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #' @title clessnverse::get_dictionary
 #' @description get_dictionary allows the programmer to retrieve a lexicoder
 #'              topic dictionary from the CLESSN data lake  (hublot).
-#' @param topic       : The topic of the dictionary to retrieve from the lake
-#' @param lang        : "en", "fr" or c("en","fr")
-#' @param credentials : Your credentials from hublot
-#' @return returns a qaunteda type dictionary
+#' @param topic       The topic of the dictionary to retrieve from the lake
+#' @param lang        "en", "fr" or c("en","fr")
+#' @param credentials Your credentials from hublot
+#' @return returns a quanteda type dictionary
 #' @examples
-#'   \dontrun{
+#'   {
 #'      # retrieve the COVID dictionary in both EN ans FR
 #'      clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
 #'   }
