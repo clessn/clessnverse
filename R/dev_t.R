@@ -303,10 +303,8 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #' @param credentials Your credentials from hublot
 #' @return returns a quanteda type dictionary
 #' @examples
-#' \dontrun{
 #'   # retrieve the COVID dictionary in both EN and FR
 #'   clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
-#' }
 #' @export
 get_dictionary <- function(topic, lang=c("en","fr"), credentials) {
   # Validate arguments

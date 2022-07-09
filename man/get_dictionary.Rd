@@ -9,7 +9,7 @@ get_dictionary(topic, lang = c("en", "fr"), credentials)
 \arguments{
 \item{topic}{The topic of the dictionary to retrieve from the lake}
 
-\item{lang}{"en", "fr" or c("en","fr")}
+\item{lang}{"en", "fr" or c("en", "fr")}
 
 \item{credentials}{Your credentials from hublot}
 }
@@ -21,8 +21,6 @@ get_dictionary allows the programmer to retrieve a lexicoder
 topic dictionary from the CLESSN data lake  (hublot).
 }
 \examples{
-\dontrun{
-  # retrieve the COVID dictionary in both EN ans FR
+  # retrieve the COVID dictionary in both EN and FR
   clessnverse::get_dictionary("covid", c("en", "fr"), my_hublot_credentials)
-}
 }
