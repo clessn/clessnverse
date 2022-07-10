@@ -496,16 +496,19 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
 
 ###############################################################################
-#' @title clessnverse::get_dictionary
-#' @description get_dictionary allows the programmer to retrieve a lexicoder
-#'              topic dictionary from the CLESSN data lake  (hublot).
-#' @param topic       The topic of the dictionary to retrieve from the lake
-#' @param lang        "en", "fr" or c("en", "fr")
-#' @param credentials Your credentials from hublot
-#' @return returns a quanteda type dictionary
+#' Retrieves a dictionary from hublot.
+#'
+#' Creates a dictionary object from a dictionary located in
+#' the CLESSN data lake (hublot).
+#' @param topic The name or topic of the dictionary to retrieve from hublot.
+#' @param lang The language of the dictionary. "en" is for English,
+#' "fr" is for French. Both are included by default.
+#' @param credentials The user's personal credentials from hublot.
+#' @return A quanteda type dictionary object.
 #' @examples
 #'
-#'  # connect to hublot
+#' \dontrun{
+#'  # get credentials from hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
 #'    Sys.getenv("HUB3_USERNAME"),
@@ -513,29 +516,29 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #'    )
 #'  # retrieve the COVID dictionary in both EN and FR
 #'  clessnverse::get_dictionary("covid", c("en", "fr"), credentials)
-#'
+#' }
 #' @export
 #'
-get_dictionary <- function(topic, lang=c("en","fr"), credentials) {
+get_dictionary <- function(topic, lang = c("en", "fr"), credentials) {
   # Validate arguments
   file_info <- hublot::retrieve_file("config_dict", credentials)
   config_dict <- utils::read.csv2(file_info$file)
 
   if (is.null(credentials$auth) || is.na(credentials$auth)) stop(
-    "You must supply valid hublot credentials in clessnverse::get_dictionary")
+    "hublot credentials in clessnverse::get_dictionary are invalid")
 
   if (!topic %in% config_dict$topic) stop (
-    paste("invalid topic in lessnverse::get_dictionary function:",
+    paste("invalid topic in clessnverse::get_dictionary function:",
           topic,
           "\nvalid topics are",
           paste(config_dict$topic, collapse = ", ")))
 
   if (!unique(unlist(strsplit(config_dict$lang, ","))) %vcontains% lang) stop (
-    paste("invalid language clessnverse::get_dictionary function:",
+    paste("invalid language in clessnverse::get_dictionary function:",
           lang))
 
   # Get dictionary file from lake
-  file_key <- paste("dict_", topic, sep="")
+  file_key <- paste("dict_", topic, sep = "")
   file_info <- hublot::retrieve_file(file_key, credentials)
   dict_df <- utils::read.csv2(file_info$file)
 
