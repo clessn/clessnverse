@@ -2,27 +2,29 @@
 % Please edit documentation in R/dev_t.R
 \name{get_dictionary}
 \alias{get_dictionary}
-\title{clessnverse::get_dictionary}
+\title{Retrieves a dictionary from hublot.}
 \usage{
 get_dictionary(topic, lang = c("en", "fr"), credentials)
 }
 \arguments{
-\item{topic}{The topic of the dictionary to retrieve from the lake}
+\item{topic}{The name or topic of the dictionary to retrieve from hublot.}
 
-\item{lang}{"en", "fr" or c("en", "fr")}
+\item{lang}{The language of the dictionary. "en" is for English,
+"fr" is for French. Both are included by default.}
 
-\item{credentials}{Your credentials from hublot}
+\item{credentials}{The user's personal credentials from hublot.}
 }
 \value{
-returns a quanteda type dictionary
+A quanteda type dictionary object.
 }
 \description{
-get_dictionary allows the programmer to retrieve a lexicoder
-topic dictionary from the CLESSN data lake  (hublot).
+Creates a dictionary object from a dictionary located in
+the CLESSN data lake (hublot).
 }
 \examples{
 
- # connect to hublot
+\dontrun{
+ # get credentials from hublot
  credentials <- hublot::get_credentials(
    Sys.getenv("HUB3_URL"),
    Sys.getenv("HUB3_USERNAME"),
@@ -30,5 +32,5 @@ topic dictionary from the CLESSN data lake  (hublot).
    )
  # retrieve the COVID dictionary in both EN and FR
  clessnverse::get_dictionary("covid", c("en", "fr"), credentials)
-
+}
 }
