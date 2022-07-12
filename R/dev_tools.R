@@ -5,8 +5,8 @@
 # Description:  This module is used to gather all functions related to
 #
 #               - Activity logging
-#               -
-#               -
+#               - Command line options processing
+#               - %vcontains%
 #
 
 
