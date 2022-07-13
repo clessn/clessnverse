@@ -71,7 +71,6 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
 
   if (!is.null(data$item)) {
     # This is the object "item" that we will commit to the lake item
-    handle_file <- TRUE
     if (grepl("file", metadata$format)) {
       metadata$format <- gsub("file", "", metadata$format)
       file.rename(data$item, paste("file.", metadata$format, sep=""))
@@ -79,15 +78,30 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       write(data$item, paste("file.", metadata$format, sep=""))
     }
   } else {
-    if (!is.null(data$file)){
+
+    if (!is.null(data$file)) {
       # This is an file_url to the file that we will commit to the lake item
-      # There is not much to do here but update
-      handle_file <- FALSE
+      tryCatch(
+        {
+          r <- safe_httr_GET(data$file, httr::config(ssl_verifypeer=0), httr::timeout(30))
+        },
+        error = function(e) {
+          stop(paste("could not retrieve url", data$file, "from data lake item with key", data$key))
+        },
+        finally = {}
+      )
+
+      if (!is.null(r$result) && r$result$status_code == 200){
+        doc <- httr::content(r$result, as="text", encoding = "UTF-8")
+        data$item <- doc
+
+        write(data$item, paste("file.", metadata$format, sep=""))
+      }
     } else {
       stop("invalid item or file provided in data to the clessnverse::commit_lake_item function")
-    }
-  }
+    } #if (!is.null(data$file))
 
+  } #if (!is.null(data$item))
 
   # check if an item with this key already exists
   existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
@@ -98,7 +112,7 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       body = list(
         key = data$key,
         path = data$path,
-        file = if (handle_file) httr::upload_file(paste("file.", metadata$format, sep="")) else data$file,
+        file = httr::upload_file(paste("file.", metadata$format, sep="")),
         metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
       credentials)
   } else {
@@ -113,11 +127,11 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       #     metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
       #   credentials)
       hublot::update_lake_item(
-        id = existing_item$id,
+        id = existing_item$results[[1]]$id,
         body = list(
           key = data$key,
           path = data$path,
-          file = if (handle_file) httr::upload_file(paste("file.", metadata$format, sep="")) else data$file,
+          file = httr::upload_file(paste("file.", metadata$format, sep="")),
           metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
         credentials)
 
