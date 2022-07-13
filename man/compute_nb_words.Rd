@@ -7,10 +7,10 @@
 compute_nb_words(txt_bloc)
 }
 \arguments{
-\item{to}{be documented}
+\item{txt_bloc}{be documented}
 }
 \value{
-to be documented
+return
 }
 \description{
 calculates the number of words in a bloc of text

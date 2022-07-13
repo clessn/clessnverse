@@ -7,14 +7,19 @@
 commit_warehouse_table(table_name, df, key_column, mode, credentials)
 }
 \arguments{
-\item{to}{be documented}
+\item{table_name}{be documented}
+
+\item{df}{be documented}
+
+\item{key_column}{be documented}
+
+\item{mode}{be documented}
+
+\item{credentials}{be documented}
 }
 \value{
-to be documented
+return
 }
 \description{
 adds or replaces a rown in a warehouse with a specific key
-}
-\examples{
-example
 }

@@ -44,8 +44,8 @@
 #' @description get_warehouse_table allows the programmer to retrieve a data
 #'              table from the CLESSN data warehouse named hublot.
 #'
-#' @param table The name of the table to retrieve from the warehouse without
-#'              the 'chlub_tables_warehouse' prefix
+#' @param table_name The name of the table to retrieve from the warehouse without
+#'                   the 'chlub_tables_warehouse' prefix
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
 #' @param nbrows   Optional argument
@@ -126,19 +126,14 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 #'              table from the CLESSN hub2 data warehouse.
 #'              ** WARNING hub2 will be decommissionned by end of 2022 **
 #'
-#' @param table The name of the table to retrieve from the hub2 warehouse
+#' @param table_name The name of the table to retrieve from the hub2 warehouse
 #' @param filter A list containing the filters to apply against the query
 #'               to retrieve the data.  Only observations in the table
 #'               complyingw with the filter conditions will be returned
-#' @param max_page The number of pages to return.  A page is 1000 rows.
+#' @param max_pages The number of pages to return.  A page is 1000 rows.
 #'                 Tu return the entire table use *max_pages = -1*
 #' @param hub_conf The hub2.0 credentials obtained from the
 #'                 clessnhub::login function
-#'
-#' @param nbrows If nbrows is greater than 0, the dataframe returned will be
-#'               limited to nbrows observations.  This is particularly useful
-#'               when trying to see if there are records in a table and what
-#'               how structured they are.
 #'
 #' @return returns a dataframe containing the data warehouse table content
 #'
@@ -332,13 +327,6 @@ get_mart_table <- function(table_name, credentials, nbrows=0) {
 #'             table, a warning will be returned.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
-#' @param nbrows Optional argument
-#'               If nbrows is greater than 0, the dataframe returned will be
-#'               limited to nbrows observations.  This is particularly useful
-#'               when trying to see if there are records in a table and what
-#'               how structured they are.
-#'               If nbrows is omitted, then all rows of the table are returned
-#'
 #' @return returns a dataframe containing the data warehouse table with a JSON
 #'         attribute as well as a document.id and creation & update time stamps
 #'
@@ -399,12 +387,8 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'
 #' @param table_name The name of the data mart table to store without the
 #'                   'chlub_tables_mart' prefix.
-#' @param key A character string containing the unique primary key of this
-#'            observation in the table.  Data integrity of the CLESSN data
-#'            model is maintained by having a unique key per observation in
-#'            each table.
-#' @param row A named list containing the observation to write to the datamart
-#'            table.  The names of the list *are the columns* of the table.
+#' @param df blah
+#' @param key_column blah
 #' @param mode A character string cintaining either "refresh" or "append".
 #'             If mode = "refresh" then if an observation with a key = key
 #'             already exists in the table, it will be overwritten with the
@@ -414,12 +398,6 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'             table, a warning will be returned.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
-#' @param nbrows Optional argument
-#'               If nbrows is greater than 0, the dataframe returned will be
-#'               limited to nbrows observations.  This is particularly useful
-#'               when trying to see if there are records in a table and what
-#'               how structured they are.
-#'               If nbrows is omitted, then all rows of the table are returned
 #'
 #' @return returns a dataframe containing the data warehouse table with a JSON
 #'         attribute as well as a document.id and creation & update time stamps
@@ -579,8 +557,8 @@ get_dictionary <-
 ###############################################################################
 #' @title clessnverse::compute_nb_sentences
 #' @description calculates the number of sentences in a bloc of text
-#' @param to be documented
-#' @return to be documented
+#' @param txt_bloc be documented
+#' @return return
 #' @examples example
 #' @export
 compute_nb_sentences <- function(txt_bloc) {
@@ -596,8 +574,8 @@ compute_nb_sentences <- function(txt_bloc) {
 ###############################################################################
 #' @title clessnverse::compute_nb_words
 #' @description calculates the number of words in a bloc of text
-#' @param to be documented
-#' @return to be documented
+#' @param txt_bloc be documented
+#' @return return
 #' @examples example
 #' @export
 compute_nb_words <- function(txt_bloc) {
@@ -613,9 +591,11 @@ compute_nb_words <- function(txt_bloc) {
 ###############################################################################
 #' @title clessnverse::compute_relevance_score
 #' @description calculates the relevance of a bloc of text against a topic dictionary
-#' @param to be documented
-#' @return to be documented
-#' @examples example
+#' @param txt_bloc blah
+#' @param dictionary blah
+#' @return return
+#' @examples
+#'
 #' @export
 compute_relevance_score <- function(txt_bloc, dictionary) {
   # Prepare corpus

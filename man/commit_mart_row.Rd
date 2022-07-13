@@ -28,13 +28,6 @@ table, a warning will be returned.}
 
 \item{credentials}{The hublot credentials obtained from the
 hublot::get_credentials function}
-
-\item{nbrows}{Optional argument
-If nbrows is greater than 0, the dataframe returned will be
-limited to nbrows observations.  This is particularly useful
-when trying to see if there are records in a table and what
-how structured they are.
-If nbrows is omitted, then all rows of the table are returned}
 }
 \value{
 returns a dataframe containing the data warehouse table with a JSON

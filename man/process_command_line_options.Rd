@@ -6,18 +6,9 @@
 \usage{
 process_command_line_options()
 }
-\arguments{
-\item{to}{be documented}
-}
 \value{
-to be documented
+blah
 }
 \description{
 Parse the command line options of the agora+ scrapers
-}
-\examples{
-to be documented
-
-
-
 }

@@ -7,17 +7,15 @@
 log_init(script, backend, logpath = ".")
 }
 \arguments{
-\item{to}{be documented}
+\item{script}{blah}
+
+\item{backend}{blah}
+
+\item{logpath}{blah}
 }
 \value{
-to be documented
+return
 }
 \description{
 This function initializes the log
-}
-\examples{
-example
-
-
-
 }

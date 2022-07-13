@@ -7,17 +7,11 @@
 log_close(logger)
 }
 \arguments{
-\item{to}{be documented}
+\item{logger}{blah}
 }
 \value{
-to be documented
+blah
 }
 \description{
-to be documented
-}
-\examples{
-example
-
-
-
+blah
 }

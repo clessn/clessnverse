@@ -7,17 +7,15 @@
 logit(scriptname = "clessnverse", message = "", logger = NULL)
 }
 \arguments{
-\item{to}{be documented}
+\item{scriptname}{blah}
+
+\item{message}{blah}
+
+\item{logger}{blah}
 }
 \value{
-to be documented
+blah
 }
 \description{
-to be documented
-}
-\examples{
-example
-
-
-
+desc
 }

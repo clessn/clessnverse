@@ -7,22 +7,17 @@
 get_hub2_table(table_name, filter = list(), max_pages = -1, hub_conf)
 }
 \arguments{
+\item{table_name}{The name of the table to retrieve from the hub2 warehouse}
+
 \item{filter}{A list containing the filters to apply against the query
 to retrieve the data.  Only observations in the table
 complyingw with the filter conditions will be returned}
 
-\item{hub_conf}{The hub2.0 credentials obtained from the
-clessnhub::login function}
-
-\item{table}{The name of the table to retrieve from the hub2 warehouse}
-
-\item{max_page}{The number of pages to return.  A page is 1000 rows.
+\item{max_pages}{The number of pages to return.  A page is 1000 rows.
 Tu return the entire table use \emph{max_pages = -1}}
 
-\item{nbrows}{If nbrows is greater than 0, the dataframe returned will be
-limited to nbrows observations.  This is particularly useful
-when trying to see if there are records in a table and what
-how structured they are.}
+\item{hub_conf}{The hub2.0 credentials obtained from the
+clessnhub::login function}
 }
 \value{
 returns a dataframe containing the data warehouse table content

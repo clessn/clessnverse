@@ -40,9 +40,13 @@
 ###############################################################################
 #' @title clessnverse::commit_warehouse_row
 #' @description adds or replaces a rown in a warehouse with a specific key
-#' @param to be documented
-#' @return to be documented
-#' @examples example
+#' @param table be documented
+#' @param key be documented
+#' @param row be documented
+#' @param mode be documented
+#' @param credentials be documented
+#' @return return
+#' @examples
 #' @export
 commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
@@ -80,9 +84,13 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 ###############################################################################
 #' @title clessnverse::commit_warehouse_table
 #' @description adds or replaces a rown in a warehouse with a specific key
-#' @param to be documented
-#' @return to be documented
-#' @examples example
+#' @param table_name be documented
+#' @param df be documented
+#' @param key_column be documented
+#' @param mode be documented
+#' @param credentials be documented
+#' @return return
+#' @examples
 #' @export
 commit_warehouse_table <- function(table_name, df, key_column, mode, credentials) {
   stop("not implemented yet")

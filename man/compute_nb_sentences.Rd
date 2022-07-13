@@ -7,10 +7,10 @@
 compute_nb_sentences(txt_bloc)
 }
 \arguments{
-\item{to}{be documented}
+\item{txt_bloc}{be documented}
 }
 \value{
-to be documented
+return
 }
 \description{
 calculates the number of sentences in a bloc of text

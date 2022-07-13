@@ -7,6 +7,9 @@
 get_warehouse_table(table_name, credentials, nbrows = 0)
 }
 \arguments{
+\item{table_name}{The name of the table to retrieve from the warehouse without
+the 'chlub_tables_warehouse' prefix}
+
 \item{credentials}{The hublot credentials obtained from the
 hublot::get_credentials function}
 
@@ -16,9 +19,6 @@ limited to nbrows observations.  This is particularly useful
 when trying to see if there are records in a table and what
 how structured they are.
 If nbrows is omitted, then all rows of the table are returned}
-
-\item{table}{The name of the table to retrieve from the warehouse without
-the 'chlub_tables_warehouse' prefix}
 }
 \value{
 returns a dataframe containing the data warehouse table content
