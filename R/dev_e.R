@@ -91,8 +91,8 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
         finally = {}
       )
 
-      if (!is.null(r$result) && r$result$status_code == 200){
-        doc <- httr::content(r$result, as="text", encoding = "UTF-8")
+      if (!is.null(r) && r$status_code == 200){
+        doc <- httr::content(r, as="text", encoding = "UTF-8")
         data$item <- doc
 
         write(data$item, paste("file.", metadata$format, sep=""))
