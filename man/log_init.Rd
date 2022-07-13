@@ -6,6 +6,12 @@
 \usage{
 log_init(script, backend, logpath = ".")
 }
+\arguments{
+\item{to}{be documented}
+}
+\value{
+to be documented
+}
 \description{
 This function initializes the log
 }

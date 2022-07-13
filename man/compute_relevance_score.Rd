@@ -6,8 +6,11 @@
 \usage{
 compute_relevance_score(txt_bloc, dictionary)
 }
+\arguments{
+\item{to}{be documented}
+}
 \value{
-the function returns
+to be documented
 }
 \description{
 calculates the relevance of a bloc of text against a topic dictionary

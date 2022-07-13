@@ -25,8 +25,8 @@
 ######################################################
 #' @title clessnverse::log_init
 #' @description This function initializes the log
-#' @param
-#' @return
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #'
 #'
@@ -72,9 +72,9 @@ log_init <- function(script, backend, logpath=".") {
 
 ######################################################
 #' @title clessnverse::logit
-#' @description
-#' @param
-#' @return
+#' @description to be documented
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #'
 #'
@@ -105,9 +105,9 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
 
 ######################################################
 #' @title clessnverse::log_close
-#' @description
-#' @param
-#' @return
+#' @description to be documented
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #'
 #'
@@ -161,14 +161,14 @@ log_close <- function(logger) {
 # - refresh : refreshes existing observations and adds new observations to the dataset
 # - rebuild : wipes out completely the dataset and rebuilds it from scratch
 # - skip : does not make any change to the dataset
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
+#' @param to be documented
+#' @param to be documented
+#' @param to be documented
+#' @param to be documented
+#' @param to be documented
+#' @param to be documented
+#' @return to be documented
+#' @examples to be documented
 #'
 #'
 #'

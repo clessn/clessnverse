@@ -40,8 +40,8 @@
 ###############################################################################
 #' @title clessnverse::commit_warehouse_row
 #' @description adds or replaces a rown in a warehouse with a specific key
-#' @param
-#' @return
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #' @export
 commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", credentials) {
@@ -80,8 +80,8 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 ###############################################################################
 #' @title clessnverse::commit_warehouse_table
 #' @description adds or replaces a rown in a warehouse with a specific key
-#' @param
-#' @return
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #' @export
 commit_warehouse_table <- function(table_name, df, key_column, mode, credentials) {

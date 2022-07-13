@@ -83,7 +83,7 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       # This is an file_url to the file that we will commit to the lake item
       tryCatch(
         {
-          r <- safe_httr_GET(data$file, httr::config(ssl_verifypeer=0), httr::timeout(30))
+          r <- httr::GET(data$file, httr::config(ssl_verifypeer=0), httr::timeout(30))
         },
         error = function(e) {
           stop(paste("could not retrieve url", data$file, "from data lake item with key", data$key))

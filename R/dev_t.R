@@ -579,8 +579,8 @@ get_dictionary <-
 ###############################################################################
 #' @title clessnverse::compute_nb_sentences
 #' @description calculates the number of sentences in a bloc of text
-#' @param txt_bloc
-#' @return
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #' @export
 compute_nb_sentences <- function(txt_bloc) {
@@ -596,8 +596,8 @@ compute_nb_sentences <- function(txt_bloc) {
 ###############################################################################
 #' @title clessnverse::compute_nb_words
 #' @description calculates the number of words in a bloc of text
-#' @param
-#' @return
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #' @export
 compute_nb_words <- function(txt_bloc) {
@@ -613,8 +613,8 @@ compute_nb_words <- function(txt_bloc) {
 ###############################################################################
 #' @title clessnverse::compute_relevance_score
 #' @description calculates the relevance of a bloc of text against a topic dictionary
-#' @param
-#' @return the function returns
+#' @param to be documented
+#' @return to be documented
 #' @examples example
 #' @export
 compute_relevance_score <- function(txt_bloc, dictionary) {

@@ -6,8 +6,14 @@
 \usage{
 logit(scriptname = "clessnverse", message = "", logger = NULL)
 }
+\arguments{
+\item{to}{be documented}
+}
+\value{
+to be documented
+}
 \description{
-clessnverse::logit
+to be documented
 }
 \examples{
 example

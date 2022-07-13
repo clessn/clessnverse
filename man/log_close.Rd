@@ -6,8 +6,14 @@
 \usage{
 log_close(logger)
 }
+\arguments{
+\item{to}{be documented}
+}
+\value{
+to be documented
+}
 \description{
-clessnverse::log_close
+to be documented
 }
 \examples{
 example
