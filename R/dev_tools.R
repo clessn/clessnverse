@@ -207,6 +207,77 @@ process_command_line_options <- function() {
 
 
 
+
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+# BATCH CHANGE OF DATA OR METADATA IN LAKE, WAREHOUSE OR MARTS
+#
+# The functions below are used to change metadata or data of objects in the
+# datalake, datawarehouse or the datamarts in batch.  This is useful when
+# there was a mistake made in a pipeline metadata variables, or if the
+# data governance committee decides of a change in the data management
+# standards and cataloging
+#
+
+
+###############################################################################
+#' Makes a batch change of the metadata applied to lake objects
+#'
+#' Batch changes of metadata can be usefule if there are hunderds or  thousands
+#' of objects in the data lake which we need to change the metadata on.
+#' @param path The path in the data lake which the objects are in
+#' @param filter A filter used to select the objects in the data lake which the
+#' metadata needs to be changed on.
+#' @param new_metadata A list type objects containing the new metadata to be
+#' applied on the lake objects.
+#' @param credentials A list object containing your Hublot credential.
+#' @examples
+#'
+#' \dontrun{
+#'  # get credentials from hublot
+#'  credentials <- hublot::get_credentials(
+#'    Sys.getenv("HUB3_URL"),
+#'    Sys.getenv("HUB3_USERNAME"),
+#'    Sys.getenv("HUB3_PASSWORD")
+#'    )
+#'
+#'  # filter for selecting the lakes items to be changed
+#'
+#'  # new metadata
+#'
+#'  # Change the metadata on the lake items complying with the filter
+#'  clessnverse::change_lake_items_metadata("covid", c("en", "fr"), credentials)
+#' }
+#' @export
+change_lake_items_metadata <- function(path, filter, new_metadata, credentials) {
+
+}
+
+
+
+
+
+
+
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+# VARIOUS TOOLS
+#
+
+
+
+
+
+
+
+
+
 ###############################################################################
 #' @title %vcontains
 #' @description check if a vector 'vector' contains all values specified in the
