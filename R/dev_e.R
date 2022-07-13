@@ -69,12 +69,25 @@
 #' @export
 commit_lake_item <- function(data, metadata, mode, credentials) {
 
-  if (grepl("file", metadata$format)) {
-    metadata$format <- gsub("file", "", metadata$format)
-    file.rename(data$item, paste("file.", metadata$format, sep=""))
+  if (!is.null(data$item)) {
+    # This is the object "item" that we will commit to the lake item
+    handle_file <- TRUE
+    if (grepl("file", metadata$format)) {
+      metadata$format <- gsub("file", "", metadata$format)
+      file.rename(data$item, paste("file.", metadata$format, sep=""))
+    } else {
+      write(data$item, paste("file.", metadata$format, sep=""))
+    }
   } else {
-    write(data$item, paste("file.", metadata$format, sep=""))
+    if (!is.null(data$file)){
+      # This is an file_url to the file that we will commit to the lake item
+      # There is not much to do here but update
+      handle_file <- FALSE
+    } else {
+      stop("invalid item or file provided in data to the clessnverse::commit_lake_item function")
+    }
   }
+
 
   # check if an item with this key already exists
   existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
@@ -85,7 +98,7 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       body = list(
         key = data$key,
         path = data$path,
-        file = httr::upload_file(paste("file.", metadata$format, sep="")),
+        file = if (handle_file) httr::upload_file(paste("file.", metadata$format, sep="")) else data$file,
         metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
       credentials)
   } else {
@@ -104,7 +117,7 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
         body = list(
           key = data$key,
           path = data$path,
-          file = httr::upload_file(paste("file.", metadata$format, sep="")),
+          file = if (handle_file) httr::upload_file(paste("file.", metadata$format, sep="")) else data$file,
           metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
         credentials)
 
@@ -113,7 +126,7 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
     }
   }
 
-  file.remove(paste("file.", metadata$format, sep=""))
+  if (file.exists(paste("file.", metadata$format, sep=""))) file.remove(paste("file.", metadata$format, sep=""))
 }
 
 
