@@ -245,7 +245,13 @@ process_command_line_options <- function() {
 #'    )
 #'
 #'  # filter for selecting the lakes items to be changed
-#'
+#'  filter <- list(
+#'    path = "political_party_press_releases",
+#'    metadata__political_party = "CAQ",
+#'    metadata__province_or_state="QC",
+#'    metadata__country="CAN",
+#'    metadata__storage_class="lake"
+#'  )
 #'  # new metadata
 #'
 #'  # Change the metadata on the lake items complying with the filter

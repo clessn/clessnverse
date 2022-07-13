@@ -2,6 +2,7 @@
 
 export("%vcontains%")
 export(calculate_proportions)
+export(change_lake_items_metadata)
 export(commit_lake_item)
 export(commit_mart_row)
 export(commit_mart_table)

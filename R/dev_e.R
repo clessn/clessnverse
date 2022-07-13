@@ -90,15 +90,24 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       credentials)
   } else {
     if (mode == "refresh") {
-      hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
-
-      hublot::add_lake_item(
+      # hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
+      #
+      # hublot::add_lake_item(
+      #   body = list(
+      #     key = data$key,
+      #     path = data$path,
+      #     file = httr::upload_file(paste("file.", metadata$format, sep="")),
+      #     metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
+      #   credentials)
+      hublot::update_lake_item(
+        id = existing_item$id,
         body = list(
           key = data$key,
           path = data$path,
           file = httr::upload_file(paste("file.", metadata$format, sep="")),
           metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
         credentials)
+
     } else {
       warning(paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode))
     }
