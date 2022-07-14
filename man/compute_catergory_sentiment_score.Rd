@@ -24,6 +24,6 @@ returns a dataframe containing the sentiment score of each category in the categ
 adds or replaces a table in a datamart with a specific key
 }
 \examples{
-example
+# To be documented
 
 }

@@ -559,7 +559,7 @@ get_dictionary <-
 #' @description calculates the number of sentences in a bloc of text
 #' @param txt_bloc be documented
 #' @return return
-#' @examples example
+#' @examples # To be documented
 #' @export
 compute_nb_sentences <- function(txt_bloc) {
   df_sentences <- tibble::tibble(txt = txt_bloc) %>%
@@ -576,7 +576,7 @@ compute_nb_sentences <- function(txt_bloc) {
 #' @description calculates the number of words in a bloc of text
 #' @param txt_bloc be documented
 #' @return return
-#' @examples example
+#' @examples # To be documented
 #' @export
 compute_nb_words <- function(txt_bloc) {
   df_words <- tibble::tibble(txt = txt_bloc) %>%
@@ -594,7 +594,7 @@ compute_nb_words <- function(txt_bloc) {
 #' @param txt_bloc blah
 #' @param dictionary blah
 #' @return return
-#' @examples
+#' @examples # To be documented
 #'
 #' @export
 compute_relevance_score <- function(txt_bloc, dictionary) {
@@ -634,7 +634,7 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 #' @param category_dictionary : a topic dictionary containing the categories to calculate the sentiment on
 #' @param sentiment_dictionary : sentiment lexicoder dictionary
 #' @return returns a dataframe containing the sentiment score of each category in the category dictionary
-#' @examples example
+#' @examples # To be documented
 #'
 #' @importFrom stats  aggregate
 #'

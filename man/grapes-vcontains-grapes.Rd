@@ -23,3 +23,7 @@ vector 'vector'
 check if a vector 'vector' contains all values specified in the
 vector 'values'
 }
+\examples{
+# To be documented
+
+}

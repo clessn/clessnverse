@@ -46,7 +46,7 @@
 #' @param mode be documented
 #' @param credentials be documented
 #' @return return
-#' @examples
+#' @examples # To be documented
 #' @export
 commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
@@ -90,7 +90,7 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #' @param mode be documented
 #' @param credentials be documented
 #' @return return
-#' @examples
+#' @examples # To be documented
 #' @export
 commit_warehouse_table <- function(table_name, df, key_column, mode, credentials) {
   stop("not implemented yet")

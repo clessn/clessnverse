@@ -19,3 +19,9 @@ return
 \description{
 This function initializes the log
 }
+\examples{
+# To be documented
+
+
+
+}

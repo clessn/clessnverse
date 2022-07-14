@@ -23,3 +23,6 @@ return
 \description{
 adds or replaces a rown in a warehouse with a specific key
 }
+\examples{
+# To be documented
+}

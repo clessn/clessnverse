@@ -16,5 +16,5 @@ return
 calculates the number of words in a bloc of text
 }
 \examples{
-example
+# To be documented
 }

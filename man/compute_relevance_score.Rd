@@ -17,3 +17,7 @@ return
 \description{
 calculates the relevance of a bloc of text against a topic dictionary
 }
+\examples{
+# To be documented
+
+}

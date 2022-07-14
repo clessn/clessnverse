@@ -4,7 +4,7 @@
 \alias{change_lake_items_metadata}
 \title{Makes a batch change of the metadata applied to lake objects}
 \usage{
-change_lake_items_metadata(path, filter, new_metadata, credentials)
+change_lake_items_metadata(path, filter, new_metadata, mode, credentials)
 }
 \arguments{
 \item{path}{The path in the data lake which the objects are in}
@@ -15,6 +15,14 @@ metadata needs to be changed on.}
 \item{new_metadata}{A list type objects containing the new metadata to be
 applied on the lake objects.}
 
+\item{mode}{The mode to apply the metadata with. Can take the following
+values:
+\itemize{
+\item "overwrite": overwrites the entire existing metadata set with new_metadata
+\item "merge": merges the new_metadata with the existing metadata
+\item "add": only adds new variables from new_metadata to the existing metadata set
+}}
+
 \item{credentials}{A list object containing your Hublot credential.}
 }
 \description{
@@ -22,6 +30,7 @@ Batch changes of metadata can be usefule if there are hunderds or  thousands
 of objects in the data lake which we need to change the metadata on.
 }
 \examples{
+# To be documented
 
 \dontrun{
  # get credentials from hublot
@@ -42,6 +51,28 @@ of objects in the data lake which we need to change the metadata on.
  # new metadata
 
  # Change the metadata on the lake items complying with the filter
- clessnverse::change_lake_items_metadata("covid", c("en", "fr"), credentials)
+ clessnverse::change_lake_items_metadata(
+   path = "political_party_press_releases",
+   filter = list(
+     metadata__province_or_state="QC",
+     metadata__country="CAN",
+     metadata__political_party="QS"
+   ),
+   new_metadata = list(
+     "tags": "elxn-qc2022, vitrine_democratique, polqc",
+     "format": "html",
+     "source": "https://pq.org/nouvelles/lettre...",
+     "country": "CAN",
+     "description": "Communiqués de presse des partis politiques",
+     "object_type": "raw_data",
+     "source_type": "website",
+     "content_type": "political_party_press_release",
+     "storage_class": "lake",
+     "political_party": "PQ",
+     "province_or_state": "QC"
+   ),
+   mode = "merge",
+   credentials = credentials
+ )
 }
 }

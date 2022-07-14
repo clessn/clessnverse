@@ -29,7 +29,7 @@
 #' @param backend blah
 #' @param logpath blah
 #' @return return
-#' @examples
+#' @examples # To be documented
 #'
 #'
 #'
@@ -79,7 +79,7 @@ log_init <- function(script, backend, logpath=".") {
 #' @param message blah
 #' @param logger blah
 #' @return blah
-#' @examples
+#' @examples # To be documented
 #'
 #'
 #'
@@ -112,7 +112,7 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
 #' @description blah
 #' @param logger blah
 #' @return blah
-#' @examples
+#' @examples # To be documented
 #'
 #'
 #'
@@ -166,7 +166,7 @@ log_close <- function(logger) {
 # - rebuild : wipes out completely the dataset and rebuilds it from scratch
 # - skip : does not make any change to the dataset
 #' @return blah
-#' @examples
+#' @examples # To be documented
 #'
 #'
 #'
@@ -231,8 +231,13 @@ process_command_line_options <- function() {
 #' metadata needs to be changed on.
 #' @param new_metadata A list type objects containing the new metadata to be
 #' applied on the lake objects.
+#' @param mode The mode to apply the metadata with. Can take the following
+#' values:
+#'   - "overwrite": overwrites the entire existing metadata set with new_metadata
+#'   - "merge": merges the new_metadata with the existing metadata
+#'   - "add": only adds new variables from new_metadata to the existing metadata set
 #' @param credentials A list object containing your Hublot credential.
-#' @examples
+#' @examples # To be documented
 #'
 #' \dontrun{
 #'  # get credentials from hublot
@@ -253,11 +258,59 @@ process_command_line_options <- function() {
 #'  # new metadata
 #'
 #'  # Change the metadata on the lake items complying with the filter
-#'  clessnverse::change_lake_items_metadata("covid", c("en", "fr"), credentials)
+#'  clessnverse::change_lake_items_metadata(
+#'    path = "political_party_press_releases",
+#'    filter = list(
+#'      metadata__province_or_state="QC",
+#'      metadata__country="CAN",
+#'      metadata__political_party="QS"
+#'    ),
+#'    new_metadata = list(
+#'      "tags": "elxn-qc2022, vitrine_democratique, polqc",
+#'      "format": "html",
+#'      "source": "https://pq.org/nouvelles/lettre...",
+#'      "country": "CAN",
+#'      "description": "Communiqués de presse des partis politiques",
+#'      "object_type": "raw_data",
+#'      "source_type": "website",
+#'      "content_type": "political_party_press_release",
+#'      "storage_class": "lake",
+#'      "political_party": "PQ",
+#'      "province_or_state": "QC"
+#'    ),
+#'    mode = "merge",
+#'    credentials = credentials
+#'  )
 #' }
 #' @export
-change_lake_items_metadata <- function(path, filter, new_metadata, credentials) {
+change_lake_items_metadata <- function(path, filter, new_metadata, mode, credentials) {
 
+  data <- hublot::filter_lake_items(credentials, filter = filter)
+
+  if (length(data$results) > 0) {
+    for (i in 1:length(data$results)) {
+      row <- data$results[[i]]
+
+      new_metadata <- row$metadata
+      new_metadata$object_type <- "raw_data"
+      new_metadata$source <- new_metadata$url
+      new_metadata$url <- NULL
+      new_metadata$source_type <- "website"
+
+      clessnverse::commit_lake_item(
+        data = list(
+          key = row$key,
+          path = row$path,
+          file = row$file
+        ),
+        metadata = new_metadata,
+        mode = "refresh",
+        credentials = credentials
+      )
+    }
+  } else {
+    warning("no lake item was retrived with this filter")
+  }
 }
 
 
@@ -292,7 +345,7 @@ change_lake_items_metadata <- function(path, filter, new_metadata, credentials) 
 #' @return - TRUE if all the values in the vector 'values' are contained in the
 #'           vector 'vector'
 #'         = FALSE if all the values in 'values' are not contained in 'vector'
-#' @examples
+#' @examples # To be documented
 #'
 #' @export
 "%vcontains%" <- function(vector, values) {
