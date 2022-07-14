@@ -237,6 +237,7 @@ process_command_line_options <- function() {
 #'   - "merge": merges the new_metadata with the existing metadata
 #'   - "add": only adds new variables from new_metadata to the existing metadata set
 #' @param credentials A list object containing your Hublot credential.
+#' @importFrom rlist list.merge
 #' @examples # To be documented
 #'
 #' \dontrun{
@@ -287,30 +288,44 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
 
   data <- hublot::filter_lake_items(credentials, filter = filter)
 
-  if (length(data$results) > 0) {
-    for (i in 1:length(data$results)) {
-      row <- data$results[[i]]
-
-      new_metadata <- row$metadata
-      new_metadata$object_type <- "raw_data"
-      new_metadata$source <- new_metadata$url
-      new_metadata$url <- NULL
-      new_metadata$source_type <- "website"
-
-      clessnverse::commit_lake_item(
-        data = list(
-          key = row$key,
-          path = row$path,
-          file = row$file
-        ),
-        metadata = new_metadata,
-        mode = "refresh",
-        credentials = credentials
-      )
-    }
-  } else {
-    warning("no lake item was retrived with this filter")
+  if (length(data$results) == 0) {
+    stop("no lake item was retrived with this filter")
   }
+
+  for (i in 1:length(data$results)) {
+    row <- data$results[[i]]
+    current_metadata <- row$metadata
+
+    if (mode == "overwrite"){
+      # nothing to do : the commit_lake_item line below will
+      # use new_metadata entirely as the new matadata structure
+    }
+
+    if (mode == "merge"){
+      # merging existing metadata with new metadata
+      # if there are identical variable names, then
+      # new_metadata wins
+      replacement_metadata <- rlist::list.merge(current_metadata, new_metadata)
+    }
+
+    if (mode == "add"){
+      # adding new metadata only to existing metadata
+      # if there are identical variable names, then
+      # existing metadata wins and generate warnings
+      replacement_metadata <- rlist::list.merge(new_metadata, current_metadata)
+    }
+
+    clessnverse::commit_lake_item(data = list(
+                                           key = row$key,
+                                           path = row$path,
+                                           file = row$file
+                                         ),
+                                  metadata = replacement_metadata,
+                                  mode = "refresh",
+                                  credentials = credentials
+                                  )
+  } #for (i in 1:length(data$results))
+
 }
 
 
