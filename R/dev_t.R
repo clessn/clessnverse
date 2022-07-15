@@ -44,10 +44,11 @@
 #' @description get_warehouse_table allows the programmer to retrieve a data
 #'              table from the CLESSN data warehouse named hublot.
 #'
-#' @param table The name of the table to retrieve from the warehouse without
-#'              the 'chlub_tables_warehouse' prefix
+#' @param table_name The name of the table to retrieve from the warehouse without
+#'                   the 'chlub_tables_warehouse' prefix
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
+#' @param data_filter a filter on the data to be selected in the query
 #' @param nbrows   Optional argument
 #'                 If nbrows is greater than 0, the dataframe returned will be
 #'                 limited to nbrows observations.  This is particularly useful
@@ -79,7 +80,7 @@
 #'
 #' @export
 #'
-get_warehouse_table <- function(table_name, credentials, nbrows=0) {
+get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbrows=0) {
 
   function_name <- "get_warehouse_table"
   # validate arguments
@@ -89,6 +90,7 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 
   data <- hublot::list_tables(credentials)
   hublot_tables_list <- tidyjson::spread_all(data)
+
   if (!paste("warehouse_", table_name, sep="") %in% hublot_tables_list$table_name) stop(
     paste("This table is not in hublot:", table_name)
   )
@@ -97,12 +99,20 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 
   hublot::count_table_items(table_longname, credentials)
 
-  page <- hublot::list_table_items(table_longname, credentials)
+  if (length(data_filter) == 0) {
+    page <- hublot::list_table_items(table_longname, credentials)
+  } else {
+    page <- hublot::filter_table_items(table_longname, credentials, data_filter)
+  }
   data <- list()
 
   repeat {
     data <- c(data, page$results)
-    page <- hublot::list_next(page, credentials)
+    if (length(data_filter) == 0) {
+      page <- hublot::list_next(page, credentials)
+    } else {
+      page <- hublot::filter_next(page, credentials)
+    }
     if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
       break
     }
@@ -110,8 +120,10 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  warehouse_json_tbl <- tidyjson::spread_all(data)
-  warehouse_df <- as.data.frame(warehouse_json_tbl)
+  #warehouse_json_tbl <- tidyjson::spread_all(data)
+  #warehouse_df <- as.data.frame(warehouse_json_tbl)
+  #warehouse_df$..JSON <- NULL
+  warehouse_df <- clessnverse::spread_list_to_df(data)
   warehouse_df$..JSON <- NULL
 
   return(warehouse_df)
@@ -126,19 +138,14 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 #'              table from the CLESSN hub2 data warehouse.
 #'              ** WARNING hub2 will be decommissionned by end of 2022 **
 #'
-#' @param table The name of the table to retrieve from the hub2 warehouse
-#' @param filter A list containing the filters to apply against the query
+#' @param table_name The name of the table to retrieve from the hub2 warehouse
+#' @param data_filter A list containing the filters to apply against the query
 #'               to retrieve the data.  Only observations in the table
 #'               complyingw with the filter conditions will be returned
-#' @param max_page The number of pages to return.  A page is 1000 rows.
+#' @param max_pages The number of pages to return.  A page is 1000 rows.
 #'                 Tu return the entire table use *max_pages = -1*
 #' @param hub_conf The hub2.0 credentials obtained from the
 #'                 clessnhub::login function
-#'
-#' @param nbrows If nbrows is greater than 0, the dataframe returned will be
-#'               limited to nbrows observations.  This is particularly useful
-#'               when trying to see if there are records in a table and what
-#'               how structured they are.
 #'
 #' @return returns a dataframe containing the data warehouse table content
 #'
@@ -151,7 +158,7 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 #'
 #'  # get the journalists intervention in press conference from the
 #'  # 'agoraplus_interventions' table from hub2
-#'  filter = list(
+#'  data_filter = list(
 #'    type = "press_conference",
 #'    metadata__location = "CA-QC",
 #'    data__speakerType = "journalist",
@@ -161,14 +168,14 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 #'
 #'  df <- clessnverse::get_hub2_table(
 #'    table_name = 'agoraplus_interventions',
-#'    filter = filter,
+#'    data_filter = data_filter,
 #'    max_pages = -1,
 #'    hub_conf = hub_config
 #'    )
 #'
 #' @export
 #'
-get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
+get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf) {
 
   http_post <- function(path, body, options=NULL, verify=T, hub_c) {
     token <- hub_c$token
@@ -183,16 +190,18 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
     return(response)
   }
 
-  filter <- jsonlite::toJSON(filter, auto_unbox = T)
+  if (!is.null(data_filter) && !class(data_filter) == "list" || length(data_filter) == 0) data_filter <- NULL
+
+  data_filter <- jsonlite::toJSON(data_filter, auto_unbox = T)
 
   path <- paste("/data/", table_name, "/count/", sep="")
-  response <- http_post(path, body=filter, hub_c = hub_conf)
+  response <- http_post(path, body=data_filter, hub_c = hub_conf)
   result <- httr::content(response)
   count <- result$count
   print(paste("count:", count))
 
   path <- paste("/data/", table_name, "/filter/", sep="")
-  response <- http_post(path, body=filter, hub_c = hub_conf)
+  response <- http_post(path, body=data_filter, hub_c = hub_conf)
   page <- httr::content(response)
   data = list()
 
@@ -213,11 +222,11 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
     }
 
     path <- strsplit(path, "science")[[1]][[2]]
-    response <- http_post(path, body=filter, hub_c = hub_conf)
+    response <- http_post(path, body=data_filter, hub_c = hub_conf)
     page <- httr::content(response)
   }
 
-  hub2_table <- tidyjson::spread_all(data)
+  hub2_table <- clessnverse::spread_list_to_df(data)
   return(hub2_table)
 }
 
@@ -244,6 +253,7 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
 #' @param table_name The name of the table to retrieve from the warehouse without
 #'                   the 'chlub_tables_mart' prefix
 #' @param credentials The hublot credentials obtained from the hublot::
+#' @param data_filter a filter on the data to be selected in the query
 #' @param nbrows Optional argument
 #'               If nbrows is greater than 0, the dataframe returned will be
 #'               limited to nbrows observations.  This is particularly useful
@@ -266,22 +276,41 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
 #   datamart  <- clessnverse::get_mart_table('political_parties_press_releases_freq', credentials)
 #'
 #'  # gets the first 10 rows of the warehouse table 'people'
-#   datamart  <- clessnverse::get_mart_table('people', credentials, 10)
+#   datamart  <- clessnverse::get_mart_table('people', credentials, nbrows=10)
 #'
 #' @export
 #'
-get_mart_table <- function(table_name, credentials, nbrows=0) {
+get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0) {
 
-  table_name <- paste("clhub_tables_mart_", table_name, sep="")
+  function_name <- "get_mart_table"
 
-  hublot::count_table_items(table_name, credentials)
+  # validate arguments
+  if (is.null(credentials$auth) || is.na(credentials$auth)) stop(
+    paste("You must supply valid hublot credentials in", function_name)
+  )
 
-  page <- hublot::list_table_items(table_name, credentials)
+  data <- hublot::list_tables(credentials)
+  hublot_tables_list <- tidyjson::spread_all(data)
+  if (!paste("mart_", table_name, sep="") %in% hublot_tables_list$table_name) stop(
+    paste("This table is not in hublot:", table_name)
+  )
+
+  table_longname <- paste("clhub_tables_mart_", table_name, sep="")
+
+  if (length(data_filter) == 0) {
+    page <- hublot::list_table_items(table_longname, credentials)
+  } else {
+    page <- hublot::filter_table_items(table_longname, credentials, data_filter)
+  }
   data <- list()
 
   repeat {
     data <- c(data, page$results)
-    page <- hublot::list_next(page, credentials)
+    if (length(data_filter) == 0) {
+      page <- hublot::list_next(page, credentials)
+    } else {
+      page <- hublot::filter_next(page, credentials)
+    }
     if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
       break
     }
@@ -289,9 +318,9 @@ get_mart_table <- function(table_name, credentials, nbrows=0) {
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  mart_json_tbl <- tidyjson::spread_all(data)
-
-  mart_df <- as.data.frame(mart_json_tbl)
+  #mart_json_tbl <- tidyjson::spread_all(data)
+  #mart_df <- as.data.frame(mart_json_tbl)
+  mart_df <- clessnverse::spread_list_to_df(data)
   mart_df$..JSON <- NULL
 
   return(mart_df)
@@ -332,13 +361,6 @@ get_mart_table <- function(table_name, credentials, nbrows=0) {
 #'             table, a warning will be returned.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
-#' @param nbrows Optional argument
-#'               If nbrows is greater than 0, the dataframe returned will be
-#'               limited to nbrows observations.  This is particularly useful
-#'               when trying to see if there are records in a table and what
-#'               how structured they are.
-#'               If nbrows is omitted, then all rows of the table are returned
-#'
 #' @return returns a dataframe containing the data warehouse table with a JSON
 #'         attribute as well as a document.id and creation & update time stamps
 #'
@@ -366,8 +388,8 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
   # Otherwise, do nothing (just log a message)
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
 
-  filter <- list(key__exact = key)
-  item <- hublot::filter_table_items(table_name, credentials, filter)
+  data_filter <- list(key__exact = key)
+  item <- hublot::filter_table_items(table_name, credentials, data_filter)
 
   if(length(item$results) == 0) {
     # l'item n'existe pas déjà dans hublot
@@ -399,12 +421,8 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'
 #' @param table_name The name of the data mart table to store without the
 #'                   'chlub_tables_mart' prefix.
-#' @param key A character string containing the unique primary key of this
-#'            observation in the table.  Data integrity of the CLESSN data
-#'            model is maintained by having a unique key per observation in
-#'            each table.
-#' @param row A named list containing the observation to write to the datamart
-#'            table.  The names of the list *are the columns* of the table.
+#' @param df blah
+#' @param key_column blah
 #' @param mode A character string cintaining either "refresh" or "append".
 #'             If mode = "refresh" then if an observation with a key = key
 #'             already exists in the table, it will be overwritten with the
@@ -414,12 +432,6 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'             table, a warning will be returned.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
-#' @param nbrows Optional argument
-#'               If nbrows is greater than 0, the dataframe returned will be
-#'               limited to nbrows observations.  This is particularly useful
-#'               when trying to see if there are records in a table and what
-#'               how structured they are.
-#'               If nbrows is omitted, then all rows of the table are returned
 #'
 #' @return returns a dataframe containing the data warehouse table with a JSON
 #'         attribute as well as a document.id and creation & update time stamps
@@ -433,10 +445,10 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'    )
 #'
 #'  # gets the entire datamart political_parties_press_releases_freq
-#   datamart  <- clessnverse::get_mart_table('political_parties_press_releases_freq', credentials)
+#   datamart  <- clessnverse::commit_mart_table('political_parties_press_releases_freq', credentials)
 #'
 #'  # gets the first 10 rows of the warehouse table 'people'
-#   datamart  <- clessnverse::get_mart_table('people', credentials, 10)
+#   datamart  <- clessnverse::commit_mart_table('people', credentials, 10)
 #'
 #' @export
 #'
@@ -457,8 +469,8 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
     key <- df[[key_column]][i]
 
-    filter <- list(key__exact = key)
-    item <- hublot::filter_table_items(table_name, credentials, filter)
+    data_filter <- list(key__exact = key)
+    item <- hublot::filter_table_items(table_name, credentials, data_filter)
 
     data_row <- as.list(df[i,] %>% select(-c("key")))
 
@@ -579,9 +591,9 @@ get_dictionary <-
 ###############################################################################
 #' @title clessnverse::compute_nb_sentences
 #' @description calculates the number of sentences in a bloc of text
-#' @param txt_bloc
-#' @return
-#' @examples example
+#' @param txt_bloc be documented
+#' @return return
+#' @examples # To be documented
 #' @export
 compute_nb_sentences <- function(txt_bloc) {
   df_sentences <- tibble::tibble(txt = txt_bloc) %>%
@@ -596,9 +608,9 @@ compute_nb_sentences <- function(txt_bloc) {
 ###############################################################################
 #' @title clessnverse::compute_nb_words
 #' @description calculates the number of words in a bloc of text
-#' @param
-#' @return
-#' @examples example
+#' @param txt_bloc be documented
+#' @return return
+#' @examples # To be documented
 #' @export
 compute_nb_words <- function(txt_bloc) {
   df_words <- tibble::tibble(txt = txt_bloc) %>%
@@ -613,22 +625,30 @@ compute_nb_words <- function(txt_bloc) {
 ###############################################################################
 #' @title clessnverse::compute_relevance_score
 #' @description calculates the relevance of a bloc of text against a topic dictionary
-#' @param
-#' @return the function returns
-#' @examples example
+#' @param txt_bloc blah
+#' @param dictionary blah
+#' @return return
+#' @examples # To be documented
+#'
 #' @export
 compute_relevance_score <- function(txt_bloc, dictionary) {
   # Prepare corpus
   txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(l|L)\\'", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(s|S)\\'", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(d|D)\\'", replacement = "")
+  txt <- gsub("\u00a0", " ", txt)
+  txt <- stringr::str_replace_all(string = txt, pattern = "  ", replacement = " ")
+
   tokens <- quanteda::tokens(txt, remove_punct = TRUE)
   tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("french"))
   tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("spanish"))
   tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("english"))
 
-  tokens <- quanteda::tokens_replace(
-    tokens,
-    quanteda::types(tokens),
-    stringi::stri_replace_all_regex(quanteda::types(tokens), "[lsd]['\\p{Pf}]", ""))
+  # tokens <- quanteda::tokens_replace(
+  #   tokens,
+  #   quanteda::types(tokens),
+  #   stringi::stri_replace_all_regex(quanteda::types(tokens), "[lsd]['\\p{Pf}]", ""))
 
   if (length(tokens[[1]]) == 0) {
     tokens <- quanteda::tokens("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", remove_punct = TRUE)
@@ -654,7 +674,7 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 #' @param category_dictionary : a topic dictionary containing the categories to calculate the sentiment on
 #' @param sentiment_dictionary : sentiment lexicoder dictionary
 #' @return returns a dataframe containing the sentiment score of each category in the category dictionary
-#' @examples example
+#' @examples # To be documented
 #'
 #' @importFrom stats  aggregate
 #'
@@ -662,6 +682,14 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {
   # Build one corpus per category and compute sentiment on each corpus
   corpus <- data.frame(doc_id = integer(), category = character(), txt = character())
+
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "(l|L)\\'", replacement = "")
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "(s|S)\\'", replacement = "")
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "(d|D)\\'", replacement = "")
+  txt_bloc <- gsub("\u00a0", " ", txt_bloc)
+
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "  ", replacement = " ")
 
   df_sentences <- tibble::tibble(txt = txt_bloc) %>%
     tidytext::unnest_tokens("sentence", "txt", token="sentences",format="text", to_lower = T)
@@ -688,10 +716,10 @@ compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sen
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("french"))
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("spanish"))
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("english"))
-  toks <- quanteda::tokens_replace(
-    toks,
-    quanteda::types(toks),
-    stringi::stri_replace_all_regex(quanteda::types(toks), "[lsd]['\\p{Pf}]", ""))
+  # toks <- quanteda::tokens_replace(
+  #   toks,
+  #   quanteda::types(toks),
+  #   stringi::stri_replace_all_regex(quanteda::types(toks), "[lsd]['\\p{Pf}]", ""))
 
 
   if (length(toks) == 0) {

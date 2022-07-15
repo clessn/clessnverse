@@ -69,12 +69,39 @@
 #' @export
 commit_lake_item <- function(data, metadata, mode, credentials) {
 
-  if (grepl("file", metadata$format)) {
-    metadata$format <- gsub("file", "", metadata$format)
-    file.rename(data$item, paste("file.", metadata$format, sep=""))
+  if (!is.null(data$item)) {
+    # This is the object "item" that we will commit to the lake item
+    if (grepl("file", metadata$format)) {
+      metadata$format <- gsub("file", "", metadata$format)
+      file.rename(data$item, paste("file.", metadata$format, sep=""))
+    } else {
+      write(data$item, paste("file.", metadata$format, sep=""))
+    }
   } else {
-    write(data$item, paste("file.", metadata$format, sep=""))
-  }
+
+    if (!is.null(data$file)) {
+      # This is an file_url to the file that we will commit to the lake item
+      tryCatch(
+        {
+          r <- httr::GET(data$file, httr::config(ssl_verifypeer=0), httr::timeout(30))
+        },
+        error = function(e) {
+          stop(paste("could not retrieve url", data$file, "from data lake item with key", data$key))
+        },
+        finally = {}
+      )
+
+      if (!is.null(r) && r$status_code == 200){
+        doc <- httr::content(r, as="text", encoding = "UTF-8")
+        data$item <- doc
+
+        write(data$item, paste("file.", metadata$format, sep=""))
+      }
+    } else {
+      stop("invalid item or file provided in data to the clessnverse::commit_lake_item function")
+    } #if (!is.null(data$file))
+
+  } #if (!is.null(data$item))
 
   # check if an item with this key already exists
   existing_item <- hublot::filter_lake_items(credentials, list(key = data$key))
@@ -90,21 +117,30 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
       credentials)
   } else {
     if (mode == "refresh") {
-      hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
-
-      hublot::add_lake_item(
+      # hublot::remove_lake_item(existing_item$results[[1]]$id, credentials)
+      #
+      # hublot::add_lake_item(
+      #   body = list(
+      #     key = data$key,
+      #     path = data$path,
+      #     file = httr::upload_file(paste("file.", metadata$format, sep="")),
+      #     metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
+      #   credentials)
+      hublot::update_lake_item(
+        id = existing_item$results[[1]]$id,
         body = list(
           key = data$key,
           path = data$path,
           file = httr::upload_file(paste("file.", metadata$format, sep="")),
           metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
         credentials)
+
     } else {
       warning(paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode))
     }
   }
 
-  file.remove(paste("file.", metadata$format, sep=""))
+  if (file.exists(paste("file.", metadata$format, sep=""))) file.remove(paste("file.", metadata$format, sep=""))
 }
 
 

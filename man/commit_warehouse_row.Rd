@@ -6,9 +6,23 @@
 \usage{
 commit_warehouse_row(table, key, row = list(), mode = "refresh", credentials)
 }
+\arguments{
+\item{table}{be documented}
+
+\item{key}{be documented}
+
+\item{row}{be documented}
+
+\item{mode}{be documented}
+
+\item{credentials}{be documented}
+}
+\value{
+return
+}
 \description{
 adds or replaces a rown in a warehouse with a specific key
 }
 \examples{
-example
+# To be documented
 }

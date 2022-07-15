@@ -4,25 +4,20 @@
 \alias{get_hub2_table}
 \title{clessnverse::get_hub2_table}
 \usage{
-get_hub2_table(table_name, filter = list(), max_pages = -1, hub_conf)
+get_hub2_table(table_name, data_filter = NULL, max_pages = -1, hub_conf)
 }
 \arguments{
-\item{filter}{A list containing the filters to apply against the query
+\item{table_name}{The name of the table to retrieve from the hub2 warehouse}
+
+\item{data_filter}{A list containing the filters to apply against the query
 to retrieve the data.  Only observations in the table
 complyingw with the filter conditions will be returned}
 
-\item{hub_conf}{The hub2.0 credentials obtained from the
-clessnhub::login function}
-
-\item{table}{The name of the table to retrieve from the hub2 warehouse}
-
-\item{max_page}{The number of pages to return.  A page is 1000 rows.
+\item{max_pages}{The number of pages to return.  A page is 1000 rows.
 Tu return the entire table use \emph{max_pages = -1}}
 
-\item{nbrows}{If nbrows is greater than 0, the dataframe returned will be
-limited to nbrows observations.  This is particularly useful
-when trying to see if there are records in a table and what
-how structured they are.}
+\item{hub_conf}{The hub2.0 credentials obtained from the
+clessnhub::login function}
 }
 \value{
 returns a dataframe containing the data warehouse table content
@@ -41,7 +36,7 @@ table from the CLESSN hub2 data warehouse.
 
  # get the journalists intervention in press conference from the
  # 'agoraplus_interventions' table from hub2
- filter = list(
+ data_filter = list(
    type = "press_conference",
    metadata__location = "CA-QC",
    data__speakerType = "journalist",
@@ -51,7 +46,7 @@ table from the CLESSN hub2 data warehouse.
 
  df <- clessnverse::get_hub2_table(
    table_name = 'agoraplus_interventions',
-   filter = filter,
+   data_filter = data_filter,
    max_pages = -1,
    hub_conf = hub_config
    )

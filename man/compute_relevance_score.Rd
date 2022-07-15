@@ -6,12 +6,18 @@
 \usage{
 compute_relevance_score(txt_bloc, dictionary)
 }
+\arguments{
+\item{txt_bloc}{blah}
+
+\item{dictionary}{blah}
+}
 \value{
-the function returns
+return
 }
 \description{
 calculates the relevance of a bloc of text against a topic dictionary
 }
 \examples{
-example
+# To be documented
+
 }

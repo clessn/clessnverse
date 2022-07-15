@@ -6,9 +6,15 @@
 \usage{
 compute_nb_sentences(txt_bloc)
 }
+\arguments{
+\item{txt_bloc}{be documented}
+}
+\value{
+return
+}
 \description{
 calculates the number of sentences in a bloc of text
 }
 \examples{
-example
+# To be documented
 }

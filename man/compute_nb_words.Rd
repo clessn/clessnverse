@@ -6,9 +6,15 @@
 \usage{
 compute_nb_words(txt_bloc)
 }
+\arguments{
+\item{txt_bloc}{be documented}
+}
+\value{
+return
+}
 \description{
 calculates the number of words in a bloc of text
 }
 \examples{
-example
+# To be documented
 }

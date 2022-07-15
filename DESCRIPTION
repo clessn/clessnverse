@@ -1,6 +1,6 @@
 Package: clessnverse
 Title: Package for Data Domestication, Analysis, and Visualization
-Version: 0.0.0.9020
+Version: 0.0.0.9030
 Authors@R: c(
     person(given = "William",
            family = "Poirier",
@@ -44,9 +44,10 @@ Imports:
     hublot,
     jsonlite,
     optparse,
-    stringi,
     stringr,
     tibble,
     tidyjson,
     tidyr,
-    tidytext
+    tidytext,
+    rlist,
+    foreach

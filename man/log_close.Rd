@@ -6,11 +6,17 @@
 \usage{
 log_close(logger)
 }
+\arguments{
+\item{logger}{blah}
+}
+\value{
+blah
+}
 \description{
-clessnverse::log_close
+blah
 }
 \examples{
-example
+# To be documented
 
 
 

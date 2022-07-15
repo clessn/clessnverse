@@ -34,3 +34,6 @@ the CLESSN data lake (hublot).
  clessnverse::get_dictionary("covid", c("en", "fr"), credentials)
 }
 }
+\author{
+CLESSN
+}

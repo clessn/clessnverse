@@ -25,9 +25,11 @@
 ######################################################
 #' @title clessnverse::log_init
 #' @description This function initializes the log
-#' @param
-#' @return
-#' @examples example
+#' @param script blah
+#' @param backend blah
+#' @param logpath blah
+#' @return return
+#' @examples # To be documented
 #'
 #'
 #'
@@ -72,10 +74,12 @@ log_init <- function(script, backend, logpath=".") {
 
 ######################################################
 #' @title clessnverse::logit
-#' @description
-#' @param
-#' @return
-#' @examples example
+#' @description desc
+#' @param scriptname blah
+#' @param message blah
+#' @param logger blah
+#' @return blah
+#' @examples # To be documented
 #'
 #'
 #'
@@ -105,10 +109,10 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
 
 ######################################################
 #' @title clessnverse::log_close
-#' @description
-#' @param
-#' @return
-#' @examples example
+#' @description blah
+#' @param logger blah
+#' @return blah
+#' @examples # To be documented
 #'
 #'
 #'
@@ -161,14 +165,8 @@ log_close <- function(logger) {
 # - refresh : refreshes existing observations and adds new observations to the dataset
 # - rebuild : wipes out completely the dataset and rebuilds it from scratch
 # - skip : does not make any change to the dataset
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
+#' @return blah
+#' @examples # To be documented
 #'
 #'
 #'
@@ -207,6 +205,145 @@ process_command_line_options <- function() {
 
 
 
+
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+# BATCH CHANGE OF DATA OR METADATA IN LAKE, WAREHOUSE OR MARTS
+#
+# The functions below are used to change metadata or data of objects in the
+# datalake, datawarehouse or the datamarts in batch.  This is useful when
+# there was a mistake made in a pipeline metadata variables, or if the
+# data governance committee decides of a change in the data management
+# standards and cataloging
+#
+
+
+###############################################################################
+#' Makes a batch change of the metadata applied to lake objects
+#'
+#' Batch changes of metadata can be usefule if there are hunderds or  thousands
+#' of objects in the data lake which we need to change the metadata on.
+#' @param path The path in the data lake which the objects are in
+#' @param filter A filter used to select the objects in the data lake which the
+#' metadata needs to be changed on.
+#' @param new_metadata A list type objects containing the new metadata to be
+#' applied on the lake objects.
+#' @param mode The mode to apply the metadata with. Can take the following
+#' values:
+#'   - "overwrite": overwrites the entire existing metadata set with new_metadata
+#'   - "merge": merges the new_metadata with the existing metadata
+#'   - "add": only adds new variables from new_metadata to the existing metadata set
+#' @param credentials A list object containing your Hublot credential.
+#' @importFrom rlist list.merge
+#' @examples # To be documented
+#'
+#' \dontrun{
+#'  # get credentials from hublot
+#'  credentials <- hublot::get_credentials(
+#'    Sys.getenv("HUB3_URL"),
+#'    Sys.getenv("HUB3_USERNAME"),
+#'    Sys.getenv("HUB3_PASSWORD")
+#'    )
+#'
+#'  # filter for selecting the lakes items to be changed
+#'  filter <- list(
+#'    path = "political_party_press_releases",
+#'    metadata__political_party = "CAQ",
+#'    metadata__province_or_state="QC",
+#'    metadata__country="CAN",
+#'    metadata__storage_class="lake"
+#'  )
+#'  # new metadata
+#'
+#'  # Change the metadata on the lake items complying with the filter
+#'  clessnverse::change_lake_items_metadata(
+#'    path = "political_party_press_releases",
+#'    filter = list(
+#'      metadata__province_or_state="QC",
+#'      metadata__country="CAN",
+#'      metadata__political_party="QS"
+#'    ),
+#'    new_metadata = list(
+#'      "tags": "elxn-qc2022, vitrine_democratique, polqc",
+#'      "format": "html",
+#'      "source": "https://pq.org/nouvelles/lettre...",
+#'      "country": "CAN",
+#'      "description": "Communiqués de presse des partis politiques",
+#'      "object_type": "raw_data",
+#'      "source_type": "website",
+#'      "content_type": "political_party_press_release",
+#'      "storage_class": "lake",
+#'      "political_party": "PQ",
+#'      "province_or_state": "QC"
+#'    ),
+#'    mode = "merge",
+#'    credentials = credentials
+#'  )
+#' }
+#' @export
+change_lake_items_metadata <- function(path, filter, new_metadata, mode, credentials) {
+
+  data <- hublot::filter_lake_items(credentials, filter = filter)
+
+  if (length(data$results) == 0) {
+    stop("no lake item was retrived with this filter")
+  }
+
+  for (i in 1:length(data$results)) {
+    row <- data$results[[i]]
+    current_metadata <- row$metadata
+
+    if (mode == "overwrite"){
+      # nothing to do : the commit_lake_item line below will
+      # use new_metadata entirely as the new matadata structure
+    }
+
+    if (mode == "merge"){
+      # merging existing metadata with new metadata
+      # if there are identical variable names, then
+      # new_metadata wins
+      replacement_metadata <- rlist::list.merge(current_metadata, new_metadata)
+    }
+
+    if (mode == "add"){
+      # adding new metadata only to existing metadata
+      # if there are identical variable names, then
+      # existing metadata wins and generate warnings
+      replacement_metadata <- rlist::list.merge(new_metadata, current_metadata)
+    }
+
+    clessnverse::commit_lake_item(data = list(
+                                           key = row$key,
+                                           path = row$path,
+                                           file = row$file
+                                         ),
+                                  metadata = replacement_metadata,
+                                  mode = "refresh",
+                                  credentials = credentials
+                                  )
+  } #for (i in 1:length(data$results))
+
+}
+
+
+
+
+
+
+
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+# VARIOUS TOOLS
+#
+
+
+
 ###############################################################################
 #' @title %vcontains
 #' @description check if a vector 'vector' contains all values specified in the
@@ -217,7 +354,7 @@ process_command_line_options <- function() {
 #' @return - TRUE if all the values in the vector 'values' are contained in the
 #'           vector 'vector'
 #'         = FALSE if all the values in 'values' are not contained in 'vector'
-#' @examples
+#' @examples # To be documented
 #'
 #' @export
 "%vcontains%" <- function(vector, values) {
@@ -226,3 +363,37 @@ process_command_line_options <- function() {
   z <- tv[names(tx)] - tx
   all(z >= 0 & !is.na(z))
 }
+
+
+
+
+###############################################################################
+#' @title spread_list_to_df
+#' @description converts uneven nested lists to a dataframe
+#' @param l : A list object can be a list of lists (nested lists) that can have
+#' uneven geometries
+#' @return - TRUE if all the values in the vector 'values' are contained in the
+#'           vector 'vector'
+#'         = FALSE if all the values in 'values' are not contained in 'vector'
+#' @importFrom foreach %do%
+#' @examples # To be documented
+#'
+#' @export
+spread_list_to_df <- function(l) {
+
+  element <- list()
+
+  l <- l[lapply(l, class) == "list"]
+
+  df <- foreach::foreach(element = l, .combine = bind_rows, .errorhandling = 'remove') %do% {
+   df = unlist(element);
+   df = as.data.frame(t(df));
+   rm(element);
+   return(df)
+  }
+
+  rm(l)
+  return(df)
+}
+
+

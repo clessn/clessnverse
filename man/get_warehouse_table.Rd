@@ -4,11 +4,16 @@
 \alias{get_warehouse_table}
 \title{clessnverse::get_warehouse_table}
 \usage{
-get_warehouse_table(table_name, credentials, nbrows = 0)
+get_warehouse_table(table_name, credentials, data_filter = list(), nbrows = 0)
 }
 \arguments{
+\item{table_name}{The name of the table to retrieve from the warehouse without
+the 'chlub_tables_warehouse' prefix}
+
 \item{credentials}{The hublot credentials obtained from the
 hublot::get_credentials function}
+
+\item{data_filter}{a filter on the data to be selected in the query}
 
 \item{nbrows}{Optional argument
 If nbrows is greater than 0, the dataframe returned will be
@@ -16,9 +21,6 @@ limited to nbrows observations.  This is particularly useful
 when trying to see if there are records in a table and what
 how structured they are.
 If nbrows is omitted, then all rows of the table are returned}
-
-\item{table}{The name of the table to retrieve from the warehouse without
-the 'chlub_tables_warehouse' prefix}
 }
 \value{
 returns a dataframe containing the data warehouse table content
