@@ -4,7 +4,7 @@
 \alias{get_mart_table}
 \title{clessnverse::get_mart_table}
 \usage{
-get_mart_table(table_name, credentials, filter = list(), nbrows = 0)
+get_mart_table(table_name, credentials, data_filter = list(), nbrows = 0)
 }
 \arguments{
 \item{table_name}{The name of the table to retrieve from the warehouse without
@@ -12,7 +12,7 @@ the 'chlub_tables_mart' prefix}
 
 \item{credentials}{The hublot credentials obtained from the hublot::}
 
-\item{filter}{a filter on the data to be selected in the query}
+\item{data_filter}{a filter on the data to be selected in the query}
 
 \item{nbrows}{Optional argument
 If nbrows is greater than 0, the dataframe returned will be

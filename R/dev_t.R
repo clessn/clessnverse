@@ -48,7 +48,7 @@
 #'                   the 'chlub_tables_warehouse' prefix
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
-#' @param filter a filter on the data to be selected in the query
+#' @param data_filter a filter on the data to be selected in the query
 #' @param nbrows   Optional argument
 #'                 If nbrows is greater than 0, the dataframe returned will be
 #'                 limited to nbrows observations.  This is particularly useful
@@ -80,7 +80,7 @@
 #'
 #' @export
 #'
-get_warehouse_table <- function(table_name, credentials, filter=list(), nbrows=0) {
+get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbrows=0) {
 
   function_name <- "get_warehouse_table"
   # validate arguments
@@ -98,16 +98,16 @@ get_warehouse_table <- function(table_name, credentials, filter=list(), nbrows=0
 
   hublot::count_table_items(table_longname, credentials)
 
-  if (length(filter) == 0) {
+  if (length(data_filter) == 0) {
     page <- hublot::list_table_items(table_longname, credentials)
   } else {
-    page <- hublot::filter_table_items(table_longname, credentials, filter)
+    page <- hublot::filter_table_items(table_longname, credentials, data_filter)
   }
   data <- list()
 
   repeat {
     data <- c(data, page$results)
-    if (length(filter) == 0) {
+    if (length(data_filter) == 0) {
       page <- hublot::list_next(page, credentials)
     } else {
       page <- hublot::filter_next(page, credentials)
@@ -136,7 +136,7 @@ get_warehouse_table <- function(table_name, credentials, filter=list(), nbrows=0
 #'              ** WARNING hub2 will be decommissionned by end of 2022 **
 #'
 #' @param table_name The name of the table to retrieve from the hub2 warehouse
-#' @param filter A list containing the filters to apply against the query
+#' @param data_filter A list containing the filters to apply against the query
 #'               to retrieve the data.  Only observations in the table
 #'               complyingw with the filter conditions will be returned
 #' @param max_pages The number of pages to return.  A page is 1000 rows.
@@ -155,7 +155,7 @@ get_warehouse_table <- function(table_name, credentials, filter=list(), nbrows=0
 #'
 #'  # get the journalists intervention in press conference from the
 #'  # 'agoraplus_interventions' table from hub2
-#'  filter = list(
+#'  data_filter = list(
 #'    type = "press_conference",
 #'    metadata__location = "CA-QC",
 #'    data__speakerType = "journalist",
@@ -165,14 +165,14 @@ get_warehouse_table <- function(table_name, credentials, filter=list(), nbrows=0
 #'
 #'  df <- clessnverse::get_hub2_table(
 #'    table_name = 'agoraplus_interventions',
-#'    filter = filter,
+#'    data_filter = data_filter,
 #'    max_pages = -1,
 #'    hub_conf = hub_config
 #'    )
 #'
 #' @export
 #'
-get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
+get_hub2_table <- function(table_name, data_filter=list(), max_pages=-1, hub_conf) {
 
   http_post <- function(path, body, options=NULL, verify=T, hub_c) {
     token <- hub_c$token
@@ -187,16 +187,16 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
     return(response)
   }
 
-  filter <- jsonlite::toJSON(filter, auto_unbox = T)
+  data_filter <- jsonlite::toJSON(data_filter, auto_unbox = T)
 
   path <- paste("/data/", table_name, "/count/", sep="")
-  response <- http_post(path, body=filter, hub_c = hub_conf)
+  response <- http_post(path, body=data_filter, hub_c = hub_conf)
   result <- httr::content(response)
   count <- result$count
   print(paste("count:", count))
 
   path <- paste("/data/", table_name, "/filter/", sep="")
-  response <- http_post(path, body=filter, hub_c = hub_conf)
+  response <- http_post(path, body=data_filter, hub_c = hub_conf)
   page <- httr::content(response)
   data = list()
 
@@ -217,7 +217,7 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
     }
 
     path <- strsplit(path, "science")[[1]][[2]]
-    response <- http_post(path, body=filter, hub_c = hub_conf)
+    response <- http_post(path, body=data_filter, hub_c = hub_conf)
     page <- httr::content(response)
   }
 
@@ -248,7 +248,7 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
 #' @param table_name The name of the table to retrieve from the warehouse without
 #'                   the 'chlub_tables_mart' prefix
 #' @param credentials The hublot credentials obtained from the hublot::
-#' @param filter a filter on the data to be selected in the query
+#' @param data_filter a filter on the data to be selected in the query
 #' @param nbrows Optional argument
 #'               If nbrows is greater than 0, the dataframe returned will be
 #'               limited to nbrows observations.  This is particularly useful
@@ -275,7 +275,7 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
 #'
 #' @export
 #'
-get_mart_table <- function(table_name, credentials, filter=list(), nbrows=0) {
+get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0) {
 
   function_name <- "get_mart_table"
 
@@ -292,16 +292,16 @@ get_mart_table <- function(table_name, credentials, filter=list(), nbrows=0) {
 
   table_longname <- paste("clhub_tables_mart_", table_name, sep="")
 
-  if (length(filter) == 0) {
+  if (length(data_filter) == 0) {
     page <- hublot::list_table_items(table_longname, credentials)
   } else {
-    page <- hublot::filter_table_items(table_longname, credentials, filter)
+    page <- hublot::filter_table_items(table_longname, credentials, data_filter)
   }
   data <- list()
 
   repeat {
     data <- c(data, page$results)
-    if (length(filter) == 0) {
+    if (length(data_filter) == 0) {
       page <- hublot::list_next(page, credentials)
     } else {
       page <- hublot::filter_next(page, credentials)
@@ -383,8 +383,8 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
   # Otherwise, do nothing (just log a message)
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
 
-  filter <- list(key__exact = key)
-  item <- hublot::filter_table_items(table_name, credentials, filter)
+  data_filter <- list(key__exact = key)
+  item <- hublot::filter_table_items(table_name, credentials, data_filter)
 
   if(length(item$results) == 0) {
     # l'item n'existe pas déjà dans hublot
@@ -464,8 +464,8 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 
     key <- df[[key_column]][i]
 
-    filter <- list(key__exact = key)
-    item <- hublot::filter_table_items(table_name, credentials, filter)
+    data_filter <- list(key__exact = key)
+    item <- hublot::filter_table_items(table_name, credentials, data_filter)
 
     data_row <- as.list(df[i,] %>% select(-c("key")))
 

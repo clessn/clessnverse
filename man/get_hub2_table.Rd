@@ -4,12 +4,12 @@
 \alias{get_hub2_table}
 \title{clessnverse::get_hub2_table}
 \usage{
-get_hub2_table(table_name, filter = list(), max_pages = -1, hub_conf)
+get_hub2_table(table_name, data_filter = list(), max_pages = -1, hub_conf)
 }
 \arguments{
 \item{table_name}{The name of the table to retrieve from the hub2 warehouse}
 
-\item{filter}{A list containing the filters to apply against the query
+\item{data_filter}{A list containing the filters to apply against the query
 to retrieve the data.  Only observations in the table
 complyingw with the filter conditions will be returned}
 
@@ -36,7 +36,7 @@ table from the CLESSN hub2 data warehouse.
 
  # get the journalists intervention in press conference from the
  # 'agoraplus_interventions' table from hub2
- filter = list(
+ data_filter = list(
    type = "press_conference",
    metadata__location = "CA-QC",
    data__speakerType = "journalist",
@@ -46,7 +46,7 @@ table from the CLESSN hub2 data warehouse.
 
  df <- clessnverse::get_hub2_table(
    table_name = 'agoraplus_interventions',
-   filter = filter,
+   data_filter = data_filter,
    max_pages = -1,
    hub_conf = hub_config
    )
