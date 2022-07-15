@@ -4,7 +4,7 @@
 \alias{get_warehouse_table}
 \title{clessnverse::get_warehouse_table}
 \usage{
-get_warehouse_table(table_name, credentials, nbrows = 0)
+get_warehouse_table(table_name, credentials, filter = list(), nbrows = 0)
 }
 \arguments{
 \item{table_name}{The name of the table to retrieve from the warehouse without
@@ -12,6 +12,8 @@ the 'chlub_tables_warehouse' prefix}
 
 \item{credentials}{The hublot credentials obtained from the
 hublot::get_credentials function}
+
+\item{filter}{a filter on the data to be selected in the query}
 
 \item{nbrows}{Optional argument
 If nbrows is greater than 0, the dataframe returned will be

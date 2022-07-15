@@ -48,6 +48,7 @@
 #'                   the 'chlub_tables_warehouse' prefix
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
+#' @param filter a filter on the data to be selected in the query
 #' @param nbrows   Optional argument
 #'                 If nbrows is greater than 0, the dataframe returned will be
 #'                 limited to nbrows observations.  This is particularly useful
@@ -79,7 +80,7 @@
 #'
 #' @export
 #'
-get_warehouse_table <- function(table_name, credentials, nbrows=0) {
+get_warehouse_table <- function(table_name, credentials, filter=list(), nbrows=0) {
 
   function_name <- "get_warehouse_table"
   # validate arguments
@@ -97,12 +98,20 @@ get_warehouse_table <- function(table_name, credentials, nbrows=0) {
 
   hublot::count_table_items(table_longname, credentials)
 
-  page <- hublot::list_table_items(table_longname, credentials)
+  if (length(filter) == 0) {
+    page <- hublot::list_table_items(table_longname, credentials)
+  } else {
+    page <- hublot::filter_table_items(table_longname, credentials, filter)
+  }
   data <- list()
 
   repeat {
     data <- c(data, page$results)
-    page <- hublot::list_next(page, credentials)
+    if (length(filter) == 0) {
+      page <- hublot::list_next(page, credentials)
+    } else {
+      page <- hublot::filter_next(page, credentials)
+    }
     if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
       break
     }
@@ -239,6 +248,7 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
 #' @param table_name The name of the table to retrieve from the warehouse without
 #'                   the 'chlub_tables_mart' prefix
 #' @param credentials The hublot credentials obtained from the hublot::
+#' @param filter a filter on the data to be selected in the query
 #' @param nbrows Optional argument
 #'               If nbrows is greater than 0, the dataframe returned will be
 #'               limited to nbrows observations.  This is particularly useful
@@ -261,22 +271,41 @@ get_hub2_table <- function(table_name, filter=list(), max_pages=-1, hub_conf) {
 #   datamart  <- clessnverse::get_mart_table('political_parties_press_releases_freq', credentials)
 #'
 #'  # gets the first 10 rows of the warehouse table 'people'
-#   datamart  <- clessnverse::get_mart_table('people', credentials, 10)
+#   datamart  <- clessnverse::get_mart_table('people', credentials, nbrows=10)
 #'
 #' @export
 #'
-get_mart_table <- function(table_name, credentials, nbrows=0) {
+get_mart_table <- function(table_name, credentials, filter=list(), nbrows=0) {
 
-  table_name <- paste("clhub_tables_mart_", table_name, sep="")
+  function_name <- "get_mart_table"
 
-  hublot::count_table_items(table_name, credentials)
+  # validate arguments
+  if (is.null(credentials$auth) || is.na(credentials$auth)) stop(
+    paste("You must supply valid hublot credentials in", function_name)
+  )
 
-  page <- hublot::list_table_items(table_name, credentials)
+  data <- hublot::list_tables(credentials)
+  hublot_tables_list <- tidyjson::spread_all(data)
+  if (!paste("mart_", table_name, sep="") %in% hublot_tables_list$table_name) stop(
+    paste("This table is not in hublot:", table_name)
+  )
+
+  table_longname <- paste("clhub_tables_mart_", table_name, sep="")
+
+  if (length(filter) == 0) {
+    page <- hublot::list_table_items(table_longname, credentials)
+  } else {
+    page <- hublot::filter_table_items(table_longname, credentials, filter)
+  }
   data <- list()
 
   repeat {
     data <- c(data, page$results)
-    page <- hublot::list_next(page, credentials)
+    if (length(filter) == 0) {
+      page <- hublot::list_next(page, credentials)
+    } else {
+      page <- hublot::filter_next(page, credentials)
+    }
     if (is.null(page) || (nbrows != 0 && length(data) >= nbrows)) {
       break
     }
@@ -411,10 +440,10 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'    )
 #'
 #'  # gets the entire datamart political_parties_press_releases_freq
-#   datamart  <- clessnverse::get_mart_table('political_parties_press_releases_freq', credentials)
+#   datamart  <- clessnverse::commit_mart_table('political_parties_press_releases_freq', credentials)
 #'
 #'  # gets the first 10 rows of the warehouse table 'people'
-#   datamart  <- clessnverse::get_mart_table('people', credentials, 10)
+#   datamart  <- clessnverse::commit_mart_table('people', credentials, 10)
 #'
 #' @export
 #'
