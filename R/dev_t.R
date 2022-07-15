@@ -90,6 +90,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 
   data <- hublot::list_tables(credentials)
   hublot_tables_list <- tidyjson::spread_all(data)
+
   if (!paste("warehouse_", table_name, sep="") %in% hublot_tables_list$table_name) stop(
     paste("This table is not in hublot:", table_name)
   )
@@ -119,8 +120,10 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  warehouse_json_tbl <- tidyjson::spread_all(data)
-  warehouse_df <- as.data.frame(warehouse_json_tbl)
+  #warehouse_json_tbl <- tidyjson::spread_all(data)
+  #warehouse_df <- as.data.frame(warehouse_json_tbl)
+  #warehouse_df$..JSON <- NULL
+  warehouse_df <- clessnverse::spread_list_to_df(data)
   warehouse_df$..JSON <- NULL
 
   return(warehouse_df)
@@ -172,7 +175,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #'
 #' @export
 #'
-get_hub2_table <- function(table_name, data_filter=list(), max_pages=-1, hub_conf) {
+get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf) {
 
   http_post <- function(path, body, options=NULL, verify=T, hub_c) {
     token <- hub_c$token
@@ -186,6 +189,8 @@ get_hub2_table <- function(table_name, data_filter=list(), max_pages=-1, hub_con
       httr::timeout(30))
     return(response)
   }
+
+  if (!is.null(data_filter) && !class(data_filter) == "list" || length(data_filter) == 0) data_filter <- NULL
 
   data_filter <- jsonlite::toJSON(data_filter, auto_unbox = T)
 
@@ -221,7 +226,7 @@ get_hub2_table <- function(table_name, data_filter=list(), max_pages=-1, hub_con
     page <- httr::content(response)
   }
 
-  hub2_table <- tidyjson::spread_all(data)
+  hub2_table <- clessnverse::spread_list_to_df(data)
   return(hub2_table)
 }
 
@@ -313,9 +318,9 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  mart_json_tbl <- tidyjson::spread_all(data)
-
-  mart_df <- as.data.frame(mart_json_tbl)
+  #mart_json_tbl <- tidyjson::spread_all(data)
+  #mart_df <- as.data.frame(mart_json_tbl)
+  mart_df <- clessnverse::spread_list_to_df(data)
   mart_df$..JSON <- NULL
 
   return(mart_df)
@@ -629,15 +634,21 @@ compute_nb_words <- function(txt_bloc) {
 compute_relevance_score <- function(txt_bloc, dictionary) {
   # Prepare corpus
   txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(l|L)\\'", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(s|S)\\'", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(d|D)\\'", replacement = "")
+  txt <- gsub("\u00a0", " ", txt)
+  txt <- stringr::str_replace_all(string = txt, pattern = "  ", replacement = " ")
+
   tokens <- quanteda::tokens(txt, remove_punct = TRUE)
   tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("french"))
   tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("spanish"))
   tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("english"))
 
-  tokens <- quanteda::tokens_replace(
-    tokens,
-    quanteda::types(tokens),
-    stringi::stri_replace_all_regex(quanteda::types(tokens), "[lsd]['\\p{Pf}]", ""))
+  # tokens <- quanteda::tokens_replace(
+  #   tokens,
+  #   quanteda::types(tokens),
+  #   stringi::stri_replace_all_regex(quanteda::types(tokens), "[lsd]['\\p{Pf}]", ""))
 
   if (length(tokens[[1]]) == 0) {
     tokens <- quanteda::tokens("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", remove_punct = TRUE)
@@ -672,6 +683,14 @@ compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sen
   # Build one corpus per category and compute sentiment on each corpus
   corpus <- data.frame(doc_id = integer(), category = character(), txt = character())
 
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "(l|L)\\'", replacement = "")
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "(s|S)\\'", replacement = "")
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "(d|D)\\'", replacement = "")
+  txt_bloc <- gsub("\u00a0", " ", txt_bloc)
+
+  txt_bloc <- stringr::str_replace_all(string = txt_bloc, pattern = "  ", replacement = " ")
+
   df_sentences <- tibble::tibble(txt = txt_bloc) %>%
     tidytext::unnest_tokens("sentence", "txt", token="sentences",format="text", to_lower = T)
 
@@ -697,10 +716,10 @@ compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sen
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("french"))
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("spanish"))
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("english"))
-  toks <- quanteda::tokens_replace(
-    toks,
-    quanteda::types(toks),
-    stringi::stri_replace_all_regex(quanteda::types(toks), "[lsd]['\\p{Pf}]", ""))
+  # toks <- quanteda::tokens_replace(
+  #   toks,
+  #   quanteda::types(toks),
+  #   stringi::stri_replace_all_regex(quanteda::types(toks), "[lsd]['\\p{Pf}]", ""))
 
 
   if (length(toks) == 0) {

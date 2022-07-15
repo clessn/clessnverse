@@ -4,7 +4,7 @@
 \alias{get_hub2_table}
 \title{clessnverse::get_hub2_table}
 \usage{
-get_hub2_table(table_name, data_filter = list(), max_pages = -1, hub_conf)
+get_hub2_table(table_name, data_filter = NULL, max_pages = -1, hub_conf)
 }
 \arguments{
 \item{table_name}{The name of the table to retrieve from the hub2 warehouse}

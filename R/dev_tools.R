@@ -344,12 +344,6 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
 
 
 
-
-
-
-
-
-
 ###############################################################################
 #' @title %vcontains
 #' @description check if a vector 'vector' contains all values specified in the
@@ -369,3 +363,37 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
   z <- tv[names(tx)] - tx
   all(z >= 0 & !is.na(z))
 }
+
+
+
+
+###############################################################################
+#' @title spread_list_to_df
+#' @description converts uneven nested lists to a dataframe
+#' @param l : A list object can be a list of lists (nested lists) that can have
+#' uneven geometries
+#' @return - TRUE if all the values in the vector 'values' are contained in the
+#'           vector 'vector'
+#'         = FALSE if all the values in 'values' are not contained in 'vector'
+#' @importFrom foreach %do%
+#' @examples # To be documented
+#'
+#' @export
+spread_list_to_df <- function(l) {
+
+  element <- list()
+
+  l <- l[lapply(l, class) == "list"]
+
+  df <- foreach::foreach(element = l, .combine = bind_rows, .errorhandling = 'remove') %do% {
+   df = unlist(element);
+   df = as.data.frame(t(df));
+   rm(element);
+   return(df)
+  }
+
+  rm(l)
+  return(df)
+}
+
+

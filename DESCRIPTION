@@ -44,10 +44,10 @@ Imports:
     hublot,
     jsonlite,
     optparse,
-    stringi,
     stringr,
     tibble,
     tidyjson,
     tidyr,
     tidytext,
-    rlist
+    rlist,
+    foreach
