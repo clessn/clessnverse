@@ -126,7 +126,14 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  df <- data.frame(t(sapply(data,c)))
+  replace_null <- function(x) {
+    x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
+    purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
+  }
+
+  data1 <- replace_null(data)
+
+  df <- data.frame(t(sapply(data1,c)))
   df_data <-  data.frame(t(sapply(df$data,c)))
 
   # Check if the structure is even or uneven
@@ -386,7 +393,14 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  df <- data.frame(t(sapply(data,c)))
+  replace_null <- function(x) {
+    x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
+    purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
+  }
+
+  data1 <- replace_null(data)
+
+  df <- data.frame(t(sapply(data1,c)))
   df_data <-  data.frame(t(sapply(df$data,c)))
 
   # Check if the structure is even or uneven
