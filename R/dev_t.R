@@ -246,13 +246,16 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 
   df <- data.frame(t(sapply(data,c)))
   df_data <-  data.frame(t(sapply(df$data,c)))
+  df_metadata <- data.frame(t(sapply(df$metadata,c)))
 
   # Check if the structure is even or uneven
-  if (length(unique(sapply(df$data, length))) == 1) {
+  if (length(unique(sapply(df$data, length))) == 1 && length(unique(sapply(df$metadata, length))) == 1) {
     # This is very fast on large dataframes but only works on even data schemas
     df$data <- NULL
+    df$metadata <- NULL
     names(df) <- paste("hub.",names(df),sep="")
     df <- as.data.frame(cbind(df,df_data))
+    df <- as.data.frame(cbind(df,df_metadata))
     df <- df %>% replace(.data == "NULL", NA)
     for (col in names(df)) df[,col] <- unlist(df[,col])
   } else {
