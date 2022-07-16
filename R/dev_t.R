@@ -73,8 +73,9 @@
 #'
 #'  # gets the first 10 rows of the 'political_parties_press_releases' table
 #'  clessnverse::get_warehouse_table(
-#'    'political_parties_press_releases',
-#'    credentials,
+#'    table_name = 'political_parties_press_releases',
+#'    data_filter = list(),
+#'    credentials = credentials,
 #'    nbrows=10
 #'    )
 #'
@@ -118,15 +119,25 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
     }
   }
 
+  if (length(data) == 0) {
+    warning(paste("table", table_name, "is empty in function", function_name))
+    return(data.frame())
+  }
+
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  #warehouse_json_tbl <- tidyjson::spread_all(data)
-  #warehouse_df <- as.data.frame(warehouse_json_tbl)
-  #warehouse_df$..JSON <- NULL
-  warehouse_df <- clessnverse::spread_list_to_df(data)
-  warehouse_df$..JSON <- NULL
+  df <- data.frame(t(sapply(data,c)))
+  df_data <-  data.frame(t(sapply(df$data,c)))
+  df$data <- NULL
+  names(df) <- paste("hub.",names(df),sep="")
+  df <- as.data.frame(cbind(df,df_data))
+  df <- df %>% replace(.data == "NULL", NA)
 
-  return(warehouse_df)
+  for (col in names(df)) df[,col] <- unlist(df[,col])
+  #test <- cbind(df[!sapply(df, is.list)],
+  #    (t(apply(df[sapply(df, is.list)], 1, unlist))))
+
+  return(df)
 }
 
 
@@ -177,6 +188,8 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #'
 get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf) {
 
+  function_name <- "get_hub2_table"
+
   http_post <- function(path, body, options=NULL, verify=T, hub_c) {
     token <- hub_c$token
     token_prefix <- hub_c$token_prefix
@@ -226,6 +239,12 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     page <- httr::content(response)
   }
 
+  if (length(data) == 0) {
+    warning(paste("table", table_name, "is empty in function", function_name))
+    return(data.frame())
+  }
+
+
   hub2_table <- clessnverse::spread_list_to_df(data)
   return(hub2_table)
 }
@@ -273,10 +292,17 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 #'    )
 #'
 #'  # gets the entire datamart political_parties_press_releases_freq
-#   datamart  <- clessnverse::get_mart_table('political_parties_press_releases_freq', credentials)
+#'  datamart  <- clessnverse::get_mart_table(
+#'    table_name = 'political_parties_press_releases_freq',
+#'    data_filter = list(),
+#'    credentials = credentials)
 #'
-#'  # gets the first 10 rows of the warehouse table 'people'
-#   datamart  <- clessnverse::get_mart_table('people', credentials, nbrows=10)
+#'  # gets the first 10 rows of the warehouse table 'political_parties_press_releases_freq'
+#'  datamart  <- clessnverse::get_mart_table(
+#'    table_name = 'political_parties_press_releases_freq',
+#'    data_filter = list(),
+#'    credentials = credentials,
+#'    nbrows=10)
 #'
 #' @export
 #'
@@ -306,6 +332,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 
   repeat {
     data <- c(data, page$results)
+
     if (length(data_filter) == 0) {
       page <- hublot::list_next(page, credentials)
     } else {
@@ -316,14 +343,34 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
     }
   }
 
+  if (length(data) == 0) {
+    warning(paste("table", table_name, "is empty in function", function_name))
+    return(data.frame())
+  }
+
+
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  #mart_json_tbl <- tidyjson::spread_all(data)
-  #mart_df <- as.data.frame(mart_json_tbl)
-  mart_df <- clessnverse::spread_list_to_df(data)
-  mart_df$..JSON <- NULL
+  df <- data.frame(t(sapply(data,c)))
+  df_data <-  data.frame(t(sapply(df$data,c)))
 
-  return(mart_df)
+  # Check if the structure is even or uneven
+  if (length(unique(sapply(df$data, length))) == 1) {
+    # This is very fast on large dataframes but only works on even data schemas
+    df$data <- NULL
+    names(df) <- paste("hub.",names(df),sep="")
+    df <- as.data.frame(cbind(df,df_data))
+    df <- df %>% replace(.data == "NULL", NA)
+    for (col in names(df)) df[,col] <- unlist(df[,col])
+  } else {
+    # This is slower on larg data sets but works on uneven data schemas
+    df <- clessnverse::spread_list_to_df(data)
+  }
+
+  #test <- cbind(df[!sapply(df, is.list)],
+  #    (t(apply(df[sapply(df, is.list)], 1, unlist))))
+
+  return(df)
 }
 
 
@@ -444,11 +491,14 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'    Sys.getenv("HUB3_PASSWORD")
 #'    )
 #'
-#'  # gets the entire datamart political_parties_press_releases_freq
-#   datamart  <- clessnverse::commit_mart_table('political_parties_press_releases_freq', credentials)
+#'  # Writes a data frame into political_parties_press_releases_freq
+#'   datamart  <- clessnverse::commit_mart_table(
+#'   table_name = 'political_parties_press_releases_freq',
+#'   df = data.frame(key = "123", count = 1, week_num = "28", party = "CAQ"),
+#'   key_column = 'key',
+#'   mode = 'add',
+#'   credentials = credentials)
 #'
-#'  # gets the first 10 rows of the warehouse table 'people'
-#   datamart  <- clessnverse::commit_mart_table('people', credentials, 10)
 #'
 #' @export
 #'
@@ -533,16 +583,17 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #' @export
 #'
 get_dictionary <-
-  function(topic, lang = c("en", "fr"), credentials) {
+  function(topic, lang = c("en","fr"), credentials) {
     lang <- match.arg(lang)
     # Validate arguments
     file_info <- hublot::retrieve_file("config_dict", credentials)
     config_dict <- utils::read.csv2(file_info$file)
 
-    if (is.null(credentials$auth) || is.na(credentials$auth))
+    if (is.null(credentials$auth) || is.na(credentials$auth)) {
       stop("hublot credentials in clessnverse::get_dictionary are invalid")
+    }
 
-    if (!topic %in% config_dict$topic)
+    if (!topic %in% config_dict$topic) {
       stop (
         paste(
           "invalid topic in clessnverse::get_dictionary function:",
@@ -551,12 +602,14 @@ get_dictionary <-
           paste(config_dict$topic, collapse = ", ")
         )
       )
+    }
 
-    if (!unique(unlist(strsplit(config_dict$lang, ","))) %vcontains% lang)
+    if (!unique(unlist(strsplit(config_dict$lang, ","))) %vcontains% lang) {
       stop (paste(
         "invalid language in clessnverse::get_dictionary function:",
         lang
       ))
+    }
 
     # Get dictionary file from lake
     file_key <- paste("dict_", topic, sep = "")

@@ -41,8 +41,13 @@ CLESSN data mart.
    Sys.getenv("HUB3_PASSWORD")
    )
 
- # gets the entire datamart political_parties_press_releases_freq
+ # Writes a data frame into political_parties_press_releases_freq
+  datamart  <- clessnverse::commit_mart_table(
+  table_name = 'political_parties_press_releases_freq',
+  df = data.frame(key = "123", count = 1, week_num = "28", party = "CAQ"),
+  key_column = 'key',
+  mode = 'add',
+  credentials = credentials)
 
- # gets the first 10 rows of the warehouse table 'people'
 
 }

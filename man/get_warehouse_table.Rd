@@ -44,8 +44,9 @@ table from the CLESSN data warehouse named hublot.
 
  # gets the first 10 rows of the 'political_parties_press_releases' table
  clessnverse::get_warehouse_table(
-   'political_parties_press_releases',
-   credentials,
+   table_name = 'political_parties_press_releases',
+   data_filter = list(),
+   credentials = credentials,
    nbrows=10
    )
 

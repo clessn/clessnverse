@@ -38,7 +38,16 @@ table from a CLESSN data mart.
    )
 
  # gets the entire datamart political_parties_press_releases_freq
+ datamart  <- clessnverse::get_mart_table(
+   table_name = 'political_parties_press_releases_freq',
+   data_filter = list(),
+   credentials = credentials)
 
- # gets the first 10 rows of the warehouse table 'people'
+ # gets the first 10 rows of the warehouse table 'political_parties_press_releases_freq'
+ datamart  <- clessnverse::get_mart_table(
+   table_name = 'political_parties_press_releases_freq',
+   data_filter = list(),
+   credentials = credentials,
+   nbrows=10)
 
 }
