@@ -674,49 +674,30 @@ compute_nb_words <- function(txt_bloc) {
 }
 
 
+
+
+
 ###############################################################################
-#' @title clessnverse::compute_relevance_score
-#' @description calculates the relevance of a bloc of text against a topic dictionary
+#' @title clessnverse::clean_corpus
+#' @description clesns a bloc of text by removing double spaces, non-brekeable
+#' spaces and L, S, D apostrophe (in french language).  This is particularly
+#" useful before using the clessnverse::run_dictionary function.
 #' @param txt_bloc blah
-#' @param dictionary blah
 #' @return return
 #' @examples # To be documented
 #'
 #' @export
-compute_relevance_score <- function(txt_bloc, dictionary) {
-  # Prepare corpus
-  txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
-  txt <- stringr::str_replace_all(string = txt, pattern = "(l|L)\\'", replacement = "")
-  txt <- stringr::str_replace_all(string = txt, pattern = "(s|S)\\'", replacement = "")
-  txt <- stringr::str_replace_all(string = txt, pattern = "(d|D)\\'", replacement = "")
-  txt <- gsub("\u00a0", " ", txt)
-  txt <- stringr::str_replace_all(string = txt, pattern = "  ", replacement = " ")
+clean_corpus <- function(txt_bloc) {
+    # Prepare corpus
+    txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
+    txt <- stringr::str_replace_all(string = txt, pattern = "(l|L)\\'", replacement = "")
+    txt <- stringr::str_replace_all(string = txt, pattern = "(s|S)\\'", replacement = "")
+    txt <- stringr::str_replace_all(string = txt, pattern = "(d|D)\\'", replacement = "")
+    txt <- gsub("\u00a0", " ", txt)
+    txt <- stringr::str_replace_all(string = txt, pattern = "  ", replacement = " ")
 
-  tokens <- quanteda::tokens(txt, remove_punct = TRUE)
-  tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("french"))
-  tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("spanish"))
-  tokens <- quanteda::tokens_remove(tokens, quanteda::stopwords("english"))
-
-  # tokens <- quanteda::tokens_replace(
-  #   tokens,
-  #   quanteda::types(tokens),
-  #   stringi::stri_replace_all_regex(quanteda::types(tokens), "[lsd]['\\p{Pf}]", ""))
-
-  if (length(tokens[[1]]) == 0) {
-    tokens <- quanteda::tokens("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", remove_punct = TRUE)
-  }
-
-  dfm_corpus <- quanteda::dfm(tokens)
-
-  # Compute Relevance on the entire corpus
-  lookup <- quanteda::dfm_lookup(dfm_corpus, dictionary = dictionary, valuetype = "glob")
-  df_score <- quanteda::convert(lookup, to="data.frame")
-  df_score$doc_id <- NULL
-
-  return(df_score)
+    return(txt)
 }
-
-
 
 
 ###############################################################################
@@ -731,7 +712,7 @@ compute_relevance_score <- function(txt_bloc, dictionary) {
 #' @importFrom stats  aggregate
 #'
 #' @export
-compute_catergory_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {
+compute_category_sentiment_score <- function(txt_bloc, category_dictionary, sentiment_dictionary) {
   # Build one corpus per category and compute sentiment on each corpus
   corpus <- data.frame(doc_id = integer(), category = character(), txt = character())
 
