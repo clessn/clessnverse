@@ -275,7 +275,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     df <- df %>% replace(.data == "NULL", NA)
     df <- df %>% replace(is.null(.data), NA)
 
-    for (col in names(df)) {print(col); df[,col] <- unlist(df[,col])}
+    for (col in names(df)) {df[,col] <- unlist(df[,col])}
   } else {
     # This is slower on larg data sets but works on uneven data schemas
     df <- clessnverse::spread_list_to_df(data)
