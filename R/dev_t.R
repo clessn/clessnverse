@@ -128,12 +128,20 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 
   df <- data.frame(t(sapply(data,c)))
   df_data <-  data.frame(t(sapply(df$data,c)))
-  df$data <- NULL
-  names(df) <- paste("hub.",names(df),sep="")
-  df <- as.data.frame(cbind(df,df_data))
-  df <- df %>% replace(.data == "NULL", NA)
 
-  for (col in names(df)) df[,col] <- unlist(df[,col])
+  # Check if the structure is even or uneven
+  if (length(unique(sapply(df$data, length))) == 1) {
+    # This is very fast on large dataframes but only works on even data schemas
+    df$data <- NULL
+    names(df) <- paste("hub.",names(df),sep="")
+    df <- as.data.frame(cbind(df,df_data))
+    df <- df %>% replace(.data == "NULL", NA)
+    for (col in names(df)) df[,col] <- unlist(df[,col])
+  } else {
+    # This is slower on larg data sets but works on uneven data schemas
+    df <- clessnverse::spread_list_to_df(data)
+  }
+
   #test <- cbind(df[!sapply(df, is.list)],
   #    (t(apply(df[sapply(df, is.list)], 1, unlist))))
 
