@@ -601,7 +601,6 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 #'
 get_dictionary <-
   function(topic, lang = c("en","fr"), credentials) {
-    #lang <- match.arg(lang)
     # Validate arguments
     file_info <- hublot::retrieve_file("config_dict", credentials)
     config_dict <- utils::read.csv2(file_info$file)
