@@ -252,7 +252,14 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     return(data.frame())
   }
 
-  df <- data.frame(t(sapply(data,c)))
+  replace_null <- function(x) {
+    x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
+    purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
+  }
+
+  data1 <- replace_null(data)
+
+  df <- data.frame(t(sapply(data1,c)))
   df_data <-  data.frame(t(sapply(df$data,c)))
   df_metadata <- data.frame(t(sapply(df$metadata,c)))
 
@@ -264,8 +271,11 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     names(df) <- paste("hub.",names(df),sep="")
     df <- as.data.frame(cbind(df,df_data))
     df <- as.data.frame(cbind(df,df_metadata))
+
     df <- df %>% replace(.data == "NULL", NA)
-    for (col in names(df)) df[,col] <- unlist(df[,col])
+    df <- df %>% replace(is.null(.data), NA)
+
+    for (col in names(df)) {print(col); df[,col] <- unlist(df[,col])}
   } else {
     # This is slower on larg data sets but works on uneven data schemas
     df <- clessnverse::spread_list_to_df(data)
