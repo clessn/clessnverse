@@ -244,9 +244,23 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     return(data.frame())
   }
 
+  df <- data.frame(t(sapply(data,c)))
+  df_data <-  data.frame(t(sapply(df$data,c)))
 
-  hub2_table <- clessnverse::spread_list_to_df(data)
-  return(hub2_table)
+  # Check if the structure is even or uneven
+  if (length(unique(sapply(df$data, length))) == 1) {
+    # This is very fast on large dataframes but only works on even data schemas
+    df$data <- NULL
+    names(df) <- paste("hub.",names(df),sep="")
+    df <- as.data.frame(cbind(df,df_data))
+    df <- df %>% replace(.data == "NULL", NA)
+    for (col in names(df)) df[,col] <- unlist(df[,col])
+  } else {
+    # This is slower on larg data sets but works on uneven data schemas
+    df <- clessnverse::spread_list_to_df(data)
+  }
+
+  return(df)
 }
 
 
