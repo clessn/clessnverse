@@ -267,6 +267,8 @@ calculate_proportions <- function(data, variable) {
 #' @param text The name of the character variable for which
 #' dictionary expressions are to be matched against.
 #' @param dictionary An object of type dictionary.
+#' @param verbose TRUE or FALSE Whether activity messages are displayed on
+#' the screen.
 #' @return A data.frame which includes one more column than
 #' the number of dictionary categories. The first column is named
 #' doc_id. Each other column is named after a dictionary category.
@@ -289,8 +291,8 @@ calculate_proportions <- function(data, variable) {
 #' text = colnames(attitude),
 #' dictionary = quanteda::data_dictionary_LSD2015)
 #' }
-run_dictionary <- function(data, text, dictionary) {
-  tictoc::tic() # calculate number of seconds for function execution
+run_dictionary <- function(data, text, dictionary, verbose=TRUE) {
+  if (verbose) tictoc::tic() # calculate number of seconds for function execution
   if (is.data.frame(data) != "TRUE") {
     stop(crayon::yellow('the argument "data" needs to be a dataframe'))
   }
@@ -316,8 +318,8 @@ run_dictionary <- function(data, text, dictionary) {
   dfm <- # applies the dictionary to the variable corpus and creates a
     # dfm (document-feature matrix). Applies tolower() by default
     quanteda::dfm(quanteda::tokens_lookup(corpus, dictionary, nested_scope = "dictionary"))
-  message(crayon::green("100% expressions/words found"))
+  if (verbose) message(crayon::green("100% expressions/words found"))
   dataFinal <- quanteda::convert(dfm, to = "data.frame")
-  tictoc::toc()
+  if (verbose) tictoc::toc()
   return(dataFinal)
 }
