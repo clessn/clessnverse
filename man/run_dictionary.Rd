@@ -4,7 +4,7 @@
 \alias{run_dictionary}
 \title{Calculate dictionary expression mentions in a text.}
 \usage{
-run_dictionary(data, text, dictionary)
+run_dictionary(data, text, dictionary, verbose = TRUE)
 }
 \arguments{
 \item{data}{An object of type data.frame.}
@@ -13,6 +13,9 @@ run_dictionary(data, text, dictionary)
 dictionary expressions are to be matched against.}
 
 \item{dictionary}{An object of type dictionary.}
+
+\item{verbose}{TRUE or FALSE Whether activity messages are displayed on
+the screen.}
 }
 \value{
 A data.frame which includes one more column than
