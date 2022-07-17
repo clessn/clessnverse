@@ -282,7 +282,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     df_hub <- dplyr::select(df, -c(c(names(df_data),names(df_metadata))))
     names(df_data) <- gsub("^data.", "", names(df_data))
     names(df_metadata) <- gsub("^metadata.", "", names(df_metadata))
-    names(df_hub) <- paste("hub.", "", names(df_hub))
+    names(df_hub) <- paste("hub.", names(df_hub), sep="")
     df <- df_hub %>% bind_cols(df_metadata) %>% bind_cols(df_data)
   }
 
