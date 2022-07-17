@@ -1,6 +1,6 @@
 Package: clessnverse
 Title: Package for Data Domestication, Analysis, and Visualization
-Version: 0.0.0.9110
+Version: 0.0.0.9120
 Authors@R: c(
     person(given = "William",
            family = "Poirier",

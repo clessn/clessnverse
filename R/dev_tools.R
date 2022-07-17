@@ -43,17 +43,17 @@ log_init <- function(script, backend, logpath=".") {
   if (missing(backend)) stop(paste("You must provide a backend in which to store the logs",
                                    "possible values are", paste(available_backends,collapse=' | ')), call. = F)
 
-    if(length(backend) == 1 && grepl(",", backend)) {
-      backend <- trimws(strsplit(backend, ",")[[1]])
+  if(length(backend) == 1 && grepl(",", backend)) {
+    backend <- trimws(strsplit(backend, ",")[[1]])
+  } else {
+    if (length(backend) == 1) {
+      # nothing to do we only have one string without csv
     } else {
-      if (length(backend) == 1) {
-        # nothing to do we only have one string without csv
-      } else {
-        if (length(backend) > 1) {
-          # nothing to do we already have a list
-        }
+      if (length(backend) > 1) {
+        # nothing to do we already have a list
       }
     }
+  }
 
   file_logger <- NULL
   hub_logger <- NULL
@@ -316,14 +316,14 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
     }
 
     clessnverse::commit_lake_item(data = list(
-                                           key = row$key,
-                                           path = row$path,
-                                           file = row$file
-                                         ),
-                                  metadata = replacement_metadata,
-                                  mode = "refresh",
-                                  credentials = credentials
-                                  )
+      key = row$key,
+      path = row$path,
+      file = row$file
+    ),
+    metadata = replacement_metadata,
+    mode = "refresh",
+    credentials = credentials
+    )
   } #for (i in 1:length(data$results))
 
 }
@@ -366,6 +366,23 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
 
 
 
+###############################################################################
+#' @title replace_null
+#' @description Replaces NULL values by NA in a list of list.  This function
+#' supporte uneven / unbalanced list of lists
+#' @param x : A list pbject.  Can be a list of lists
+#' @return Returns the same list with NULL values replaced by NA
+#' @examples # To be documented
+#'
+#' @export
+
+replace_null <- function(x) {
+  x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
+  purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
+}
+
+
+
 
 ###############################################################################
 #' @title spread_list_to_df
@@ -386,10 +403,10 @@ spread_list_to_df <- function(l) {
   l <- l[lapply(l, class) == "list"]
 
   df <- foreach::foreach(element = l, .combine = bind_rows, .errorhandling = 'remove') %do% {
-   df = unlist(element);
-   df = as.data.frame(t(df));
-   rm(element);
-   return(df)
+    df = unlist(element);
+    df = as.data.frame(t(df));
+    rm(element);
+    return(df)
   }
 
   rm(l)

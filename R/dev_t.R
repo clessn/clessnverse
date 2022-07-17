@@ -126,11 +126,6 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  replace_null <- function(x) {
-    x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
-    purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
-  }
-
   data1 <- replace_null(data)
 
   df <- data.frame(t(sapply(data1,c)))
@@ -142,7 +137,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
     df$data <- NULL
     names(df) <- paste("hub.",names(df),sep="")
     df <- as.data.frame(cbind(df,df_data))
-    df <- df %>% replace(.data == "NULL", NA)
+    #df <- df %>% replace(.data == "NULL", NA)
     for (col in names(df)) df[,col] <- unlist(df[,col])
   } else {
     # This is slower on larg data sets but works on uneven data schemas
@@ -172,7 +167,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #'                 Tu return the entire table use *max_pages = -1*
 #' @param hub_conf The hub2.0 credentials obtained from the
 #'                 clessnhub::login function
-#'
+#' @importFrom dplyr "%>%"
 #' @return returns a dataframe containing the data warehouse table content
 #'
 #' @examples
@@ -259,11 +254,6 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     return(data.frame())
   }
 
-  replace_null <- function(x) {
-    x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
-    purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
-  }
-
   data1 <- replace_null(data)
 
   df <- data.frame(t(sapply(data1,c)))
@@ -279,13 +269,21 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
     df <- as.data.frame(cbind(df,df_data))
     df <- as.data.frame(cbind(df,df_metadata))
 
-    df <- df %>% replace(.data == "NULL", NA)
-    df <- df %>% replace(is.null(.data), NA)
+    #df <- df %>% replace(.data == "NULL", NA)
+    #df <- df %>% replace(is.null(.data), NA)
 
     for (col in names(df)) {df[,col] <- unlist(df[,col])}
+
   } else {
     # This is slower on larg data sets but works on uneven data schemas
     df <- clessnverse::spread_list_to_df(data)
+    df_metadata <- df[which(grepl("^metadata.",names(df)))]
+    df_data <- df[which(grepl("^data.",names(df)))]
+    df_hub <- dplyr::select(df, -c(c(names(df_data),names(df_metadata))))
+    names(df_data) <- gsub("^data.", "", names(df_data))
+    names(df_metadata) <- gsub("^metadata.", "", names(df_metadata))
+    names(df_hub) <- paste("hub.", "", names(df_hub))
+    df <- df_hub %>% bind_cols(df_metadata) %>% bind_cols(df_data)
   }
 
   return(df)
@@ -393,11 +391,6 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 
   if (nbrows != 0 && length(data) >= nbrows) data <- data[1:nbrows]
 
-  replace_null <- function(x) {
-    x <- purrr::map(x, ~ replace(.x, is.null(.x), NA_character_))
-    purrr::map(x, ~ if(is.list(.x)) replace_null(.x) else .x)
-  }
-
   data1 <- replace_null(data)
 
   df <- data.frame(t(sapply(data1,c)))
@@ -409,7 +402,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
     df$data <- NULL
     names(df) <- paste("hub.",names(df),sep="")
     df <- as.data.frame(cbind(df,df_data))
-    df <- df %>% replace(.data == "NULL", NA)
+    #df <- df %>% replace(.data == "NULL", NA)
     for (col in names(df)) df[,col] <- unlist(df[,col])
   } else {
     # This is slower on larg data sets but works on uneven data schemas
@@ -737,15 +730,15 @@ compute_nb_words <- function(txt_bloc) {
 #'
 #' @export
 clean_corpus <- function(txt_bloc) {
-    # Prepare corpus
-    txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
-    txt <- stringr::str_replace_all(string = txt, pattern = "(l|L)\\'", replacement = "")
-    txt <- stringr::str_replace_all(string = txt, pattern = "(s|S)\\'", replacement = "")
-    txt <- stringr::str_replace_all(string = txt, pattern = "(d|D)\\'", replacement = "")
-    txt <- gsub("\u00a0", " ", txt)
-    txt <- stringr::str_replace_all(string = txt, pattern = "  ", replacement = " ")
+  # Prepare corpus
+  txt <- stringr::str_replace_all(string = txt_bloc, pattern = "M\\.|Mr\\.|Dr\\.", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(l|L)\\'", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(s|S)\\'", replacement = "")
+  txt <- stringr::str_replace_all(string = txt, pattern = "(d|D)\\'", replacement = "")
+  txt <- gsub("\u00a0", " ", txt)
+  txt <- stringr::str_replace_all(string = txt, pattern = "  ", replacement = " ")
 
-    return(txt)
+  return(txt)
 }
 
 
