@@ -1,5 +1,13 @@
 # clessnverse
-Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the last working version of the package. If you want to access newer functions currently being developed, you may go look at **branch v1**. Here's how:
+Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the last working version of the package.
+
+## Install package
+
+To install the package, run the code `devtools::install_github("clessn/clessnverse")`.
+
+## Beta functions
+
+If you want to access newer functions currently being developed, you may go look at **branch v1**. Here's how:
 
 ### On GitHub
 
