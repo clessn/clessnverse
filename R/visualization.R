@@ -16,7 +16,11 @@ theme_elxn_qc2022_light <- function(..., base_size = 12) {
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
-      plot.title = ggplot2::element_text(face = "bold", hjust = 0)
+      legend.position = "bottom",
+      legend.background = ggplot2::element_rect(fill = NA),
+      plot.title = ggplot2::element_text(face = "bold", hjust = 0),
+      plot.background = ggplot2::element_rect(fill = "lightgrey"),
+      panel.background = ggplot2::element_rect(fill = NA)
     )
 }
 
@@ -50,11 +54,11 @@ theme_elxn_qc2022_dark <- function(..., base_size = 12) {
 
 # QUadrillé: default, none, when quadrillé, major lines only
 # Pas de barre en bas
+# Legend at bottom
 # CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
 # Source gauche italique
 # axis text on major line?
 # Dimensions: twitter (16:9), facebook (2:3)
-# Make a table theme?
 # Pas de métho
 # Background: gris foncé et pâle
-
+# Make a table theme?
