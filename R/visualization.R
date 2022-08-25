@@ -18,8 +18,10 @@ theme_elxn_qc2022_light <- function(..., base_size = 12) {
     ggplot2::theme(
       legend.position = "bottom",
       legend.background = ggplot2::element_rect(fill = NA),
+      # Align caption with left
+      plot.caption = ggplot2::element_text(hjust = 0),
       plot.title = ggplot2::element_text(face = "bold", hjust = 0),
-      plot.background = ggplot2::element_rect(fill = "lightgrey"),
+      plot.background = ggplot2::element_rect(fill = "#EEEEEE"),  # dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
 }
@@ -31,7 +33,7 @@ ggplot2::ggplot(data = ggplot2::mpg) +
   ggplot2::labs(
     title = "Title",
     subtitle = "Subtitle",
-    caption = "Caption"
+    caption = "Source: ggplot2::mpg"
   ) +
   theme_elxn_qc2022_light()
 
