@@ -10,26 +10,34 @@
 # - theme_minimal <3
 # - hrbrthemes::theme_ipsum()
 
-theme_elxn_qc2022 <- function(..., base_size = 12) {
+theme_elxn_qc2022_light <- function(..., base_size = 12) {
   # Base theme
-  theme_classic() %+replace%
+  ggplot2::theme_classic() +
     # Changes to apply to base theme
-    theme(
-      plot.title = element_text(face = "bold", hjust = 0)
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(face = "bold", hjust = 0)
     )
 }
 
 ## Example ----
 
-library("ggplot2")
-
-ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy, colour = manufacturer)) +
-  labs(
+ggplot2::ggplot(data = ggplot2::mpg) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = hwy, colour = manufacturer)) +
+  ggplot2::labs(
     title = "Title",
     subtitle = "Subtitle",
     caption = "Caption"
   ) +
-  theme_elxn_qc2022()
+  theme_elxn_qc2022_light()
 
 # Dark theme elxn-qc2022 ----
+
+theme_elxn_qc2022_dark <- function(..., base_size = 12) {
+  # Base theme
+  ggplot2::theme_classic() +
+    # Changes to apply to base theme
+    ggplot2::theme(
+      plot.title = element_text(face = "bold", hjust = 0)
+    )
+}
+
