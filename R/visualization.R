@@ -11,7 +11,7 @@
 # - hrbrthemes::theme_ipsum()
 # Tutorial: https://statisticsglobe.com/ggplot2-themes-r
 
-theme_elxn_qc2022_light <- function(..., base_size = 12) {
+theme_light <- function(base_size = 12) {
   # Base theme
   ggplot2::theme_classic() +
     # Changes to apply to base theme
@@ -21,7 +21,7 @@ theme_elxn_qc2022_light <- function(..., base_size = 12) {
       # Align caption with left
       plot.caption = ggplot2::element_text(hjust = 0),
       plot.title = ggplot2::element_text(face = "bold", hjust = 0),
-      plot.background = ggplot2::element_rect(fill = "#EEEEEE"),  # dark = #494949
+      plot.background = ggplot2::element_rect(fill = "#F8F8F8"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
 }
@@ -35,18 +35,30 @@ ggplot2::ggplot(data = ggplot2::mpg) +
     subtitle = "Subtitle",
     caption = "Source: ggplot2::mpg"
   ) +
-  theme_elxn_qc2022_light()
+  # Custom theme
+  theme_dark() +
+  # How to add this to theme?
+  ggplot2::scale_color_brewer(palette = "Dark2")
+
 
 # Dark theme elxn-qc2022 ----
 
-theme_elxn_qc2022_dark <- function(..., base_size = 12) {
+theme_dark <- function(..., base_size = 12) {
   # Base theme
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
-      plot.title = element_text(face = "bold", hjust = 0)
+      text = ggplot2::element_text(colour = "white"),
+      legend.position = "bottom",
+      legend.background = ggplot2::element_rect(fill = NA),
+      # Align caption with left
+      plot.caption = ggplot2::element_text(hjust = 0),
+      plot.title = ggplot2::element_text(face = "bold", hjust = 0),
+      plot.background = ggplot2::element_rect(fill = "#494949"),  # light, dark = #494949
+      panel.background = ggplot2::element_rect(fill = NA)
     )
 }
+
 
 # Arguments
 
@@ -55,12 +67,6 @@ theme_elxn_qc2022_dark <- function(..., base_size = 12) {
 
 
 # QUadrillé: default, none, when quadrillé, major lines only
-# Pas de barre en bas
-# Legend at bottom
 # CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
-# Source gauche italique
 # axis text on major line?
-# Dimensions: twitter (16:9), facebook (2:3)
-# Pas de métho
 # Background: gris foncé et pâle
-# Make a table theme?
