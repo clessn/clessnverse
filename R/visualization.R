@@ -11,20 +11,17 @@
 # - hrbrthemes::theme_ipsum()
 # Tutorial: https://statisticsglobe.com/ggplot2-themes-r
 
-# Load image
-
-logo <- magick::image_read("icons/clessn_light.png")
-
-theme_light <- function(base_size = 12) {
+theme_classic_light <- function(base_size = 12) {
   # Base theme
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
       legend.position = "bottom",
+      legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
       # Align caption with left
       plot.caption = ggplot2::element_text(hjust = 0),
-      plot.title = ggplot2::element_text(face = "bold", hjust = 0),
+      plot.title = ggplot2::element_text(face = "bold", size = base_size + 8, hjust = 0),
       plot.background = ggplot2::element_rect(fill = "#F8F8F8"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
@@ -39,28 +36,28 @@ ggplot2::ggplot(data = ggplot2::mpg) +
     subtitle = "Subtitle",
     caption = "Source: ggplot2::mpg"
   ) +
+  ggplot2::xlab("x axis label") +
+  ggplot2::ylab("y axis label") +
   # Custom theme
-  theme_light() +
-  # How to add this to theme?
-  ggplot2::scale_color_brewer(palette = "Dark2")
-
-grid::grid.raster(logo, x = 0.07, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
+  theme_classic_light()
 
 # Dark theme elxn-qc2022 ----
 
-theme_dark <- function(..., base_size = 12) {
+theme_classic_dark <- function(..., base_size = 12) {
   # Base theme
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(colour = "white"),
+      axis.text = ggplot2::element_text(colour = "white"),
       axis.ticks = ggplot2::element_line(colour = "white"),
       axis.line = ggplot2::element_line(colour = "white"),
       legend.position = "bottom",
+      legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
       # Align caption with left
       plot.caption = ggplot2::element_text(hjust = 0),
-      plot.title = ggplot2::element_text(face = "bold", hjust = 0),
+      plot.title = ggplot2::element_text(face = "bold", size = base_size + 10, hjust = 0),
       plot.background = ggplot2::element_rect(fill = "#494949"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
@@ -75,20 +72,14 @@ ggplot2::ggplot(data = ggplot2::mpg) +
     subtitle = "Subtitle",
     caption = "Source: ggplot2::mpg"
   ) +
+  ggplot2::xlab("x axis label") +
+  ggplot2::ylab("y axis label") +
   # Custom theme
-  theme_dark() +
-  # How to add this to theme?
-  ggplot2::scale_color_brewer(palette = "Dark2")
+  theme_classic_dark()
 
-grid::grid.raster(logo, x = 0.07, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
-
-# Arguments
-
-# - mode: dark vs light
-# - project: election-qc2022
-
+# Load image
+# logo <- magick::image_read("icons/clessn_light.png")
+# grid::grid.raster(logo, x = 0.90, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
 
 # QUadrillé: default, none, when quadrillé, major lines only
 # CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
-# axis text on major line?
-# Background: gris foncé et pâle
