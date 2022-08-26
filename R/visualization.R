@@ -11,6 +11,10 @@
 # - hrbrthemes::theme_ipsum()
 # Tutorial: https://statisticsglobe.com/ggplot2-themes-r
 
+# Load image
+
+logo <- magick::image_read("icons/clessn_light.png")
+
 theme_light <- function(base_size = 12) {
   # Base theme
   ggplot2::theme_classic() +
@@ -36,10 +40,11 @@ ggplot2::ggplot(data = ggplot2::mpg) +
     caption = "Source: ggplot2::mpg"
   ) +
   # Custom theme
-  theme_dark() +
+  theme_light() +
   # How to add this to theme?
   ggplot2::scale_color_brewer(palette = "Dark2")
 
+grid::grid.raster(logo, x = 0.07, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
 
 # Dark theme elxn-qc2022 ----
 
@@ -49,6 +54,8 @@ theme_dark <- function(..., base_size = 12) {
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(colour = "white"),
+      axis.ticks = ggplot2::element_line(colour = "white"),
+      axis.line = ggplot2::element_line(colour = "white"),
       legend.position = "bottom",
       legend.background = ggplot2::element_rect(fill = NA),
       # Align caption with left
@@ -59,6 +66,21 @@ theme_dark <- function(..., base_size = 12) {
     )
 }
 
+## Example ----
+
+ggplot2::ggplot(data = ggplot2::mpg) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = hwy, colour = manufacturer)) +
+  ggplot2::labs(
+    title = "Title",
+    subtitle = "Subtitle",
+    caption = "Source: ggplot2::mpg"
+  ) +
+  # Custom theme
+  theme_dark() +
+  # How to add this to theme?
+  ggplot2::scale_color_brewer(palette = "Dark2")
+
+grid::grid.raster(logo, x = 0.07, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
 
 # Arguments
 
