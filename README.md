@@ -1,5 +1,7 @@
 # clessnverse
-Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the last working version of the package. If you want to access newer functions currently being developed, you may go look at **branch v1**. Here's how:
+Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the **branch v1**, which is where the latest functions are currently being developed. If you want to access the latest working version of the package, you may go look at the **master branch**. 
+
+To look at the master branch:
 
 ### On GitHub
 
