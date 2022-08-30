@@ -57,6 +57,7 @@ theme_classic_light <- function(base_size = 11, base_family = "",
     )
 }
 
+#' @export
 theme_classic_dark <- function(base_size = 12) {
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
@@ -79,29 +80,31 @@ theme_classic_dark <- function(base_size = 12) {
     )
 }
 
+#' @export
 apply_clessn_dark <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  logo_dark <- magick::image_read("icons/clessn_dark.png")
+  #logo_dark <- magick::image_read("icons/clessn_dark.png")
   grid::grid.raster(logo_dark, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
 }
 
+#' @export
 apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  logo_light <- magick::image_read("icons/clessn_light.png")
+  #logo_light <- magick::image_read("icons/clessn_light.png")
   grid::grid.raster(logo_light, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
 }
 
 ## Example ----
 
-ggplot2::ggplot(data = ggplot2::mpg) +
-  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
-  ggplot2::labs(
-    title = "Un très très beau graphique informatif",
-    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-    caption = "Données: API Twitter"
-  ) +
-  ggplot2::xlab("x axis label") +
-  ggplot2::ylab("y axis label") +
-  # Custom theme
-  theme_classic_light()
+#ggplot2::ggplot(data = ggplot2::mpg) +
+#  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+#  ggplot2::labs(
+#    title = "Un très très beau graphique informatif",
+#    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
+#    caption = "Données: API Twitter"
+#  ) +
+#  ggplot2::xlab("x axis label") +
+#  ggplot2::ylab("y axis label") +
+#  # Custom theme
+#  theme_classic_light()
 
 # Load image
 
