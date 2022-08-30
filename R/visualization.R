@@ -19,13 +19,17 @@ theme_classic_light <- function(base_size = 12) {
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
+      text = ggplot2::element_text(family = "roboto", colour = "darkgrey"),
+      axis.title = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_blank(),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
       # Align caption with left
       plot.caption = ggplot2::element_text(hjust = 0),
-      plot.title = ggplot2::element_text(face = "bold", size = base_size + 10, hjust = 0),
-      plot.background = ggplot2::element_rect(fill = "#F8F8F8"),  # light, dark = #494949
+      plot.title = ggplot2::element_text(colour = "black", face = "bold", size = base_size + 10, hjust = 0),
+      #plot.background = ggplot2::element_rect(fill = "#F8F8F8"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
 }
@@ -82,7 +86,7 @@ ggplot2::ggplot(data = ggplot2::mpg) +
   ggplot2::xlab("x axis label") +
   ggplot2::ylab("y axis label") +
   # Custom theme
-  theme_datagotchi()
+  theme_classic_light()
 
 # Load image
 # logo <- magick::image_read("icons/clessn_light.png")
