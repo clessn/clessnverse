@@ -14,6 +14,23 @@
 #' @param base_line_size base size for line elements
 #' @param base_rect_size base size for rect elements
 #'
+#' @details
+#' \describe{
+#'
+#' \item{`theme_classic_light()`}{
+#' A classic-looking theme, with x axis line and no gridlines or axis ticks on a white background.}
+#'
+#' \item{`theme_classic_dark()`}{
+#' A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
+#'
+#' \item{`apply_clessn_dark()`}{
+#' Apply the CLESSN logo in black on top of your graph.}
+#'
+#' \item{`apply_clessn_dark()`}{
+#' Apply the CLESSN logo in white on top of your graph.}
+#'
+#' }
+#'
 #' @export
 theme_classic_light <- function(base_size = 11, base_family = "",
                                 base_line_size = base_size / 22,
