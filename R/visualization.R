@@ -20,7 +20,6 @@ theme_classic_light <- function(base_size = 12) {
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(colour = "grey30"),
-      # text = ggplot2::element_text(family = "roboto", colour = "darkgrey"),
       axis.title = ggplot2::element_blank(),
       axis.ticks = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
@@ -28,7 +27,7 @@ theme_classic_light <- function(base_size = 12) {
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
       # Align caption with left
-      plot.caption = ggplot2::element_text(face = "italic", hjust = 0),
+      plot.caption = ggplot2::element_text(colour = "darkgrey", face = "italic", hjust = 0),
       plot.title = ggplot2::element_text(family = "roboto", colour = "black", face = "bold", size = base_size + 10, hjust = 0),
       #plot.background = ggplot2::element_rect(fill = "#F8F8F8"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
@@ -78,7 +77,7 @@ theme_datagotchi <- function(base_size = 12){
 ## Example ----
 
 ggplot2::ggplot(data = ggplot2::mpg) +
-  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = hwy, colour = manufacturer)) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
   ggplot2::labs(
     title = "Un très très beau graphique informatif",
     subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
@@ -90,8 +89,9 @@ ggplot2::ggplot(data = ggplot2::mpg) +
   theme_classic_light()
 
 # Load image
-# logo <- magick::image_read("icons/clessn_light.png")
-# grid::grid.raster(logo, x = 0.90, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
+logo_light <- magick::image_read("icons/clessn_light.png")
+logo_dark <- magick::image_read("icons/clessn_dark.png")
+grid::grid.raster(logo_dark, x = 0.90, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
 
 # QUadrillé: default, none, when quadrillé, major lines only
 # CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
