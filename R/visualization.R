@@ -9,10 +9,15 @@
 #' These are themes that correspond to the CLESSN's branding and related
 #' projects.
 #'
-# hrbrthemes::theme_ipsum()
-# Tutorial: https://statisticsglobe.com/ggplot2-themes-r
-
-theme_classic_light <- function(base_size = 12) {
+#' @param base_size base font size, given in pts.
+#' @param base_family base font family
+#' @param base_line_size base size for line elements
+#' @param base_rect_size base size for rect elements
+#'
+#' @export
+theme_classic_light <- function(base_size = 11, base_family = "",
+                                base_line_size = base_size / 22,
+                                base_rect_size = base_size / 22) {
   # Add fonts
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
@@ -57,6 +62,10 @@ theme_classic_dark <- function(base_size = 12) {
     )
 }
 
+apply_clessn_light <- function() {
+
+}
+
 ## Example ----
 
 ggplot2::ggplot(data = ggplot2::mpg) +
@@ -76,6 +85,7 @@ logo_light <- magick::image_read("icons/clessn_light.png")
 logo_dark <- magick::image_read("icons/clessn_dark.png")
 grid::grid.raster(logo_dark, x = 0.95, y = 0.03, just = c("right", "bottom"), width = grid::unit(0.7, "inches"))
 
-# QUadrillé: default, none, when quadrillé, major lines only
-# CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
 # Datagotchi font idea: VT323 in Google Fonts
+#
+# To do list
+# - Add package dependencies
