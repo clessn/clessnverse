@@ -62,10 +62,14 @@ theme_classic_dark <- function(base_size = 12) {
     )
 }
 
-apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  logo_light <- magick::image_read("icons/clessn_light.png")
+apply_clessn_dark <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
   logo_dark <- magick::image_read("icons/clessn_dark.png")
   grid::grid.raster(logo_dark, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
+}
+
+apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
+  logo_light <- magick::image_read("icons/clessn_light.png")
+  grid::grid.raster(logo_light, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
 }
 
 ## Example ----
