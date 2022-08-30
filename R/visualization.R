@@ -13,6 +13,7 @@
 # Tutorial: https://statisticsglobe.com/ggplot2-themes-r
 
 theme_classic_light <- function(base_size = 12) {
+  # Add fonts
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
   # Base theme
@@ -20,7 +21,7 @@ theme_classic_light <- function(base_size = 12) {
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(colour = "grey30"),
-      axis.title = ggplot2::element_blank(),
+      axis.title = ggplot2::element_text(hjust = 1),
       axis.ticks = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       legend.position = "bottom",
@@ -81,7 +82,7 @@ ggplot2::ggplot(data = ggplot2::mpg) +
   ggplot2::labs(
     title = "Un très très beau graphique informatif",
     subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-    caption = "Source: ggplot2::mpg"
+    caption = "Données: API Twitter"
   ) +
   ggplot2::xlab("x axis label") +
   ggplot2::ylab("y axis label") +
@@ -91,7 +92,7 @@ ggplot2::ggplot(data = ggplot2::mpg) +
 # Load image
 logo_light <- magick::image_read("icons/clessn_light.png")
 logo_dark <- magick::image_read("icons/clessn_dark.png")
-grid::grid.raster(logo_dark, x = 0.90, y = 0.03, just = c('right', 'bottom'), width = grid::unit(1, 'inches'))
+grid::grid.raster(logo_dark, x = 0.95, y = 0.03, just = c("right", "bottom"), width = grid::unit(0.7, "inches"))
 
 # QUadrillé: default, none, when quadrillé, major lines only
 # CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
