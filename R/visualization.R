@@ -57,24 +57,6 @@ theme_classic_dark <- function(base_size = 12) {
     )
 }
 
-theme_datagotchi <- function(base_size = 12){
-  sysfonts::font_add_google("VT323", "vt323")
-  showtext::showtext_auto()
-  # Base theme
-  ggplot2::theme_classic() +
-    # Changes to apply to base theme
-    ggplot2::theme(
-      legend.position = "bottom",
-      legend.title = ggplot2::element_blank(),
-      legend.background = ggplot2::element_rect(fill = NA),
-      # Align caption with left
-      plot.caption = ggplot2::element_text(hjust = 0),
-      plot.title = ggplot2::element_text(family = "vt323", size = base_size + 8, hjust = 0),
-      plot.background = ggplot2::element_rect(fill = "#9ebaa5"), # Not actual colour
-      panel.background = ggplot2::element_rect(fill = NA)
-    )
-}
-
 ## Example ----
 
 ggplot2::ggplot(data = ggplot2::mpg) +
@@ -96,3 +78,4 @@ grid::grid.raster(logo_dark, x = 0.95, y = 0.03, just = c("right", "bottom"), wi
 
 # QUadrillé: default, none, when quadrillé, major lines only
 # CLESSN logo gris pale (voir github add logo symbol, only logo, droite)
+# Datagotchi font idea: VT323 in Google Fonts
