@@ -62,8 +62,10 @@ theme_classic_dark <- function(base_size = 12) {
     )
 }
 
-apply_clessn_light <- function() {
-
+apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
+  logo_light <- magick::image_read("icons/clessn_light.png")
+  logo_dark <- magick::image_read("icons/clessn_dark.png")
+  grid::grid.raster(logo_dark, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
 }
 
 ## Example ----
@@ -81,9 +83,6 @@ ggplot2::ggplot(data = ggplot2::mpg) +
   theme_classic_light()
 
 # Load image
-logo_light <- magick::image_read("icons/clessn_light.png")
-logo_dark <- magick::image_read("icons/clessn_dark.png")
-grid::grid.raster(logo_dark, x = 0.95, y = 0.03, just = c("right", "bottom"), width = grid::unit(0.7, "inches"))
 
 # Datagotchi font idea: VT323 in Google Fonts
 #
