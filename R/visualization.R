@@ -23,10 +23,10 @@
 #' \item{`theme_classic_dark()`}{
 #' A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
 #'
-#' \item{`apply_clessn_dark()`}{
+#' \item{`logo_clessn_dark()`}{
 #' Apply the CLESSN logo in black on top of your graph.}
 #'
-#' \item{`apply_clessn_dark()`}{
+#' \item{`logo_clessn_dark()`}{
 #' Apply the CLESSN logo in white on top of your graph.}
 #'
 #' }
@@ -67,8 +67,10 @@ theme_classic_dark <- function(base_size = 12) {
     ggplot2::theme(
       text = ggplot2::element_text(family = "roboto", colour = "white"),
       axis.text = ggplot2::element_text(colour = "white"),
-      axis.ticks = ggplot2::element_line(colour = "white"),
-      axis.line = ggplot2::element_line(colour = "white"),
+      axis.ticks = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_blank(),
+      axis.title = ggplot2::element_text(hjust = 1),
+      axis.line.x = ggplot2::element_line(colour = "white"),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
@@ -81,14 +83,14 @@ theme_classic_dark <- function(base_size = 12) {
 }
 
 #' @export
-apply_clessn_dark <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  #logo_dark <- magick::image_read("icons/clessn_dark.png")
+logo_clessn_dark <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
+  logo_dark <- magick::image_read("icons/clessn_dark.png")
   grid::grid.raster(logo_dark, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
 }
 
 #' @export
-apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  #logo_light <- magick::image_read("icons/clessn_light.png")
+logo_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
+  logo_light <- magick::image_read("icons/clessn_light.png")
   grid::grid.raster(logo_light, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
 }
 
@@ -104,7 +106,9 @@ apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
 #  ggplot2::xlab("x axis label") +
 #  ggplot2::ylab("y axis label") +
 #  # Custom theme
-#  theme_classic_light()
+#  theme_classic_dark()
+
+#logo_clessn_light()
 
 # Load image
 
@@ -112,3 +116,4 @@ apply_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
 #
 # To do list
 # - Add package dependencies
+# genre de knit documentation
