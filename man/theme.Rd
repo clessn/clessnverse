@@ -53,7 +53,7 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
  ggplot2::xlab("x axis label") +
 ggplot2::ylab("y axis label")
 
-p + theme_classic_light()
-p + theme_classic_light()
+p + theme_clean_light()
+p + theme_clean_dark()
 }
 }
