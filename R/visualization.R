@@ -16,6 +16,8 @@
 #' @param minor_colour major gridlines colour
 #' @param bg_colour plot background colour
 #'
+#' @return A ggplot2 theme.
+#'
 #' @details
 #' \describe{
 #'
@@ -27,6 +29,7 @@
 #' }
 #'
 #' @import ggplot2
+#' @author Judith Bourque
 #'
 #' @examples
 #' \dontrun{

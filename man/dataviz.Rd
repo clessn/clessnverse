@@ -44,6 +44,9 @@ theme_clean_dark(
 
 \item{bg_colour}{plot background colour}
 }
+\value{
+A ggplot2 theme.
+}
 \description{
 Functions for data visualization.
 }
@@ -72,4 +75,7 @@ ggplot2::ylab("y axis label")
 p + theme_clean_light()
 p + theme_clean_dark()
 }
+}
+\author{
+Judith Bourque
 }
