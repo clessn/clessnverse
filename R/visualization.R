@@ -17,24 +17,27 @@
 #' \describe{
 #'
 #' \item{`theme_clean_light()`}{
-#' A classic-looking theme, with x axis line and no gridlines or axis ticks on a white background.}
+#' A clean-looking ggplot2 theme, with x axis line and y major gridlines on a white background.}
 #'
 #' \item{`theme_clean_dark()`}{
-#' A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
+#' A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 #' }
 #'
 #' @export
 theme_clean_light <- function(base_size = 11,
                                 base_family = "",
                                 base_line_size = base_size / 22,
-                                base_rect_size = base_size / 22,
-                                base_margin = base_size * 2) {
-  # Set parameters
-  half_line <- base_size / 2
+                                base_rect_size = base_size / 22) {
+
+  # Set colours
   primary_colour <- "black"
   secondary_colour <- "grey30"
   minor_colour <- "#f7f7f7"
   background_colour <- "white"
+
+  # Set parameters
+  half_line <- base_size / 2
+  base_margin <- base_size * 2
 
   # Add fonts
   sysfonts::font_add_google("Roboto", "roboto")
@@ -85,16 +88,23 @@ theme_clean_light <- function(base_size = 11,
 theme_clean_dark <- function(base_size = 11,
                                base_family = "",
                                base_line_size = base_size / 22,
-                               base_rect_size = base_size / 22,
-                               base_margin = base_size * 2) {
+                               base_rect_size = base_size / 22) {
+
+  # Set colours
   half_line <- base_size / 2
   primary_colour <- "white"
   secondary_colour <- "#f2f2f2"
   minor_colour <- "#525252"
   background_colour <- "#494949"
 
+  # Set parameters
+  half_line <- base_size / 2
+  base_margin <- base_size * 2
+
+  # Add fonts
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
+
   # Base theme
   ggplot2::theme_classic() +
     # Changes to apply to base theme

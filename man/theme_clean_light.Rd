@@ -8,8 +8,7 @@ theme_clean_light(
   base_size = 11,
   base_family = "",
   base_line_size = base_size/22,
-  base_rect_size = base_size/22,
-  base_margin = base_size * 2
+  base_rect_size = base_size/22
 )
 }
 \arguments{
@@ -29,9 +28,9 @@ projects.
 \describe{
 
 \item{\code{theme_clean_light()}}{
-A classic-looking theme, with x axis line and no gridlines or axis ticks on a white background.}
+A clean-looking ggplot2 theme, with x axis line and y major gridlines on a white background.}
 
 \item{\code{theme_clean_dark()}}{
-A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
+A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 }
 }
