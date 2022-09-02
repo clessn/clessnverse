@@ -84,6 +84,19 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
     )
 }
 
+#' @export
+ggsave_twitter <- function(filename, plot = ggplot2::last_plot(),
+                           device = NULL, path = NULL, scale = 1,
+                           width = 1600, height = 900, units = "px",
+                           dpi = 300, limitsize = TRUE, bg = NULL, ...) {
+  ggplot2::ggsave(filename, plot = ggplot2::last_plot(),
+                  device = device, path = path, scale = scale,
+                  width = width, height = height, units = units,
+                  dpi = dpi, limitsize = limitsize, bg = bg, ...)
+}
+
+ggsave_twitter("test.png")
+
 ## Example ----
 
 ggplot2::ggplot(data = ggplot2::mpg) +
