@@ -3,7 +3,6 @@
 ########################################### Visualisation Functions #############################################
 #################################################################################################################
 #################################################################################################################
-
 #' CLESSN themes
 #'
 #' These are themes that correspond to the CLESSN's branding and related
@@ -39,7 +38,8 @@ theme_classic_light <- function(base_size = 11, base_family = "",
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(colour = "grey30"),
-      axis.title = ggplot2::element_text(hjust = 0.9),
+      axis.title.x = ggplot2::element_text(hjust = 1),
+      axis.title.y = ggplot2::element_text(hjust = 1),
       axis.ticks.x = ggplot2::element_line(colour = "grey30"),
       axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
@@ -70,12 +70,29 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(family = "roboto", colour = "white"),
-      axis.text = ggplot2::element_text(colour = "white"),
+      axis.text.x = ggplot2::element_text(
+        margin = ggplot2::margin(
+          t = half_line,
+          l = half_line),
+        colour = "white"),
+      axis.text.y = ggplot2::element_text(
+        margin = ggplot2::margin(
+          r = half_line),
+        colour = "white"),
       axis.ticks.x = ggplot2::element_line(colour = "white"),
       axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
-      axis.title = ggplot2::element_text(hjust = 0.9),
+      axis.title.x = ggplot2::element_text(
+        margin = ggplot2::margin(
+          r = half_line,
+          t = half_line),
+        hjust = 1),
+      axis.title.y = ggplot2::element_text(
+        margin = ggplot2::margin(
+          r = half_line,
+          t = half_line),
+        hjust = 1),
       axis.line.x = ggplot2::element_line(colour = "white"),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
