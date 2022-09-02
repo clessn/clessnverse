@@ -16,15 +16,16 @@
 #' @details
 #' \describe{
 #'
-#' \item{`theme_classic_light()`}{
+#' \item{`theme_clean_light()`}{
 #' A classic-looking theme, with x axis line and no gridlines or axis ticks on a white background.}
 #'
-#' \item{`theme_classic_dark()`}{
+#' \item{`theme_clean_dark()`}{
 #' A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
 #' }
 #'
 #' @export
-theme_classic_light <- function(base_size = 11, base_family = "",
+theme_clean_light <- function(base_size = 11,
+                                base_family = "",
                                 base_line_size = base_size / 22,
                                 base_rect_size = base_size / 22,
                                 base_margin = base_size * 2) {
@@ -81,7 +82,8 @@ theme_classic_light <- function(base_size = 11, base_family = "",
 }
 
 #' @export
-theme_classic_dark <- function(base_size = 11, base_family = "",
+theme_clean_dark <- function(base_size = 11,
+                               base_family = "",
                                base_line_size = base_size / 22,
                                base_rect_size = base_size / 22,
                                base_margin = base_size * 2) {
