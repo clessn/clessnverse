@@ -2,9 +2,17 @@
 % Please edit documentation in R/visualization.R
 \name{theme_clean_light}
 \alias{theme_clean_light}
+\alias{theme_clean_dark}
 \title{CLESSN themes}
 \usage{
 theme_clean_light(
+  base_size = 11,
+  base_family = "",
+  base_line_size = base_size/22,
+  base_rect_size = base_size/22
+)
+
+theme_clean_dark(
   base_size = 11,
   base_family = "",
   base_line_size = base_size/22,
