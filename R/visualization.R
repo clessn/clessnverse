@@ -28,7 +28,7 @@
 #' A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 #' }
 #'
-#' @import ggplot2
+#'
 #' @author Judith Bourque
 #'
 #' @examples
@@ -48,6 +48,8 @@
 #' }
 #' @name dataviz
 #' @aliases NULL
+#'
+#' @importFrom ggplot2 theme_classic theme element_line element_rect element_text element_blank margin
 #'
 #' @export
 #' @rdname dataviz
