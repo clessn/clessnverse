@@ -31,9 +31,9 @@
 #' p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 #'  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
 #'  ggplot2::labs(
-#'    title = "Un très très beau graphique informatif",
-#'    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-#'    caption = "Données: API Twitter \nCLESSN"
+#'    title = "Look at this graph!",
+#'    subtitle = "What a great theme, eh?",
+#'    caption = "Data: API Twitter \nCLESSN"
 #'  ) +
 #'  ggplot2::xlab("x axis label") +
 #' ggplot2::ylab("y axis label")
@@ -55,12 +55,11 @@ theme_clean_light <- function(base_size = 11,
                               secondary_colour = "grey30",
                               minor_colour = "#f7f7f7",
                               bg_colour = "white") {
-
   # Set parameters
   half_line <- base_size / 2
   base_margin <- base_size * 2
 
-  # Add fonts
+  # Add font
   # sysfonts::font_add_google("Roboto", "roboto")
   # showtext::showtext_auto()
 
@@ -68,7 +67,7 @@ theme_clean_light <- function(base_size = 11,
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
-      text = ggplot2::element_text(size = base_size, family = "roboto", colour = secondary_colour),
+      text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
       axis.text.x = ggplot2::element_text(
         margin = ggplot2::margin(
@@ -121,7 +120,7 @@ theme_clean_dark <- function(base_size = 11,
   half_line <- base_size / 2
   base_margin <- base_size * 2
 
-  # Add fonts
+  # Add font
   # sysfonts::font_add_google("Roboto", "roboto")
   # showtext::showtext_auto()
 
@@ -129,7 +128,7 @@ theme_clean_dark <- function(base_size = 11,
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
-      text = ggplot2::element_text(size = base_size, family = "roboto", colour = secondary_colour),
+      text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
       axis.text.x = ggplot2::element_text(
         margin = ggplot2::margin(
