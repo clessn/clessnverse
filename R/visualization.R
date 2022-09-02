@@ -42,6 +42,7 @@ theme_classic_light <- function(base_size = 11, base_family = "",
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
+      panel.grid.major.y = ggplot2::element_line(colour = "#f7f7f7"),
       # Align caption with left
       plot.caption = ggplot2::element_text(colour = "darkgrey", face = "italic", hjust = 0),
       plot.title = ggplot2::element_text(family = "roboto", colour = "black", face = "bold", size = base_size + 10, hjust = 0),
@@ -68,7 +69,8 @@ theme_classic_dark <- function(base_size = 12) {
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
       # Align caption with left
-      plot.caption = ggplot2::element_text(hjust = 0),
+      panel.grid.major.y = ggplot2::element_line(colour = "#525252"),
+      plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
       plot.title = ggplot2::element_text(face = "bold", size = base_size + 10, hjust = 0),
       plot.background = ggplot2::element_rect(fill = "#494949"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
@@ -82,12 +84,12 @@ theme_classic_dark <- function(base_size = 12) {
 #  ggplot2::labs(
 #    title = "Un très très beau graphique informatif",
 #    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-#    caption = "Données: API Twitter"
+#    caption = "Données: API Twitter \nCLESSN"
 #  ) +
 #  ggplot2::xlab("x axis label") +
 #  ggplot2::ylab("y axis label") +
 #  # Custom theme
-#  theme_classic_dark()
+#  theme_classic_light()
 
 # Datagotchi font idea: VT323 in Google Fonts
 #
