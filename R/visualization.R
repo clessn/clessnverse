@@ -46,13 +46,12 @@
 theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
-                              base_rect_size = base_size / 22) {
+                              base_rect_size = base_size / 22,
 
-  # Set colours
-  primary_colour <- "black"
-  secondary_colour <- "grey30"
-  minor_colour <- "#f7f7f7"
-  background_colour <- "white"
+                              primary_colour = "black",
+                              secondary_colour = "grey30",
+                              minor_colour = "#f7f7f7",
+                              background_colour = "white") {
 
   # Set parameters
   half_line <- base_size / 2
@@ -108,15 +107,13 @@ theme_clean_light <- function(base_size = 11,
 theme_clean_dark <- function(base_size = 11,
                              base_family = "",
                              base_line_size = base_size / 22,
-                             base_rect_size = base_size / 22) {
+                             base_rect_size = base_size / 22,
+                             half_line = base_size / 2,
 
-  # Set colours
-  half_line <- base_size / 2
-  primary_colour <- "white"
-  secondary_colour <- "#f2f2f2"
-  minor_colour <- "#525252"
-  background_colour <- "#494949"
-
+                             primary_colour = "white",
+                             secondary_colour = "#f2f2f2",
+                             minor_colour = "#525252",
+                             background_colour = "#494949") {
   # Set parameters
   half_line <- base_size / 2
   base_margin <- base_size * 2

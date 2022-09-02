@@ -8,14 +8,23 @@ theme_clean_light(
   base_size = 11,
   base_family = "",
   base_line_size = base_size/22,
-  base_rect_size = base_size/22
+  base_rect_size = base_size/22,
+  primary_colour = "black",
+  secondary_colour = "grey30",
+  minor_colour = "#f7f7f7",
+  background_colour = "white"
 )
 
 theme_clean_dark(
   base_size = 11,
   base_family = "",
   base_line_size = base_size/22,
-  base_rect_size = base_size/22
+  base_rect_size = base_size/22,
+  half_line = base_size/2,
+  primary_colour = "white",
+  secondary_colour = "#f2f2f2",
+  minor_colour = "#525252",
+  background_colour = "#494949"
 )
 }
 \arguments{
