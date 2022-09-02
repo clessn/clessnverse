@@ -27,7 +27,8 @@
 #' @export
 theme_classic_light <- function(base_size = 11, base_family = "",
                                 base_line_size = base_size / 22,
-                                base_rect_size = base_size / 22) {
+                                base_rect_size = base_size / 22,
+                                base_margin = base_size * 2) {
   # Add fonts
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
@@ -36,8 +37,9 @@ theme_classic_light <- function(base_size = 11, base_family = "",
     # Changes to apply to base theme
     ggplot2::theme(
       text = ggplot2::element_text(colour = "grey30"),
-      axis.title = ggplot2::element_text(hjust = 1),
-      axis.ticks = ggplot2::element_blank(),
+      axis.title = ggplot2::element_text(hjust = 0.9),
+      #axis.ticks.x = ggplot2::element_line(),
+      axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
@@ -45,14 +47,17 @@ theme_classic_light <- function(base_size = 11, base_family = "",
       panel.grid.major.y = ggplot2::element_line(colour = "#f7f7f7"),
       # Align caption with left
       plot.caption = ggplot2::element_text(colour = "darkgrey", face = "italic", hjust = 0),
+      plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
       plot.title = ggplot2::element_text(family = "roboto", colour = "black", face = "bold", size = base_size + 10, hjust = 0),
-      #plot.background = ggplot2::element_rect(fill = "#F8F8F8"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
 }
 
 #' @export
-theme_classic_dark <- function(base_size = 12) {
+theme_classic_dark <- function(base_size = 11, base_family = "",
+                               base_line_size = base_size / 22,
+                               base_rect_size = base_size / 22,
+                               base_margin = base_size * 2) {
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
   # Base theme
@@ -61,9 +66,10 @@ theme_classic_dark <- function(base_size = 12) {
     ggplot2::theme(
       text = ggplot2::element_text(family = "roboto", colour = "white"),
       axis.text = ggplot2::element_text(colour = "white"),
-      axis.ticks = ggplot2::element_blank(),
+      axis.ticks.x = ggplot2::element_line(colour = "white"),
+      axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
-      axis.title = ggplot2::element_text(hjust = 1),
+      axis.title = ggplot2::element_text(hjust = 0.9),
       axis.line.x = ggplot2::element_line(colour = "white"),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
@@ -71,6 +77,7 @@ theme_classic_dark <- function(base_size = 12) {
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = "#525252"),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
+      plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
       plot.title = ggplot2::element_text(face = "bold", size = base_size + 10, hjust = 0),
       plot.background = ggplot2::element_rect(fill = "#494949"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
@@ -79,17 +86,17 @@ theme_classic_dark <- function(base_size = 12) {
 
 ## Example ----
 
-#ggplot2::ggplot(data = ggplot2::mpg) +
-#  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
-#  ggplot2::labs(
-#    title = "Un très très beau graphique informatif",
-#    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-#    caption = "Données: API Twitter \nCLESSN"
-#  ) +
-#  ggplot2::xlab("x axis label") +
-#  ggplot2::ylab("y axis label") +
-#  # Custom theme
-#  theme_classic_light()
+ggplot2::ggplot(data = ggplot2::mpg) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+  ggplot2::labs(
+    title = "Un très très beau graphique informatif",
+    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
+    caption = "Données: API Twitter \nCLESSN"
+  ) +
+  ggplot2::xlab("x axis label") +
+  ggplot2::ylab("y axis label") +
+  # Custom theme
+  theme_classic_light()
 
 # Datagotchi font idea: VT323 in Google Fonts
 #
