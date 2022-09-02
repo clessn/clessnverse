@@ -26,6 +26,8 @@
 #' A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 #' }
 #'
+#' @import ggplot2
+#'
 #' @examples
 #' \dontrun{
 #' p  <- ggplot2::ggplot(data = ggplot2::mpg) +
