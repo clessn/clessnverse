@@ -149,17 +149,17 @@ ggsave_twitter("test.png")
 
 ## Example ----
 
-ggplot2::ggplot(data = ggplot2::mpg) +
-  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
-  ggplot2::labs(
-    title = "Un très très beau graphique informatif",
-    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-    caption = "Données: API Twitter \nCLESSN"
-  ) +
-  ggplot2::xlab("x axis label") +
-  ggplot2::ylab("y axis label") +
-  # Custom theme
-  theme_classic_light()
+#ggplot2::ggplot(data = ggplot2::mpg) +
+#  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+#  ggplot2::labs(
+#    title = "Un très très beau graphique informatif",
+#    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
+#    caption = "Données: API Twitter \nCLESSN"
+#  ) +
+#  ggplot2::xlab("x axis label") +
+#  ggplot2::ylab("y axis label") +
+#  # Custom theme
+#  theme_classic_light()
 #
 # Datagotchi font idea: VT323 in Google Fonts
 #
