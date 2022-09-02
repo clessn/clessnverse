@@ -1,17 +1,20 @@
 #################################################################################################################
 #################################################################################################################
-########################################### Visualisation Functions #############################################
+########################################### Visualization Functions #############################################
 #################################################################################################################
 #################################################################################################################
-#' CLESSN themes
+#' Data Visualization
 #'
-#' These are themes that correspond to the CLESSN's branding and related
-#' projects.
+#' Functions for data visualization.
 #'
 #' @param base_size base font size, given in pts.
 #' @param base_family base font family
 #' @param base_line_size base size for line elements
 #' @param base_rect_size base size for rect elements
+#' @param primary_colour title and axis colour
+#' @param secondary_colour text and axis ticks colour
+#' @param minor_colour major gridlines colour
+#' @param bg_colour plot background colour
 #'
 #' @details
 #' \describe{
@@ -38,11 +41,11 @@
 #' p + theme_clean_light()
 #' p + theme_clean_dark()
 #' }
-#' @name theme
+#' @name dataviz
 #' @aliases NULL
 #'
 #' @export
-#' @rdname visualization
+#' @rdname dataviz
 theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
@@ -51,15 +54,15 @@ theme_clean_light <- function(base_size = 11,
                               primary_colour = "black",
                               secondary_colour = "grey30",
                               minor_colour = "#f7f7f7",
-                              background_colour = "white") {
+                              bg_colour = "white") {
 
   # Set parameters
   half_line <- base_size / 2
   base_margin <- base_size * 2
 
   # Add fonts
-  sysfonts::font_add_google("Roboto", "roboto")
-  showtext::showtext_auto()
+  # sysfonts::font_add_google("Roboto", "roboto")
+  # showtext::showtext_auto()
 
   # Base theme
   ggplot2::theme_classic() +
@@ -97,13 +100,13 @@ theme_clean_light <- function(base_size = 11,
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
       plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
       plot.title = ggplot2::element_text(face = "bold", size = base_size * 2, hjust = 0),
-      plot.background = ggplot2::element_rect(fill = background_colour),  # light, dark = #494949
+      plot.background = ggplot2::element_rect(fill = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA)
     )
 }
 
 #' @export
-#' @rdname visualization
+#' @rdname dataviz
 theme_clean_dark <- function(base_size = 11,
                              base_family = "",
                              base_line_size = base_size / 22,
@@ -113,14 +116,14 @@ theme_clean_dark <- function(base_size = 11,
                              primary_colour = "white",
                              secondary_colour = "#f2f2f2",
                              minor_colour = "#525252",
-                             background_colour = "#494949") {
+                             bg_colour = "#494949") {
   # Set parameters
   half_line <- base_size / 2
   base_margin <- base_size * 2
 
   # Add fonts
-  sysfonts::font_add_google("Roboto", "roboto")
-  showtext::showtext_auto()
+  # sysfonts::font_add_google("Roboto", "roboto")
+  # showtext::showtext_auto()
 
   # Base theme
   ggplot2::theme_classic() +
@@ -158,7 +161,7 @@ theme_clean_dark <- function(base_size = 11,
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
       plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
       plot.title = ggplot2::element_text(face = "bold", size = base_size * 2, hjust = 0),
-      plot.background = ggplot2::element_rect(fill = background_colour),  # light, dark = #494949
+      plot.background = ggplot2::element_rect(fill = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA)
     )
 }
