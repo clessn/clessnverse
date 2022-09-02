@@ -32,12 +32,5 @@ A classic-looking theme, with x axis line and no gridlines or axis ticks on a wh
 
 \item{\code{theme_classic_dark()}}{
 A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
-
-\item{\code{logo_clessn_dark()}}{
-Apply the CLESSN logo in black on top of your graph.}
-
-\item{\code{logo_clessn_dark()}}{
-Apply the CLESSN logo in white on top of your graph.}
-
 }
 }

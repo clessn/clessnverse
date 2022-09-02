@@ -22,13 +22,6 @@
 #'
 #' \item{`theme_classic_dark()`}{
 #' A classic-looking theme, with x axis line and no gridlines or axis ticks on a dark grey background.}
-#'
-#' \item{`logo_clessn_dark()`}{
-#' Apply the CLESSN logo in black on top of your graph.}
-#'
-#' \item{`logo_clessn_dark()`}{
-#' Apply the CLESSN logo in white on top of your graph.}
-#'
 #' }
 #'
 #' @export
@@ -82,18 +75,6 @@ theme_classic_dark <- function(base_size = 12) {
     )
 }
 
-#' @export
-logo_clessn_dark <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  logo_dark <- magick::image_read("icons/clessn_dark.png")
-  grid::grid.raster(logo_dark, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
-}
-
-#' @export
-logo_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
-  logo_light <- magick::image_read("icons/clessn_light.png")
-  grid::grid.raster(logo_light, x = x, y = y, just = just, width = grid::unit(0.7, "inches"))
-}
-
 ## Example ----
 
 #ggplot2::ggplot(data = ggplot2::mpg) +
@@ -107,10 +88,6 @@ logo_clessn_light <- function(x = 0.95, y = 0.3, just = c("right", "bottom")) {
 #  ggplot2::ylab("y axis label") +
 #  # Custom theme
 #  theme_classic_dark()
-
-#logo_clessn_light()
-
-# Load image
 
 # Datagotchi font idea: VT323 in Google Fonts
 #
