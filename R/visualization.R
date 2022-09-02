@@ -29,6 +29,8 @@ theme_classic_light <- function(base_size = 11, base_family = "",
                                 base_line_size = base_size / 22,
                                 base_rect_size = base_size / 22,
                                 base_margin = base_size * 2) {
+  half_line <- base_size / 2
+
   # Add fonts
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
@@ -38,7 +40,8 @@ theme_classic_light <- function(base_size = 11, base_family = "",
     ggplot2::theme(
       text = ggplot2::element_text(colour = "grey30"),
       axis.title = ggplot2::element_text(hjust = 0.9),
-      #axis.ticks.x = ggplot2::element_line(),
+      axis.ticks.x = ggplot2::element_line(colour = "grey30"),
+      axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       legend.position = "bottom",
@@ -58,6 +61,8 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
                                base_line_size = base_size / 22,
                                base_rect_size = base_size / 22,
                                base_margin = base_size * 2) {
+  half_line <- base_size / 2
+
   sysfonts::font_add_google("Roboto", "roboto")
   showtext::showtext_auto()
   # Base theme
@@ -67,6 +72,7 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
       text = ggplot2::element_text(family = "roboto", colour = "white"),
       axis.text = ggplot2::element_text(colour = "white"),
       axis.ticks.x = ggplot2::element_line(colour = "white"),
+      axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title = ggplot2::element_text(hjust = 0.9),
@@ -109,7 +115,7 @@ ggplot2::ggplot(data = ggplot2::mpg) +
   ggplot2::xlab("x axis label") +
   ggplot2::ylab("y axis label") +
   # Custom theme
-  theme_classic_light()
+  theme_classic_dark()
 
 # Datagotchi font idea: VT323 in Google Fonts
 #
