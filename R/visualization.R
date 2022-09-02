@@ -42,7 +42,7 @@
 #' @aliases NULL
 #'
 #' @export
-#' @rdname theme
+#' @rdname visualization
 theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
@@ -104,7 +104,7 @@ theme_clean_light <- function(base_size = 11,
 }
 
 #' @export
-#' @rdname theme
+#' @rdname visualization
 theme_clean_dark <- function(base_size = 11,
                              base_family = "",
                              base_line_size = base_size / 22,
