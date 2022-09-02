@@ -23,12 +23,30 @@
 #' A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 #' }
 #'
+#' @examples
+#' \dontrun{
+#' p  <- ggplot2::ggplot(data = ggplot2::mpg) +
+#'  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+#'  ggplot2::labs(
+#'    title = "Un très très beau graphique informatif",
+#'    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
+#'    caption = "Données: API Twitter \nCLESSN"
+#'  ) +
+#'  ggplot2::xlab("x axis label") +
+#' ggplot2::ylab("y axis label")
+#'
+#' p + theme_classic_light()
+#' p + theme_classic_light()
+#' }
+#' @name theme
+#' @aliases NULL
+#'
 #' @export
 #' @rdname theme
 theme_clean_light <- function(base_size = 11,
-                                base_family = "",
-                                base_line_size = base_size / 22,
-                                base_rect_size = base_size / 22) {
+                              base_family = "",
+                              base_line_size = base_size / 22,
+                              base_rect_size = base_size / 22) {
 
   # Set colours
   primary_colour <- "black"
@@ -88,9 +106,9 @@ theme_clean_light <- function(base_size = 11,
 #' @export
 #' @rdname theme
 theme_clean_dark <- function(base_size = 11,
-                               base_family = "",
-                               base_line_size = base_size / 22,
-                               base_rect_size = base_size / 22) {
+                             base_family = "",
+                             base_line_size = base_size / 22,
+                             base_rect_size = base_size / 22) {
 
   # Set colours
   half_line <- base_size / 2
