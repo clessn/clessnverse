@@ -71,27 +71,23 @@ theme_clean_light <- function(base_size = 11,
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.text.x = ggplot2::element_text(
-        margin = ggplot2::margin(
-          t = half_line,
-          l = half_line)),
-      axis.text.y = ggplot2::element_text(
-        margin = ggplot2::margin(
-          r = half_line)),
+      axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = half_line,
+                                                                   l = half_line)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = half_line)),
       axis.ticks.x = ggplot2::element_line(colour = primary_colour),
       axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
-        margin = ggplot2::margin(
-          r = half_line,
-          t = half_line),
-        hjust = 1),
+        margin = ggplot2::margin(r = half_line,
+                                 t = half_line),
+        hjust = 1
+      ),
       axis.title.y = ggplot2::element_text(
-        margin = ggplot2::margin(
-          r = half_line,
-          b = half_line),
-        hjust = 1),
+        margin = ggplot2::margin(r = half_line,
+                                 b = half_line),
+        hjust = 1
+      ),
       axis.line.x = ggplot2::element_line(colour = primary_colour),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
@@ -99,8 +95,18 @@ theme_clean_light <- function(base_size = 11,
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
-      plot.title = ggplot2::element_text(face = "bold", size = base_size * 2, hjust = 0),
+      plot.margin = ggplot2::margin(
+        t = base_size,
+        r = base_margin,
+        b = base_margin,
+        l = base_margin,
+        unit = "pt"
+      ),
+      plot.title = ggplot2::element_text(
+        face = "bold",
+        size = base_size * 2,
+        hjust = 0
+      ),
       plot.background = ggplot2::element_rect(fill = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA)
     )
@@ -132,27 +138,23 @@ theme_clean_dark <- function(base_size = 11,
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.text.x = ggplot2::element_text(
-        margin = ggplot2::margin(
-          t = half_line,
-          l = half_line)),
-      axis.text.y = ggplot2::element_text(
-        margin = ggplot2::margin(
-          r = half_line)),
+      axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = half_line,
+                                                                   l = half_line)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = half_line)),
       axis.ticks.x = ggplot2::element_line(colour = primary_colour),
       axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
-        margin = ggplot2::margin(
-          r = half_line,
-          t = half_line),
-        hjust = 1),
+        margin = ggplot2::margin(r = half_line,
+                                 t = half_line),
+        hjust = 1
+      ),
       axis.title.y = ggplot2::element_text(
-        margin = ggplot2::margin(
-          r = half_line,
-          b = half_line),
-        hjust = 1),
+        margin = ggplot2::margin(r = half_line,
+                                 b = half_line),
+        hjust = 1
+      ),
       axis.line.x = ggplot2::element_line(colour = primary_colour),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
@@ -160,8 +162,18 @@ theme_clean_dark <- function(base_size = 11,
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
-      plot.title = ggplot2::element_text(face = "bold", size = base_size * 2, hjust = 0),
+      plot.margin = ggplot2::margin(
+        t = base_size,
+        r = base_margin,
+        b = base_margin,
+        l = base_margin,
+        unit = "pt"
+      ),
+      plot.title = ggplot2::element_text(
+        face = "bold",
+        size = base_size * 2,
+        hjust = 0
+      ),
       plot.background = ggplot2::element_rect(fill = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA)
     )
