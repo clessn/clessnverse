@@ -69,7 +69,7 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
   ggplot2::theme_classic() +
     # Changes to apply to base theme
     ggplot2::theme(
-      text = ggplot2::element_text(family = "roboto", colour = "white"),
+      text = ggplot2::element_text(size = base_size, family = "roboto", colour = "white"),
       axis.text.x = ggplot2::element_text(
         margin = ggplot2::margin(
           t = half_line,
@@ -91,7 +91,7 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
       axis.title.y = ggplot2::element_text(
         margin = ggplot2::margin(
           r = half_line,
-          t = half_line),
+          b = half_line),
         hjust = 1),
       axis.line.x = ggplot2::element_line(colour = "white"),
       legend.position = "bottom",
@@ -101,7 +101,7 @@ theme_classic_dark <- function(base_size = 11, base_family = "",
       panel.grid.major.y = ggplot2::element_line(colour = "#525252"),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
       plot.margin = ggplot2::margin(t = base_size, r = base_margin, b = base_margin, l = base_margin, unit = "pt"),
-      plot.title = ggplot2::element_text(face = "bold", size = base_size + 10, hjust = 0),
+      plot.title = ggplot2::element_text(face = "bold", size = base_size * 2, hjust = 0),
       plot.background = ggplot2::element_rect(fill = "#494949"),  # light, dark = #494949
       panel.background = ggplot2::element_rect(fill = NA)
     )
@@ -122,17 +122,17 @@ ggsave_twitter("test.png")
 
 ## Example ----
 
-ggplot2::ggplot(data = ggplot2::mpg) +
-  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
-  ggplot2::labs(
-    title = "Un très très beau graphique informatif",
-    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
-    caption = "Données: API Twitter \nCLESSN"
-  ) +
-  ggplot2::xlab("x axis label") +
-  ggplot2::ylab("y axis label") +
-  # Custom theme
-  theme_classic_dark()
+#ggplot2::ggplot(data = ggplot2::mpg) +
+#  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+#  ggplot2::labs(
+#    title = "Un très très beau graphique informatif",
+#    subtitle = "Un sous-titre explicatif qui en dit long sur ces données importantes",
+#    caption = "Données: API Twitter \nCLESSN"
+#  ) +
+#  ggplot2::xlab("x axis label") +
+#  ggplot2::ylab("y axis label") +
+#  # Custom theme
+#  theme_classic_dark(base_size = 20)
 
 # Datagotchi font idea: VT323 in Google Fonts
 #
