@@ -49,7 +49,13 @@
 #' @name dataviz
 #' @aliases NULL
 #'
-#' @importFrom ggplot2 theme_classic theme element_line element_rect element_text element_blank margin
+#' @importFrom ggplot2 theme_classic
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_line
+#' @importFrom ggplot2 element_rect
+#' @importFrom ggplot2 element_text
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 margin
 #'
 #' @export
 #' @rdname dataviz
