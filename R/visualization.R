@@ -62,7 +62,7 @@ theme_clean_light <- function(base_size = 11,
                               secondary_colour = "grey30",
                               minor_colour = "#f7f7f7",
                               bg_colour = "white",
-                             strip_colour = "white") {
+                              strip_colour = "white") {
   # Add font
   # sysfonts::font_add_google("Roboto", "roboto")
   # showtext::showtext_auto()
@@ -81,6 +81,7 @@ theme_clean_light <- function(base_size = 11,
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
+        colour = primary_colour,
         margin = ggplot2::margin(r = half_line,
                                  t = half_line),
         hjust = 1
@@ -106,6 +107,7 @@ theme_clean_light <- function(base_size = 11,
       ),
       plot.title = ggplot2::element_text(
         face = "bold",
+        colour = primary_colour,
         size = base_size * 2,
         hjust = 0
       ),
@@ -127,7 +129,7 @@ theme_clean_dark <- function(base_size = 11,
                              secondary_colour = "#f2f2f2",
                              minor_colour = "#525252",
                              bg_colour = "#494949",
-                            strip_colour = "grey80") {
+                             strip_colour = "grey80") {
   # Add font
   # sysfonts::font_add_google("Roboto", "roboto")
   # showtext::showtext_auto()
@@ -171,6 +173,7 @@ theme_clean_dark <- function(base_size = 11,
       ),
       plot.title = ggplot2::element_text(
         face = "bold",
+        colour = primary_colour,
         size = base_size * 2,
         hjust = 0
       ),
