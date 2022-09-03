@@ -1,8 +1,3 @@
-#################################################################################################################
-#################################################################################################################
-########################################### Visualization Functions #############################################
-#################################################################################################################
-#################################################################################################################
 #' Data Visualization
 #'
 #' Functions for data visualization.
@@ -16,9 +11,7 @@
 #' @param minor_colour major gridlines colour
 #' @param bg_colour plot background colour
 #' @param strip_colour strip background colour
-#'
 #' @return A ggplot2 theme.
-#'
 #' @details
 #' \describe{
 #'
@@ -28,10 +21,7 @@
 #' \item{`theme_clean_dark()`}{
 #' A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 #' }
-#'
-#'
 #' @author Judith Bourque
-#'
 #' @examples
 #' \dontrun{
 #' p  <- ggplot2::ggplot(data = ggplot2::mpg) +
@@ -49,7 +39,6 @@
 #' }
 #' @name dataviz
 #' @aliases NULL
-#'
 #' @importFrom ggplot2 theme_classic
 #' @importFrom ggplot2 theme
 #' @importFrom ggplot2 element_line
@@ -57,7 +46,7 @@
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 element_blank
 #' @importFrom ggplot2 margin
-#'
+NULL
 #' @export
 #' @rdname dataviz
 theme_clean_light <- function(base_size = 11,
@@ -125,7 +114,6 @@ theme_clean_light <- function(base_size = 11,
       strip.background = ggplot2::element_rect(fill = strip_colour)
     )
 }
-
 #' @export
 #' @rdname dataviz
 theme_clean_dark <- function(base_size = 11,
