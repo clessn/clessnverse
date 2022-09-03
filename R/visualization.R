@@ -15,6 +15,7 @@
 #' @param secondary_colour text and axis ticks colour
 #' @param minor_colour major gridlines colour
 #' @param bg_colour plot background colour
+#' @param strip_colour strip background colour
 #'
 #' @return A ggplot2 theme.
 #'
@@ -67,74 +68,8 @@ theme_clean_light <- function(base_size = 11,
                               primary_colour = "black",
                               secondary_colour = "grey30",
                               minor_colour = "#f7f7f7",
-                              bg_colour = "white") {
-  # Set parameters
-  half_line <- base_size / 2
-  base_margin <- base_size * 2
-
-  # Add font
-  # sysfonts::font_add_google("Roboto", "roboto")
-  # showtext::showtext_auto()
-
-  # Base theme
-  ggplot2::theme_classic() +
-    # Changes to apply to base theme
-    ggplot2::theme(
-      text = ggplot2::element_text(size = base_size, colour = secondary_colour),
-      axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = half_line,
-                                                                   l = half_line)),
-      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = half_line)),
-      axis.ticks.x = ggplot2::element_line(colour = primary_colour),
-      axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
-      axis.ticks.y = ggplot2::element_blank(),
-      axis.line.y = ggplot2::element_blank(),
-      axis.title.x = ggplot2::element_text(
-        margin = ggplot2::margin(r = half_line,
-                                 t = half_line),
-        hjust = 1
-      ),
-      axis.title.y = ggplot2::element_text(
-        margin = ggplot2::margin(r = half_line,
-                                 b = half_line),
-        hjust = 1
-      ),
-      axis.line.x = ggplot2::element_line(colour = primary_colour),
-      legend.position = "bottom",
-      legend.title = ggplot2::element_blank(),
-      legend.background = ggplot2::element_rect(fill = NA),
-      # Align caption with left
-      panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
-      plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(
-        t = base_size,
-        r = base_margin,
-        b = base_margin,
-        l = base_margin,
-        unit = "pt"
-      ),
-      plot.title = ggplot2::element_text(
-        face = "bold",
-        size = base_size * 2,
-        hjust = 0
-      ),
-      plot.background = ggplot2::element_rect(fill = bg_colour),
-      panel.background = ggplot2::element_rect(fill = NA)
-    )
-}
-
-#' @export
-#' @rdname dataviz
-theme_clean_dark <- function(base_size = 11,
-                             base_family = "",
-                             base_line_size = base_size / 22,
-                             base_rect_size = base_size / 22,
-                             half_line = base_size / 2,
-
-                             primary_colour = "white",
-                             secondary_colour = "#f2f2f2",
-                             minor_colour = "#525252",
-                             bg_colour = "#494949") {
+                              bg_colour = "white",
+                             strip_colour = "white") {
   # Set parameters
   half_line <- base_size / 2
   base_margin <- base_size * 2
@@ -187,6 +122,75 @@ theme_clean_dark <- function(base_size = 11,
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
-      strip.background = element_rect(fill = "grey80")
+      strip.background = element_rect(fill = strip_colour)
+    )
+}
+
+#' @export
+#' @rdname dataviz
+theme_clean_dark <- function(base_size = 11,
+                             base_family = "",
+                             base_line_size = base_size / 22,
+                             base_rect_size = base_size / 22,
+                             half_line = base_size / 2,
+
+                             primary_colour = "white",
+                             secondary_colour = "#f2f2f2",
+                             minor_colour = "#525252",
+                             bg_colour = "#494949",
+                            strip_colour = "grey80") {
+  # Set parameters
+  half_line <- base_size / 2
+  base_margin <- base_size * 2
+
+  # Add font
+  # sysfonts::font_add_google("Roboto", "roboto")
+  # showtext::showtext_auto()
+
+  # Base theme
+  ggplot2::theme_classic() +
+    # Changes to apply to base theme
+    ggplot2::theme(
+      text = ggplot2::element_text(size = base_size, colour = secondary_colour),
+      axis.text = ggplot2::element_text(colour = secondary_colour),
+      axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = half_line,
+                                                                   l = half_line)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = half_line)),
+      axis.ticks.x = ggplot2::element_line(colour = primary_colour),
+      axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
+      axis.ticks.y = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_blank(),
+      axis.title.x = ggplot2::element_text(
+        margin = ggplot2::margin(r = half_line,
+                                 t = half_line),
+        hjust = 1
+      ),
+      axis.title.y = ggplot2::element_text(
+        margin = ggplot2::margin(r = half_line,
+                                 b = half_line),
+        hjust = 1
+      ),
+      axis.line.x = ggplot2::element_line(colour = primary_colour),
+      legend.position = "bottom",
+      legend.title = ggplot2::element_blank(),
+      legend.background = ggplot2::element_rect(fill = NA),
+      # Align caption with left
+      panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
+      plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
+      plot.margin = ggplot2::margin(
+        t = base_size,
+        r = base_margin,
+        b = base_margin,
+        l = base_margin,
+        unit = "pt"
+      ),
+      plot.title = ggplot2::element_text(
+        face = "bold",
+        size = base_size * 2,
+        hjust = 0
+      ),
+      plot.background = ggplot2::element_rect(fill = bg_colour),
+      panel.background = ggplot2::element_rect(fill = NA),
+      strip.background = element_rect(fill = strip_colour)
     )
 }
