@@ -1,13 +1,20 @@
 # clessnverse
-Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the last working version of the package.
 
-## Install package
+## Overview
 
-To install the package, run the code `devtools::install_github("clessn/clessnverse")`.
+clessnverse regroups general functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
-## Beta functions
+Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the latest working version of the package.
 
-If you want to access newer functions currently being developed, you may go look at **branch v1**. Here's how:
+## Installation
+
+To install the latest stable version of this package, run the following line in your R console:
+
+```R
+devtools::install_github("clessn/clessnverse")
+```
+
+To access newer functions currently being developed, you may go look at **branch v1**. Here's how:
 
 ### On GitHub
 
@@ -21,8 +28,7 @@ If you want to access newer functions currently being developed, you may go look
 2. To change branches, it easy, just do:
     - `git branch` to see where you are
     - `git checkout v1` to switch to the right branch
-3. You CANNOT contribute to V1. Otherwise I'll cut you.
-4. Seriously, check out number 3.  
+3. You CANNOT contribute to V1.
 
 <!--Welcome to our work in progress. This branch is dedicated to the creation of an improved version of CLESSNVERSE which will cover a wider array of applications. Two main categories of functions are to be explored. First, specific functions which are useful for the research chair's projects, but not for the wider public. Second, universal functions that are generalized and useful for domestication, analysis and visualization of data. 
 
