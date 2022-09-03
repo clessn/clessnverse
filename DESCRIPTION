@@ -40,6 +40,7 @@ Imports:
     tictoc,
     magrittr,
     clessnhub,
+    ggplot2,
     httr,
     hublot,
     jsonlite,
