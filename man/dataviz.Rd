@@ -10,6 +10,8 @@ theme_clean_light(
   base_family = "",
   base_line_size = base_size/22,
   base_rect_size = base_size/22,
+  half_line = base_size * 2,
+  base_margin = base_size,
   primary_colour = "black",
   secondary_colour = "grey30",
   minor_colour = "#f7f7f7",
@@ -23,6 +25,7 @@ theme_clean_dark(
   base_line_size = base_size/22,
   base_rect_size = base_size/22,
   half_line = base_size/2,
+  base_margin = base_size,
   primary_colour = "white",
   secondary_colour = "#f2f2f2",
   minor_colour = "#525252",
@@ -38,6 +41,10 @@ theme_clean_dark(
 \item{base_line_size}{base size for line elements}
 
 \item{base_rect_size}{base size for rect elements}
+
+\item{half_line}{half line}
+
+\item{base_margin}{base margin}
 
 \item{primary_colour}{title and axis colour}
 

@@ -11,6 +11,8 @@
 #' @param minor_colour major gridlines colour
 #' @param bg_colour plot background colour
 #' @param strip_colour strip background colour
+#' @param half_line half line
+#' @param base_margin base margin
 #' @return A ggplot2 theme.
 #' @details
 #' \describe{
@@ -53,16 +55,14 @@ theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
                               base_rect_size = base_size / 22,
+                              half_line = base_size * 2,
+                              base_margin = base_size,
 
                               primary_colour = "black",
                               secondary_colour = "grey30",
                               minor_colour = "#f7f7f7",
                               bg_colour = "white",
                              strip_colour = "white") {
-  # Set parameters
-  half_line <- base_size / 2
-  base_margin <- base_size * 2
-
   # Add font
   # sysfonts::font_add_google("Roboto", "roboto")
   # showtext::showtext_auto()
@@ -121,16 +121,13 @@ theme_clean_dark <- function(base_size = 11,
                              base_line_size = base_size / 22,
                              base_rect_size = base_size / 22,
                              half_line = base_size / 2,
+                             base_margin = base_size,
 
                              primary_colour = "white",
                              secondary_colour = "#f2f2f2",
                              minor_colour = "#525252",
                              bg_colour = "#494949",
                             strip_colour = "grey80") {
-  # Set parameters
-  half_line <- base_size / 2
-  base_margin <- base_size * 2
-
   # Add font
   # sysfonts::font_add_google("Roboto", "roboto")
   # showtext::showtext_auto()
