@@ -92,7 +92,7 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #' @return return
 #' @examples # To be documented
 #' @export
-commit_warehouse_table <- function(table_name, df, key_column, mode, credentials) {
+commit_warehouse_table <- function(table_name, df, key_column, key_encoding, mode, credentials) {
   stop("not implemented yet")
 }
 
