@@ -264,6 +264,8 @@ processCommandLineOptions <- function() {
                paste("--hub_mode=", opt$hub_mode, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
                "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
 
+  if (!exists(logger)) logger <- "console"
+
   clessnverse::logit(message = paste("command line options: ",
                            paste(c(rbind(paste(" ",names(opt),"=",sep=''),opt)), collapse='')), logger = logger)
 
