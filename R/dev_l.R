@@ -160,13 +160,13 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
     )
   }
 
-  timestamp <- rep(1, nrow(df), as.character(Sys.time()))
+  #timestamp <- rep(1, nrow(df), as.character(Sys.time()))
 
   data <- df %>% mutate(data = purrr::pmap(., ~as.list(list(...))))
   data <- data$data
 
   new_df <- df %>%
-    mutate(key = key, timestamp = timestamp, data=data) %>%
+    mutate(key = key, timestamp = as.character(Sys.time()), data=data) %>%
     select(key, timestamp, data)
 
   my_list <- do.call("mapply", c(list, new_df, SIMPLIFY = FALSE, USE.NAMES=FALSE))
