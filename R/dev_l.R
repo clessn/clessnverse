@@ -83,16 +83,22 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 
 ###############################################################################
 #' @title clessnverse::commit_warehouse_table
-#' @description adds or replaces a rown in a warehouse with a specific key
-#' @param table_name be documented
-#' @param df be documented
-#' @param key_column be documented
-#' @param mode be documented
-#' @param credentials be documented
+#' @description injects the content of a dataframe into a warehouse_table
+#' @param table_name This is the warhouse_table name to inject the data into
+#' @param df The data frame to be injected into the table
+#' @param key_columns This is a character string containing  the column names of
+#'  the df dataframe that will act as the *unique* key for each record in the 
+#'  table.  If the column names are separed with '+' then the columns will be
+#'  combined together (concatenated) to form the key.  If separeted by a ','
+#'  then the first column that does not contain NAs or empty values will be used
+#' @param key_encoding if key_encoding = "digets", the value of the key_columns 
+#'  combined together will be scambeled into a uuid.
+#' @param mode This parameter is not yet used.
+#' @param credentials your credential to hublot
 #' @return return
 #' @examples # To be documented
 #' @export
-commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, refresh_data, credentials) {
+commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mode = refresh, credentials) {
   my_table <- paste("clhub_tables_warehouse_", table_name, sep = "")
 
   # Check if table exists
