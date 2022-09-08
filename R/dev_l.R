@@ -87,18 +87,18 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #' @param table_name This is the warhouse_table name to inject the data into
 #' @param df The data frame to be injected into the table
 #' @param key_columns This is a character string containing  the column names of
-#'  the df dataframe that will act as the *unique* key for each record in the 
+#'  the df dataframe that will act as the *unique* key for each record in the
 #'  table.  If the column names are separed with '+' then the columns will be
 #'  combined together (concatenated) to form the key.  If separeted by a ','
 #'  then the first column that does not contain NAs or empty values will be used
-#' @param key_encoding if key_encoding = "digets", the value of the key_columns 
+#' @param key_encoding if key_encoding = "digets", the value of the key_columns
 #'  combined together will be scambeled into a uuid.
 #' @param mode This parameter is not yet used.
 #' @param credentials your credential to hublot
 #' @return return
 #' @examples # To be documented
 #' @export
-commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mode = refresh, credentials) {
+commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mode = "refresh", credentials) {
   my_table <- paste("clhub_tables_warehouse_", table_name, sep = "")
 
   # Check if table exists
@@ -115,7 +115,7 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
   key_columns <- gsub(" ", "", key_columns)
   key_columns <- strsplit(key_columns, "\\+")
   key_columns_mode <- "combined"
-  } 
+  }
 
   # Compute the key
   key <- NULL
@@ -124,11 +124,10 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
     while (NA %in% df[[key_columns[[1]][i]]] || "" %in% df[[key_columns[[1]][i]]]) {
       i <- i + 1
     }
-    
+
     if (i <= length(key_columns[[1]])) {
       key <- df[[key_columns[[1]][i]]]
     } else {
-      clessnverse::logit(scriptname, paste("none of the key_columns specified is totally filled with non NA or non empty values: ", paste(key_columns[[1]], collapse = " ")), logger)
       stop("none of the key_columns specified is totally filled with non NA or non empty values: ", paste(key_columns[[1]], collapse = " "))
     }
   }
@@ -137,12 +136,10 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
     key <- rep("", 1, nrow(df))
     for (i in 1:length(key_columns[[1]])) {
       if (is.null(df[[key_columns[[1]][i]]])) {
-        clessnverse::logit(scriptname, paste("column",  key_columns[[1]][i], "does not exist in dataframe in function clessnverse::commit_warehouse_table()"), logger)
         stop(paste("column",  key_columns[[1]][i], "does not exist in dataframe in function clessnverse::commit_warehouse_table()"))
       }
 
       if (NA %in% df[[key_columns[[1]][i]]] || "" %in% df[[key_columns[[1]][i]]]) {
-        clessnverse::logit(scriptname, paste("column",  key_columns[[1]][i], "contains NA or empty values and cannot be a key in function commit_warehouse_table "), logger)
         stop(paste("column",  key_columns[[1]][i], "contains NA or empty values and cannot be a key in function commit_warehouse_table "))
       }
 
@@ -153,16 +150,24 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
   if (key_encoding == "digest") key <- unlist(lapply(X = as.list(key), FUN = digest::digest))
 
   if (TRUE %in% duplicated(key)) {
-    clessnverse::logit(scriptname, paste("there are duplicated values in the unique key composed of the key_columns passed to clessnverse::commit_warehouse_table:", paste(key_columns, collapse = ",")), logger)
-    clessnverse::logit(scriptname, paste("The positions of duplicated keys in the dataframe are", paste(which(duplicated(key) == TRUE), collapse = ",")), logger)    
-    stop("duplicated keys exist in the dataframe passed to clessnverse::commit_warehouse_table")
+    stop(
+      paste(
+        "\nThere are duplicated values in the unique key composed of the key_columns passed to clessnverse::commit_warehouse_table():",
+        paste(key_columns, collapse = ","),
+        "\nThe positions of duplicated keys in the dataframe are",
+        paste(which(duplicated(key) == TRUE), collapse = ",")
+      )
+    )
   }
 
-  #json_combo <- df %>% mutate(json_combo = purrr::pmap(., ~jsonlite::toJSON(list(...),auto_unbox = T))) %>% select(json_combo)
-  data <- df %>% mutate(data = purrr::pmap(., ~as.list(list(...)))) 
+  timestamp <- rep(1, nrow(df), as.character(Sys.time()))
+
+  data <- df %>% mutate(data = purrr::pmap(.data, ~as.list(list(...))))
   data <- data$data
 
-  new_df <- df %>% mutate(key = key, timestamp = as.character(Sys.time()), data=data) %>% select(key, timestamp, data)
+  new_df <- df %>%
+    mutate(key = key, timestamp = timestamp, data=data) %>%
+    select(key, timestamp, data)
 
   my_list <- do.call("mapply", c(list, new_df, SIMPLIFY = FALSE, USE.NAMES=FALSE))
 
