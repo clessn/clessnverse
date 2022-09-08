@@ -162,7 +162,7 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
 
   timestamp <- rep(1, nrow(df), as.character(Sys.time()))
 
-  data <- df %>% mutate(data = purrr::pmap(.data, ~as.list(list(...))))
+  data <- df %>% mutate(data = purrr::pmap(., ~as.list(list(...))))
   data <- data$data
 
   new_df <- df %>%
