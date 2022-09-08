@@ -106,15 +106,15 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
   if (length(table_check$results) == 0) stop(paste("The warehouse table specified in clessnverse::commit_warehouse_table() does not exist:", table_name))
 
   if (stringr::str_detect(key_columns, ",")) {
-  key_columns <- gsub(" ", "", key_columns)
-  key_columns <- strsplit(key_columns, ",")
-  key_columns_mode <- "one"
+    key_columns <- gsub(" ", "", key_columns)
+    key_columns <- strsplit(key_columns, ",")
+    key_columns_mode <- "one"
   }
 
   if (stringr::str_detect(key_columns, "\\+")) {
-  key_columns <- gsub(" ", "", key_columns)
-  key_columns <- strsplit(key_columns, "\\+")
-  key_columns_mode <- "combined"
+    key_columns <- gsub(" ", "", key_columns)
+    key_columns <- strsplit(key_columns, "\\+")
+    key_columns_mode <- "combined"
   }
 
   # Compute the key
@@ -160,16 +160,17 @@ commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mo
     )
   }
 
-  #timestamp <- rep(1, nrow(df), as.character(Sys.time()))
+  timestamp <- rep(as.character(Sys.time()), 1, nrow(df))
 
-  data <- df %>% mutate(data = purrr::pmap(., ~as.list(list(...))))
-  data <- data$data
+  data <- purrr::pmap(df, ~as.list(list(...)))
 
   new_df <- df %>%
-    mutate(key = key, timestamp = as.character(Sys.time()), data=data) %>%
+    mutate(key = key, timestamp = timestamp, data=data) %>%
     select(key, timestamp, data)
 
   my_list <- do.call("mapply", c(list, new_df, SIMPLIFY = FALSE, USE.NAMES=FALSE))
 
-  hublot::batch_create_table_items(my_table, my_list, credentials)
+  ret <- hublot::batch_create_table_items(my_table, my_list, credentials)
+
+  return(c(created=ret$created, errors=ret$errors))
 }
