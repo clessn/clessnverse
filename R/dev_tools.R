@@ -182,7 +182,9 @@ process_command_line_options <- function() {
     optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
                           help="translate text using paid APIs [default= %default]", metavar="logical"),
     optparse::make_option(c("-o", "--log_output"), type="character", default="file,console",
-                          help="where to output the logs [default= %default]", metavar="character")
+                          help="where to output the logs [default= %default]", metavar="character"),
+    optparse::make_option(c("-r", "--refresh_data"), type="logical", default=FALSE,
+                          help="refresh the data that already exists in hublot [default= %default]", metavar="logical")                          
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)

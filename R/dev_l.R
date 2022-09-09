@@ -43,15 +43,17 @@
 #' @param table be documented
 #' @param key be documented
 #' @param row be documented
-#' @param mode be documented
+#' @param refresh_data be documented
 #' @param credentials be documented
 #' @return return
 #' @examples # To be documented
 #' @export
-commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", credentials) {
+commit_warehouse_row <- function(table, key, row = list(), refresh_data, credentials) {
     # If the row with the same key exist and mode=refresh then overwrite it with the new data
     # Otherwise, do nothing (just log a message)
     table <- paste("clhub_tables_warehouse_", table, sep="")
+
+    if (!exists("refresh_data") || length(refresh_data) == 0 || (refresh_data != TRUE && refresh_data != FALSE)) stop("refresh_data must be provided in call to clessnverse::commit_warehouse_row() and must be TRUE or FALSE)")
 
     filter <- list(key__exact = key)
     item <- hublot::filter_table_items(table, credentials, filter)
@@ -93,13 +95,15 @@ commit_warehouse_row <- function(table, key, row = list(), mode = "refresh", cre
 #'  then the first column that does not contain NAs or empty values will be used
 #' @param key_encoding if key_encoding = "digets", the value of the key_columns
 #'  combined together will be scambeled into a uuid.
-#' @param mode This parameter is not yet used.
+#' @param refresh_data This parameter is not yet used.
 #' @param credentials your credential to hublot
 #' @return return
 #' @examples # To be documented
 #' @export
-commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, mode = "refresh", credentials) {
+commit_warehouse_table <- function(table_name, df, key_columns, key_encoding, refresh_data, credentials) {
   my_table <- paste("clhub_tables_warehouse_", table_name, sep = "")
+
+  if (!exists("refresh_data") || length(refresh_data) == 0 || (refresh_data != TRUE && refresh_data != FALSE)) stop("refresh_data must be provided in call to clessnverse::commit_warehouse_row() and must be TRUE or FALSE)")
 
   # Check if table exists
   table_check <- hublot::filter_tables(credentials, list(verbose_name = paste("warehouse_",table_name,sep="")))
