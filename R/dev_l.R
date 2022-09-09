@@ -67,7 +67,7 @@ commit_warehouse_row <- function(table, key, row = list(), refresh_data, credent
                              credentials)
     } else {
         # l'item existe déjà dans hublot
-        if (mode == "refresh") {
+        if (refresh_data == TRUE) {
             r <- hublot::update_table_item(table,
                                     id = item$result[[1]]$id,
                                     body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
@@ -75,7 +75,7 @@ commit_warehouse_row <- function(table, key, row = list(), refresh_data, credent
         } else {
             # Do nothing but log a message saying skipping
             r <- list(id=0)
-        } # if (mode == "refresh")
+        } # if (refresh_data == TRUE)
     } #if(length(item$results) == 0)
 
     return(r$id)
