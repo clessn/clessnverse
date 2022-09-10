@@ -655,7 +655,7 @@ get_dictionary <-
     # Get dictionary file from lake
     file_key <- paste("dict_", topic, sep = "")
     file_info <- hublot::retrieve_file(file_key, credentials)
-    dict_df <- utils::read.csv2(file_info$file)
+    dict_df <- utils::read.csv2(file_info$file, encoding = "UTF-8")
 
     # Filter on language provided in lang if language is a dictionary feature
     if (!is.null(dict_df$language)) {
