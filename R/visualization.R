@@ -39,7 +39,7 @@
 #' p + theme_clean_light()
 #' p + theme_clean_dark()
 #' }
-#' @name dataviz
+#' @name theme
 #' @aliases NULL
 #' @importFrom ggplot2 theme_classic
 #' @importFrom ggplot2 theme
@@ -50,7 +50,7 @@
 #' @importFrom ggplot2 margin
 NULL
 #' @export
-#' @rdname dataviz
+#' @rdname theme
 theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
@@ -117,7 +117,7 @@ theme_clean_light <- function(base_size = 11,
     )
 }
 #' @export
-#' @rdname dataviz
+#' @rdname theme
 theme_clean_dark <- function(base_size = 11,
                              base_family = "",
                              base_line_size = base_size / 22,
