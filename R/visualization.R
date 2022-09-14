@@ -1,11 +1,7 @@
 #' Data Visualization
 #'
 #' Functions for data visualization.
-#'
-#' @param base_size base font size, given in pts.
-#' @param base_family base font family
-#' @param base_line_size base size for line elements
-#' @param base_rect_size base size for rect elements
+#' @inheritParams ggplot2::theme_classic
 #' @param primary_colour title and axis colour
 #' @param secondary_colour text and axis ticks colour
 #' @param minor_colour major gridlines colour
@@ -39,7 +35,7 @@
 #' p + theme_clean_light()
 #' p + theme_clean_dark()
 #' }
-#' @name dataviz
+#' @name theme
 #' @aliases NULL
 #' @importFrom ggplot2 theme_classic
 #' @importFrom ggplot2 theme
@@ -50,7 +46,7 @@
 #' @importFrom ggplot2 margin
 NULL
 #' @export
-#' @rdname dataviz
+#' @rdname theme
 theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
@@ -111,13 +107,13 @@ theme_clean_light <- function(base_size = 11,
         size = base_size * 2,
         hjust = 0
       ),
-      plot.background = ggplot2::element_rect(fill = bg_colour),
+      plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
       strip.background = ggplot2::element_rect(fill = strip_colour)
     )
 }
 #' @export
-#' @rdname dataviz
+#' @rdname theme
 theme_clean_dark <- function(base_size = 11,
                              base_family = "",
                              base_line_size = base_size / 22,
@@ -177,7 +173,7 @@ theme_clean_dark <- function(base_size = 11,
         size = base_size * 2,
         hjust = 0
       ),
-      plot.background = ggplot2::element_rect(fill = bg_colour),
+      plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
       strip.background = ggplot2::element_rect(fill = strip_colour)
     )

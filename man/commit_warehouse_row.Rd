@@ -4,7 +4,7 @@
 \alias{commit_warehouse_row}
 \title{clessnverse::commit_warehouse_row}
 \usage{
-commit_warehouse_row(table, key, row = list(), mode = "refresh", credentials)
+commit_warehouse_row(table, key, row = list(), refresh_data, credentials)
 }
 \arguments{
 \item{table}{be documented}
@@ -13,7 +13,7 @@ commit_warehouse_row(table, key, row = list(), mode = "refresh", credentials)
 
 \item{row}{be documented}
 
-\item{mode}{be documented}
+\item{refresh_data}{be documented}
 
 \item{credentials}{be documented}
 }
