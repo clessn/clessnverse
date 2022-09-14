@@ -17,20 +17,25 @@
 #'
 #'  p + scale_discrete_quorum(aesthetics = "colour")
 #' }
-#'
+#' @name scale
+#' @importFrom ggplot2 scale_discrete_manual
+#' @importFrom ggplot2 waiver
+NULL
+#' @export
+#' @rdname scale
 scale_discrete_quorum <- function(aesthetics, ..., values, breaks = ggplot2::waiver()) {
   ggplot2::scale_discrete_manual(aesthetics,
-    values = c(
-      "#FFA562", # orange
-      "#73F956", # green
-      "#65DAFF", # light blue
-      "#FEADFF", # pink
-      "#FF624D", # red
-      "#88ADFF", # blue
-      "#BA8FFF", # purple
-      "#FEEC20" # yellow
-    ),
-    breaks,
-    ...
+                                 values = c(
+                                   "#FFA562", # orange
+                                   "#73F956", # green
+                                   "#65DAFF", # light blue
+                                   "#FEADFF", # pink
+                                   "#FF624D", # red
+                                   "#88ADFF", # blue
+                                   "#BA8FFF", # purple
+                                   "#FEEC20" # yellow
+                                 ),
+                                 breaks,
+                                 ...
   )
 }
