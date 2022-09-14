@@ -4,7 +4,70 @@
 \alias{scale_discrete_quorum}
 \title{Apply a discrete scale}
 \usage{
-scale_discrete_quorum()
+scale_discrete_quorum(aesthetics, ..., values, breaks = ggplot2::waiver())
+}
+\arguments{
+\item{aesthetics}{Character string or vector of character strings listing the
+name(s) of the aesthetic(s) that this scale works with. This can be useful, for
+example, to apply colour settings to the \code{colour} and \code{fill} aesthetics at the
+same time, via \code{aesthetics = c("colour", "fill")}.}
+
+\item{...}{
+  Arguments passed on to \code{\link[ggplot2:discrete_scale]{discrete_scale}}
+  \describe{
+    \item{\code{palette}}{A palette function that when called with a single integer
+argument (the number of levels in the scale) returns the values that
+they should take (e.g., \code{\link[scales:hue_pal]{scales::hue_pal()}}).}
+    \item{\code{limits}}{One of:
+\itemize{
+\item \code{NULL} to use the default scale values
+\item A character vector that defines possible values of the scale and their
+order
+\item A function that accepts the existing (automatic) values and returns
+new ones. Also accepts rlang \link[rlang:as_function]{lambda} function
+notation.
+}}
+    \item{\code{drop}}{Should unused factor levels be omitted from the scale?
+The default, \code{TRUE}, uses the levels that appear in the data;
+\code{FALSE} uses all the levels in the factor.}
+    \item{\code{na.translate}}{Unlike continuous scales, discrete scales can easily show
+missing values, and do so by default. If you want to remove missing values
+from a discrete scale, specify \code{na.translate = FALSE}.}
+    \item{\code{scale_name}}{The name of the scale that should be used for error messages
+associated with this scale.}
+    \item{\code{name}}{The name of the scale. Used as the axis or legend title. If
+\code{waiver()}, the default, the name of the scale is taken from the first
+mapping used for that aesthetic. If \code{NULL}, the legend title will be
+omitted.}
+    \item{\code{labels}}{One of:
+\itemize{
+\item \code{NULL} for no labels
+\item \code{waiver()} for the default labels computed by the
+transformation object
+\item A character vector giving labels (must be same length as \code{breaks})
+\item A function that takes the breaks as input and returns labels
+as output. Also accepts rlang \link[rlang:as_function]{lambda} function
+notation.
+}}
+    \item{\code{guide}}{A function used to create a guide or its name. See
+\code{\link[ggplot2:guides]{guides()}} for more information.}
+    \item{\code{super}}{The super class to use for the constructed scale}
+  }}
+
+\item{values}{a set of aesthetic values to map data values to. The values
+will be matched in order (usually alphabetical) with the limits of the
+scale, or with \code{breaks} if provided. If this is a named vector, then the
+values will be matched based on the names instead. Data values that don't
+match will be given \code{na.value}.}
+
+\item{breaks}{One of:
+\itemize{
+\item \code{NULL} for no breaks
+\item \code{waiver()} for the default breaks (the scale limits)
+\item A character vector of breaks
+\item A function that takes the limits as input and returns breaks
+as output
+}}
 }
 \description{
 These functions allow you to apply the CLESSN's discrete scales.
@@ -19,7 +82,7 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
    caption = "Data: Twitter API \nCLESSN"
    )
 
- p + scale_discrete_quorum()
+ p + scale_discrete_quorum(aesthetics = "colour")
 }
 
 }

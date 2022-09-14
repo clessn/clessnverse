@@ -2,8 +2,7 @@
 #'
 #' These functions allow you to apply the CLESSN's discrete scales.
 #'
-#' @param aesthetics Aesthetic(s) that works with the scale. You can apply colour
-#'  apply `colour` and `fill` aesthetics simultaneously using `aesthetics = c("colour", "fill")`
+#' @inheritParams ggplot2::scale_discrete_manual
 #'
 #' @author Judith Bourque
 #' @examples
@@ -16,20 +15,22 @@
 #'    caption = "Data: Twitter API \nCLESSN"
 #'    )
 #'
-#'  p + scale_discrete_quorum()
+#'  p + scale_discrete_quorum(aesthetics = "colour")
 #' }
 #'
-scale_discrete_quorum <- function(aesthetics, ..., values, breaks = waiver()) {
-  ggplot2::scale_discrete_manual(
+scale_discrete_quorum <- function(aesthetics, ..., values, breaks = ggplot2::waiver()) {
+  ggplot2::scale_discrete_manual(aesthetics,
     values = c(
-      "#73F956", # green
       "#FFA562", # orange
+      "#73F956", # green
       "#65DAFF", # light blue
       "#FEADFF", # pink
       "#FF624D", # red
       "#88ADFF", # blue
       "#BA8FFF", # purple
       "#FEEC20" # yellow
-    )
+    ),
+    breaks,
+    ...
   )
 }
