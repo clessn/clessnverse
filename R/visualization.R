@@ -1,11 +1,7 @@
 #' Data Visualization
 #'
 #' Functions for data visualization.
-#'
-#' @param base_size base font size, given in pts.
-#' @param base_family base font family
-#' @param base_line_size base size for line elements
-#' @param base_rect_size base size for rect elements
+#' @inheritParams ggplot2::theme_classic
 #' @param primary_colour title and axis colour
 #' @param secondary_colour text and axis ticks colour
 #' @param minor_colour major gridlines colour
