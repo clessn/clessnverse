@@ -4,24 +4,38 @@
 \alias{commit_warehouse_table}
 \title{clessnverse::commit_warehouse_table}
 \usage{
-commit_warehouse_table(table_name, df, key_column, mode, credentials)
+commit_warehouse_table(
+  table_name,
+  df,
+  key_columns,
+  key_encoding,
+  mode = "refresh",
+  credentials
+)
 }
 \arguments{
-\item{table_name}{be documented}
+\item{table_name}{This is the warhouse_table name to inject the data into}
 
-\item{df}{be documented}
+\item{df}{The data frame to be injected into the table}
 
-\item{key_column}{be documented}
+\item{key_columns}{This is a character string containing  the column names of
+the df dataframe that will act as the \emph{unique} key for each record in the
+table.  If the column names are separed with '+' then the columns will be
+combined together (concatenated) to form the key.  If separeted by a ','
+then the first column that does not contain NAs or empty values will be used}
 
-\item{mode}{be documented}
+\item{key_encoding}{if key_encoding = "digets", the value of the key_columns
+combined together will be scambeled into a uuid.}
 
-\item{credentials}{be documented}
+\item{mode}{This parameter is not yet used.}
+
+\item{credentials}{your credential to hublot}
 }
 \value{
 return
 }
 \description{
-adds or replaces a rown in a warehouse with a specific key
+injects the content of a dataframe into a warehouse_table
 }
 \examples{
 # To be documented
