@@ -9,7 +9,7 @@ commit_warehouse_table(
   df,
   key_columns,
   key_encoding,
-  mode = "refresh",
+  refresh_data,
   credentials
 )
 }
@@ -27,7 +27,7 @@ then the first column that does not contain NAs or empty values will be used}
 \item{key_encoding}{if key_encoding = "digets", the value of the key_columns
 combined together will be scambeled into a uuid.}
 
-\item{mode}{This parameter is not yet used.}
+\item{refresh_data}{This parameter is not yet used.}
 
 \item{credentials}{your credential to hublot}
 }
