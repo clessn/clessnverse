@@ -107,7 +107,7 @@ theme_clean_light <- function(base_size = 11,
         size = base_size * 2,
         hjust = 0
       ),
-      plot.background = ggplot2::element_rect(fill = bg_colour),
+      plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
       strip.background = ggplot2::element_rect(fill = strip_colour)
     )
@@ -173,7 +173,7 @@ theme_clean_dark <- function(base_size = 11,
         size = base_size * 2,
         hjust = 0
       ),
-      plot.background = ggplot2::element_rect(fill = bg_colour),
+      plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
       strip.background = ggplot2::element_rect(fill = strip_colour)
     )
