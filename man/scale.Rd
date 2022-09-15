@@ -2,10 +2,10 @@
 % Please edit documentation in R/scale.R
 \name{scale}
 \alias{scale}
-\alias{scale_discrete_quorum}
+\alias{scale_discrete_clessn}
 \title{Apply a discrete scale}
 \usage{
-scale_discrete_quorum(aesthetics, ..., values, breaks = ggplot2::waiver())
+scale_discrete_clessn(aesthetics, ..., values, breaks = ggplot2::waiver())
 }
 \arguments{
 \item{aesthetics}{Character string or vector of character strings listing the
@@ -83,7 +83,7 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
    caption = "Data: Twitter API \nCLESSN"
    )
 
- p + scale_discrete_quorum(aesthetics = "colour")
+ p + scale_discrete_clessn("colour", "quorum_palette")
 }
 }
 \author{

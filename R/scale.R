@@ -1,17 +1,12 @@
-#' Colour palettes inspired by CLESSN branding
-#'
-#' @export
-clessn_palettes <- list(
-  quorum_light = c(
-    "#FFA562", # orange
-    "#73F956", # green
-    "#65DAFF", # light blue
-    "#FEADFF", # pink
-    "#FF624D", # red
-    "#88ADFF", # blue
-    "#BA8FFF", # purple
-    "#FEEC20" # yellow
-  )
+quorum_palette <- c(
+  "#FFA562", # orange
+  "#73F956", # green
+  "#65DAFF", # light blue
+  "#FEADFF", # pink
+  "#FF624D", # red
+  "#88ADFF", # blue
+  "#BA8FFF", # purple
+  "#FEEC20" # yellow
 )
 
 #' Apply a discrete scale
@@ -31,7 +26,7 @@ clessn_palettes <- list(
 #'    caption = "Data: Twitter API \nCLESSN"
 #'    )
 #'
-#'  p + scale_discrete_quorum(aesthetics = "colour")
+#'  p + scale_discrete_clessn("colour", "quorum_palette")
 #' }
 #' @name scale
 #' @importFrom ggplot2 scale_discrete_manual
@@ -39,19 +34,34 @@ clessn_palettes <- list(
 NULL
 #' @export
 #' @rdname scale
-scale_discrete_quorum <- function(aesthetics, ..., values, breaks = ggplot2::waiver()) {
+scale_discrete_clessn <- function(aesthetics, ..., values, breaks = ggplot2::waiver()) {
   ggplot2::scale_discrete_manual(aesthetics,
-                                 values = c(
-                                   "#FFA562", # orange
-                                   "#73F956", # green
-                                   "#65DAFF", # light blue
-                                   "#FEADFF", # pink
-                                   "#FF624D", # red
-                                   "#88ADFF", # blue
-                                   "#BA8FFF", # purple
-                                   "#FEEC20" # yellow
-                                 ),
+                                 values,
                                  breaks,
                                  ...
   )
+}
+
+
+
+
+quorum_pal <- function(){
+  scales::manual_pal(quorum_palette)
+}
+
+#' @rdname quorum_pal
+#' @export
+scale_colour_quorum <- function(...) {
+  ggplot2::discrete_scale("colour", "quorum", quorum_pal(), ...)
+}
+
+#' @rdname quorum_pal
+#' @export
+scale_color_quorum <- scale_colour_quorum
+
+
+#' @rdname quorum_pal
+#' @export
+scale_fill_quorum <- function(...) {
+  ggplot2::discrete_scale('fill', 'quorum', quorum_pal(), ...)
 }
