@@ -41,27 +41,3 @@ scale_discrete_clessn <- function(aesthetics, ..., values, breaks = ggplot2::wai
                                  ...
   )
 }
-
-
-
-
-quorum_pal <- function(){
-  scales::manual_pal(quorum_palette)
-}
-
-#' @rdname quorum_pal
-#' @export
-scale_colour_quorum <- function(...) {
-  ggplot2::discrete_scale("colour", "quorum", quorum_pal(), ...)
-}
-
-#' @rdname quorum_pal
-#' @export
-scale_color_quorum <- scale_colour_quorum
-
-
-#' @rdname quorum_pal
-#' @export
-scale_fill_quorum <- function(...) {
-  ggplot2::discrete_scale('fill', 'quorum', quorum_pal(), ...)
-}
