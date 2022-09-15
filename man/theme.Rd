@@ -10,7 +10,7 @@ theme_clean_light(
   base_family = "",
   base_line_size = base_size/22,
   base_rect_size = base_size/22,
-  half_line = base_size * 2,
+  half_line = base_size/2,
   base_margin = base_size,
   primary_colour = "black",
   secondary_colour = "grey30",
