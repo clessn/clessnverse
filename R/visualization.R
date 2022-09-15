@@ -93,7 +93,7 @@ theme_clean_light <- function(base_size = 11,
       plot.title = ggplot2::element_text(
         face = "bold",
         colour = primary_colour,
-        size = base_size * 2,
+        size = base_size * 1.5,
         hjust = 0
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
@@ -148,7 +148,7 @@ theme_clean_dark <- function(base_size = 11,
       plot.title = ggplot2::element_text(
         face = "bold",
         colour = primary_colour,
-        size = base_size * 2,
+        size = base_size * 1.5,
         hjust = 0
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
