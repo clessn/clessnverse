@@ -1,3 +1,19 @@
+#' Colour palettes inspired by CLESSN branding
+#'
+#' @export
+clessn_palettes <- list(
+  quorum_light = c(
+    "#FFA562", # orange
+    "#73F956", # green
+    "#65DAFF", # light blue
+    "#FEADFF", # pink
+    "#FF624D", # red
+    "#88ADFF", # blue
+    "#BA8FFF", # purple
+    "#FEEC20" # yellow
+  )
+)
+
 #' Apply a discrete scale
 #'
 #' These functions allow you to apply the CLESSN's discrete scales.
