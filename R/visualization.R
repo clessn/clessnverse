@@ -94,13 +94,6 @@ theme_clean_light <- function(base_size = 11,
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(
-        t = base_size,
-        r = base_margin,
-        b = base_margin,
-        l = base_margin,
-        unit = "pt"
-      ),
       plot.title = ggplot2::element_text(
         face = "bold",
         colour = primary_colour,
@@ -160,13 +153,6 @@ theme_clean_dark <- function(base_size = 11,
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(
-        t = base_size,
-        r = base_margin,
-        b = base_margin,
-        l = base_margin,
-        unit = "pt"
-      ),
       plot.title = ggplot2::element_text(
         face = "bold",
         colour = primary_colour,
