@@ -73,7 +73,6 @@ theme_clean_light <- function(base_size = 11,
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
-        colour = primary_colour,
         margin = ggplot2::margin(r = half_line,
                                  t = half_line),
         hjust = 1
