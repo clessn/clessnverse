@@ -51,7 +51,7 @@ theme_clean_light <- function(base_size = 11,
                               base_family = "",
                               base_line_size = base_size / 22,
                               base_rect_size = base_size / 22,
-                              half_line = base_size * 2,
+                              half_line = base_size / 2,
                               base_margin = base_size,
 
                               primary_colour = "black",
@@ -69,15 +69,10 @@ theme_clean_light <- function(base_size = 11,
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = half_line,
-                                                                   l = half_line)),
-      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = half_line)),
       axis.ticks.x = ggplot2::element_line(colour = primary_colour),
-      axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
-        colour = primary_colour,
         margin = ggplot2::margin(r = half_line,
                                  t = half_line),
         hjust = 1
@@ -94,17 +89,10 @@ theme_clean_light <- function(base_size = 11,
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(
-        t = base_size,
-        r = base_margin,
-        b = base_margin,
-        l = base_margin,
-        unit = "pt"
-      ),
       plot.title = ggplot2::element_text(
         face = "bold",
         colour = primary_colour,
-        size = base_size * 2,
+        size = base_size * 1.5,
         hjust = 0
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
@@ -136,11 +124,7 @@ theme_clean_dark <- function(base_size = 11,
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = half_line,
-                                                                   l = half_line)),
-      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = half_line)),
       axis.ticks.x = ggplot2::element_line(colour = primary_colour),
-      axis.ticks.length.x = grid::unit(half_line / 4, "pt"),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
@@ -160,17 +144,10 @@ theme_clean_dark <- function(base_size = 11,
       # Align caption with left
       panel.grid.major.y = ggplot2::element_line(colour = minor_colour),
       plot.caption = ggplot2::element_text(hjust = 0, face = "italic"),
-      plot.margin = ggplot2::margin(
-        t = base_size,
-        r = base_margin,
-        b = base_margin,
-        l = base_margin,
-        unit = "pt"
-      ),
       plot.title = ggplot2::element_text(
         face = "bold",
         colour = primary_colour,
-        size = base_size * 2,
+        size = base_size * 1.5,
         hjust = 0
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
