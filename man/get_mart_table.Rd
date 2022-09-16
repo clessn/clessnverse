@@ -23,11 +23,11 @@ If nbrows is omitted, then all rows of the table are returned}
 }
 \value{
 returns a dataframe containing the data warehouse table with a JSON
-attribute as well as a document.id and creation & update time stamps
+        attribute as well as a document.id and creation & update time stamps
 }
 \description{
 get_mart_table allows the programmer to retrieve a data
-table from a CLESSN data mart.
+             table from a CLESSN data mart.
 }
 \examples{
  # connect to hublot

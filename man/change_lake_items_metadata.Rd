@@ -17,11 +17,9 @@ applied on the lake objects.}
 
 \item{mode}{The mode to apply the metadata with. Can take the following
 values:
-\itemize{
-\item "overwrite": overwrites the entire existing metadata set with new_metadata
-\item "merge": merges the new_metadata with the existing metadata
-\item "add": only adds new variables from new_metadata to the existing metadata set
-}}
+  - "overwrite": overwrites the entire existing metadata set with new_metadata
+  - "merge": merges the new_metadata with the existing metadata
+  - "add": only adds new variables from new_metadata to the existing metadata set}
 
 \item{credentials}{A list object containing your Hublot credential.}
 }

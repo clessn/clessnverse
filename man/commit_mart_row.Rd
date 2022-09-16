@@ -16,7 +16,7 @@ model is maintained by having a unique key per observation in
 each table.}
 
 \item{row}{A named list containing the observation to write to the datamart
-table.  The names of the list \emph{are the columns} of the table.}
+table.  The names of the list *are the columns* of the table.}
 
 \item{mode}{A character string cintaining either "refresh" or "append".
 If mode = "refresh" then if an observation with a key = key
@@ -31,11 +31,11 @@ hublot::get_credentials function}
 }
 \value{
 returns a dataframe containing the data warehouse table with a JSON
-attribute as well as a document.id and creation & update time stamps
+        attribute as well as a document.id and creation & update time stamps
 }
 \description{
 commit_mart_row allows the programmer to write a row in a data
-table of a CLESSN data mart.
+             table of a CLESSN data mart.
 }
 \examples{
 

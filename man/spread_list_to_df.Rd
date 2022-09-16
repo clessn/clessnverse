@@ -11,11 +11,9 @@ spread_list_to_df(l)
 uneven geometries}
 }
 \value{
-\itemize{
-\item TRUE if all the values in the vector 'values' are contained in the
-vector 'vector'
-= FALSE if all the values in 'values' are not contained in 'vector'
-}
+- TRUE if all the values in the vector 'values' are contained in the
+          vector 'vector'
+        = FALSE if all the values in 'values' are not contained in 'vector'
 }
 \description{
 converts uneven nested lists to a dataframe
