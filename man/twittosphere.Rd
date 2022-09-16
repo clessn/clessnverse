@@ -14,9 +14,13 @@ get_twitter_accounts(type = c("journalist", "media"))
 A dataframe containing twitter accounts infos.
 }
 \description{
-Functions used to generate data to make a twittosphere
+Functions used to generate data to make a twittosphere.
 }
 \examples{
+clessnhub::login(Sys.getenv("HUB2_USERNAME"), Sys.getenv("HUB2_PASSWORD"))
 get_twitter_accounts(type = "journalist")
 get_twitter_accounts(type = "media")
+}
+\author{
+Hubert Cadieux
 }
