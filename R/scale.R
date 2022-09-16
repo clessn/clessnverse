@@ -1,14 +1,3 @@
-quorum_palette <- c(
-  "#FFA562", # orange
-  "#73F956", # green
-  "#65DAFF", # light blue
-  "#FEADFF", # pink
-  "#FF624D", # red
-  "#88ADFF", # blue
-  "#BA8FFF", # purple
-  "#FEEC20" # yellow
-)
-
 #' Apply a discrete scale
 #'
 #' These functions allow you to apply the CLESSN's discrete scales.
@@ -26,7 +15,7 @@ quorum_palette <- c(
 #'    caption = "Data: Twitter API \nCLESSN"
 #'    )
 #'
-#'  p + scale_discrete_clessn("colour", "quorum_palette")
+#'  p + scale_discrete_quorum(aesthetics = "colour")
 #' }
 #' @name scale
 #' @importFrom ggplot2 scale_discrete_manual
@@ -34,9 +23,18 @@ quorum_palette <- c(
 NULL
 #' @export
 #' @rdname scale
-scale_discrete_clessn <- function(aesthetics, ..., values, breaks = ggplot2::waiver()) {
+scale_discrete_quorum <- function(aesthetics, ..., values, breaks = ggplot2::waiver()) {
   ggplot2::scale_discrete_manual(aesthetics,
-                                 values,
+                                 values = c(
+                                   "#FFA562", # orange
+                                   "#73F956", # green
+                                   "#65DAFF", # light blue
+                                   "#FEADFF", # pink
+                                   "#FF624D", # red
+                                   "#88ADFF", # blue
+                                   "#BA8FFF", # purple
+                                   "#FEEC20" # yellow
+                                 ),
                                  breaks,
                                  ...
   )
