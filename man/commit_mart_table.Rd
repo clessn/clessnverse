@@ -27,11 +27,11 @@ hublot::get_credentials function}
 }
 \value{
 returns a dataframe containing the data warehouse table with a JSON
-        attribute as well as a document.id and creation & update time stamps
+attribute as well as a document.id and creation & update time stamps
 }
 \description{
 commit_mart_row allows the programmer to write a tabe as a
-             CLESSN data mart.
+CLESSN data mart.
 }
 \examples{
  # connect to hublot

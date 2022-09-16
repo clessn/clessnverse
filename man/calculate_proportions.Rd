@@ -14,15 +14,19 @@ the proportions.}
 }
 \value{
 A data.frame which includes 3 columns.
-1) `variable`: a column containing the variable's categories;
-2) `n`: a column containing each category's frequency;
-3) `prop`: a column containing each category's proportion.
+\enumerate{
+\item \code{variable}: a column containing the variable's categories;
+\item \code{n}: a column containing each category's frequency;
+\item \code{prop}: a column containing each category's proportion.
+}
 }
 \description{
 This function creates a data.frame which includes 3 columns.
-1) a column containing the variable's categories;
-2) a column containing each category's frequency;
-3) a column containing each category's proportion.
+\enumerate{
+\item a column containing the variable's categories;
+\item a column containing each category's frequency;
+\item a column containing each category's proportion.
+}
 }
 \examples{
 

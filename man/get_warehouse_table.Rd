@@ -24,11 +24,11 @@ If nbrows is omitted, then all rows of the table are returned}
 }
 \value{
 returns a dataframe containing the data warehouse table content
-        with the document.id and creation & update time stamps
+with the document.id and creation & update time stamps
 }
 \description{
 get_warehouse_table allows the programmer to retrieve a data
-             table from the CLESSN data warehouse named hublot.
+table from the CLESSN data warehouse named hublot.
 }
 \examples{
 

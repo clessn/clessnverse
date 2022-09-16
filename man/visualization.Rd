@@ -65,10 +65,10 @@ Functions for data visualization.
 \details{
 \describe{
 
-\item{`theme_clean_light()`}{
+\item{\code{theme_clean_light()}}{
 A clean-looking ggplot2 theme, with x axis line and y major gridlines on a white background.}
 
-\item{`theme_clean_dark()`}{
+\item{\code{theme_clean_dark()}}{
 A clean-looking ggplot2 theme, with x axis line and y major gridlines or axis ticks on a dark grey background.}
 }
 }

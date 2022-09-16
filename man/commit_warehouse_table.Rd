@@ -19,7 +19,7 @@ commit_warehouse_table(
 \item{df}{The data frame to be injected into the table}
 
 \item{key_columns}{This is a character string containing  the column names of
-the df dataframe that will act as the *unique* key for each record in the
+the df dataframe that will act as the \emph{unique} key for each record in the
 table.  If the column names are separed with '+' then the columns will be
 combined together (concatenated) to form the key.  If separeted by a ','
 then the first column that does not contain NAs or empty values will be used}

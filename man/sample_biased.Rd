@@ -25,9 +25,9 @@ the data.frame.}
 }
 \value{
 The sampled data, with all columns from the
-original data.frame and a `prob` column indicating
+original data.frame and a \code{prob} column indicating
 the probability of inclusion of each observation. If
-`iterations > 1`, an `iterations` column is included
+\code{iterations > 1}, an \code{iterations} column is included
 to identify which iteration the observation belongs to.
 }
 \description{

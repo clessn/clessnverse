@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_tools.R
 \name{\%vcontains\%}
 \alias{\%vcontains\%}
-\title{%vcontains}
+\title{\%vcontains}
 \usage{
 vector \%vcontains\% values
 }
@@ -13,13 +13,15 @@ vector \%vcontains\% values
 presence of in 'vector'}
 }
 \value{
-- TRUE if all the values in the vector 'values' are contained in the
-          vector 'vector'
-        = FALSE if all the values in 'values' are not contained in 'vector'
+\itemize{
+\item TRUE if all the values in the vector 'values' are contained in the
+vector 'vector'
+= FALSE if all the values in 'values' are not contained in 'vector'
+}
 }
 \description{
 check if a vector 'vector' contains all values specified in the
-             vector 'values'
+vector 'values'
 }
 \examples{
 # To be documented

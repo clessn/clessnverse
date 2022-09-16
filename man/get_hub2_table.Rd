@@ -14,7 +14,7 @@ to retrieve the data.  Only observations in the table
 complyingw with the filter conditions will be returned}
 
 \item{max_pages}{The number of pages to return.  A page is 1000 rows.
-Tu return the entire table use *max_pages = -1*}
+Tu return the entire table use \emph{max_pages = -1}}
 
 \item{hub_conf}{The hub2.0 credentials obtained from the
 clessnhub::login function}
@@ -24,8 +24,8 @@ returns a dataframe containing the data warehouse table content
 }
 \description{
 get_hub2_table allows the programmer to retrieve a data
-             table from the CLESSN hub2 data warehouse.
-             ** WARNING hub2 will be decommissionned by end of 2022 **
+table from the CLESSN hub2 data warehouse.
+** WARNING hub2 will be decommissionned by end of 2022 **
 }
 \examples{
 

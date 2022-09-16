@@ -3,12 +3,16 @@
 #' Functions used to generate data to make a twittosphere
 #'
 #' @param type 'journalist' or 'media'.
-#' @return a dataframe containing twitter accounts infos.
+#' @return A dataframe containing twitter accounts infos.
+#' @name twittosphere
 #' @importFrom clessnhub create_filter
 #' @importFrom clessnhub get_items
+NULL
 #' @examples
 #' get_twitter_accounts(type = "journalist")
 #' get_twitter_accounts(type = "media")
+#' @export
+#' @rdname twittosphere
 get_twitter_accounts <- function(type = c("journalist", "media")){
   filter <- clessnhub::create_filter(type = type)
   data <- clessnhub::get_items(table = 'persons', filter = filter, download_data = TRUE)
