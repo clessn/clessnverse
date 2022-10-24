@@ -33,8 +33,8 @@ dbxListDir <- function(dir, token) {
     if (length(l$entries) > 0) {
       for (i in 1:length(l$entries)) {
         df <- df %>% rbind(data.frame(objectType = l$entries[i][[1]]$.tag,
-                                      objectName = basename(l$entries[i][[1]]$path_lower),
-                                      objectPath = dirname(l$entries[i][[1]]$path_lower),
+                                      objectName = basename(l$entries[i][[1]]$path_display),
+                                      objectPath = dirname(l$entries[i][[1]]$path_display),
                                       objectID = l$entries[i][[1]]$id))
       }
       clessnverse::logit(message=paste("directory", dir, "sucessfully listed."), logger = logger)
