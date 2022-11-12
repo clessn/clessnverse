@@ -35,9 +35,9 @@ To access functions under developement, you may go look at the branch `v1`. Here
     - `git checkout V1` to switch to the desired branch
 3. Branch `V1`.
 
-## "I found a bug. What do I do?"
+## Issues and suggestions
 
-You can submit bugs or suggestions in the Issues tab of this repo. To facilitate problem solving, please include a [minimal reproducible example](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html).
+You can submit bugs or suggestions in the Issues tab of this repo. To facilitate problem solving, please include a [minimal reproducible example](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html) of the issue.
 
 <!--Welcome to our work in progress. This branch is dedicated to the creation of an improved version of CLESSNVERSE which will cover a wider array of applications. Two main categories of functions are to be explored. First, specific functions which are useful for the research chair's projects, but not for the wider public. Second, universal functions that are generalized and useful for domestication, analysis and visualization of data. 
 
