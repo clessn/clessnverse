@@ -32,9 +32,9 @@ To access newer functions currently being developed, you may go look at **branch
 ### On your terminal
 
 1. After cloning the repository, you'll see the master branch on your computer. 
-2. To change branches, it easy, just do:
+2. To change branches, enter:
     - `git branch` to see where you are
-    - `git checkout v1` to switch to the right branch
+    - `git checkout v1` to switch to the desired branch
 3. You CANNOT contribute to V1.
 
 <!--Welcome to our work in progress. This branch is dedicated to the creation of an improved version of CLESSNVERSE which will cover a wider array of applications. Two main categories of functions are to be explored. First, specific functions which are useful for the research chair's projects, but not for the wider public. Second, universal functions that are generalized and useful for domestication, analysis and visualization of data. 
