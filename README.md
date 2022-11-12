@@ -1,10 +1,8 @@
 # clessnverse
 
-## Overview
-
 clessnverse regroups general functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
-Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the latest working version of the package.
+*Note: This package is under construction.*
 
 ## Prerequisites
 
