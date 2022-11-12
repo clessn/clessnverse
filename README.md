@@ -37,6 +37,10 @@ To access newer functions currently being developed, you may go look at **branch
     - `git checkout v1` to switch to the desired branch
 3. You CANNOT contribute to V1.
 
+## "I found a bug. What do I do?"
+
+You can submit bugs or suggestions in the Issues tab of this repo. To facilitate problem solving, please include a [reprex](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html).
+
 <!--Welcome to our work in progress. This branch is dedicated to the creation of an improved version of CLESSNVERSE which will cover a wider array of applications. Two main categories of functions are to be explored. First, specific functions which are useful for the research chair's projects, but not for the wider public. Second, universal functions that are generalized and useful for domestication, analysis and visualization of data. 
 
 The package is divided into 6 `R` scripts each containing multiple functions :
