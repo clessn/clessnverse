@@ -1,10 +1,8 @@
 # clessnverse
 
-## Overview
-
 clessnverse regroups general functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
-Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the latest working version of the package.
+*Note: This package is under construction.*
 
 ## Prerequisites
 
@@ -21,21 +19,25 @@ To install the latest stable version of this package, run the following line in 
 devtools::install_github("clessn/clessnverse")
 ```
 
-To access newer functions currently being developed, you may go look at **branch v1**. Here's how:
+To access functions under developement, you may go look at the branch `v1`. Here's how:
 
 ### On GitHub
 
 1. See the `master` button a bit up left, right under the `<> Code` button? Click on it.
 2. You are now able to switch from branch to branch on **GitHub**.
-3. This allows you to **look** at the code and copy paste what you want.
+3. This allows you to **look** at the code and copy the desired content.
 
 ### On your terminal
 
 1. After cloning the repository, you'll see the master branch on your computer. 
-2. To change branches, enter:
+2. To change branches in your terminal, enter:
     - `git branch` to see where you are
-    - `git checkout v1` to switch to the desired branch
-3. You CANNOT contribute to V1.
+    - `git checkout V1` to switch to the desired branch
+3. Branch `V1`.
+
+## Issues and suggestions
+
+You can submit bugs or suggestions in the Issues tab of this repo. To facilitate problem solving, please include a [minimal reproducible example](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html) of the issue.
 
 <!--Welcome to our work in progress. This branch is dedicated to the creation of an improved version of CLESSNVERSE which will cover a wider array of applications. Two main categories of functions are to be explored. First, specific functions which are useful for the research chair's projects, but not for the wider public. Second, universal functions that are generalized and useful for domestication, analysis and visualization of data. 
 
