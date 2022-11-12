@@ -6,6 +6,13 @@ clessnverse regroups general functions for data domestication, analysis and visu
 
 Welcome to the CLESSN's package where all our functions are "supposedly" stored. The package is still under construction. You are now on the master branch, which is the latest working version of the package.
 
+## Prerequisites
+
+```R
+devtools::install_github("clessn/clessn-hub-r")
+devtools::install_github("clessn/hublotr")
+```
+
 ## Installation
 
 To install the latest stable version of this package, run the following line in your R console:
