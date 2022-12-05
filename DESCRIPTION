@@ -2,58 +2,42 @@ Package: clessnverse
 Title: Package for Data Domestication, Analysis, and Visualization
 Version: 0.0.0.9200
 Authors@R: c(
-    person(given = "William",
-           family = "Poirier",
-           role = c("aut", "cre"),
-           email = "william.poirier.1@ulaval.ca",
+    person("William", "Poirier", , "william.poirier.1@ulaval.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3274-1351")),
-    person(given = "Alexandre",
-           family = "Fortier-Chouinard",
-           role = c("aut"),
-           email = "alexandre.fortier.chouinard@mail.utoronto.ca",
+    person("Alexandre", "Fortier-Chouinard", , "alexandre.fortier.chouinard@mail.utoronto.ca", role = "aut",
            comment = c(ORCID = "0000-0002-6282-9709")),
-    person(given = "Nadjim",
-           family = "Fréchet",
-           role = c("aut"),
-           email = "nadjim.frechet@umontreal.ca"),
-    person(given = "Patrick",
-           family = "Poncet",
-           role = c("aut"),
-           email = "patrick@infoscope.ca"),
-    person(given = "Judith",
-           family = "Bourque",
-           role = c("aut"),
-           email = "judith.bourque.2@ulaval.ca"),
-    person(given = "Yannick",
-           family = "Dufresne",
-           role = c("cph"),
-           email = "yannick.dufresne@pol.ulaval.ca"))
-Description: A repository of useful functions for the workflow of the CLESSN research group.
+    person("Nadjim", "Fréchet", , "nadjim.frechet@umontreal.ca", role = "aut"),
+    person("Patrick", "Poncet", , "patrick@infoscope.ca", role = "aut"),
+    person("Judith", "Bourque", , "judith.bourque.2@ulaval.ca", role = "aut"),
+    person("Yannick", "Dufresne", , "yannick.dufresne@pol.ulaval.ca", role = "cph")
+  )
+Description: A repository of useful functions for the workflow of the
+    CLESSN research group.
 License: MIT + file LICENSE
+Imports: 
+    clessnhub,
+    crayon,
+    digest,
+    dplyr,
+    foreach,
+    ggplot2,
+    httr,
+    hublot,
+    jsonlite,
+    magrittr,
+    optparse,
+    purrr,
+    quanteda,
+    rlang,
+    rlist,
+    stringr,
+    testthat,
+    tibble,
+    tictoc,
+    tidyjson,
+    tidyr,
+    tidytext
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
-Imports: 
-    crayon,
-    dplyr,
-    purrr,
-    quanteda,
-    rlang,
-    testthat,
-    tictoc,
-    magrittr,
-    clessnhub,
-    httr,
-    hublot,
-    jsonlite,
-    optparse,
-    stringr,
-    tibble,
-    tidyjson,
-    tidyr,
-    tidytext,
-    rlist,
-    digest,
-    ggplot2,
-    foreach
