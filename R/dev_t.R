@@ -60,7 +60,7 @@
 #'         with the document.id and creation & update time stamps
 #'
 #' @examples
-#'
+#'  \dontrun{
 #'  # connect to hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
@@ -78,6 +78,7 @@
 #'    credentials = credentials,
 #'    nbrows=10
 #'    )
+#'  }
 #'
 #' @export
 #'
