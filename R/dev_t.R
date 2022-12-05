@@ -171,7 +171,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #' @return returns a dataframe containing the data warehouse table content
 #'
 #' @examples
-#'
+#' \dontrun{
 #'  clessnhub::login(
 #'    Sys.getenv("HUB_USERNAME"),
 #'    Sys.getenv("HUB_PASSWORD"),
@@ -193,6 +193,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #'    max_pages = -1,
 #'    hub_conf = hub_config
 #'    )
+#'  }
 #'
 #' @export
 #'
