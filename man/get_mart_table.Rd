@@ -30,6 +30,7 @@ get_mart_table allows the programmer to retrieve a data
 table from a CLESSN data mart.
 }
 \examples{
+\dontrun{
  # connect to hublot
  credentials <- hublot::get_credentials(
    Sys.getenv("HUB3_URL"),
@@ -49,5 +50,6 @@ table from a CLESSN data mart.
    data_filter = list(),
    credentials = credentials,
    nbrows=10)
+ }
 
 }

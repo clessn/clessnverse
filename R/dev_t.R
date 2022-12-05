@@ -325,6 +325,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 #'         attribute as well as a document.id and creation & update time stamps
 #'
 #' @examples
+#' \dontrun{
 #'  # connect to hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
@@ -344,6 +345,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 #'    data_filter = list(),
 #'    credentials = credentials,
 #'    nbrows=10)
+#'  }
 #'
 #' @export
 #'
