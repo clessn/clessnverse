@@ -454,7 +454,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'         attribute as well as a document.id and creation & update time stamps
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # connect to hublot
 #' credentials <- hublot::get_credentials(
 #'   Sys.getenv("HUB3_URL"),
@@ -469,6 +469,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'   row = list(week_num=21, count=6, political_party="QS"),
 #'   mode = "refresh",
 #'   credentials = credentials)
+#' }
 #'
 #' @export
 #'
