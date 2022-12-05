@@ -527,6 +527,7 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'         attribute as well as a document.id and creation & update time stamps
 #'
 #' @examples
+#' \dontrun{
 #'  # connect to hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
@@ -541,7 +542,7 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'   key_column = 'key',
 #'   mode = 'add',
 #'   credentials = credentials)
-#'
+#' }
 #'
 #' @export
 #'
