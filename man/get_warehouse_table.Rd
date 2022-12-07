@@ -31,7 +31,7 @@ get_warehouse_table allows the programmer to retrieve a data
 table from the CLESSN data warehouse named hublot.
 }
 \examples{
-
+ \dontrun{
  # connect to hublot
  credentials <- hublot::get_credentials(
    Sys.getenv("HUB3_URL"),
@@ -49,5 +49,6 @@ table from the CLESSN data warehouse named hublot.
    credentials = credentials,
    nbrows=10
    )
+ }
 
 }

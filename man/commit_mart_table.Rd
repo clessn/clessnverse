@@ -34,6 +34,7 @@ commit_mart_row allows the programmer to write a tabe as a
 CLESSN data mart.
 }
 \examples{
+\dontrun{
  # connect to hublot
  credentials <- hublot::get_credentials(
    Sys.getenv("HUB3_URL"),
@@ -48,6 +49,6 @@ CLESSN data mart.
   key_column = 'key',
   mode = 'add',
   credentials = credentials)
-
+}
 
 }

@@ -38,7 +38,7 @@ commit_mart_row allows the programmer to write a row in a data
 table of a CLESSN data mart.
 }
 \examples{
-
+\dontrun{
 # connect to hublot
 credentials <- hublot::get_credentials(
   Sys.getenv("HUB3_URL"),
@@ -53,5 +53,6 @@ clessnverse::commit_mart_row(
   row = list(week_num=21, count=6, political_party="QS"),
   mode = "refresh",
   credentials = credentials)
+}
 
 }

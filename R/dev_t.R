@@ -60,7 +60,7 @@
 #'         with the document.id and creation & update time stamps
 #'
 #' @examples
-#'
+#'  \dontrun{
 #'  # connect to hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
@@ -78,6 +78,7 @@
 #'    credentials = credentials,
 #'    nbrows=10
 #'    )
+#'  }
 #'
 #' @export
 #'
@@ -171,7 +172,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #' @return returns a dataframe containing the data warehouse table content
 #'
 #' @examples
-#'
+#' \dontrun{
 #'  clessnhub::login(
 #'    Sys.getenv("HUB_USERNAME"),
 #'    Sys.getenv("HUB_PASSWORD"),
@@ -193,6 +194,7 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 #'    max_pages = -1,
 #'    hub_conf = hub_config
 #'    )
+#'  }
 #'
 #' @export
 #'
@@ -324,6 +326,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 #'         attribute as well as a document.id and creation & update time stamps
 #'
 #' @examples
+#' \dontrun{
 #'  # connect to hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
@@ -343,6 +346,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 #'    data_filter = list(),
 #'    credentials = credentials,
 #'    nbrows=10)
+#'  }
 #'
 #' @export
 #'
@@ -454,7 +458,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'         attribute as well as a document.id and creation & update time stamps
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # connect to hublot
 #' credentials <- hublot::get_credentials(
 #'   Sys.getenv("HUB3_URL"),
@@ -469,6 +473,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'   row = list(week_num=21, count=6, political_party="QS"),
 #'   mode = "refresh",
 #'   credentials = credentials)
+#' }
 #'
 #' @export
 #'
@@ -526,6 +531,7 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'         attribute as well as a document.id and creation & update time stamps
 #'
 #' @examples
+#' \dontrun{
 #'  # connect to hublot
 #'  credentials <- hublot::get_credentials(
 #'    Sys.getenv("HUB3_URL"),
@@ -540,7 +546,7 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 #'   key_column = 'key',
 #'   mode = 'add',
 #'   credentials = credentials)
-#'
+#' }
 #'
 #' @export
 #'

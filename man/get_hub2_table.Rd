@@ -28,7 +28,7 @@ table from the CLESSN hub2 data warehouse.
 ** WARNING hub2 will be decommissionned by end of 2022 **
 }
 \examples{
-
+\dontrun{
  clessnhub::login(
    Sys.getenv("HUB_USERNAME"),
    Sys.getenv("HUB_PASSWORD"),
@@ -50,5 +50,6 @@ table from the CLESSN hub2 data warehouse.
    max_pages = -1,
    hub_conf = hub_config
    )
+ }
 
 }
