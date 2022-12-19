@@ -69,7 +69,7 @@ theme_clean_light <- function(base_size = 11,
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.ticks.x = ggplot2::element_line(colour = primary_colour),
+      axis.ticks.x = ggplot2::element_blank(),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
@@ -82,7 +82,7 @@ theme_clean_light <- function(base_size = 11,
                                  b = half_line),
         hjust = 1
       ),
-      axis.line.x = ggplot2::element_line(colour = primary_colour),
+      axis.line.x = ggplot2::element_blank(),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
@@ -97,7 +97,7 @@ theme_clean_light <- function(base_size = 11,
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
-      strip.background = ggplot2::element_rect(fill = strip_colour)
+      strip.background = ggplot2::element_blank()
     )
 }
 #' @export
@@ -124,7 +124,7 @@ theme_clean_dark <- function(base_size = 11,
     ggplot2::theme(
       text = ggplot2::element_text(size = base_size, colour = secondary_colour),
       axis.text = ggplot2::element_text(colour = secondary_colour),
-      axis.ticks.x = ggplot2::element_line(colour = primary_colour),
+      axis.ticks.x = ggplot2::element_blank(),
       axis.ticks.y = ggplot2::element_blank(),
       axis.line.y = ggplot2::element_blank(),
       axis.title.x = ggplot2::element_text(
@@ -137,7 +137,7 @@ theme_clean_dark <- function(base_size = 11,
                                  b = half_line),
         hjust = 1
       ),
-      axis.line.x = ggplot2::element_line(colour = primary_colour),
+      axis.line.x = ggplot2::element_blank(),
       legend.position = "bottom",
       legend.title = ggplot2::element_blank(),
       legend.background = ggplot2::element_rect(fill = NA),
@@ -152,6 +152,6 @@ theme_clean_dark <- function(base_size = 11,
       ),
       plot.background = ggplot2::element_rect(fill = bg_colour, colour = bg_colour),
       panel.background = ggplot2::element_rect(fill = NA),
-      strip.background = ggplot2::element_rect(fill = strip_colour)
+      strip.background = ggplot2::element_blank()
     )
 }
