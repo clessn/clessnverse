@@ -21,7 +21,9 @@ compute_category_sentiment_score(
 returns a dataframe containing the sentiment score of each category in the category dictionary
 }
 \description{
-adds or replaces a table in a datamart with a specific key
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Adds or replaces a table in a datamart with a specific key
 }
 \examples{
 # To be documented

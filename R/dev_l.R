@@ -39,7 +39,10 @@
 
 ###############################################################################
 #' @title clessnverse::commit_warehouse_row
-#' @description adds or replaces a rown in a warehouse with a specific key
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Adds or replaces a rown in a warehouse with a specific key
 #' @param table be documented
 #' @param key be documented
 #' @param row be documented
@@ -85,7 +88,10 @@ commit_warehouse_row <- function(table, key, row = list(), refresh_data, credent
 
 ###############################################################################
 #' @title clessnverse::commit_warehouse_table
-#' @description injects the content of a dataframe into a warehouse_table
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Injects the content of a dataframe into a warehouse_table
 #' @param table_name This is the warhouse_table name to inject the data into
 #' @param df The data frame to be injected into the table
 #' @param key_columns This is a character string containing  the column names of

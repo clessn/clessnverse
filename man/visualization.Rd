@@ -60,6 +60,8 @@ theme_clean_dark(
 A ggplot2 theme.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Functions for data visualization.
 }
 \details{

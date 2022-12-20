@@ -26,6 +26,8 @@ values:
 \item{credentials}{A list object containing your Hublot credential.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Batch changes of metadata can be usefule if there are hunderds or  thousands
 of objects in the data lake which we need to change the metadata on.
 }

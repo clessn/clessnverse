@@ -18,7 +18,9 @@ vector 'vector'
 }
 }
 \description{
-converts uneven nested lists to a dataframe
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Converts uneven nested lists to a dataframe
 }
 \examples{
 # To be documented

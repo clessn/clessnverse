@@ -40,8 +40,11 @@
 
 ###############################################################################
 #' @title clessnverse::commit_lake_item
-#' @description Adds or replaces an object in the lake in a specific path, with
-#'              a specific key
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Adds or replaces an object in the lake in a specific path, with
+#' a specific key
 #' @param data A named list object containing a key, a path and the item to be
 #'             added to the data lake
 #' @param metadata A named list object containing the metadata to be applied to

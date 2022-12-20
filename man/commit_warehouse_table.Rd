@@ -35,7 +35,9 @@ combined together will be scambeled into a uuid.}
 return
 }
 \description{
-injects the content of a dataframe into a warehouse_table
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Injects the content of a dataframe into a warehouse_table
 }
 \examples{
 # To be documented

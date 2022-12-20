@@ -23,6 +23,8 @@ clessnhub::login function}
 returns a dataframe containing the data warehouse table content
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 get_hub2_table allows the programmer to retrieve a data
 table from the CLESSN hub2 data warehouse.
 ** WARNING hub2 will be decommissionned by end of 2022 **

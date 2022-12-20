@@ -13,7 +13,9 @@ compute_nb_words(txt_bloc)
 return
 }
 \description{
-calculates the number of words in a bloc of text
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Calculates the number of words in a bloc of text
 }
 \examples{
 # To be documented
