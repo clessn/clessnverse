@@ -1,5 +1,8 @@
 #' Visualize your data
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Functions for data visualization.
 #' @inheritParams ggplot2::theme_classic
 #' @param primary_colour title and axis colour
