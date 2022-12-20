@@ -21,7 +21,9 @@ commit_warehouse_row(table, key, row = list(), refresh_data, credentials)
 return
 }
 \description{
-adds or replaces a rown in a warehouse with a specific key
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Adds or replaces a rown in a warehouse with a specific key
 }
 \examples{
 # To be documented
