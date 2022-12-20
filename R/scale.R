@@ -1,5 +1,8 @@
 #' Apply a discrete scale
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' These functions allow you to apply the CLESSN's discrete scales.
 #'
 #' @inheritParams ggplot2::scale_discrete_manual

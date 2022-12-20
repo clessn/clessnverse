@@ -72,6 +72,8 @@ as output
 }}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 These functions allow you to apply the CLESSN's discrete scales.
 }
 \examples{
