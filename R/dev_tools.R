@@ -24,7 +24,10 @@
 
 ######################################################
 #' @title clessnverse::log_init
-#' @description This function initializes the log
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' This function initializes the log
 #' @param script blah
 #' @param backend blah
 #' @param logpath blah
@@ -74,7 +77,10 @@ log_init <- function(script, backend, logpath=".") {
 
 ######################################################
 #' @title clessnverse::logit
-#' @description desc
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' desc
 #' @param scriptname blah
 #' @param message blah
 #' @param logger blah
@@ -109,7 +115,10 @@ logit <- function(scriptname="clessnverse", message = "", logger = NULL) {
 
 ######################################################
 #' @title clessnverse::log_close
-#' @description blah
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' blah
 #' @param logger blah
 #' @return blah
 #' @examples # To be documented
@@ -157,7 +166,10 @@ log_close <- function(logger) {
 
 ######################################################
 #' @title clessnverse::processCommandLineOptions
-#' @description Parse the command line options of the agora+ scrapers
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Parse the command line options of the agora+ scrapers
 # Which are the update modes of each database in the HUB
 #
 # Possible values : update, refresh, rebuild or skip
@@ -184,7 +196,7 @@ process_command_line_options <- function() {
     optparse::make_option(c("-o", "--log_output"), type="character", default="file,console",
                           help="where to output the logs [default= %default]", metavar="character"),
     optparse::make_option(c("-r", "--refresh_data"), type="logical", default=FALSE,
-                          help="refresh the data that already exists in hublot [default= %default]", metavar="logical")                          
+                          help="refresh the data that already exists in hublot [default= %default]", metavar="logical")
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)
@@ -225,6 +237,9 @@ process_command_line_options <- function() {
 
 ###############################################################################
 #' Makes a batch change of the metadata applied to lake objects
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' Batch changes of metadata can be usefule if there are hunderds or  thousands
 #' of objects in the data lake which we need to change the metadata on.
@@ -348,8 +363,11 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
 
 ###############################################################################
 #' @title %vcontains
-#' @description check if a vector 'vector' contains all values specified in the
-#'              vector 'values'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Check if a vector 'vector' contains all values specified in the
+#' vector 'values'
 #' @param vector : A vector containing all possible values
 #' @param values : each individual value, in the form of a vector, to check the
 #'                 presence of in 'vector'
@@ -370,7 +388,10 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
 
 ###############################################################################
 #' @title replace_null
-#' @description Replaces NULL values by NA in a list of list.  This function
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Replaces NULL values by NA in a list of list.  This function
 #' supporte uneven / unbalanced list of lists
 #' @param x : A list pbject.  Can be a list of lists
 #' @return Returns the same list with NULL values replaced by NA
@@ -388,7 +409,10 @@ replace_null <- function(x) {
 
 ###############################################################################
 #' @title spread_list_to_df
-#' @description converts uneven nested lists to a dataframe
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Converts uneven nested lists to a dataframe
 #' @param l : A list object can be a list of lists (nested lists) that can have
 #' uneven geometries
 #' @return - TRUE if all the values in the vector 'values' are contained in the

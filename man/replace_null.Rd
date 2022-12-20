@@ -13,6 +13,8 @@ replace_null(x)
 Returns the same list with NULL values replaced by NA
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Replaces NULL values by NA in a list of list.  This function
 supporte uneven / unbalanced list of lists
 }
