@@ -13,6 +13,8 @@ clean_corpus(txt_bloc)
 return
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 clesns a bloc of text by removing double spaces, non-brekeable
 spaces and L, S, D apostrophe (in french language).  This is particularly
 }

@@ -18,6 +18,8 @@ get_dictionary(topic, lang = c("en", "fr"), credentials)
 A quanteda type dictionary object.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Creates a dictionary object from a dictionary located in
 the CLESSN data lake (hublot).
 }

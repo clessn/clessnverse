@@ -30,6 +30,8 @@ returns a dataframe containing the data warehouse table with a JSON
 attribute as well as a document.id and creation & update time stamps
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 commit_mart_row allows the programmer to write a tabe as a
 CLESSN data mart.
 }

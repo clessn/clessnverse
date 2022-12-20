@@ -27,6 +27,8 @@ returns a dataframe containing the data warehouse table content
 with the document.id and creation & update time stamps
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 get_warehouse_table allows the programmer to retrieve a data
 table from the CLESSN data warehouse named hublot.
 }

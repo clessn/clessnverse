@@ -13,7 +13,9 @@ compute_nb_sentences(txt_bloc)
 return
 }
 \description{
-calculates the number of sentences in a bloc of text
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+Calculates the number of sentences in a bloc of text
 }
 \examples{
 # To be documented

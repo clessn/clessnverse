@@ -41,8 +41,11 @@
 ###############################################################################
 #' @title clessnverse::get_warehouse_table
 #'
-#' @description get_warehouse_table allows the programmer to retrieve a data
-#'              table from the CLESSN data warehouse named hublot.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' get_warehouse_table allows the programmer to retrieve a data
+#' table from the CLESSN data warehouse named hublot.
 #'
 #' @param table_name The name of the table to retrieve from the warehouse without
 #'                   the 'chlub_tables_warehouse' prefix
@@ -156,9 +159,12 @@ get_warehouse_table <- function(table_name, credentials, data_filter=list(), nbr
 
 ###############################################################################
 #' @title clessnverse::get_hub2_table
-#' @description get_hub2_table allows the programmer to retrieve a data
-#'              table from the CLESSN hub2 data warehouse.
-#'              ** WARNING hub2 will be decommissionned by end of 2022 **
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' get_hub2_table allows the programmer to retrieve a data
+#' table from the CLESSN hub2 data warehouse.
+#' ** WARNING hub2 will be decommissionned by end of 2022 **
 #'
 #' @param table_name The name of the table to retrieve from the hub2 warehouse
 #' @param data_filter A list containing the filters to apply against the query
@@ -308,8 +314,11 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 ###############################################################################
 #' @title clessnverse::get_mart_table
 #'
-#' @description get_mart_table allows the programmer to retrieve a data
-#'              table from a CLESSN data mart.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' get_mart_table allows the programmer to retrieve a data
+#' table from a CLESSN data mart.
 #'
 #' @param table_name The name of the table to retrieve from the warehouse without
 #'                   the 'chlub_tables_mart' prefix
@@ -434,8 +443,11 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 ###############################################################################
 #' @title clessnverse::commit_mart_row
 #'
-#' @description commit_mart_row allows the programmer to write a row in a data
-#'              table of a CLESSN data mart.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' commit_mart_row allows the programmer to write a row in a data
+#' table of a CLESSN data mart.
 #'
 #' @param table_name The name of the data mart table to write an observation to
 #'                   without the 'chlub_tables_mart' prefix.
@@ -510,8 +522,11 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
 ###############################################################################
 #' @title clessnverse::commit_mart_table
 #'
-#' @description commit_mart_row allows the programmer to write a tabe as a
-#'              CLESSN data mart.
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' commit_mart_row allows the programmer to write a tabe as a
+#' CLESSN data mart.
 #'
 #' @param table_name The name of the data mart table to store without the
 #'                   'chlub_tables_mart' prefix.
@@ -608,6 +623,9 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 ###############################################################################
 #' Retrieves a dictionary from hublot.
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' Creates a dictionary object from a dictionary located in
 #' the CLESSN data lake (hublot).
 #' @param topic The name or topic of the dictionary to retrieve from hublot.
@@ -690,7 +708,10 @@ get_dictionary <-
 
 ###############################################################################
 #' @title clessnverse::compute_nb_sentences
-#' @description calculates the number of sentences in a bloc of text
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Calculates the number of sentences in a bloc of text
 #' @param txt_bloc be documented
 #' @return return
 #' @examples # To be documented
@@ -707,7 +728,10 @@ compute_nb_sentences <- function(txt_bloc) {
 
 ###############################################################################
 #' @title clessnverse::compute_nb_words
-#' @description calculates the number of words in a bloc of text
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Calculates the number of words in a bloc of text
 #' @param txt_bloc be documented
 #' @return return
 #' @examples # To be documented
@@ -727,7 +751,10 @@ compute_nb_words <- function(txt_bloc) {
 
 ###############################################################################
 #' @title clessnverse::clean_corpus
-#' @description clesns a bloc of text by removing double spaces, non-brekeable
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' clesns a bloc of text by removing double spaces, non-brekeable
 #' spaces and L, S, D apostrophe (in french language).  This is particularly
 #" useful before using the clessnverse::run_dictionary function.
 #' @param txt_bloc blah
@@ -750,7 +777,10 @@ clean_corpus <- function(txt_bloc) {
 
 ###############################################################################
 #' @title clessnverse::commit_mart_table
-#' @description adds or replaces a table in a datamart with a specific key
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Adds or replaces a table in a datamart with a specific key
 #' @param txt_bloc : the bloc of text to study
 #' @param category_dictionary : a topic dictionary containing the categories to calculate the sentiment on
 #' @param sentiment_dictionary : sentiment lexicoder dictionary
