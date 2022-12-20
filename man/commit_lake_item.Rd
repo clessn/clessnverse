@@ -38,6 +38,8 @@ the operation was successful.
 - 2 if there was a warning.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Adds or replaces an object in the lake in a specific path, with
 a specific key
 }
