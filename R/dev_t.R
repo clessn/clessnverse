@@ -29,12 +29,10 @@
 
 
 
-
-
 ###############################################################################
 ###############################################################################
 ###############################################################################
-#   DATAWAREHOUSE ACCESS (READ)
+#   DATAWAREHOUSE FUNCTIONS (READ)
 
 
 
@@ -307,7 +305,7 @@ get_hub2_table <- function(table_name, data_filter=NULL, max_pages=-1, hub_conf)
 ###############################################################################
 ###############################################################################
 ###############################################################################
-#   DATAMART ACCESS (READ)
+#   DATAMART FUNCTIONS (READ)
 
 
 
@@ -438,7 +436,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 ###############################################################################
 ###############################################################################
 ###############################################################################
-#   DATAMART ACCESS (WRITE)
+#   DATAMART FUNCTIONS (WRITE)
 
 ###############################################################################
 #' @title clessnverse::commit_mart_row
@@ -489,7 +487,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'
 #' @export
 #'
-commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", credentials) {
+commit_mart_row <- function(table_name, key, row = list(), refresh_data = FALSE, credentials) {
   # If the row with the same key exist and mode=refresh then overwrite it with the new data
   # Otherwise, do nothing (just log a message)
   table_name <- paste("clhub_tables_mart_", table_name, sep="")
@@ -504,7 +502,7 @@ commit_mart_row <- function(table_name, key, row = list(), mode = "refresh", cre
                            credentials)
   } else {
     # l'item existe déjà dans hublot
-    if (mode == "refresh") {
+    if (refresh_data) {
       hublot::update_table_item(table_name,
                                 id = item$result[[1]]$id,
                                 body = list(key = key, timestamp = as.character(Sys.time()), data = jsonlite::toJSON(row, auto_unbox = T)),
@@ -617,7 +615,7 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
 ###############################################################################
 ###############################################################################
 ###############################################################################
-#   DICTIONARIES ACCESS (READ)
+#   DICTIONARIES FUNCTIONS (READ)
 
 
 ###############################################################################
@@ -700,6 +698,11 @@ get_dictionary <-
   }
 
 
+
+
+
+
+
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -775,12 +778,14 @@ clean_corpus <- function(txt_bloc) {
 }
 
 
+
+
 ###############################################################################
-#' @title clessnverse::commit_mart_table
+#' @title clessnverse::compute_category_sentiment_score
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' Adds or replaces a table in a datamart with a specific key
+#' calculates the sentiment score using a word stems dictionnary by category
 #' @param txt_bloc : the bloc of text to study
 #' @param category_dictionary : a topic dictionary containing the categories to calculate the sentiment on
 #' @param sentiment_dictionary : sentiment lexicoder dictionary
@@ -862,3 +867,333 @@ compute_category_sentiment_score <- function(txt_bloc, category_dictionary, sent
 
   return(df_sentiments)
 }
+
+
+
+
+######################################################
+#' @title clessnverse::detect_language
+#' @description detects the language of the text provided as a parameter
+#' @param text : the text to translate
+#' @param engine : "azure" | "deeptranslate" | "fastText"
+#' @return 2 chars language detected 
+#' @examples example
+#'
+#'#' @export
+detect_language <- function(engine, text) {
+  if (is.null(text)) return(NA_character_)
+  if (is.na(text)) return(NA_character_)
+  if (nchar(trimws(text)) == 0) return(NA_character_)
+
+  if (!(engine %in% c("deeptranslate", "fastText"))) {
+    stop(paste("translation engine", engine,"not supported.  Supported values are: fastText | deeptranslate"))
+  }
+
+  if (engine == "deeptranslate") {
+    # detect language first
+    url <- "https://deep-translate1.p.rapidapi.com/language/translate/v2/detect"
+
+    text <- gsub("\\\"","'", text)
+    text <- gsub("\\n"," ",text)
+
+    if (is.null(text)) return(NA_character_) 
+    if (is.na(text)) return(NA_character_) 
+    if (nchar(trimws(text)) == 0) return(NA_character_)
+
+    df <- tidytext::unnest_tokens(
+        data.frame(txt=text), 
+        input = txt, 
+        output = "Sentence", 
+        token = "regex",
+        pattern = "(?<!\\b\\p{L}r)\\.|\\n\\n", to_lower=F)
+
+    #clessnverse::logit(scriptname, "detecting language", logger)
+
+    response <- httr::VERB(
+      "POST", 
+      url, 
+      body = paste("{\"q\":\"", df$Sentence[1],"\"}", sep=''),
+      httr::add_headers(
+          'X-RapidAPI-Key' = Sys.getenv("DEEP_TRANSLATE_KEY"),
+          'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'),
+          httr::content_type("application/octet-stream")
+    )
+
+    r <- jsonlite::fromJSON(httr::content(response, "text"))
+    
+    lang <- r$data$detections$language
+    return(lang)
+  }
+
+  if (engine == "fastText") {
+
+    text <- gsub("\\\"","'", text)
+    text <- gsub("\\n"," ",text)
+
+    if (nchar(system.file(package="fastText")) == 0) stop("Package fastText is not installed.  Please run remotes::install_github('mlampros/fastText')")
+
+    if (!exists("file_ftz")) file_ftz <<- system.file("language_identification/lid.176.ftz", package = "fastText")
+
+    lang <- fastText::language_identification(
+      input_obj = text,
+      pre_trained_language_model_path = file_ftz,
+      k = 1,
+      th = 0.0,
+      threads = 1,
+      verbose = FALSE
+    )
+
+    return(lang$iso_lang_1)
+  }
+}
+
+
+
+######################################################
+#' @title clessnverse::translate_text
+#' @description translates the text provided as a parameter using language autodetection in the language
+#' @param text : the text to translate
+#' @param engine : "azure" | "deeptranslate"
+#' @param source_lang : the language to translate from - if NA, then automatic detection will be performed
+#' @param target_lang : which language to translate to
+#' @param translate : translates for real.  this is helpful to set to FALSE when debugging to avoid translation API fees
+#' @return a vector containing 1. a string = language detected and 2. a string =  the translated text
+#' @examples example
+#'
+#'
+#' @export
+translate_text <- function (text, engine = "azure", source_lang = NA, target_lang = "en", translate = FALSE) {
+  if (is.null(text)) return(NA_character_)
+  if (is.na(text)) return(NA_character_) 
+  if (nchar(trimws(text)) == 0) return(NA_character_)
+
+  text <- gsub("\u00a0", " ", text)
+
+
+  if (!(engine %in% c("azure", "deeptranslate"))) {
+    stop(paste("translation engine", engine,"not supported.  Supporter values are: azure | deeptranslate"))
+  }
+
+  if (engine == "azure") {
+    base_url <- "https://api.cognitive.microsofttranslator.com/"
+    path <- '/translate?api-version=3.0'
+    params = paste('&to=', target_lang, sep="")
+    url <- paste(base_url, path, params, sep="")
+
+    # There atr characters that need to be escaped (or even removed) in order for the translator to
+    # be able to take them
+    text <- stringr::str_replace_all(text, "\\'", "\\\\'")
+    text <- stringr::str_replace_all(text, "\\«", "")
+    text <- stringr::str_replace_all(text, "\\»", "")
+    text <- stringr::str_replace_all(text, "\\«", "")
+    text <- stringr::str_replace_all(text, "\\»", "")
+    text <- stringr::str_replace_all(text, "\\’", "\\\\'")
+
+    key <- Sys.getenv("AZURE_TRANSLATE_KEY")
+
+    headers <- httr::add_headers(`Ocp-Apim-Subscription-Key`=key,
+                                 `Ocp-Apim-Subscription-Region`= "canadacentral",
+                                 `Content-Type` = "application/json")
+
+    if(translate) {
+      response <- httr::POST(url, headers,
+                           body = paste("[{'Text':'",text,"'}]", sep = ""),
+                           encode = "json")
+      response_json <- jsonlite::parse_json(httr::content(response, "text"))
+
+      while (!is.null(response_json[1][[1]]$code) && response_json[1][[1]]$code == "429001") {
+        Sys.sleep(30)
+
+        response <- httr::POST(url, headers,
+                               body = paste("[{'Text':'",text,"'}]", sep = ""),
+                               encode = "json")
+
+        response_json <- jsonlite::parse_json(httr::content(response, "text"))
+      } 
+
+      if (is.na(source_lang)) {
+        return(
+          c(
+            response_json[1][[1]]$detectedLanguage[1]$language,
+            response_json[1][[1]]$translations[[1]]$text
+          )
+        )
+      } else {
+        return(response_json[1][[1]]$translations[[1]]$text)
+      }
+    } else {
+      return(
+        c(
+          "Fake lang code - use translate = TRUE if you want to consume the translation service",
+          "Fake translation text - use translate = TRUE if you want to consume the translation service"
+        )
+      )
+    } # if(translate)
+  } # if (engine == "azure")
+  
+
+
+  if (engine == "deeptranslate") {
+    key <- Sys.getenv("DEEP_TRANSLATE_KEY")
+
+    text <- gsub("\\n", "\\[000\\]", text)
+
+    # if source_lang = NA let's detect the language first
+    if (is.na(source_lang)) source_lang <- clessnverse::detect_language(engine = "deeptranslate", text)
+
+    # translate next
+    url <- "https://deep-translate1.p.rapidapi.com/language/translate/v2"
+
+    if (nchar(text) > 3000) {
+      # more than 5000 characters
+      df <- tidytext::unnest_tokens(
+        data.frame(txt=text), 
+        input = txt, 
+        output = "Sentence", 
+        token = "regex",
+        pattern = "(?<!\\b\\p{L}r)\\.|\\n\\n", to_lower=F)
+
+      result <- ""
+      payload_txt <- ""
+
+      for (i in 1:nrow(df)) {
+        if (is.null(df$Sentence[i])) next 
+        if (is.na(df$Sentence[i])) next 
+        if (nchar(trimws(df$Sentence[i])) == 0) next
+
+        if ( payload_txt == "" ) {
+          payload_txt <- trimws(df$Sentence[i])
+        } else {
+          if ( nchar(payload_txt) + nchar(df$Sentence[i]) < 3000 && i < nrow(df) ) {
+            payload_txt <- trimws(paste(payload_txt, trimws(df$Sentence[i]), sep = ".  "))            
+            next
+          }
+
+          payload_txt <- trimws(paste(payload_txt, trimws(df$Sentence[i]), sep = ".  "))
+          payload_txt <- paste(payload_txt, ".", sep='')
+          payload <- paste("{\"q\":\"", payload_txt,"\",\"source\": \"",source_lang,"\",\"target\": \"",target_lang,"\"}", sep='')
+          encode <- "json"
+
+          #clessnverse::logit(scriptname, paste("translating language - pass", i), logger)
+
+          response <- httr::VERB(
+            "POST", 
+            url, 
+            body = payload,
+            httr::add_headers('X-RapidAPI-Key' = key, 
+            'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'), 
+            httr::content_type("application/json"), 
+            encode = encode)
+      
+          #clessnverse::logit(scriptname, paste("translating language done - pass", i), logger)
+
+          r <- jsonlite::fromJSON(httr::content(response, "text"))
+
+          result <- trimws(paste(result,r$data$translations$translatedText, sep=" "))
+
+          payload_txt <- ""
+        } #if (payload_txt == "")
+      } # for
+    } else {
+      # less than 5000 characters
+      payload <- paste("{\"q\":\"", text,"\",\"source\": \"",source_lang,"\",\"target\": \"",target_lang,"\"}", sep='')
+      encode <- "json"
+
+      #clessnverse::logit(scriptname, "translating language", logger)
+
+      response <- httr::VERB(
+        "POST", 
+        url, 
+        body = payload,
+        httr::add_headers('X-RapidAPI-Key' = key, 
+        'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'), 
+        httr::content_type("application/json"), 
+        encode = encode)
+
+      #clessnverse::logit(scriptname, "translating language done", logger)
+    
+      r <- jsonlite::fromJSON(httr::content(response, "text"))
+
+      result <- trimws(r$data$translations$translatedText)
+    } #if (nchar(text) > 5000)
+
+    result <- gsub("\u00a0", " ", result)
+    result <- gsub("\\[000\\]", "\\\n", result)
+
+    if (is.na(source_lang)) {
+      return(c(trimws(source_lang), trimws(result)))
+    } else {
+      return(trimws(result))
+    }
+  } #if (engine == "deeptranslate")
+
+  
+  return(
+    c(
+      "Fake language code - use translate = TRUE if you want to consume the translation service", 
+      "Fake translation text - use translate = TRUE if you want to consume the translation service"
+    )
+  )
+}
+
+
+
+######################################################
+#' @title clessnverse::rm_accent
+#' @description removes accented characters and replaces them with their non-accented counterparts
+#' @param str : the text to remove accents from
+#' @param pattern : patterns of the accents to remove
+#' @return str without accent
+#' @examples example
+#'
+#'
+#' @export
+rm_accents <- function(str,pattern="all") {
+  if(!is.character(str))
+    str <- as.character(str)
+  
+  pattern <- unique(pattern)
+  
+  if(any(pattern=="Ç"))
+    pattern[pattern=="Ç"] <- "ç"
+  
+  symbols <- c(
+    acute = "áćéíńóśúÁĆÉÍŃÓŚÚýÝźŹ",
+    grave = "àèìòùÀÈÌÒÙ",
+    circunflex = "âêîôûÂÊÎÔÛ",
+    tilde = "ãõÃÕñÑ",
+    umlaut = "äëïöőüÄËÏÖŐÜÿ",
+    cedil = "ąĄçÇęĘņŅțȚșȘşŞßßţŢ",
+    flex="ăĂďĎěĚĕĔňŇšŠčČřŘžŽĕĔ",
+    dotted="ėĖżŻ",
+    round="åÅ",
+    bar="āĀēĒīĪūŪ",
+    interlaced="æÆ",
+    cross="łŁøØđĐ"
+  )
+  
+  nudeSymbols <- c(
+    acute = "aceinosuACEINOSUyYzZ",
+    grave = "aeiouAEIOU",
+    circunflex = "aeiouAEIOU",
+    tilde = "aoAOnN",
+    umlaut = "aeioouAEIOOUy",
+    cedil = "aAcCenNEtTsSsSsStT",
+    flex="aAdDeEeEnNsScCrRzZeE",
+    dotted="eEzZ",
+    round="aA",
+    bar="aAeEiIuU",
+    interlaced="aA",
+    cross="lLoOdD"
+  )
+  
+  accentTypes <- c("´","`","^","~","¨","ç","")
+  
+  if(any(c("all","al","a","todos","t","to","tod","todo")%in%pattern)) 
+    return(chartr(paste(symbols, collapse=""), paste(nudeSymbols, collapse=""), str))
+  
+  for(i in which(accentTypes%in%pattern))
+    str <- chartr(symbols[i],nudeSymbols[i], str) 
+  
+  return(str)
+} # </function rm_accent>

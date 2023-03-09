@@ -30,6 +30,35 @@
 # Add functions useful for extracting data from the web here
 
 
+######################################################
+#' @title clessnverse::getEuropeMepData
+#' @description retrieves attributes of a MEP in the european parliament
+#' @param mep_full_name : the full name of the MEP to lookup
+#' @return a dataframe
+#' @examples example
+#' @importFrom stringr str_replace_all
+#'
+#'
+#' @export
+get_europe_mep_data <- function(mep_full_name) {
+  url <- "https://www.europarl.europa.eu/meps/en/download/advanced/xml?name="
+  mep_full_name <- stringr::str_replace_all(mep_full_name, " ", "+")
+  mep_full_name <- RCurl::curlEscape(mep_full_name)
+  url <- paste(url, mep_full_name, "&groupCode=&countryCode=&bodyType=ALL", sep = "")
+  url <- stringr::str_replace_all(url, "%2B", "+")
+  html <- RCurl::getURL(url)
+  xml <- XML::xmlTreeParse(html, useInternalNodes = TRUE)
+  top <- XML::xmlRoot(xml)
+
+  fullname <- XML::xmlValue(top[["mep"]][["fullName"]][[1]])
+  country <- XML::xmlValue(top[["mep"]][["country"]][[1]])
+  polgroup <- XML::xmlValue(top[["mep"]][["politicalGroup"]][[1]])
+  mepid <- XML::xmlValue(top[["mep"]][["id"]][[1]])
+  party <- XML::xmlValue(top[["mep"]][["nationalPoliticalGroup"]][[1]])
+
+  return(data.frame(fullname = fullname, country = country, polgroup = polgroup, mepid = mepid, party = party))
+}
+
 
 
 ###############################################################################

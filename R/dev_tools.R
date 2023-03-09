@@ -9,7 +9,20 @@
 #               - %vcontains%
 #
 
-
+######################################################
+#' @title clessnverse::version
+#' @description prints the version of the package
+#' @param
+#' @return
+#' @examples example
+#'
+#'
+#'
+#' @export
+version <- function() {
+  version <- "0.1.1"
+  return(version)
+}
 
 ###############################################################################
 ###############################################################################
@@ -39,7 +52,7 @@
 #' @export
 log_init <- function(script, backend, logpath=".") {
 
-  available_backends <- c("hub" ,"file", "console")
+  available_backends <- c("hub" , "backend", "file", "console")
 
   if (logpath=="") logpath <- "."
 
@@ -165,7 +178,7 @@ log_close <- function(logger) {
 
 
 ######################################################
-#' @title clessnverse::processCommandLineOptions
+#' @title clessnverse::process_command_line_options
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
@@ -185,33 +198,22 @@ log_close <- function(logger) {
 #' @export
 process_command_line_options <- function() {
   option_list = list(
-    optparse::make_option(c("-d", "--dataframe_mode"), type="character", default="rebuild",
-                          help="update mode of the dataframe [default= %Adefault]", metavar="character"),
-    optparse::make_option(c("-h", "--hub_mode"), type="character", default="skip",
-                          help="update mode of the hub [default= %default]", metavar="character"),
-    optparse::make_option(c("-l", "--download_data"), type="logical", default=TRUE,
-                          help="download data from the hub [default= %default]", metavar="logical"),
-    optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
-                          help="translate text using paid APIs [default= %default]", metavar="logical"),
-    optparse::make_option(c("-o", "--log_output"), type="character", default="file,console",
+    optparse::make_option(c("-b", "--backend"), type="character", default="hub",
+                          help="where to output the data (hub | dataframe) [default= %default]", metavar="character"),
+    optparse::make_option(c("-s", "--schema"), type="character", default="",
+                          help="the value to put in the metadata_schema of rows in tables [default= %default]", metavar="character"),
+    optparse::make_option(c("-o", "--log_output"), type="character", default="console",
                           help="where to output the logs [default= %default]", metavar="character"),
     optparse::make_option(c("-r", "--refresh_data"), type="logical", default=FALSE,
-                          help="refresh the data that already exists in hublot [default= %default]", metavar="logical")
+                          help="refresh the data that already exists in hublot [default= %default]", metavar="logical"),
+    optparse::make_option(c("-m", "--method"), type="character", default="frontpage",
+                          help="option for extracting: by front page (index.html), time period, start_date and num_days etc [default= %default]", metavar="character"),
+    optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
+                          help="translate text using paid APIs [default= %default]", metavar="logical")
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)
   opt = optparse::parse_args(opt_parser)
-
-  # Process incompatible option sets
-  if ( opt$hub_mode == "refresh" &&
-       (opt$simple_mode == "rebuild" || opt$deep_mode == "rebuild" ||  opt$dataframe_mode == "rebuild" ||
-        opt$simple_mode == "skip" || opt$deep_mode == "skip" || opt$dataframe_mode == "skip") )
-    stop(paste("this set of options:",
-               paste("--hub_mode=", opt$hub_mode, " --simple_mode=", opt$simple_mode, " --deep_mode=", opt$deep_mode, " --dataframe_mode=", opt$dataframe_mode, sep=''),
-               "will duplicate entries in the HUB, if you want to refresh the hub use refresh on all datasets"), call. = F)
-
-  #clessnverse::log_activity(message = paste("command line options: ",
-  #                         paste(c(rbind(paste(" ",names(opt),"=",sep=''),opt)), collapse='')), logger = logger)
 
   return(opt)
 }
@@ -362,7 +364,7 @@ change_lake_items_metadata <- function(path, filter, new_metadata, mode, credent
 
 
 ###############################################################################
-#' @title %vcontains
+#' @title %vcontains%
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
