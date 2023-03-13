@@ -209,7 +209,9 @@ process_command_line_options <- function() {
     optparse::make_option(c("-m", "--method"), type="character", default="frontpage",
                           help="option for extracting: by front page (index.html), time period, start_date and num_days etc [default= %default]", metavar="character"),
     optparse::make_option(c("-t", "--translate"), type="logical", default=FALSE,
-                          help="translate text using paid APIs [default= %default]", metavar="logical")
+                          help="translate text using paid APIs [default= %default]", metavar="logical"),
+    optparse::make_option(c("-p", "--prod"), type="logical", default=FALSE,
+                          help="tells the script to run in production mode which will make it exit with a ststus code [default= %default]", metavar="logical")
   )
 
   opt_parser = optparse::OptionParser(option_list=option_list)
