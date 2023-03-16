@@ -7,6 +7,8 @@
 normalize_min_max(x, remove_na = T)
 }
 \arguments{
+\item{remove_na}{Logical. Whether missing values should be removed.}
+
 \item{vector}{Numeric vector.}
 }
 \value{

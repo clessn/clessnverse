@@ -3,6 +3,7 @@
 #' Normalize a continuous variable between 0 and 1
 #'
 #' @param vector Numeric vector.
+#' @param remove_na Logical. Whether missing values should be removed.
 #'
 #' @return Numeric vector.
 #' @export
