@@ -876,10 +876,10 @@ compute_category_sentiment_score <- function(txt_bloc, category_dictionary, sent
 #' @description detects the language of the text provided as a parameter
 #' @param text : the text to translate
 #' @param engine : "azure" | "deeptranslate" | "fastText"
-#' @return 2 chars language detected 
+#' @return 2 chars language detected
 #' @examples example
 #'
-#'#' @export
+#' @export
 detect_language <- function(engine, text) {
   if (is.null(text)) return(NA_character_)
   if (is.na(text)) return(NA_character_)
@@ -896,22 +896,22 @@ detect_language <- function(engine, text) {
     text <- gsub("\\\"","'", text)
     text <- gsub("\\n"," ",text)
 
-    if (is.null(text)) return(NA_character_) 
-    if (is.na(text)) return(NA_character_) 
+    if (is.null(text)) return(NA_character_)
+    if (is.na(text)) return(NA_character_)
     if (nchar(trimws(text)) == 0) return(NA_character_)
 
     df <- tidytext::unnest_tokens(
-        data.frame(txt=text), 
-        input = txt, 
-        output = "Sentence", 
+        data.frame(txt=text),
+        input = txt,
+        output = "Sentence",
         token = "regex",
         pattern = "(?<!\\b\\p{L}r)\\.|\\n\\n", to_lower=F)
 
     #clessnverse::logit(scriptname, "detecting language", logger)
 
     response <- httr::VERB(
-      "POST", 
-      url, 
+      "POST",
+      url,
       body = paste("{\"q\":\"", df$Sentence[1],"\"}", sep=''),
       httr::add_headers(
           'X-RapidAPI-Key' = Sys.getenv("DEEP_TRANSLATE_KEY"),
@@ -920,7 +920,7 @@ detect_language <- function(engine, text) {
     )
 
     r <- jsonlite::fromJSON(httr::content(response, "text"))
-    
+
     lang <- r$data$detections$language
     return(lang)
   }
@@ -964,7 +964,7 @@ detect_language <- function(engine, text) {
 #' @export
 translate_text <- function (text, engine = "azure", source_lang = NA, target_lang = "en", translate = FALSE) {
   if (is.null(text)) return(NA_character_)
-  if (is.na(text)) return(NA_character_) 
+  if (is.na(text)) return(NA_character_)
   if (nchar(trimws(text)) == 0) return(NA_character_)
 
   text <- gsub("\u00a0", " ", text)
@@ -1009,7 +1009,7 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
                                encode = "json")
 
         response_json <- jsonlite::parse_json(httr::content(response, "text"))
-      } 
+      }
 
       if (is.na(source_lang)) {
         return(
@@ -1030,7 +1030,7 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
       )
     } # if(translate)
   } # if (engine == "azure")
-  
+
 
 
   if (engine == "deeptranslate") {
@@ -1047,9 +1047,9 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
     if (nchar(text) > 3000) {
       # more than 5000 characters
       df <- tidytext::unnest_tokens(
-        data.frame(txt=text), 
-        input = txt, 
-        output = "Sentence", 
+        data.frame(txt=text),
+        input = txt,
+        output = "Sentence",
         token = "regex",
         pattern = "(?<!\\b\\p{L}r)\\.|\\n\\n", to_lower=F)
 
@@ -1057,15 +1057,15 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
       payload_txt <- ""
 
       for (i in 1:nrow(df)) {
-        if (is.null(df$Sentence[i])) next 
-        if (is.na(df$Sentence[i])) next 
+        if (is.null(df$Sentence[i])) next
+        if (is.na(df$Sentence[i])) next
         if (nchar(trimws(df$Sentence[i])) == 0) next
 
         if ( payload_txt == "" ) {
           payload_txt <- trimws(df$Sentence[i])
         } else {
           if ( nchar(payload_txt) + nchar(df$Sentence[i]) < 3000 && i < nrow(df) ) {
-            payload_txt <- trimws(paste(payload_txt, trimws(df$Sentence[i]), sep = ".  "))            
+            payload_txt <- trimws(paste(payload_txt, trimws(df$Sentence[i]), sep = ".  "))
             next
           }
 
@@ -1077,14 +1077,14 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
           #clessnverse::logit(scriptname, paste("translating language - pass", i), logger)
 
           response <- httr::VERB(
-            "POST", 
-            url, 
+            "POST",
+            url,
             body = payload,
-            httr::add_headers('X-RapidAPI-Key' = key, 
-            'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'), 
-            httr::content_type("application/json"), 
+            httr::add_headers('X-RapidAPI-Key' = key,
+            'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'),
+            httr::content_type("application/json"),
             encode = encode)
-      
+
           #clessnverse::logit(scriptname, paste("translating language done - pass", i), logger)
 
           r <- jsonlite::fromJSON(httr::content(response, "text"))
@@ -1102,16 +1102,16 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
       #clessnverse::logit(scriptname, "translating language", logger)
 
       response <- httr::VERB(
-        "POST", 
-        url, 
+        "POST",
+        url,
         body = payload,
-        httr::add_headers('X-RapidAPI-Key' = key, 
-        'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'), 
-        httr::content_type("application/json"), 
+        httr::add_headers('X-RapidAPI-Key' = key,
+        'X-RapidAPI-Host' = 'deep-translate1.p.rapidapi.com'),
+        httr::content_type("application/json"),
         encode = encode)
 
       #clessnverse::logit(scriptname, "translating language done", logger)
-    
+
       r <- jsonlite::fromJSON(httr::content(response, "text"))
 
       result <- trimws(r$data$translations$translatedText)
@@ -1127,10 +1127,10 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
     }
   } #if (engine == "deeptranslate")
 
-  
+
   return(
     c(
-      "Fake language code - use translate = TRUE if you want to consume the translation service", 
+      "Fake language code - use translate = TRUE if you want to consume the translation service",
       "Fake translation text - use translate = TRUE if you want to consume the translation service"
     )
   )
@@ -1151,12 +1151,12 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
 rm_accents <- function(str,pattern="all") {
   if(!is.character(str))
     str <- as.character(str)
-  
+
   pattern <- unique(pattern)
-  
+
   if(any(pattern=="Ç"))
     pattern[pattern=="Ç"] <- "ç"
-  
+
   symbols <- c(
     acute = "áćéíńóśúÁĆÉÍŃÓŚÚýÝźŹ",
     grave = "àèìòùÀÈÌÒÙ",
@@ -1171,7 +1171,7 @@ rm_accents <- function(str,pattern="all") {
     interlaced="æÆ",
     cross="łŁøØđĐ"
   )
-  
+
   nudeSymbols <- c(
     acute = "aceinosuACEINOSUyYzZ",
     grave = "aeiouAEIOU",
@@ -1186,14 +1186,14 @@ rm_accents <- function(str,pattern="all") {
     interlaced="aA",
     cross="lLoOdD"
   )
-  
+
   accentTypes <- c("´","`","^","~","¨","ç","")
-  
-  if(any(c("all","al","a","todos","t","to","tod","todo")%in%pattern)) 
+
+  if(any(c("all","al","a","todos","t","to","tod","todo")%in%pattern))
     return(chartr(paste(symbols, collapse=""), paste(nudeSymbols, collapse=""), str))
-  
+
   for(i in which(accentTypes%in%pattern))
-    str <- chartr(symbols[i],nudeSymbols[i], str) 
-  
+    str <- chartr(symbols[i],nudeSymbols[i], str)
+
   return(str)
 } # </function rm_accent>
