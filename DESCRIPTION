@@ -38,6 +38,8 @@ Imports:
     tidyjson,
     tidyr,
     tidytext
+Remotes: clessn/hublotr,
+    clessn/clessn-hub-r
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
