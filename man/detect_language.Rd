@@ -20,5 +20,4 @@ detects the language of the text provided as a parameter
 \examples{
 example
 
-#' @export
 }
