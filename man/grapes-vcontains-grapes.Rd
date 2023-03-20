@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_tools.R
 \name{\%vcontains\%}
 \alias{\%vcontains\%}
-\title{\%vcontains}
+\title{\%vcontains\%}
 \usage{
 vector \%vcontains\% values
 }

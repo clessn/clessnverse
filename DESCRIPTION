@@ -1,6 +1,6 @@
 Package: clessnverse
 Title: Package for Data Domestication, Analysis, and Visualization
-Version: 0.1.4
+Version: 0.2.1
 Authors@R: c(
     person("William", "Poirier", , "william.poirier.1@ulaval.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3274-1351")),
@@ -42,3 +42,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Config/testthat/edition: 3

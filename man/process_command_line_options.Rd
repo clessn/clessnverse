@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_tools.R
 \name{process_command_line_options}
 \alias{process_command_line_options}
-\title{clessnverse::processCommandLineOptions}
+\title{clessnverse::process_command_line_options}
 \usage{
 process_command_line_options()
 }

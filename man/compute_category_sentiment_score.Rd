@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_t.R
 \name{compute_category_sentiment_score}
 \alias{compute_category_sentiment_score}
-\title{clessnverse::commit_mart_table}
+\title{clessnverse::compute_category_sentiment_score}
 \usage{
 compute_category_sentiment_score(
   txt_bloc,
@@ -23,7 +23,7 @@ returns a dataframe containing the sentiment score of each category in the categ
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-Adds or replaces a table in a datamart with a specific key
+calculates the sentiment score using a word stems dictionnary by category
 }
 \examples{
 # To be documented
