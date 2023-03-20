@@ -16,8 +16,8 @@ remotes::install_github("clessn/clessnverse")
 
 `library("clessnverse")` will load the following packages:
 
-- [hublot](https://github.com/clessn/hublotr)
-- [clessnhub](https://github.com/clessn/hublotr)
+- [hublot](https://github.com/clessn/hublotr), to access clHub
+- [clessnhub](https://github.com/clessn/hublotr), to access clessn hub
 
 ## Developement
 
