@@ -4,13 +4,6 @@ clessnverse regroups general functions for data domestication, analysis and visu
 
 *Note: This package is under construction.*
 
-## Prerequisites
-
-```R
-remotes::install_github("clessn/clessn-hub-r")
-remotes::install_github("clessn/hublotr")
-```
-
 ## Installation
 
 To install the latest stable version of this package, run the following line in your R console:
@@ -18,6 +11,15 @@ To install the latest stable version of this package, run the following line in 
 ```R
 remotes::install_github("clessn/clessnverse")
 ```
+
+## Usage
+
+`library("clessnverse")` will load the following packages:
+
+- [hublot](https://github.com/clessn/hublotr)
+- [clessnhub](https://github.com/clessn/hublotr)
+
+## Developement
 
 To access functions under developement, you may go look at the branch `v1`. Here's how:
 
