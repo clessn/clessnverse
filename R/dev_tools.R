@@ -200,8 +200,10 @@ process_command_line_options <- function() {
   option_list = list(
     optparse::make_option(c("-b", "--backend"), type="character", default="dataframe",
                           help="where to output the data (hub | dataframe) [default= %default]", metavar="character"),
-    optparse::make_option(c("-s", "--schema"), type="character", default="test",
+    optparse::make_option(c("-s", "--schema"), type="character", default="",
                           help="the value to put in the metadata_schema of rows in tables [default= %default]", metavar="character"),
+    optparse::make_option(c("-S", "--target_schema"), type="character", default="",
+                          help="the value to put in the metadata_schema by a refiner for rows in tables [default= %default]", metavar="character"),
     optparse::make_option(c("-o", "--log_output"), type="character", default="console",
                           help="where to output the logs [default= %default]", metavar="character"),
     optparse::make_option(c("-r", "--refresh_data"), type="logical", default=FALSE,
