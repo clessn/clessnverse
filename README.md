@@ -1,5 +1,9 @@
 # clessnverse
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 clessnverse regroups general functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
 *Note: This package is under construction.*
