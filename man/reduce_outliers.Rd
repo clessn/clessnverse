@@ -15,3 +15,20 @@ Numeric vector.
 \description{
 Reduce outliers with the interquartile range method
 }
+\examples{
+
+# Create a random vector following a normal distribution
+vector <- round(rnorm(20, mean = 5, sd = 3))
+vector
+hist(vector)
+
+# Add outliers
+vector[c(4,11)] <- c(-24, 32)
+vector
+hist(vector)
+
+# Apply function
+new_vector <- reduce_outliers(vector)
+new_vector
+hist(new_vector)
+}

@@ -35,6 +35,22 @@ normalize_min_max <- function(x, remove_na = T) {
 #' @export
 #'
 #' @examples
+#'
+#' # Create a random vector following a normal distribution
+#' vector <- round(rnorm(20, mean = 5, sd = 3))
+#' vector
+#' hist(vector)
+#'
+#' # Add outliers
+#' vector[c(4,11)] <- c(-24, 32)
+#' vector
+#' hist(vector)
+#'
+#' # Apply function
+#' new_vector <- reduce_outliers(vector)
+#' new_vector
+#' hist(new_vector)
+
 reduce_outliers <- function(vector) {
   q1 <- stats::quantile(vector, 0.25) ## identify the first quartile
   q3 <- stats::quantile(vector, 0.75) ## identify the first quartile
