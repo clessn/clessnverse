@@ -2,6 +2,9 @@
 
 #' Normalize a continuous variable between 0 and 1
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
 #' @param x Numeric vector.
 #' @param remove_na Logical. Whether missing values should be removed.
 #'
@@ -28,6 +31,9 @@ normalize_min_max <- function(x, remove_na = T) {
 }
 
 #' Reduce outliers with the interquartile range method
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' Interquartile range method based off https://www.scribbr.com/statistics/outliers/
 #'
