@@ -54,7 +54,6 @@ normalize_min_max <- function(x, remove_na = T) {
 #' hist(new_vector)
 
 reduce_outliers <- function(vector) {
-  vector <- as.numeric(vector)
   q1 <- stats::quantile(vector, 0.25) # identify the first quartile
   q3 <- stats::quantile(vector, 0.75) # identify the first quartile
   iqr <- q3-q1 # calculate IQR
