@@ -26,3 +26,22 @@ normalize_min_max <- function(x, remove_na = T) {
   output <- (x - min )/(max - min)
   return(output)
 }
+
+#' Reduce outliers with the interquartile range method
+#'
+#' @param vector Numeric vector.
+#'
+#' @return Numeric vector.
+#' @export
+#'
+#' @examples
+reduce_outliers <- function(vector) {
+  q1 <- stats::quantile(vector, 0.25) ## identify the first quartile
+  q3 <- stats::quantile(vector, 0.75) ## identify the first quartile
+  iqr <- q3-q1 ## calculate IQR
+  lim_max <- q3 + 1.5*iqr ## upper limit
+  lim_min <- q1 - 1.5*iqr ## lower limit
+  vector[vector > lim_max] <- lim_max ## each value that is bigger than the upper limit will take the value of the upper limit
+  vector[vector < lim_min] <- lim_min ## same thing with the lower limit
+  return(vector)
+}
