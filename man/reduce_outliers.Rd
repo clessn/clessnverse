@@ -13,7 +13,7 @@ reduce_outliers(vector)
 Numeric vector.
 }
 \description{
-Reduce outliers with the interquartile range method
+Interquartile range method based off https://www.scribbr.com/statistics/outliers/
 }
 \examples{
 

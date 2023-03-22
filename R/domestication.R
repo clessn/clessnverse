@@ -29,6 +29,8 @@ normalize_min_max <- function(x, remove_na = T) {
 
 #' Reduce outliers with the interquartile range method
 #'
+#' Interquartile range method based off https://www.scribbr.com/statistics/outliers/
+#'
 #' @param vector Numeric vector.
 #'
 #' @return Numeric vector.
