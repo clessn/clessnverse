@@ -7,15 +7,15 @@
 normalize_min_max(x, remove_na = T)
 }
 \arguments{
-\item{remove_na}{Logical. Whether missing values should be removed.}
+\item{x}{Numeric vector.}
 
-\item{vector}{Numeric vector.}
+\item{remove_na}{Logical. Whether missing values should be removed.}
 }
 \value{
 Numeric vector.
 }
 \description{
-Normalize a continuous variable between 0 and 1
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
 data <- tibble::tibble(a = c(2, 0, 0, 0), b = c(4, 0, 0, 0))
