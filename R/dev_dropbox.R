@@ -43,7 +43,7 @@ dbxListDir <- function(dir, token) {
     }
     return(df)
   } else {
-    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+    if (TRUE %in% grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
 
     clessnverse::logit(message=paste(httr::content(r), "when attempting list content of folder", dir), logger = logger)
     return(data.frame(objectType = r$entries[i][[1]]$.tag,
@@ -85,7 +85,7 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
     return(TRUE)
 
   } else {
-    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+    if (TRUE %in% grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
 
     if (grepl("conflict", httr::content(r)) && overwrite == TRUE) {
       # The destination file already exists : if overwrite == TRUE then let's delete destination and try again
@@ -141,7 +141,7 @@ dbxDeleteFile <- function(filename, token) {
     clessnverse::logit(message=paste("file",filename,"deleted"), logger = logger)
     return(TRUE)
   } else {
-    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+    if (TRUE %in% grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
 
     clessnverse::logit(message=paste("error", http::content(r),"trying to delete file",filename), logger = logger)
     return(FALSE)
@@ -178,7 +178,7 @@ dbxDownloadFile <- function(filename, local_path,token) {
     clessnverse::logit(message=paste("file", filename, "sucessfully downloaded"), logger = logger)
     return(TRUE)
   } else {
-    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+    if (TRUE %in% grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
     clessnverse::logit(message=paste("Error", httr::content(r), "when attempting to download file", filename), logger = logger)
     return(FALSE)
   }
@@ -220,7 +220,7 @@ dbxUploadFile <- function(filename, remote_path, token, overwrite = FALSE) {
     clessnverse::logit(message=paste("file", filename, "sucessfully downloaded"), logger = logger)
     return(TRUE)
   } else {
-    if (grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
+    if (TRUE %in% grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
     clessnverse::logit(message=paste("Error", httr::content(r), "when attempting to download file", filename), logger = logger)
     return(FALSE)
   }
