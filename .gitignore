@@ -13,6 +13,8 @@ _privatefolder*
 .RData
 ##Excel
 *.xlsx
+# tar.gz package files
+*.tar.gz
 ###########################################
 ##### LaTeX auxiliary files to ignore #####
 ###########################################
