@@ -411,7 +411,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 
   # Check if the structure is even or uneven
   if (length(unique(sapply(df$data, length))) == 1) {
-    print("dataset even")
+    print("dataset is even")
     # This is very fast on large dataframes but only works on even data schemas
     df$data <- NULL
     names(df) <- paste("hub.",names(df),sep="")
@@ -419,7 +419,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
     #df <- df %>% replace(.data == "NULL", NA)
     for (col in names(df)) df[,col] <- unlist(df[,col])
   } else {
-    print("dataset uneven")
+    print("dataset is uneven")
     # This is slower on larg data sets but works on uneven data schemas
     df <- clessnverse::spread_list_to_df(data)
   }
