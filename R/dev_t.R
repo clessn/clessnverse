@@ -1201,3 +1201,26 @@ rm_accents <- function(str,pattern="all") {
 
   return(str)
 } # </function rm_accent>
+
+
+######################################################
+#' @title clessnverse::splitWords
+#' @description returns a list of words of a sentence
+#' @param txt the string
+#' @return a list of words
+#' @examples example
+#'
+#'
+#'
+#' @export
+split_words <- function(txt) {
+  #txt <- gsub("[[:punct:][:blank:]]+", " ", txt)
+  txt <- gsub("[(\\!|\\'|\\#|\\%|\\&|\\'|\\(|\\)|\\+|\\,|\\/|\\:|\\;|\\<|\\=|\\>|\\?|\\@|\\[|\\/|\\]|\\^|\\_|\\{|\\||\\}|\\~)[:blank:]]+", " ", txt)
+  #txt <- gsub("[(\\,|\\.|\\;)[:blank:]]+", " ", txt)
+
+  txt <- trimws(txt, which="both")
+
+  list <- strsplit(txt, "\\s+")[[1]]
+
+  return(list)
+}
