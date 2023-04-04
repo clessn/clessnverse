@@ -6,5 +6,8 @@
 #' @importFrom lifecycle deprecated
 #' @importFrom RCurl curlEscape
 #' @importFrom RCurl getURL
+#' @importFrom XML xmlRoot
+#' @importFrom XML xmlTreeParse
+#' @importFrom XML xmlValue
 ## usethis namespace: end
 NULL

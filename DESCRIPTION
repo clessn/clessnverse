@@ -39,7 +39,8 @@ Imports:
     tictoc,
     tidyjson,
     tidyr,
-    tidytext
+    tidytext,
+    XML
 Remotes: clessn/hublotr,
     clessn/clessn-hub-r
 Encoding: UTF-8
