@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_t.R
 \name{rm_accents}
 \alias{rm_accents}
-\title{clessnverse::rm_accent}
+\title{Replace accented characters with their non-accented counterparts}
 \usage{
 rm_accents(str, pattern = "all")
 }
@@ -15,7 +15,7 @@ rm_accents(str, pattern = "all")
 str without accent
 }
 \description{
-removes accented characters and replaces them with their non-accented counterparts
+Replace accented characters with their non-accented counterparts
 }
 \examples{
 example

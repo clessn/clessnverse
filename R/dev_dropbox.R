@@ -143,7 +143,7 @@ dbxDeleteFile <- function(filename, token) {
   } else {
     if (TRUE %in% grepl("invalid_access_token", httr::content(r))) stop("invalid dropbox token")
 
-    clessnverse::logit(message=paste("error", http::content(r),"trying to delete file",filename), logger = logger)
+    clessnverse::logit(message=paste("error", httr::content(r),"trying to delete file",filename), logger = logger)
     return(FALSE)
   }
 }
