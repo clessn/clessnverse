@@ -6,6 +6,9 @@
 \usage{
 version()
 }
+\value{
+Version of the package
+}
 \description{
 prints the version of the package
 }

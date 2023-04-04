@@ -12,8 +12,7 @@
 ######################################################
 #' @title clessnverse::version
 #' @description prints the version of the package
-#' @param
-#' @return
+#' @return Version of the package
 #' @examples example
 #'
 #'
