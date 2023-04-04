@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_t.R
 \name{split_words}
 \alias{split_words}
-\title{clessnverse::splitWords}
+\title{Return a list of words of a sentence}
 \usage{
 split_words(txt)
 }
@@ -13,7 +13,7 @@ split_words(txt)
 a list of words
 }
 \description{
-returns a list of words of a sentence
+Return a list of words of a sentence
 }
 \examples{
 example
