@@ -1143,8 +1143,7 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
 
 
 ######################################################
-#' @title clessnverse::rm_accent
-#' @description removes accented characters and replaces them with their non-accented counterparts
+#' @title Replace accented characters with their non-accented counterparts
 #' @param str : the text to remove accents from
 #' @param pattern : patterns of the accents to remove
 #' @return str without accent
@@ -1200,7 +1199,7 @@ rm_accents <- function(str,pattern="all") {
     str <- chartr(symbols[i],nudeSymbols[i], str)
 
   return(str)
-} # </function rm_accent>
+}
 
 
 ######################################################
