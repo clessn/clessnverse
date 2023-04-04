@@ -19,6 +19,7 @@ Imports:
     crayon,
     digest,
     dplyr,
+    fastText,
     foreach,
     ggplot2,
     httr,
