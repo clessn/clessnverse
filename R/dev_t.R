@@ -500,12 +500,12 @@ commit_mart_row <- function(table_name, key, row = list(), refresh_data = FALSE,
   item <- hublot::filter_table_items(table_name, credentials, data_filter)
 
   if(length(item$results) == 0) {
-    # l'item n'existe pas déjà dans hublot
+    # l'item n'existe pas deja dans hublot
     hublot::add_table_item(table_name,
                            body = list(key = key, timestamp = Sys.time(), data = row),
                            credentials)
   } else {
-    # l'item existe déjà dans hublot
+    # l'item existe deja dans hublot
     if (refresh_data) {
       hublot::update_table_item(table_name,
                                 id = item$result[[1]]$id,
@@ -590,12 +590,12 @@ commit_mart_table <- function(table_name, df, key_column, mode, credentials) {
     data_row <- as.list(df[i,] %>% select(-c("key")))
 
     if(length(item$results) == 0) {
-      # l'item n'existe pas déjà dans hublot
+      # l'item n'existe pas deja dans hublot
       hublot::add_table_item(table_name,
                              body = list(key = key, timestamp = Sys.time(), data = data_row),
                              credentials)
     } else {
-      # l'item existe déjà dans hublot
+      # l'item existe deja dans hublot
       if (mode == "refresh") {
         hublot::update_table_item(table_name,
                                   id = item$result[[1]]$id,
@@ -832,7 +832,7 @@ compute_category_sentiment_score <- function(txt_bloc, category_dictionary, sent
 
   toks <- quanteda::tokens(df_categories$txt)
   toks <- quanteda::tokens(df_categories$txt, remove_punct = TRUE)
-  # On n'enlève pas les stopwords parce qu'on veut garder "pas" ou "ne" car connotation négative
+  # On n'enleve pas les stopwords parce qu'on veut garder "pas" ou "ne" car connotation negative
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("french"))
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("spanish"))
   # toks <- quanteda::tokens_remove(toks, quanteda::stopwords("english"))
@@ -1143,8 +1143,7 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
 
 
 ######################################################
-#' @title clessnverse::rm_accent
-#' @description removes accented characters and replaces them with their non-accented counterparts
+#' @title Replace accented characters with their non-accented counterparts
 #' @param str : the text to remove accents from
 #' @param pattern : patterns of the accents to remove
 #' @return str without accent
@@ -1200,7 +1199,7 @@ rm_accents <- function(str,pattern="all") {
     str <- chartr(symbols[i],nudeSymbols[i], str)
 
   return(str)
-} # </function rm_accent>
+}
 
 
 ######################################################
