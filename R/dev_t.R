@@ -1204,8 +1204,7 @@ rm_accents <- function(str,pattern="all") {
 
 
 ######################################################
-#' @title clessnverse::splitWords
-#' @description returns a list of words of a sentence
+#' @title Return a list of words of a sentence
 #' @param txt the string
 #' @return a list of words
 #' @examples example
