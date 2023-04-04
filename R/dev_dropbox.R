@@ -1,13 +1,5 @@
 ######################################################
 #' @title clessnverse::dbxListDir
-#' @description
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
-#'
-#'
 #' @export
 dbxListDir <- function(dir, token) {
   body <- paste('{\"path\": \"',
@@ -56,13 +48,6 @@ dbxListDir <- function(dir, token) {
 
 ######################################################
 #' @title clessnverse::dbxMoveFile
-#' @description
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
-#'
 #'
 #' @export
 dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
@@ -114,13 +99,6 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
 }
 ######################################################
 #' @title clessnverse::dbxDeleteFile
-#' @description
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
-#'
 #'
 #' @export
 dbxDeleteFile <- function(filename, token) {
@@ -150,13 +128,6 @@ dbxDeleteFile <- function(filename, token) {
 
 ######################################################
 #' @title clessnverse::dbxDownloadFile
-#' @description
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
-#'
 #'
 #' @export
 dbxDownloadFile <- function(filename, local_path,token) {
@@ -187,13 +158,6 @@ dbxDownloadFile <- function(filename, local_path,token) {
 
 ######################################################
 #' @title clessnverse::dbxUploadFile
-#' @description
-#' @param
-#' @param
-#' @param
-#' @return
-#' @examples
-#'
 #'
 #' @export
 dbxUploadFile <- function(filename, remote_path, token, overwrite = FALSE) {
