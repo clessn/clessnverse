@@ -1,5 +1,9 @@
 #' Count NA in a vector
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#'
 #' @param x a vector
 #'
 #' @return number of NA or NaN in `x` (integer)
