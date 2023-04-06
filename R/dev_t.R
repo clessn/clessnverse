@@ -456,13 +456,13 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'            each table.
 #' @param row A named list containing the observation to write to the datamart
 #'            table.  The names of the list *are the columns* of the table.
-#' @param mode A character string cintaining either "refresh" or "append".
-#'             If mode = "refresh" then if an observation with a key = key
-#'             already exists in the table, it will be overwritten with the
-#'             new values.
-#'             If mode = "append" then it will be added to the table.  However
-#'             if an existing observation with a key = key already exists in the
-#'             table, a warning will be returned.
+# @param mode A character string cintaining either "refresh" or "append".
+#             If mode = "refresh" then if an observation with a key = key
+#             already exists in the table, it will be overwritten with the
+#             new values.
+#             If mode = "append" then it will be added to the table.  However
+#             if an existing observation with a key = key already exists in the
+#             table, a warning will be returned.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
 #' @return returns a dataframe containing the data warehouse table with a JSON

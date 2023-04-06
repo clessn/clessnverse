@@ -2,7 +2,7 @@
 % Please edit documentation in R/dev_t.R
 \name{commit_mart_row}
 \alias{commit_mart_row}
-\title{clessnverse::commit_mart_row}
+\title{Write a row in a data table of a CLESSN data mart}
 \usage{
 commit_mart_row(
   table_name,
@@ -26,14 +26,6 @@ table.  The names of the list \emph{are the columns} of the table.}
 
 \item{credentials}{The hublot credentials obtained from the
 hublot::get_credentials function}
-
-\item{mode}{A character string cintaining either "refresh" or "append".
-If mode = "refresh" then if an observation with a key = key
-already exists in the table, it will be overwritten with the
-new values.
-If mode = "append" then it will be added to the table.  However
-if an existing observation with a key = key already exists in the
-table, a warning will be returned.}
 }
 \value{
 returns a dataframe containing the data warehouse table with a JSON
@@ -41,9 +33,6 @@ attribute as well as a document.id and creation & update time stamps
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-
-commit_mart_row allows the programmer to write a row in a data
-table of a CLESSN data mart.
 }
 \examples{
 \dontrun{
