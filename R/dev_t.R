@@ -443,13 +443,10 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #   DATAMART FUNCTIONS (WRITE)
 
 ###############################################################################
-#' @title clessnverse::commit_mart_row
+#' @title Write a row in a data table of a CLESSN data mart
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#'
-#' commit_mart_row allows the programmer to write a row in a data
-#' table of a CLESSN data mart.
 #'
 #' @param table_name The name of the data mart table to write an observation to
 #'                   without the 'chlub_tables_mart' prefix.
@@ -459,13 +456,14 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #'            each table.
 #' @param row A named list containing the observation to write to the datamart
 #'            table.  The names of the list *are the columns* of the table.
-#' @param mode A character string cintaining either "refresh" or "append".
-#'             If mode = "refresh" then if an observation with a key = key
-#'             already exists in the table, it will be overwritten with the
-#'             new values.
-#'             If mode = "append" then it will be added to the table.  However
-#'             if an existing observation with a key = key already exists in the
-#'             table, a warning will be returned.
+# @param mode A character string cintaining either "refresh" or "append".
+#             If mode = "refresh" then if an observation with a key = key
+#             already exists in the table, it will be overwritten with the
+#             new values.
+#             If mode = "append" then it will be added to the table.  However
+#             if an existing observation with a key = key already exists in the
+#             table, a warning will be returned.
+#' @param refresh_data Logical.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
 #' @return returns a dataframe containing the data warehouse table with a JSON
