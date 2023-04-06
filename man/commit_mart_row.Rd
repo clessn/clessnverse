@@ -24,6 +24,8 @@ each table.}
 \item{row}{A named list containing the observation to write to the datamart
 table.  The names of the list \emph{are the columns} of the table.}
 
+\item{refresh_data}{Logical.}
+
 \item{credentials}{The hublot credentials obtained from the
 hublot::get_credentials function}
 }

@@ -463,6 +463,7 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #             If mode = "append" then it will be added to the table.  However
 #             if an existing observation with a key = key already exists in the
 #             table, a warning will be returned.
+#' @param refresh_data Logical.
 #' @param credentials The hublot credentials obtained from the
 #'                    hublot::get_credentials function
 #' @return returns a dataframe containing the data warehouse table with a JSON
