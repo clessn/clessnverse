@@ -13,7 +13,7 @@ count_na(x)
 number of NA or NaN in \code{x} (integer)
 }
 \description{
-Count NA in a vector
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
 x <- c(4, 6, NA, 3, NaN, 1)
