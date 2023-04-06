@@ -443,13 +443,10 @@ get_mart_table <- function(table_name, credentials, data_filter=list(), nbrows=0
 #   DATAMART FUNCTIONS (WRITE)
 
 ###############################################################################
-#' @title clessnverse::commit_mart_row
+#' @title Write a row in a data table of a CLESSN data mart
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#'
-#' commit_mart_row allows the programmer to write a row in a data
-#' table of a CLESSN data mart.
 #'
 #' @param table_name The name of the data mart table to write an observation to
 #'                   without the 'chlub_tables_mart' prefix.
