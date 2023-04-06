@@ -4,7 +4,7 @@
 [![R-CMD-check](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-clessnverse regroups general functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
+clessnverse contains functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
 *Note: This package is under construction.*
 
@@ -22,11 +22,6 @@ remotes::install_github("clessn/clessnverse")
 
 - [hublot](https://github.com/clessn/hublotr), to access clHub
 - [clessnhub](https://github.com/clessn/hublotr), to access clessn hub
-
-## Content
-
-- Functions useful for the research chair's projects, but not for the wider public. 
-- Universal functions that are generalized and useful for data domestication, analysis and visualization.
 
 ## Issues and suggestions
 
