@@ -89,8 +89,7 @@ test_that("Biased samples: `replace` argument works", {
 
 #### 3. Weighting ####
 #### ~3.1 Calc proportions of categories for one variable ####
-context("Calculate Proportions")
-test_that("`variable` argument works", {
+test_that("Calculate Proportions: `variable` argument works", {
   expect_equal(object = unlist(unname(c(
     round(calculate_proportions(data = CO2, variable = Plant)[1, 3], 4)
   ))),
