@@ -1168,7 +1168,7 @@ rm_accents <- function(str,pattern="all") {
     flex="ăĂďĎěĚĕĔňŇšŠčČřŘžŽĕĔ",
     dotted="ėĖżŻ",
     round="\u00e5\u00c5",
-    bar="āĀēĒīĪūŪ",
+    bar="\u0101\u0100\u0113\u0112\u012b\u012a\u016b\u016a",
     interlaced="\u00e6\u00c6",
     cross="\u0142\u0141\u00f8\u00d8\u0111\u0110"
   )
