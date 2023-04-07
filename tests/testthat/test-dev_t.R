@@ -18,7 +18,6 @@ test_that("removing accents works", {
   # Unicode
   expect_equal(rm_accents("\u00e6\u00c6"), "aA")  # interlaced
 
-
   # Remove one accent type
 
   str <- "áèîõüçę"
