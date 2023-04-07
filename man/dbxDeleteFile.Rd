@@ -6,6 +6,11 @@
 \usage{
 dbxDeleteFile(filename, token)
 }
+\arguments{
+\item{filename}{Filename to delete}
+
+\item{token}{Token to pass on to 'httr'}
+}
 \description{
 clessnverse::dbxDeleteFile
 }

@@ -108,6 +108,9 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
 ######################################################
 #' @title clessnverse::dbxDeleteFile
 #'
+#' @param filename Filename to delete
+#' @inheritParams dbxListDir
+#'
 #' @export
 dbxDeleteFile <- function(filename, token) {
   body <- paste('{\"path\": \"/',
