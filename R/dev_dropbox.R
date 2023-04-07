@@ -174,6 +174,11 @@ dbxDownloadFile <- function(filename, local_path, token) {
 ######################################################
 #' @title clessnverse::dbxUploadFile
 #'
+#' @param filename File name to upload
+#' @param remote_path Remote path
+#' @inheritParams dbxMoveFile
+#' @inheritParams dbxListDir
+#'
 #' @export
 dbxUploadFile <- function(filename, remote_path, token, overwrite = FALSE) {
 

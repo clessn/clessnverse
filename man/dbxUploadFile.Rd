@@ -6,6 +6,15 @@
 \usage{
 dbxUploadFile(filename, remote_path, token, overwrite = FALSE)
 }
+\arguments{
+\item{filename}{File name to upload}
+
+\item{remote_path}{Remote path}
+
+\item{token}{Token to pass on to 'httr'}
+
+\item{overwrite}{Logical. If overwrite == TRUE, then overwrites file in the destination.}
+}
 \description{
 clessnverse::dbxUploadFile
 }
