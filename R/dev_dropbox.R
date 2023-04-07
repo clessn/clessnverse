@@ -1,5 +1,9 @@
 ######################################################
 #' @title clessnverse::dbxListDir
+#'
+#' @param dir Directory
+#' @param token Token to pass on to 'httr'
+#'
 #' @export
 dbxListDir <- function(dir, token) {
   body <- paste('{\"path\": \"',

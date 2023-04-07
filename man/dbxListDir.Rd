@@ -6,6 +6,11 @@
 \usage{
 dbxListDir(dir, token)
 }
+\arguments{
+\item{dir}{Directory}
+
+\item{token}{Token to pass on to 'httr'}
+}
 \description{
 clessnverse::dbxListDir
 }
