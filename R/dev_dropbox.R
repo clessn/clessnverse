@@ -140,8 +140,12 @@ dbxDeleteFile <- function(filename, token) {
 ######################################################
 #' @title clessnverse::dbxDownloadFile
 #'
+#' @param filename File name to download
+#' @param local_path Local path to download the file
+#' @inheritParams dbxListDir
+#'
 #' @export
-dbxDownloadFile <- function(filename, local_path,token) {
+dbxDownloadFile <- function(filename, local_path, token) {
   header <- paste('{\"path\": \"',
                   filename,
                   '\"}',
