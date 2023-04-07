@@ -56,6 +56,7 @@ dbxListDir <- function(dir, token) {
 #' @param source Source path
 #' @param destination Destination path
 #' @param overwrite Logical. If overwrite == TRUE, then overwrites file in the destination.
+#' @inheritParams dbxListDir
 #'
 #' @export
 dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {

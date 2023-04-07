@@ -11,6 +11,8 @@ dbxMoveFile(source, destination, token, overwrite = FALSE)
 
 \item{destination}{Destination path}
 
+\item{token}{Token to pass on to 'httr'}
+
 \item{overwrite}{Logical. If overwrite == TRUE, then overwrites file in the destination.}
 }
 \description{
