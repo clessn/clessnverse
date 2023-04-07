@@ -1170,7 +1170,7 @@ rm_accents <- function(str,pattern="all") {
     round="åÅ",
     bar="āĀēĒīĪūŪ",
     interlaced="\u00e6\u00c6",
-    cross="łŁøØđĐ"
+    cross="\u0142\u0141\u00f8\u00d8\u0111\u0110"
   )
 
   nudeSymbols <- c(
