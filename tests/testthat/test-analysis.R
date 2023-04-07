@@ -113,7 +113,6 @@ test_that("Calculate Proportions: `variable` argument works", {
 
 #### 4. Dictionary analysis ####
 #### ~4.1 Run dictionary ####
-context("Run dictionary analysis")
 FakeData <- data.frame(text = c(
   "I am not able to lie.", "I was abandoned.",
   paste0("My friend is an accomplished person. He was abandoned",
@@ -121,7 +120,7 @@ FakeData <- data.frame(text = c(
 FakeDictionary <- data.frame(negative = c("abandoned", "abolish"))
 ShortDictionary <- dictionary(list(negative = c("abandoned",
                                                 "abolish")))
-test_that("`dictionary` argument works", {
+test_that("Run dictionary: `dictionary` argument works", {
   expect_equal(object = class(run_dictionary(
     data = FakeData, text = text,
     dictionary = data_dictionary_LSD2015)),
@@ -142,7 +141,7 @@ test_that("`dictionary` argument works", {
     data = FakeData, text = tex,
     dictionary = data_dictionary_LSD2015)$negative)
 })
-test_that("`dictionary` argument works", {
+test_that("Run dictionary: `dictionary` argument works", {
   expect_error(object = run_dictionary(
     data = FakeData, text = text,
     dictionary = FakeDictionary)$negative)
