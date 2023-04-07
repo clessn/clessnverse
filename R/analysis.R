@@ -1,9 +1,6 @@
-############################################# Analysis Functions #################
 utils::globalVariables(c("n", "prob"))
 
-#### 2. Sampling ####
-#### ~2.1 Creating multiple samples with probabilities biased by category ####
-#' Create samples biased on the categories of one variable.
+#' Create samples biased on the categories of one variable
 #'
 #' This function creates a data.frame which includes one
 #' or more samples taken from the original data. These samples
@@ -176,10 +173,6 @@ sampleRowIDs <-
 Sample <- VariableData[sampleRowIDs,]
 Sample$rowID <- NULL # remove row IDs from output
 
-
-
-#### 3. Weighting ####
-#### ~3.1 Calc proportions of categories for one variable ####
 #' Calculate the proportion of each category from one variable.
 #'
 #' This function creates a data.frame which includes 3 columns.
@@ -228,8 +221,6 @@ calculate_proportions <- function(data, variable) {
   return(D)
 }
 
-#### 4. Dictionary analysis ####
-#### ~4.1 Run dictionary ####
 #' Calculate dictionary expression mentions in a text.
 #'
 #' This function creates a data.frame which includes one column
