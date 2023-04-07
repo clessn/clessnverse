@@ -53,6 +53,10 @@ dbxListDir <- function(dir, token) {
 ######################################################
 #' @title clessnverse::dbxMoveFile
 #'
+#' @param source Source path
+#' @param destination Destination path
+#' @param overwrite Logical. If overwrite == TRUE, then overwrites file in the destination.
+#'
 #' @export
 dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
   body <- paste('{\"from_path\": \"/',
