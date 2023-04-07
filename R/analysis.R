@@ -1,36 +1,6 @@
-############################################# Analysis Functions #################
 utils::globalVariables(c("n", "prob"))
-#### 1. Geometry ####
-#### ~1.1 Eucledian distance ####
-#get_EuDistance <- function(point1,point2){
-#  if (length(point1) > 3 | length(point2) > 3) {
-#    stop("Points must come from a 2D or 3D space. \n Point 1 has ",length(point1),
-#         " dimensions and point 2 has ",length(point2)," dimensions.")
-#  }
-#  else if (length(point1) != length(point2)) {
-#    stop("Points must have the same number of dimensions. \n Point 1 has ",
-#         length(point1),
-#         " dimensions and point 2 has ",length(point2)," dimensions.")
-#  }
-#  else if (length(point1) == 0) {
-#    stop("Point 1 has length 0.")
-#  }
-#  else if (length(point2) == 0) {
-#    stop("Point 2 has length 0.")
-#  }
-#  else if (length(point1) == 3) {
-#    euDistance <- sqrt((point2[1]-point1[1])^2 + (point2[2]-point1[2])^2 +
-#                         (point2[3]-point1[3])^2)
-#  }
-#  else if (length(point1) == 2) {
-#    euDistance <- sqrt((point2[1]-point1[1])^2 + (point2[2]-point1[2])^2)
-#  }
-#  return(euDistance)
-#}
 
-#### 2. Sampling ####
-#### ~2.1 Creating multiple samples with probabilities biased by category ####
-#' Create samples biased on the categories of one variable.
+#' Create samples biased on the categories of one variable
 #'
 #' This function creates a data.frame which includes one
 #' or more samples taken from the original data. These samples
@@ -177,36 +147,6 @@ sample_biased <-
     }
   }
 
-#### tests ####
-VariableData <-
-  dplyr::filter(CO2,!is.na(Plant)) # remove columns where x = NA
-VariableData$rowID <- 1:nrow(VariableData) # create column numbers
-columnNumber <-
-  grep(deparse(substitute(Plant)), # get column number for x
-       colnames(VariableData))
-VariableData[, columnNumber] <- factor(VariableData[, columnNumber], ordered = FALSE) # transform into factor variable
-categoriesFactor <- as.factor(names(table(VariableData[, columnNumber]))) # identify the variable's categories
-VariableData$prob <- NA # create empty probabilities vector
-for (i in VariableData$rowID) {
-  index <- which(categoriesFactor == VariableData[i, columnNumber]) # associate row IDs to categories
-  VariableData$prob[i] <-
-    c(.1, .2, .3, .4, .5, .6, .7, .8, .9, 1, .01, .02)[index] # create probabilities vector
-}
-sampleRowIDs <-
-  sample(
-    x = VariableData$rowID,
-    size = 5,
-    # sample size
-    prob = VariableData$prob,
-    replace = FALSE
-  )
-Sample <- VariableData[sampleRowIDs,]
-Sample$rowID <- NULL # remove row IDs from output
-
-
-
-#### 3. Weighting ####
-#### ~3.1 Calc proportions of categories for one variable ####
 #' Calculate the proportion of each category from one variable.
 #'
 #' This function creates a data.frame which includes 3 columns.
@@ -255,8 +195,6 @@ calculate_proportions <- function(data, variable) {
   return(D)
 }
 
-#### 4. Dictionary analysis ####
-#### ~4.1 Run dictionary ####
 #' Calculate dictionary expression mentions in a text.
 #'
 #' This function creates a data.frame which includes one column

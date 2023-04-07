@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis.R
 \name{sample_biased}
 \alias{sample_biased}
-\title{Create samples biased on the categories of one variable.}
+\title{Create samples biased on the categories of one variable}
 \usage{
 sample_biased(data, x, probs, size, iterations = 1, replace = FALSE)
 }
