@@ -147,32 +147,6 @@ sample_biased <-
     }
   }
 
-#### tests ####
-VariableData <-
-  dplyr::filter(CO2,!is.na(Plant)) # remove columns where x = NA
-VariableData$rowID <- 1:nrow(VariableData) # create column numbers
-columnNumber <-
-  grep(deparse(substitute(Plant)), # get column number for x
-       colnames(VariableData))
-VariableData[, columnNumber] <- factor(VariableData[, columnNumber], ordered = FALSE) # transform into factor variable
-categoriesFactor <- as.factor(names(table(VariableData[, columnNumber]))) # identify the variable's categories
-VariableData$prob <- NA # create empty probabilities vector
-for (i in VariableData$rowID) {
-  index <- which(categoriesFactor == VariableData[i, columnNumber]) # associate row IDs to categories
-  VariableData$prob[i] <-
-    c(.1, .2, .3, .4, .5, .6, .7, .8, .9, 1, .01, .02)[index] # create probabilities vector
-}
-sampleRowIDs <-
-  sample(
-    x = VariableData$rowID,
-    size = 5,
-    # sample size
-    prob = VariableData$prob,
-    replace = FALSE
-  )
-Sample <- VariableData[sampleRowIDs,]
-Sample$rowID <- NULL # remove row IDs from output
-
 #' Calculate the proportion of each category from one variable.
 #'
 #' This function creates a data.frame which includes 3 columns.
