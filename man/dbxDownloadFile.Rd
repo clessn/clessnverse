@@ -6,6 +6,13 @@
 \usage{
 dbxDownloadFile(filename, local_path, token)
 }
+\arguments{
+\item{filename}{File name to download}
+
+\item{local_path}{Local path to download the file}
+
+\item{token}{Token to pass on to 'httr'}
+}
 \description{
 clessnverse::dbxDownloadFile
 }

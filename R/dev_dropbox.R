@@ -1,5 +1,9 @@
 ######################################################
 #' @title clessnverse::dbxListDir
+#'
+#' @param dir Directory
+#' @param token Token to pass on to 'httr'
+#'
 #' @export
 dbxListDir <- function(dir, token) {
   body <- paste('{\"path\": \"',
@@ -48,6 +52,11 @@ dbxListDir <- function(dir, token) {
 
 ######################################################
 #' @title clessnverse::dbxMoveFile
+#'
+#' @param source Source path
+#' @param destination Destination path
+#' @param overwrite Logical. If overwrite == TRUE, then overwrites file in the destination.
+#' @inheritParams dbxListDir
 #'
 #' @export
 dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
@@ -100,6 +109,9 @@ dbxMoveFile <- function(source, destination, token, overwrite=FALSE) {
 ######################################################
 #' @title clessnverse::dbxDeleteFile
 #'
+#' @param filename Filename to delete
+#' @inheritParams dbxListDir
+#'
 #' @export
 dbxDeleteFile <- function(filename, token) {
   body <- paste('{\"path\": \"/',
@@ -129,8 +141,12 @@ dbxDeleteFile <- function(filename, token) {
 ######################################################
 #' @title clessnverse::dbxDownloadFile
 #'
+#' @param filename File name to download
+#' @param local_path Local path to download the file
+#' @inheritParams dbxListDir
+#'
 #' @export
-dbxDownloadFile <- function(filename, local_path,token) {
+dbxDownloadFile <- function(filename, local_path, token) {
   header <- paste('{\"path\": \"',
                   filename,
                   '\"}',
@@ -158,6 +174,11 @@ dbxDownloadFile <- function(filename, local_path,token) {
 
 ######################################################
 #' @title clessnverse::dbxUploadFile
+#'
+#' @param filename File name to upload
+#' @param remote_path Remote path
+#' @inheritParams dbxMoveFile
+#' @inheritParams dbxListDir
 #'
 #' @export
 dbxUploadFile <- function(filename, remote_path, token, overwrite = FALSE) {
