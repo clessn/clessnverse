@@ -9,7 +9,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  message = FALSE
 )
 ```
 
@@ -38,15 +39,25 @@ remotes::install_github("clessn/clessnverse")
 - [hublot](https://github.com/clessn/hublotr), to access clHub
 - [clessnhub](https://github.com/clessn/hublotr), to access clessn hub
 
-## Issues and suggestions
+## Examples
 
-You can submit bugs or suggestions in the Issues tab of this repo. To facilitate problem solving, please include a [minimal reproducible example](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html) of the issue.
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+Normalize a continuous variable between 0 and 1
 
 ```{r example}
 library(clessnverse)
-## basic example code
+
+data <- tibble::tibble(a = c(1, 0, 2, 0), b = c(4, 0, 1, 0))
+
+# Base R
+sapply(data, normalize_min_max)
+
+# Dplyr
+library("dplyr")
+
+data %>%
+  mutate(across(c(a, b), normalize_min_max))
 ```
+
+## Issues and suggestions
+
+You can submit bugs or suggestions in the Issues tab of this repo. To facilitate problem solving, please include a [minimal reproducible example](https://reprex.tidyverse.org/articles/reprex-dos-and-donts.html) of the issue.
