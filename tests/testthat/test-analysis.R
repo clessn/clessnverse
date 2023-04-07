@@ -12,9 +12,9 @@ library(crayon)
 
 #### 2. Sampling ####
 #### ~2.1 Creating multiple samples with probabilities biased by category ####
-context("Biased samples")
 
-test_that("`size` argument works", {
+test_that("Biased samples: `size` argument works", {
+  # Size argument
   expect_equal(object = length(sample_biased(data = CO2, x = Treatment, size = 1,
                                              probs = c(1, 1))$Treatment),
                expected = 1)
@@ -37,7 +37,7 @@ test_that("`size` argument works", {
                                         probs = c(1, 1))$Treatment)
 })
 
-test_that("`iterations` argument works", {
+test_that("Biased samples: `iterations` argument works", {
   expect_equal(object = length(sample_biased(data = CO2, x = Treatment, size = 4,
                                              iterations = 4,
                                              probs = c(1, 1))$Treatment),
@@ -58,7 +58,7 @@ test_that("`iterations` argument works", {
                                       iterations = -1, probs = c(1, 1))$Treatment)
 })
 
-test_that("`probs` argument works", {
+test_that("Biased samples: `probs` argument works", {
   expect_equal(object = length(sample_biased(data = CO2, x = Treatment, size = 4,
                                              probs = c(100, 0.5))$Treatment),
                expected = 4)
@@ -74,7 +74,7 @@ test_that("`probs` argument works", {
                                       probs = c(0.1, 0.04, 0.5))$Treatment)
 })
 
-test_that("`replace` argument works", {
+test_that("Biased samples: `replace` argument works", {
   expect_error(object = length(sample_biased(data = CO2, x = Treatment,
                                              size = length(CO2$Treatment) + 1,
                                              replace = FALSE,
