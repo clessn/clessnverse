@@ -1155,8 +1155,8 @@ rm_accents <- function(str,pattern="all") {
 
   pattern <- unique(pattern)
 
-  if(any(pattern=="Ç"))
-    pattern[pattern=="Ç"] <- "ç"
+  if(any(pattern == "\u00c7"))
+    pattern[pattern == "\u00c7"] <- "\u00e7" # c cedil uppercase <- lowercase
 
   symbols <- c(
     acute = "\u00e1\u0107\u00e9\u00ed\u0144\u00f3\u015b\u00fa\u00c1\u0106\u00c9\u00cd\u0143\u00d3\u015a\u00da\u00fd\u00dd\u017a\u0179",
