@@ -1161,7 +1161,7 @@ rm_accents <- function(str,pattern="all") {
   symbols <- c(
     acute = "áćéíńóśúÁĆÉÍŃÓŚÚýÝźŹ",
     grave = "àèìòùÀÈÌÒÙ",
-    circunflex = "âêîôûÂÊÎÔÛ",
+    circunflex = "\u00e2\u00ea\u00ee\u00f4\u00fb\u00c2\u00ca\u00ce\u00d4\u00db",
     tilde = "\u00e3\u00f5\u00c3\u00d5\u00f1\u00d1",
     umlaut = "\u00e4\u00eb\u00ef\u00f6\u0151\u00fc\u00c4\u00cb\u00cf\u00d6\u0150\u00dc\u00ff",
     cedil = "\u0105\u0104\u00e7\u00c7\u0119\u0118\u0146\u0145\u021b\u021a\u0219\u0218\u015f\u015e\u00df\u00df\u0163\u0162",
