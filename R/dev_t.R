@@ -985,11 +985,11 @@ translate_text <- function (text, engine = "azure", source_lang = NA, target_lan
     # There atr characters that need to be escaped (or even removed) in order for the translator to
     # be able to take them
     text <- stringr::str_replace_all(text, "\\'", "\\\\'")
-    text <- stringr::str_replace_all(text, "\\«", "")
-    text <- stringr::str_replace_all(text, "\\»", "")
-    text <- stringr::str_replace_all(text, "\\«", "")
-    text <- stringr::str_replace_all(text, "\\»", "")
-    text <- stringr::str_replace_all(text, "\\’", "\\\\'")
+    text <- stringr::str_replace_all(text, "\\\u00ab", "")
+    text <- stringr::str_replace_all(text, "\\\u00bb", "")
+    text <- stringr::str_replace_all(text, "\\\u00ab", "")
+    text <- stringr::str_replace_all(text, "\\\u00bb", "")
+    text <- stringr::str_replace_all(text, "\\\u2019", "\\\\'")
 
     key <- Sys.getenv("AZURE_TRANSLATE_KEY")
 
