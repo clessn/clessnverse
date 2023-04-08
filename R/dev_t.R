@@ -1188,7 +1188,7 @@ rm_accents <- function(str,pattern="all") {
     cross="lLoOdD"
   )
 
-  accentTypes <- c("´","`","^","~","¨","ç","")
+  accentTypes <- c("\u00b4","`","^","~","\u00a8","\u00e7","")
 
   if(any(c("all","al","a","todos","t","to","tod","todo")%in%pattern))
     return(chartr(paste(symbols, collapse=""), paste(nudeSymbols, collapse=""), str))
