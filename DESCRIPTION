@@ -41,8 +41,8 @@ Imports:
     tidyr,
     tidytext,
     XML
-Remotes: clessn/hublotr,
-    clessn/clessn-hub-r
+Remotes: hublot=github::clessn/hublotr,
+    clessnhub=github::clessn/clessn-hub-r
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
