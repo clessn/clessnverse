@@ -32,6 +32,8 @@ remotes::install_github("clessn/clessnverse")
 
 ## Examples
 
+### Wrangle data
+
 Normalize a continuous variable between 0 and 1
 
 ``` r
@@ -60,6 +62,29 @@ data %>%
 #> 3   1    0.25
 #> 4   0    0
 ```
+
+### Visualise data
+
+``` r
+
+p  <- ggplot2::ggplot(data = ggplot2::mpg) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+  ggplot2::labs(title = "Look at this graph!",
+                subtitle = "What a great theme, eh?",
+                caption = "Data: API Twitter \nCLESSN") +
+  ggplot2::xlab("x axis label") +
+  ggplot2::ylab("y axis label")
+
+p + theme_clean_light()
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+``` r
+p + theme_clean_dark()
+```
+
+<img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
 
 ## Issues and suggestions
 
