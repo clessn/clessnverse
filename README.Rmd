@@ -45,7 +45,7 @@ remotes::install_github("clessn/clessnverse")
 
 Normalize a continuous variable between 0 and 1
 
-```{r example}
+```{r wrangle}
 library(clessnverse)
 
 data <- tibble::tibble(a = c(1, 0, 2, 0), b = c(4, 0, 1, 0))
@@ -62,7 +62,7 @@ data %>%
 
 ### Analyse data
 
-```{r}
+```{r analyse}
 run_dictionary(
   data.frame(colnames(attitude)),
   text = colnames(attitude),
@@ -72,7 +72,8 @@ run_dictionary(
 
 ### Visualise data
 
-```{r}
+```{r visualise}
+library("clessnverse")
 
 p  <- ggplot2::ggplot(data = ggplot2::mpg) +
   ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +

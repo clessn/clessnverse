@@ -71,7 +71,7 @@ run_dictionary(
   text = colnames(attitude),
   dictionary = quanteda::data_dictionary_LSD2015
 ) %>% head()
-#> 0.464 sec elapsed
+#> 0.466 sec elapsed
 #>   doc_id negative positive neg_positive neg_negative
 #> 1  text1        0        0            0            0
 #> 2  text2        1        0            0            0
@@ -84,6 +84,7 @@ run_dictionary(
 ### Visualise data
 
 ``` r
+library("clessnverse")
 
 p  <- ggplot2::ggplot(data = ggplot2::mpg) +
   ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
@@ -96,13 +97,13 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 p + theme_clean_light()
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-visualise-1.png" width="100%" />
 
 ``` r
 p + theme_clean_dark()
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-2.png" width="100%" />
+<img src="man/figures/README-visualise-2.png" width="100%" />
 
 ``` r
 
@@ -115,7 +116,7 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 p + scale_discrete_quorum(aesthetics = "colour")
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-3.png" width="100%" />
+<img src="man/figures/README-visualise-3.png" width="100%" />
 
 ## Issues and suggestions
 
