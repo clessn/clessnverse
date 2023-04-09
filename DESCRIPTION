@@ -1,6 +1,6 @@
 Package: clessnverse
 Title: Package for Data Domestication, Analysis, and Visualization
-Version: 0.5.3.9000
+Version: 0.5.3.9001
 Authors@R: c(
     person("William", "Poirier", , "william.poirier.1@ulaval.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3274-1351")),
