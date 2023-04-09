@@ -86,6 +86,19 @@ p + theme_clean_dark()
 
 <img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
 
+``` r
+
+p  <- ggplot2::ggplot(data = ggplot2::mpg) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+  ggplot2::labs(title = "Look at this graph!",
+                subtitle = "What a great look, eh?",
+                caption = "Data: Twitter API \nCLESSN")
+
+p + scale_discrete_quorum(aesthetics = "colour")
+```
+
+<img src="man/figures/README-unnamed-chunk-2-3.png" width="100%" />
+
 ## Issues and suggestions
 
 You can submit bugs or suggestions in the Issues tab of this repo. To

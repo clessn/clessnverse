@@ -75,6 +75,13 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 p + theme_clean_light()
 p + theme_clean_dark()
 
+p  <- ggplot2::ggplot(data = ggplot2::mpg) +
+  ggplot2::geom_point(mapping = ggplot2::aes(x = displ, y = cty, colour = class)) +
+  ggplot2::labs(title = "Look at this graph!",
+                subtitle = "What a great look, eh?",
+                caption = "Data: Twitter API \nCLESSN")
+
+p + scale_discrete_quorum(aesthetics = "colour")
 ```
 
 ## Issues and suggestions
