@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 clessnverse contains functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
-*Note: This package is under construction.*
+*Note: This package is currently under developement.*
 
 ## Installation
 
