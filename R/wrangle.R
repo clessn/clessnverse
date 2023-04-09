@@ -89,3 +89,51 @@ reduce_outliers <- function(vector) {
   vector[vector < lim_min] <- lim_min # same thing with the lower limit
   return(vector)
 }
+
+#' Calculate the proportion of each category from one variable.
+#'
+#' This function creates a data.frame which includes 3 columns.
+#' 1) a column containing the variable's categories;
+#' 2) a column containing each category's frequency;
+#' 3) a column containing each category's proportion.
+#'
+#' @param data An object of type data.frame.
+#' @param variable The name of the variable from which to calculate
+#' the proportions.
+#' @return A data.frame which includes 3 columns.
+#' 1) `variable`: a column containing the variable's categories;
+#' 2) `n`: a column containing each category's frequency;
+#' 3) `prop`: a column containing each category's proportion.
+#' @export
+#' @importFrom magrittr `%>%`
+#' @importFrom rlang abort
+#' @author CLESSN
+#' @examples
+#'
+#' \dontrun{
+#'
+#' # Calculate the proportions of each cylinder configuration
+#' # from mtcars.
+#'
+#' calculate_proportions(mtcars,cyl)
+#' }
+calculate_proportions <- function(data, variable) {
+  if (!is.data.frame(data)) {
+    rlang::abort("Argument `data` must be a data frame.")
+  }
+  else {
+    D <- data %>%
+      dplyr::group_by({
+        {
+          variable
+        }
+      }) %>%
+      dplyr::summarize(n = dplyr::n()) %>% #category frequencies
+      stats::na.omit() %>%
+      dplyr::mutate(prop = n / sum(n))
+  }
+  if (length(table(D[, 1])) == 1) {
+    warning(paste0("`", names(D[, 1]), "`", " only has one category."))
+  }
+  return(D)
+}
