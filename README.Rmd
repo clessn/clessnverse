@@ -60,6 +60,16 @@ data %>%
   mutate(across(c(a, b), normalize_min_max))
 ```
 
+### Analyse data
+
+```{r}
+run_dictionary(
+  data.frame(colnames(attitude)),
+  text = colnames(attitude),
+  dictionary = quanteda::data_dictionary_LSD2015
+) %>% head()
+```
+
 ### Visualise data
 
 ```{r}
@@ -84,16 +94,6 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 p + scale_discrete_quorum(aesthetics = "colour")
 ```
 
-
-### Analyse data
-
-```{r}
-run_dictionary(
-  data.frame(colnames(attitude)),
-  text = colnames(attitude),
-  dictionary = quanteda::data_dictionary_LSD2015
-) %>% head()
-```
 
 ## Issues and suggestions
 

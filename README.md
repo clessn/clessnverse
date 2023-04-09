@@ -63,6 +63,24 @@ data %>%
 #> 4   0    0
 ```
 
+### Analyse data
+
+``` r
+run_dictionary(
+  data.frame(colnames(attitude)),
+  text = colnames(attitude),
+  dictionary = quanteda::data_dictionary_LSD2015
+) %>% head()
+#> 0.464 sec elapsed
+#>   doc_id negative positive neg_positive neg_negative
+#> 1  text1        0        0            0            0
+#> 2  text2        1        0            0            0
+#> 3  text3        0        1            0            0
+#> 4  text4        0        1            0            0
+#> 5  text5        0        0            0            0
+#> 6  text6        1        0            0            0
+```
+
 ### Visualise data
 
 ``` r
@@ -78,13 +96,13 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 p + theme_clean_light()
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ``` r
 p + theme_clean_dark()
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-2.png" width="100%" />
 
 ``` r
 
@@ -97,25 +115,7 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 p + scale_discrete_quorum(aesthetics = "colour")
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-3.png" width="100%" />
-
-### Analyse data
-
-``` r
-run_dictionary(
-  data.frame(colnames(attitude)),
-  text = colnames(attitude),
-  dictionary = quanteda::data_dictionary_LSD2015
-) %>% head()
-#> 0.303 sec elapsed
-#>   doc_id negative positive neg_positive neg_negative
-#> 1  text1        0        0            0            0
-#> 2  text2        1        0            0            0
-#> 3  text3        0        1            0            0
-#> 4  text4        0        1            0            0
-#> 5  text5        0        0            0            0
-#> 6  text6        1        0            0            0
-```
+<img src="man/figures/README-unnamed-chunk-3-3.png" width="100%" />
 
 ## Issues and suggestions
 
