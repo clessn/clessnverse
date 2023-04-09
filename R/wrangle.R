@@ -3,7 +3,6 @@
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#'
 #' @param x a vector
 #'
 #' @return number of NA or NaN in `x` (integer)
@@ -42,7 +41,6 @@ count_na <- function(x){
 #'
 #' data_output <- data %>%
 #'   mutate(across(c(a, b), normalize_min_max))
-
 normalize_min_max <- function(x, remove_na = T) {
   min <- min(x, na.rm = remove_na)
   max <- max(x, na.rm = remove_na)
@@ -78,7 +76,6 @@ normalize_min_max <- function(x, remove_na = T) {
 #' new_vector <- reduce_outliers(vector)
 #' new_vector
 #' hist(new_vector)
-
 reduce_outliers <- function(vector) {
   q1 <- stats::quantile(vector, 0.25) # identify the first quartile
   q3 <- stats::quantile(vector, 0.75) # identify the first quartile
@@ -100,6 +97,7 @@ reduce_outliers <- function(vector) {
 #' @param data An object of type data.frame.
 #' @param variable The name of the variable from which to calculate
 #' the proportions.
+#'
 #' @return A data.frame which includes 3 columns.
 #' 1) `variable`: a column containing the variable's categories;
 #' 2) `n`: a column containing each category's frequency;
