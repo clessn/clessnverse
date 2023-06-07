@@ -8,6 +8,14 @@
 \description{
 A repository of useful functions for the workflow of the CLESSN research group.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/clessn/clessnverse}
+  \item Report bugs at \url{https://github.com/clessn/clessnverse/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: William Poirier \email{william.poirier.1@ulaval.ca} (\href{https://orcid.org/0000-0002-3274-1351}{ORCID})
 
