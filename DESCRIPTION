@@ -26,6 +26,7 @@ Imports:
     hublot,
     jsonlite,
     lifecycle,
+    locateip,
     magrittr,
     optparse,
     purrr,
