@@ -41,9 +41,12 @@ Imports:
     tidyjson,
     tidyr,
     tidytext,
+    wikirest (>= 0.0.0.9016),
     XML
-Remotes: hublot=clessn/hublotr,
-    clessnhub=clessn/clessn-hub-r
+Remotes:  
+    hublot=clessn/hublotr,
+    clessnhub=clessn/clessn-hub-r,
+    clessn/wikirest
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
