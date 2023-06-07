@@ -1,6 +1,6 @@
 Package: clessnverse
 Title: Package for Data Domestication, Analysis, and Visualization
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: c(
     person("William", "Poirier", , "william.poirier.1@ulaval.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3274-1351")),
@@ -8,12 +8,14 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-6282-9709")),
     person("Nadjim", "Fréchet", , "nadjim.frechet@umontreal.ca", role = "aut"),
     person("Patrick", "Poncet", , "patrick@infoscope.ca", role = "aut"),
-    person("Judith", "Bourque", , "judith.bourque.2@ulaval.ca", role = "aut"),
+    person("Judith", "Bourque", , "judith.bourque.2@ulaval.ca", role = "aut", comment = c(ORCID = "0009-0000-3653-1530")),
     person("Yannick", "Dufresne", , "yannick.dufresne@pol.ulaval.ca", role = "cph")
   )
 Description: A repository of useful functions for the workflow of the
     CLESSN research group.
 License: MIT + file LICENSE
+URL: https://github.com/clessn/clessnverse
+BugReports: https://github.com/clessn/clessnverse/issues
 Imports: 
     clessnhub,
     crayon,
