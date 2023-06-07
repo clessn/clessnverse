@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 # clessnverse
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 clessnverse contains functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
@@ -28,7 +30,7 @@ clessnverse contains functions for data domestication, analysis and visualizatio
 
 To install the latest stable version of this package, run the following line in your R console:
 
-```R
+``` r
 remotes::install_github("clessn/clessnverse")
 ```
 
@@ -36,8 +38,10 @@ remotes::install_github("clessn/clessnverse")
 
 `library("clessnverse")` will load the following packages:
 
-- [hublot](https://github.com/clessn/hublotr), to access clHub
-- [clessnhub](https://github.com/clessn/hublotr), to access clessn hub
+-   [`hublot`](https://github.com/clessn/hublotr), to access clHub
+-   [`clessnhub`](https://github.com/clessn/hublotr), to access clessn hub
+-   [`locateip`](https://github.com/clessn/locateip), to locate IP addresses using [ip-api.com](https://ip-api.com/)
+-   [`wikirest`](https://github.com/clessn/wikirest), to get data from the [Wikimedia REST API](https://wikimedia.org/api/rest_v1/)
 
 ## Examples
 
@@ -94,7 +98,6 @@ p  <- ggplot2::ggplot(data = ggplot2::mpg) +
 
 p + scale_discrete_quorum(aesthetics = "colour")
 ```
-
 
 ## Issues and suggestions
 

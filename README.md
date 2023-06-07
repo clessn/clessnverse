@@ -6,13 +6,14 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 clessnverse contains functions for data domestication, analysis and
 visualization along with functions specific to the research chair’s
 projects.
 
-*Note: This package is under construction.*
+*Note: This package is currently under developement.*
 
 ## Installation
 
@@ -27,8 +28,12 @@ remotes::install_github("clessn/clessnverse")
 
 `library("clessnverse")` will load the following packages:
 
-- [hublot](https://github.com/clessn/hublotr), to access clHub
-- [clessnhub](https://github.com/clessn/hublotr), to access clessn hub
+- [`hublot`](https://github.com/clessn/hublotr), to access clHub
+- [`clessnhub`](https://github.com/clessn/hublotr), to access clessn hub
+- [`locateip`](https://github.com/clessn/locateip), to locate IP
+  addresses using [ip-api.com](https://ip-api.com/)
+- [`wikirest`](https://github.com/clessn/wikirest), to get data from the
+  [Wikimedia REST API](https://wikimedia.org/api/rest_v1/)
 
 ## Examples
 
@@ -71,7 +76,7 @@ run_dictionary(
   text = colnames(attitude),
   dictionary = quanteda::data_dictionary_LSD2015
 ) %>% head()
-#> 0.466 sec elapsed
+#> 0.292 sec elapsed
 #>   doc_id negative positive neg_positive neg_negative
 #> 1  text1        0        0            0            0
 #> 2  text2        1        0            0            0
