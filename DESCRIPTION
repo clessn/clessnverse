@@ -8,7 +8,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-6282-9709")),
     person("Nadjim", "Fréchet", , "nadjim.frechet@umontreal.ca", role = "aut"),
     person("Patrick", "Poncet", , "patrick@infoscope.ca", role = "aut"),
-    person("Judith", "Bourque", , "judith.bourque.2@ulaval.ca", role = "aut"),
+    person("Judith", "Bourque", , "judith.bourque.2@ulaval.ca", role = "aut", comment = c(ORCID = "0009-0000-3653-1530")),
     person("Yannick", "Dufresne", , "yannick.dufresne@pol.ulaval.ca", role = "cph")
   )
 Description: A repository of useful functions for the workflow of the

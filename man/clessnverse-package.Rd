@@ -16,7 +16,7 @@ Authors:
   \item Alexandre Fortier-Chouinard \email{alexandre.fortier.chouinard@mail.utoronto.ca} (\href{https://orcid.org/0000-0002-6282-9709}{ORCID})
   \item Nadjim Fréchet \email{nadjim.frechet@umontreal.ca}
   \item Patrick Poncet \email{patrick@infoscope.ca}
-  \item Judith Bourque \email{judith.bourque.2@ulaval.ca}
+  \item Judith Bourque \email{judith.bourque.2@ulaval.ca} (\href{https://orcid.org/0009-0000-3653-1530}{ORCID})
 }
 
 Other contributors:
