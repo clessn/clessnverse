@@ -5,6 +5,10 @@
 
 <!-- badges: start -->
 
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/wikiverse)](https://CRAN.R-project.org/package=wikiverse)
 [![R-CMD-check](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/clessn/clessnverse/actions/workflows/R-CMD-check.yaml)
 
 <!-- badges: end -->
@@ -12,8 +16,6 @@
 clessnverse contains functions for data domestication, analysis and
 visualization along with functions specific to the research chair’s
 projects.
-
-*Note: This package is currently under developement.*
 
 ## Installation
 
@@ -76,7 +78,7 @@ run_dictionary(
   text = colnames(attitude),
   dictionary = quanteda::data_dictionary_LSD2015
 ) %>% head()
-#> 0.292 sec elapsed
+#> 0.302 sec elapsed
 #>   doc_id negative positive neg_positive neg_negative
 #> 1  text1        0        0            0            0
 #> 2  text2        1        0            0            0
