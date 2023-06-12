@@ -17,8 +17,6 @@ clessnverse contains functions for data domestication, analysis and
 visualization along with functions specific to the research chair’s
 projects.
 
-*Note: This package is currently under developement.*
-
 ## Installation
 
 To install the latest stable version of this package, run the following
@@ -80,7 +78,7 @@ run_dictionary(
   text = colnames(attitude),
   dictionary = quanteda::data_dictionary_LSD2015
 ) %>% head()
-#> 0.303 sec elapsed
+#> 0.302 sec elapsed
 #>   doc_id negative positive neg_positive neg_negative
 #> 1  text1        0        0            0            0
 #> 2  text2        1        0            0            0
