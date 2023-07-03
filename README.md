@@ -19,7 +19,7 @@ projects.
 
 ## Disclaimer
 
-**July 2023**: `clessnverse` is no longer under active development.
+**July 2023**: clessnverse is no longer under active development.
 
 To avoid breaking dependencies, the package remains available “as is”
 with no warranty of any kind.
@@ -85,7 +85,7 @@ run_dictionary(
   text = colnames(attitude),
   dictionary = quanteda::data_dictionary_LSD2015
 ) %>% head()
-#> 0.307 sec elapsed
+#> 0.3 sec elapsed
 #>   doc_id negative positive neg_positive neg_negative
 #> 1  text1        0        0            0            0
 #> 2  text2        1        0            0            0
