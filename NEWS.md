@@ -1,4 +1,4 @@
-# clessnverse (development version)
+# clessnverse 0.6.2
 
 # clessnverse 0.6.1
 
