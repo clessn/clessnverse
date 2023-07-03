@@ -25,6 +25,12 @@ knitr::opts_chunk$set(
 
 clessnverse contains functions for data domestication, analysis and visualization along with functions specific to the research chair's projects.
 
+## Disclaimer
+
+**July 2023**: `clessnverse` is no longer under active development.
+
+To avoid breaking dependencies, the package remains available "as is" with no warranty of any kind.
+
 ## Installation
 
 To install the latest stable version of this package, run the following line in your R console:
