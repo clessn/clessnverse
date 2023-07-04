@@ -100,7 +100,8 @@ get_europe_mep_data <- function(mep_full_name) {
 #' @examples example
 #' @export
 commit_lake_item <- function(data, metadata, mode, credentials) {
-
+  retcode <- 0
+  
   if (!is.null(data$item)) {
     # This is the object "item" that we will commit to the lake item
     if (grepl("file", metadata$format)) {
@@ -166,13 +167,14 @@ commit_lake_item <- function(data, metadata, mode, credentials) {
           file = httr::upload_file(paste("file.", metadata$format, sep="")),
           metadata = jsonlite::toJSON(metadata, auto_unbox = T)),
         credentials)
-
     } else {
-      warning(paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode))
+      #warning(paste("not updating existing item", data$key, "in data lake", data$path, "because mode is", mode))
+      retcode <- 1
     }
   }
 
   if (file.exists(paste("file.", metadata$format, sep=""))) file.remove(paste("file.", metadata$format, sep=""))
+  return(retcode)
 }
 
 
