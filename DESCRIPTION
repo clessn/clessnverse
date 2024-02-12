@@ -44,11 +44,13 @@ Imports:
     tidyr,
     tidytext,
     wikirest (>= 0.0.0.9016),
-    XML
+    XML,
+    sondr
 Remotes: 
     clessn/wikirest,
     clessnhub=clessn/clessn-hub-r,
     hublot=clessn/hublotr
+    sondr=ellipse-science/sondr
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
